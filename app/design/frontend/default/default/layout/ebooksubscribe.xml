@@ -10,4 +10,22 @@
             <block type="ebooksubscribe/ebooksubscribe" name="ebooksubscribe" template="ebooksubscribe/ebooksubscribe.phtml" />
         </reference>
     </ebooksubscribe_index_index>
+
+    <ebooksubscribe_index_subscribe1>
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="ebooksubscribe/ebooksubscribe" name="ebooksubscribe" template="ebooksubscribe/ebooksubscribe1.phtml" />
+        </reference>
+    </ebooksubscribe_index_subscribe1>
+
+    <ebooksubscribe_index_subscribe2>
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="ebooksubscribe/ebooksubscribe" name="ebooksubscribe" template="ebooksubscribe/ebooksubscribe2.phtml" />
+        </reference>
+    </ebooksubscribe_index_subscribe2>
 </layout> 

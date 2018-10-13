@@ -1,0 +1,90 @@
+<?php
+$countryCode = Mage::getSingleton('geoip/country')->getCountry();
+
+$isEuropean = Mage::helper('geoip')->isEuropean($countryCode);
+
+
+?>
+<div class="customsubscribe-two three customsubscribe">
+    <div class="container">
+        <div class="head">
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('customsubscribe3_header')->toHtml(); ?>
+        </div>
+        <div class="main-content">
+            <div class="customsubscribe-three-left">
+                <?php // echo $this->getLayout()->createBlock('cms/block')->setBlockId('customsubscribe3_left_image')->toHtml(); ?>
+            </div>
+            <div class="newslatter_form_box-mid ebooksubscribe">
+                <div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+                <?php $formData = Mage::getSingleton('core/session')->getFormData();?>
+
+                <div class="form-text">
+
+
+
+
+                    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('ebook_top_text2')->toHtml(); ?>
+                </div>
+
+
+                <form action="<?php echo $this->getFormActionUrl2() ?>" method="post" id="newsletter-validate-detail">
+                    <div class="fieldset">
+                        <?php if($this->getRequest()->getParam('supply'))
+                        {
+                            $supply = $this->getRequest()->getParam('supply');
+                        }else {
+                            $supply = (isset($formData['supply'])?$formData['supply']:'');
+                        }?>
+                        <input type="hidden" name="supply" id="supply" value="<?php echo $supply ?>"/>
+                        <div class="">
+
+                            <ul>
+
+                                <li>
+                                    <div class="field">
+                                        <!--label class="desktop-enable" for="lastname">&nbsp<span class="required">*</span></label-->
+                                        <div class="input-box">
+                                            <input placeholder=" Your best email address" type="text" name="email" id="overridenewsletter" style="width:256px;" value="<?php echo  (isset($formData['email'])?$formData['email']:'')  ?>" title="<?php echo $this->__('Email') ?>" class="input-text required-entry validate-email-custom" />
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php if($isEuropean): ?>
+                                    <li>
+                                        <div class="field">
+                                            <label for="join-email-list">&nbsp;</label>
+                                            <div class="input-box customsubsccheckboc">
+                                                <div class="checkbox">
+                                                    <input type="checkbox" name="join_email_list" value="1" title="Join email list" id="join-email-list"  class="checkbox" /> <label class="label" for="join-email-list"><?php echo $this->__('Sign up for sales and new product alerts. ') ?><a target="_blank" class="non-underline" href="<?php echo Mage::getUrl('site-policies') ?>"><?php echo $this->__('Privacy Policy') ?></a></label> </div>  </div>
+                                            <input type="hidden" name="iseuropian" value="1"/>
+                                        </div>
+                                    </li>
+                                <?php  endif; ?>
+
+                                <li></li>
+
+
+                            </ul>
+
+                            <div class="button-set-box">
+                                <button type="submit" title="<?php echo $this->__('CLAIM YOUR FREE EBOOK') ?>" class="button-form"><?php echo $this->__('CLAIM YOUR FREE EBOOK') ?></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+                <script type="text/javascript">
+                    //<![CDATA[
+                    var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+
+                    //]]>
+                </script>
+            </div>
+
+            <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('ebook_bottom_text2')->toHtml(); ?>
+        </div>
+
+
+    </div>
+</div>
+
