@@ -17,3 +17,6 @@ var/
 webftp/
 techsupport/
 software-demos/
+session_track/
+app/code/core/Mage/Core/Model/Layout.php
+
