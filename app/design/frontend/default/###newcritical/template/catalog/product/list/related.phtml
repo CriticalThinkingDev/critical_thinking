@@ -1,0 +1,11 @@
+<?php if(count($this->getItems())): ?>
+ <h2 ><?php echo $this->__('Other Available Format') ?></h2>
+<p>
+    <?php $_items =  $this->getItems(); ?>
+    <?php foreach ($_items as $_link): ?>
+   		 <?php $_linkName = ($_link->getAttributeText('media_type')?$_link->getAttributeText('media_type'):$_link->getName());?> 
+         <a href="<?php echo $_link->getProductUrl() ?>" title="<?php echo $this->escapeHtml($_linkName) ?>"><?php echo $this->escapeHtml($_linkName) ?></a>
+         <br/>
+    <?php endforeach; ?>
+</p>
+<?php endif ?>

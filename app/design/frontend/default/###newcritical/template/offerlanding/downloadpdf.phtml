@@ -1,0 +1,11 @@
+<?php
+$isRedirectToDownlad = Mage::getSingleton('core/session')->getIsRedirectToDownload();
+if(isset($isRedirectToDownlad)): 
+?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('download_free_ebook')->toHtml();?>
+<?php Mage::getSingleton('core/session')->unsIsRedirectToDownload();?>
+<?php  else: 
+	header( 'Location: '. Mage::getUrl('').'free-gift-form' );
+ 	exit();
+  endif;
+?>

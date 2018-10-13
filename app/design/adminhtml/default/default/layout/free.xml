@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <free_adminhtml_free_index>
+        <reference name="content">
+            <block type="free/adminhtml_free" name="free" />
+        </reference>
+    </free_adminhtml_free_index>
+</layout>

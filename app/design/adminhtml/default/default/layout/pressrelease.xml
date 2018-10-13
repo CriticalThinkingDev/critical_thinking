@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <pressrelease_adminhtml_pressrelease_index>
+        <reference name="content">
+            <block type="pressrelease/adminhtml_pressrelease" name="pressrelease" />
+        </reference>
+    </pressrelease_adminhtml_pressrelease_index>
+</layout>

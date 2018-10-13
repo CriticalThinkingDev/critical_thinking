@@ -1,0 +1,86 @@
+<?php  
+$awardArray =$this->getAwardProductArray();
+$cawardArray = $this->getCompanyAwardArray();
+$combineAwardArray = array();
+$combineAwardArray = array_merge_recursive($awardArray,$cawardArray);
+//if($_SERVER['REMOTE_ADDR'] == '202.131.115.178') { 
+// 
+//echo '<pre>';
+//print_r($awardArray);
+//echo '</pre>';
+//exit;
+//}
+$combineAwardArray = multid_sort($combineAwardArray, 'award_id'); 
+function multid_sort($arr, $index) {
+    $b = array();
+    $c = array();
+    foreach ($arr as $key => $value) {
+        $b[$key] = $value[$index];
+    }
+
+    arsort($b);
+
+    foreach ($b as $key => $value) {
+        $c[] = $arr[$key];
+    }
+
+    return $c;
+}
+
+$collection = multid_sort($combineAwardArray, 'award_date'); 
+?>
+
+<p><?php echo $this->__('<strong>Awards & Honors - 200+ Award-Winning Educational Books, eBooks, & Apps!')?></p>  
+<?php if(sizeof($collection) > 0):?>
+	<ul style="float:left;width:550px;" class="award_list" > 
+	<?php foreach ($collection as $awd):?>
+	<?php $awardNames = $awd['award_name']?>
+		<?php if(!empty($awardNames)):?>
+			<li class="detail_text">
+				<?php /*?><img width="12" height="10" alt="" src="<?php echo $this->getSkinUrl('images/blue_arrow_small.gif')?>"><?php */?>
+				<?php if(!empty($awd['product_name'])) {?>
+				<?php 
+				 //if($_SERVER['REMOTE_ADDR'] == '202.131.115.178') {  echo $awd['award_id'] .' - '.$awd['award_date']; } ?>
+				<a href="<?php echo $awd['product_url']?>" class="award_product_link" title="<?php echo $awd['product_name']?>"><?php echo $awd['product_name'] ?></a> - 
+				<?php }?><span class="award_description"><?php echo $awardNames;?></span>
+			</li>
+		<?php endif;?>
+	<?php endforeach;?>  
+	</ul>
+<?php endif; ?>
+<?php $allAwards = $this->getAllAwards();?>
+<?php if(sizeof($allAwards) > 0):?>
+	<div style="float:left;">
+	<ul>
+		<?php
+		$iTotcnt = sizeof($allAwards);
+		$icnt = 0;
+        $i = 0;
+		foreach ($allAwards as $award):
+        $imagePath = Mage::getBaseDir('media')."/award/".$award->getImage();
+        if($award->getImage() && file_exists($imagePath)) {
+        ?>
+        <?php if($award->getImage()):?>		
+			 <?php if ($i++%2==0): ?>
+	   		 <li>
+	        <?php endif ?>
+	
+	        <div style="width:120px;float:left;margin-bottom:10px;" align="center">
+			<a href="<?php echo $award->getAwardUrl()?>" title="<?php echo $award->getName()?>" >
+				<img alt="<?php echo $award->getName()?>" src="<?php echo Mage::getBaseUrl('media')."award/".$award->getImage()?>"   />
+			</a>
+			</div>
+			
+			<?php if ($i%2==0 || $i==$iTotcnt): ?>
+			<span style="height:5px;"></span>
+	       		 </li>
+	        <?php endif ?>
+        <?php endif ?>
+		<?php } endforeach;?>
+	</ul>  
+	</div>
+<?php endif;?>
+
+<div style="clear:both;">
+<?php echo $this->__('For more information, please call 800.458.4849 or email ')?><a href="mailto:marketing@criticalthinking.com">marketing@criticalthinking.com</a>
+</div>

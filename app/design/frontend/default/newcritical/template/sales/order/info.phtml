@@ -1,0 +1,351 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+?>
+<?php /** @var $this Mage_Sales_Block_Order_Info */ ?>
+<?php $_order = $this->getOrder() ?>
+<?php echo $this->getMessagesBlock()->toHtml() ?>
+<div class="page-title title-buttons">
+    <h1><?php echo $this->__('Order #%s - %s', $_order->getRealOrderId(), $_order->getStatusLabel()) ?></h1>
+    <?php echo $this->getChildHtml('buttons') ?>  
+</div>
+<?php echo $this->getStatusHistoryRssUrl($_order) ?>
+<div class="order-info-box1">
+<dl class="order-info">
+    <dt><?php echo $this->__('About This Order:') ?></dt>
+    <dd>
+        <?php $_links = $this->getLinks(); ?>
+        <ul id="order-info-tabs">
+        <?php foreach ($_links as $_link): ?>
+            <?php if($_link->getUrl()): ?>
+                <li><a href="<?php echo $_link->getUrl() ?>"><?php echo $_link->getLabel() ?></a></li>
+            <?php else: ?>
+                <li class="current"><?php echo $_link->getLabel() ?></li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        </ul>
+        <script type="text/javascript">decorateGeneric($('order-info-tabs').select('LI'),['first','last']);</script>
+    </dd>
+</dl>
+<?php /******* START:: added by bijal to show order tracking information****/?>
+ <?php if(Mage::app()->getRequest()->getActionName()=='view') {   ?> 
+ <?php if ($_order->getTracksCollection()->count()) :   ?> 
+ <div class="col2-set order-info-box">
+    <div class="col" style="margin:10px 10px;">
+   	  <div class="box">
+        <div class="box-title">
+            <h2><?php echo $this->__('Track Your Order') ?></h2>
+        </div>
+     	<div class="box-content tracking-table-popup">   
+        <?php $this->getChildHtml('shipping.tracking.popup');?> 
+		<?php $shipments = $_order->getShipmentsCollection();
+             foreach ($shipments as $shipment){
+                $increment_id = $shipment->getIncrementId();
+                $tracks = $shipment->getTracksCollection();
+
+                $trackingInfos=array();
+                foreach ($tracks as $track){
+                    $trackingInfos[] = $track->getNumberDetail(); 
+                }
+                $shipTrack[$increment_id] = $trackingInfos; 
+                $shipTrack[$increment_id]['shipped_date'] = $shipment->getCreatedAt();
+                 
+            } 
+             $_results = $shipTrack;
+			?>
+			    <?php foreach($_results as $shipid => $_result): ?>
+			    <?php /*if($shipid): ?>
+			    <h2 class="sub-title"><?php echo $this->__('Shipment #').$shipid; ?></h2>
+			    <?php endif;*/ ?>
+			   	 <?php if(sizeof($_result)>0): ?>
+				        <?php $rowCount = sizeof($_result); $counter = 1; ?>
+				        <?php $_id = 0; foreach($_result as $track): ?>
+				            <table class="tracking-table-popup data-table" id="tracking-table-popup-<?php echo $_id ?>">
+				                <col width="15%" />
+				                <col />
+				                <tbody>
+				                <?php if(is_object($track)): ?>
+				                <?php if (isset($_result['shipped_date'])): ?> 
+			                        <tr>
+			                            <th class="label" width="20%"><?php echo $this->__('Shipped on:'); ?></th>
+			                            <td class="value"><?php echo $this->formatDate($_result['shipped_date'], 'long'); ?></td>
+			                        </tr>
+			                        <?php endif; ?>
+				                    <tr>
+				                        <th class="label" width="20%"><?php echo $this->__('Tracking Number:'); ?></th>
+				                        <td class="value">
+				                        <?php  $trackingnumberfix = str_replace (" ", "", $track->getTracking()); ?>
+				                        <?php if($track->getUrl()) {?>
+				                        <a href="<?php echo $track->getUrl()?>"><?php echo $this->escapeHtml($track->getTracking()); ?></a>
+				                        <?php }else {?>
+				                       
+		                           <?php if ($track->getCarrierTitle() == 'United States Postal Service'): ?>
+				                    
+				                        <?php echo '<a target="_blank" href="https://tools.usps.com/go/TrackConfirmAction_input?qtc_tLabels1='. $trackingnumberfix .'">';?>
+				                        <?php echo  $trackingnumberfix; ?></a>
+				                    
+				                    
+				                    <?php elseif ($track->getCarrierTitle() == 'Federal Express'): ?>
+				                  
+				                         <?php echo '<a href="http://www.fedex.com/Tracking?action=track&tracknumbers;='. $trackingnumberfix .'" target="_blank">';?>
+				                        <?php echo  $trackingnumberfix; ?></a> 
+				                   
+				                    <?php elseif ($track->getCarrierTitle() == 'United Parcel Service'): ?>
+				                    
+				                        <?php echo '<a href="http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums;='. $trackingnumberfix .'" target="_blank">';?>
+				                        <?php echo  $trackingnumberfix; ?></a> 
+				                  
+				                    
+				                    <?php endif; ?>
+				                        <?php  }?></td>
+				                    </tr>
+				                    <?php if ($track->getCarrierTitle()): ?>
+				                    <tr>
+				                        <th class="label"><?php echo $this->__('Carrier:'); ?></th>
+				                        <td class="value"><?php echo $this->escapeHtml($track->getCarrierTitle()); ?></td>
+				                    </tr>
+				                    <?php endif; ?>
+				                    <?php if($track->getErrorMessage() && !($trackingnumberfix)): ?>
+				                    <tr>
+				                        <th class="label"><?php echo $this->__('Message:'); ?></th>
+				                        <td class="error"><?php echo $this->__('Tracking information is currently not available. Please '); if (Mage::getStoreConfig('contacts/contacts/enabled')) : ?><a href="<?php echo $this->getUrl('contacts') ?>" title="<?php echo $this->__('contact us') ?>" onclick="this.target='_blank'"><?php echo $this->__('contact us') ?></a><?php echo $this->__(' for more information or '); endif; echo $this->__('email us at '); ?><a href="mailto:<?php echo Mage::getStoreConfig('trans_email/ident_support/email') ?>"><?php echo Mage::getStoreConfig('trans_email/ident_support/email') ?></a></td>
+				                    </tr>
+				                    <?php elseif($track->getTrackSummary()): ?>
+				                    <tr>
+				                        <th class="label"><?php echo $this->__('Info:'); ?></th>
+				                        <td class="value"><?php echo $track->getTrackSummary(); ?></td>
+				                    </tr>
+				                    <?php elseif($track->getUrl()): ?>
+				                    <tr>
+				                        <th class="label"><?php echo $this->__('Track:'); ?></th>
+				                        <td class="value"><a href="<?php echo $this->escapeHtml($track->getUrl()); ?>" onclick="this.target='_blank'"><?php if($track->getCarrierTitle()): echo $this->escapeHtml($track->getCarrierTitle()); else: echo $this->escapeHtml($track->getUrl()); endif;?></a></td>
+				                    </tr>
+				                    <?php else: ?>
+				                        <?php if ($track->getStatus()): ?>
+				                        <tr>
+				                            <th class="label"><?php echo $this->__('Status:'); ?></th>
+				                            <td class="value"><?php echo $track->getStatus(); ?></td>
+				                        </tr>
+				                        <?php endif; ?>
+				
+				                        <?php if ($track->getDeliverydate()): ?>
+				                        <tr>
+				                            <th class="label"><?php echo $this->__('Delivered on:'); ?></th>
+				                            <td class="value"><?php echo $this->formatDeliveryDateTime($track->getDeliverydate(),$track->getDeliverytime()); ?></td>
+				                        </tr>
+				                        <?php endif; ?>
+				
+				                        <?php if ($track->getSignedby()): ?>
+				                        <tr>
+				                            <th class="label"><?php echo $this->__('Signed by:'); ?></th>
+				                            <td class="value"><?php echo $track->getSignedby(); ?></td>
+				                        </tr>
+				                        <?php endif; ?>
+				
+				                        <?php if ($track->getDeliveryLocation()): ?>
+				                        <tr>
+				                            <th class="label"><?php echo $this->__('Delivered to:'); ?></th>
+				                            <td class="value"><?php echo $track->getDeliveryLocation(); ?></td>
+				                        </tr>
+				                        <?php endif; ?>
+				
+				                        <?php if ($track->getShippedDate()): ?>
+				                        <tr>
+				                            <th class="label"><?php echo $this->__('Shipped or billed on:'); ?></th>
+				                            <td class="value"><?php echo $track->getShippedDate(); ?></td>
+				                        </tr>
+				                        <?php endif; ?>
+				
+				                        <?php if ($track->getService()): ?>
+				                        <tr>
+				                            <th class="label"><?php echo $this->__('Service Type:'); ?></th>
+				                            <td class="value"><?php echo $track->getService(); ?></td>
+				                        </tr>
+				                        <?php endif; ?>
+				
+				                        <?php if ($track->getWeight()): ?>
+				                        <tr>
+				                            <th class="label"><?php echo $this->__('Weight:'); ?></th>
+				                            <td class="value"><?php echo $track->getWeight(); ?></td>
+				                        </tr>
+				                        <?php endif; ?>
+				                    <?php endif; ?>
+				                 <?php elseif(is_array($track) && isset($track['title']) && isset($track['number']) && $track['number']):  ?>
+				                    <!--if the tracking is custom value-->
+				                    <tr>
+				                        <th class="label"><?php echo ($track['title'] ? $this->escapeHtml($track['title']) : $this->__('N/A')); ?>:</th>
+				                        <td class="value"><?php echo (isset($track['number']) ? $this->escapeHtml($track['number']) : ''); ?></td>
+				                    </tr>
+				                <?php endif; ?>
+				                </tbody>
+				            </table>
+				            <script type="text/javascript">decorateTable('tracking-table-popup-<?php echo $_id++ ?>');</script>
+				            <?php if (is_object($track) && sizeof($track->getProgressdetail())>0): ?>
+				                <br />
+				                <table class="data-table" id="track-history-table-<?php echo $track->getTracking(); ?>">
+				                    <col />
+				                    <col width="1" />
+				                    <col width="1" />
+				                    <col />
+				                    <thead>
+				                        <tr>
+				                            <th><?php echo $this->__('Location') ?></th>
+				                            <th><?php echo $this->__('Date') ?></th>
+				                            <th><?php echo $this->__('Local Time') ?></th>
+				                            <th><?php echo $this->__('Description') ?></th>
+				                        </tr>
+				                   </thead>
+				                   <tbody>
+				                   <?php foreach($track->getProgressdetail() as $_detail): ?>
+				                    <?php $_detailDate = (isset($_detail['deliverydate']) ? $this->formatDeliveryDate($_detail['deliverydate']) : '') ?>
+				                    <?php $_detailTime = (isset($_detail['deliverytime']) ? $this->formatDeliveryTime($_detail['deliverytime'], $_detail['deliverydate']) : '') ?>
+				                        <tr>
+				                            <td><?php echo (isset($_detail['deliverylocation']) ? $_detail['deliverylocation'] : ''); ?></td>
+				                            <td><span class="nobr"><?php echo $_detailDate ?></span></td>
+				                            <td><span class="nobr"><?php echo $_detailTime ?></span></td>
+				                            <td><?php echo (isset($_detail['activity']) ? $_detail['activity'] : '') ?></td>
+				                        </tr>
+				                   <?php endforeach; ?>
+				                   </tbody>
+				                </table>
+				                <script type="text/javascript">decorateTable('track-history-table-<?php echo $track->getTracking(); ?>');</script>
+				            <?php endif; ?>
+				            <div class="divider"></div>
+				            <?php if($counter!=$rowCount): ?>
+				            <?php endif; ?>
+				            <?php $counter++; ?>
+				        <!--end for each tracking information-->
+				        <?php endforeach; ?>
+				        <p><?php echo $this->__('Please Note: Tracking information may take up to 48 hours from shipping date to appear in the UPS or FedEx systems.');?></p>
+						<span style="font-style: italic;"><?php echo $this->__('The expected delivery date is provided by the courier, and is subject to change. For any questions, please contact the courier directly.');?></span></p>
+				    <?php else: ?>
+				        <p><?php echo $this->__('There is no tracking available for this shipment.'); ?></p>
+				    <?php endif; ?>
+					
+				<?php endforeach; ?>
+         	
+            </div>
+        </div>
+    </div>
+ </div> 
+ <?php endif;?>
+ <?php }?>
+ <?php /******* END:: added by bijal to show order tracking information****/ ?>
+<div class="order-info-box2">
+<p class="order-date"><?php echo $this->__('Order Date: %s', $this->formatDate($_order->getCreatedAtStoreDate(), 'long')) ?></p>
+<?php if (!$_order->getIsVirtual()): ?>
+<div class="col2-set order-info-box">
+    <div class="col-1">
+        <div class="box">
+            <div class="box-title">
+                <h2><?php echo $this->__('Shipping Address') ?></h2>
+            </div>
+            <div class="box-content">
+                <address><?php echo $_order->getShippingAddress()->format('html') ?></address>
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="box">
+            <div class="box-title">
+                <h2><?php echo $this->__('Shipping Method') ?></h2>
+            </div>
+            <div class="box-content">
+                <?php if ($_order->getShippingDescription()): ?>
+                    <?php echo $this->escapeHtml($_order->getShippingDescription()) ?>
+                <?php else: ?>
+                    <p><?php echo $this->helper('sales')->__('No shipping information available'); ?></p>
+                <?php endif; ?>
+               <?php if (!$_order->getTracksCollection()->count()) {?>
+                    <p><br/><?php echo $this->__('<b>NOTE:</b> Please expect 1-2 business days for order processing before seeing your tracking information here.');?></p>
+               <?php }?>
+            </div>
+        </div> 
+    </div>
+</div>
+<?php endif; ?>
+<div class="col2-set order-info-box">
+    <div class="col-1">
+        <div class="box">
+            <div class="box-title">
+                <h2><?php echo $this->__('Billing Address') ?></h2>
+            </div>
+            <div class="box-content">
+                <address><?php echo $_order->getBillingAddress()->format('html') ?></address>
+            </div>
+        </div>
+    </div>
+    <div class="col-2">
+        <div class="box box-payment">
+            <div class="box-title">
+                <h2><?php echo $this->__('Payment Method') ?></h2>
+            </div>
+            <div class="box-content">
+                <?php echo $this->getPaymentInfoHtml() ?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col2-set order-info-box">
+    <div class="col-1">
+       <?php /*****START:: Added for shipping instruction detail displays ******/?>
+        <?php $_note = Mage::getModel('shipnote/note')->loadByOrder($_order);?>
+        	<?php if(trim($_note)):?>
+	        	</br> 
+	             <div class="box">
+		              <div class="box-title">
+			                <h2> <?php echo $this->__(Mage::helper('shipnote')->getFrontendLabel()) ?></h2>
+			          </div>
+			          <div class="box-content">
+		          	
+		                	<?php echo $this->escapeHtml($_note) ?>
+		                
+		              </div>
+	            </div>
+            <?php endif;?>
+       <?php /***END***/?> 
+    </div>
+    <div class="col-2">
+        <?php /*****START:: Added for shipping instruction detail displays ******/?>
+        <?php $_sourcecode = $_order->getSourceCode();?>
+        	<?php if(trim($_sourcecode)):?>
+	        	</br> 
+	             <div class="box">
+		              <div class="box-title">
+			                <h2> <?php echo $this->__('Source Code') ?></h2>
+			          </div>
+			          <div class="box-content">
+		          	
+		                	<?php echo $_sourcecode?>
+		                
+		              </div>
+	            </div>
+            <?php endif;?>
+       <?php /***END***/?>
+    </div>
+</div> 
+</div>
+</div>

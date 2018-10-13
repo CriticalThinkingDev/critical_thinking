@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+ 
+<layout>
+    <!-- Orders -->
+    <adminhtml_sales_order_view>
+        <reference name="order_tab_info">
+            <action method="setTemplate">
+                <template>sourcecode/sales/order/view/tab/info.phtml</template>
+            </action>
+            <block type="overridepo/adminhtml_sales_order_ordertype" name="ordertype" template="overridepo/sales/ordertype.phtml"/>
+        </reference>
+    </adminhtml_sales_order_view>
+
+    
+    <adminhtml_sales_order_create_index>
+        <reference name="data"> 
+            <block type="overridepo/adminhtml_sales_order_create_ordertype" name="ordertype"
+                   template="overridepo/sales/order/create/ordertype.phtml"/> 
+            <action method="setTemplate">
+                 <template>sourcecode/sales/order/create/data.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_create_index>
+    <adminhtml_sales_order_create_load_block_data>
+        <reference name="data">
+            <block type="overridepo/adminhtml_sales_order_create_ordertype" name="ordertype" 
+                   template="overridepo/sales/order/create/ordertype.phtml"/>
+            <action method="setTemplate">
+           	  <template>sourcecode/sales/order/create/data.phtml</template>
+            </action>
+        </reference>
+    </adminhtml_sales_order_create_load_block_data>
+</layout>

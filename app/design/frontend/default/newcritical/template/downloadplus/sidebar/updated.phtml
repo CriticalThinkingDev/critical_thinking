@@ -1,0 +1,82 @@
+<?php
+/**
+ *
+ * @category    Pisc
+ * @package     Pisc_Downloadplus
+ * @copyright   Copyright (c) 2009 PILLWAX Industrial Solutions Consulting
+ * @license		Commercial Unlimited License (https://technology.pillwax.com/license)
+ */
+
+/**
+ * Latest Updates on Downloads Dashboard Block
+ *
+ * @category    Pisc
+ * @package     Pisc_Downloadplus
+ * @author		Software Group @ PILLWAX Industrial Solutions Consulting (technology.license@pillwax.com)
+ * @version		0.1.0
+ */
+
+/*
+ * Available data of collection items (as Array):
+ * 'file' => Filename
+ * 'path' => Path of File
+ * 'pathfile' => Path with Filename
+ * 'size' => Filesize
+ * 'timestamp' => Timestamp of File (last modification)
+ * 'title' => Title of Download
+ * 'product' => Product Model this download is related to
+ */
+?>
+
+<?php
+/*
+ * Get recent updated files, limit to 5 max.
+ * To get all, ommit limit.
+ */
+$_updates = $this->getUpdated(5);
+?>
+
+<?php if(count($_updates) > 0): ?>
+
+<div class="box base-mini downloadplus-updated">
+    <div class="head">
+        <h4 class="title"><?php echo $this->__('Recently Updated') ?></h4>
+    </div>
+    <div class="content">
+
+<?php $_updatesSize = count($_updates) ?>
+    <?php $i=0; foreach ($_updates as $_update): ?>
+        <?php if($i++%3==0): ?>
+        <ol class="grid-row">
+        <?php endif; ?>
+            <li class="item">
+            	<dt><?php echo ($i);?>.&nbsp;<a href="<?php echo $_update['product']->getProductUrl(); ?>"><?php echo $_update['product']->getName(); ?></a></dt>
+				<dd>
+				<?php
+					if (isset($_update['title'])) {
+						echo $_update['title'].'<br/>';
+					}
+					if ($_update['detail']->getVersion()) {
+						echo $this->__('Version').'&nbsp;'.$_update['detail']->getVersion();
+					} else {
+						echo $this->__('Version').'&nbsp;'.$_update['product']->getProductVersion();
+					}
+				?>
+				<?php echo '&nbsp;('.date('j.M Y', $_update['timestamp']).')'; ?>
+               	</dd>
+            </li>
+        <?php if($i%3==0 || $i==$_updatesSize): ?>
+        </ol>
+        <?php endif; ?>
+    <?php endforeach ?>
+
+	</div>
+
+<?php if ($this->isRssAvailable()): ?>
+	<div class="rss">
+	<a href="<?php echo $this->getRssLink() ?>" class="link-feed downloadplus-sidebar-link-feed"><?php echo $this->__('Subscribe to RSS Feed on updates of all Products') ?></a>
+	</div>
+<?php endif; ?>
+
+</div>
+<?php endif; ?>

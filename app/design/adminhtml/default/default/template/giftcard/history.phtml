@@ -1,0 +1,41 @@
+<style type="text/css">
+.giftcard-report tr th {padding: 5px;}
+.giftcard-report tr td {padding: 5px;}
+</style>
+<table class="giftcard-report">
+<tr><th>Date:</th><th>Type:</th><th>Amount:</th><th>Balance:</th><th>Order #:</th></tr>
+<?php $trans = $this->getPurchase($this->getRequest()->getParam('id')) ?>
+<tr>
+	<td><?php echo date('F j, Y g:ia', strtotime($trans->getCreatedAt())) ?></td>
+	<td>Purchase</td>
+	<td><?php echo number_format($trans->getOrderAmount(), 2) ?></td>
+	<td><?php echo number_format($trans->getOrderAmount(), 2) ?></td>
+	<?php $bal = $trans->getOrderAmount() ?>
+	<td>
+	<?php if($trans->getOrderId() == 0): ?>
+		Admin Created
+	<?php else: ?>
+		<a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/sales_order/view/",array("order_id" => $trans->getOrderId(), 'key' => Mage::getSingleton('adminhtml/url')->getSecretKey("sales_order","view"))) ?>"><?php echo $this->getTrueOrderNumber($trans->getOrderId()) ?></a>
+	<?php endif ?>
+	</td>
+</tr>
+<?php foreach($this->getHistory($this->getRequest()->getParam('id')) as $entry): ?>
+	<tr>
+		<td><?php echo date('F j, Y g:ia', strtotime($entry->getCreatedAt())) ?></td>
+		<td><?php if($entry->getIsAdmin()): ?>Adjust<?php else: ?><?php echo $this->getTransType($entry->getIsRefill()) ?><?php endif ?></td>
+		<td><?php if(!$entry->getIsRefill() && !$entry->getIsAdmin()): ?>-<?php endif ?><?php echo number_format($entry->getAmount(), 2) ?></td>
+		<?php if($entry->getIsRefill() || $entry->getIsAdmin()): ?>
+			<?php $bal = $bal + $entry->getAmount() ?>
+		<?php else: ?>
+			<?php $bal = $bal - $entry->getAmount() ?>
+		<?php endif ?>
+		<td><?php echo number_format($bal, 2) ?></td>
+		<td><?php if($entry->getIsAdmin()): ?>
+				Admin Ajustment
+			<?php else: ?>
+				<a href="<?php echo Mage::helper("adminhtml")->getUrl("adminhtml/sales_order/view/",array("order_id" => $entry->getOrderId(), 'key' => Mage::getSingleton('adminhtml/url')->getSecretKey("sales_order","view"))) ?>"><?php echo $this->getTrueOrderNumber($entry->getOrderId()) ?></a>
+			<?php endif ?>
+		</td>
+	</tr>
+<?php endforeach ?>
+</table>

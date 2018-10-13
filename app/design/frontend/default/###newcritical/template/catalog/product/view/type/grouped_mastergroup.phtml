@@ -1,0 +1,163 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Grouped product data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
+<?php $this->setPreconfiguredValue(); ?>
+<?php $_product = Mage::registry('parent_product'); ?>
+<?php $main_product = $this->getProduct(); ?>
+<?php
+    $_taxHelper  = $this->helper('tax');
+    $_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
+    $constant_helper = $this->helper('grouped/constants');
+    $_associatedProducts = Mage::helper('grouped')->getAssociatedProducts($_product);
+?>
+ 
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0;
+$curruncy_sym = Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol();
+?>
+
+<?php if($_hasAssociatedProducts) { ?>
+    <div class="search_result_product_purchase_container">
+        <div class="gp_product" >
+            <div class="gp_select_item">
+                <div class="gp_select_val" id="gp_price"><span><?php echo $this->__('Select Media & License'); ?></span></div>
+                <a  style="cursor:pointer" onclick="showItem()" class="search_result_product_model_selection_toggle">[s]</a>
+            </div>
+            <div class="gp_item_drop_box" id="gp_item" style="display:none">
+                <ul>
+                    <?php $i=0; $defostatus=0;$total = count($_associatedProducts); 
+                        foreach ($_associatedProducts as $_item) {
+                        ?>
+                        <?php $i++;?>
+                            <?php $_price = $_taxHelper->getPrice($_item, $_item->getPrice()) ?>
+                            <?php $_regularPrice = $_taxHelper->getPrice($_item, $_item->getPrice(), $_simplePricesTax) ?>
+                            <?php $_finalPrice = $_taxHelper->getPrice($_item, $_item->getFinalPrice()) ?>
+                            <?php $priceString = $this->helper('core')->currency($_finalPrice);?>
+							<?php $licenseString = $_item->getAttributeText('license');?>
+							<?php $mediaString = $_item->getAttributeText('media_type');?>
+                            <?php if($_finalPrice < $_price){
+                                $priceString = '<span style="text-decoration:line-through;">'. $this->helper('core')->currency($_price).'</span> <span style="color:red;padding-left: 5px;">'.$this->helper('core')->currency($_finalPrice).'</span>';
+                            }?>
+	<?php
+                               if($_item->getProductType() == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $_item->getProductType() == $constant_helper::PRODUCT_TYPE_IOS_APP || $_item->getProductType() == $constant_helper::PRODUCT_TYPE_WIN_APP || $_item->getProductType() == $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE || $_item->getProductType() == $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE) {
+								    if($_item->getProductType() ==  $constant_helper::PRODUCT_TYPE_ANDROID_APP || $_item->getProductType() ==  $constant_helper::PRODUCT_TYPE_IOS_APP || $_item->getProductType() ==  $constant_helper::PRODUCT_TYPE_WIN_APP) {
+                                    	$priceString = '';
+											
+										$productname = $_item->getAttributeText('model_type')." - ".$_item->getAttributeText('license');
+										$selected_text = $productname;
+										$productname .= ($priceString != "") ? ' - '.$priceString:'';
+                                	}
+									else {
+										if($licenseString == '2 Computer License') {
+											$licenseString = '(2 PCs)';
+										} else if($licenseString == '6 Computer License') {
+											$licenseString = '(6 PCs)';
+										}
+										//if($mediaString == 'Win/Mac Download') {
+											//$mediaString = 'Win/Mac DWNLD';
+										//} else if($mediaString == 'Win Download') {
+											//$mediaString = 'Win DWNLD';
+										//}
+										$productname = $mediaString." ".$licenseString;
+										$productname .= ($priceString != "") ? ' - '.$priceString:'';
+									}
+								} else {
+									$productname = $_item->getAttributeText('media_type');
+									$productname .= ($priceString != "") ? ' - '.$priceString:'';
+								}	
+								   
+								//$productname = $_item->getAttributeText('product_type')." ".$_item->getAttributeText('license')." (".$_item->getSku().")";
+                                //$productname .= ($priceString != "") ? ' - '.$priceString:'';
+                                //$productname .= ($product->getSpecialPrice() != "" && $product->getSpecialPrice() > 0) ? " ".$this->helper('core')->currency($product->getSpecialPrice(), true, false): '';
+                            ?>
+                            <li class="<?php echo (($i == $total)?'last':'')?> <?php echo ($main_product->getId() == $_item->getId())? ' active ':''; ?>" onclick="setLocation('<?php echo $_item->getProductUrl(); ?>')">
+                                <a id="proType_<?php echo $_item->getProductType(); ?>_<?php echo $_item->getId()?>" style="cursor:pointer;" href="<?php echo $_item->getProductUrl(); ?>">
+                                    <?php //echo $_item->getSku().' - '. (($_item->getAttributeText('license'))?$_item->getAttributeText('license'):$_item->getName()).(($_item->getAttributeText('media_type_details'))?' - '.$_item->getAttributeText('media_type_details'):'').' '.$priceString?>
+                                    <?php echo $productname; ?>
+                                </a>
+                            </li>
+                    <?php } ?>
+		</ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+			if (jQuery('#gp_item ul li').length == 1) {
+                //window.location.href = jQuery('#gp_item ul li a').attr('href');
+            }
+        });
+        
+    </script>
+<?php } else { ?>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        getDetailData('',getFirstProduct(),getFirstProductSoftware());
+    });
+</script>
+<?php } ?>
+<script type="text/javascript">
+    function getFirstProduct() {
+        var books_type_val = '<?php echo $constant_helper::PRODUCT_TYPE_BOOKS ?>';
+        var winmac_type_val = '<?php echo $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE ?>';
+        var win_type_val = '<?php echo $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE ?>';
+        var product_image_id = '';
+     
+        if (jQuery('a[id^="proType_'+books_type_val+'"]').length > 0) {
+            var id_arr = jQuery('a[id^="proType_'+books_type_val+'"]:first').attr('id').split('_');
+            product_image_id = id_arr.pop();
+        } else if (jQuery('a[id^="proType_'+winmac_type_val+'"]').length > 0) {
+            var id_arr = jQuery('a[id^="proType_'+winmac_type_val+'"]:first').attr('id').split('_');
+            product_image_id = id_arr.pop();
+        } else if (jQuery('a[id^="proType_'+win_type_val+'"]').length > 0) {
+            var id_arr = jQuery('a[id^="proType_'+win_type_val+'"]:first').attr('id').split('_');
+            product_image_id = id_arr.pop();
+        }
+		return product_image_id;
+    }
+    
+    function getFirstProductSoftware() {
+        var product_software_id = '';
+        var winmacs_type_val = '<?php echo $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE ?>';
+		var wins_type_val = '<?php echo $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE ?>';
+		
+        if (jQuery('a[id^="proType_'+winmacs_type_val+'"]:first').length > 0) {
+            var id_arr = jQuery('a[id^="proType_'+winmacs_type_val+'"]:first').attr('id').split('_');
+            product_software_id = id_arr.pop();
+        }
+		else if (jQuery('a[id^="proType_'+wins_type_val+'"]:first').length > 0) {
+            var id_arr = jQuery('a[id^="proType_'+wins_type_val+'"]:first').attr('id').split('_');
+            product_software_id = id_arr.pop();
+        }
+        return product_software_id;
+    }
+</script>

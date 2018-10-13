@@ -1,0 +1,32 @@
+<?php $state_assessments = Mage::getModel('catalog/product')->getAttributeOptionValues('state_assessments');?>
+<div class="row" id="accordian-state">
+ <div class="accordion_in col-v6">
+<h3 class="large_title_blue">State Assessments:</h3>
+<div class="state_assessments_box">
+    
+    <ul class="description_text details_link">
+    <?php foreach ($state_assessments as $key => $value) {?>
+    	<li><a href="<?php echo Mage::getUrl('catalogsearch/advanced/result').'?state_assessments='.$value['value']?>"><?php echo $value['label']?></a></li>
+    <?php   }?>
+      
+    </ul>
+    <p class="detail_text">For products to prepare for the Plano Academic and Creative Education (PACE) Assessment, refer to the CogAT&reg; and NNAT&reg; links to the right. </p>
+</div>
+</div>
+<?php $achievement_tests = Mage::getModel('catalog/product')->getAttributeOptionValues('achievement_tests');?>
+ <div class="accordion_in col-v6">
+ <h3 class="large_title_blue">Achievement Tests:</h3>
+<div class="state_assessments_box">
+    
+    <ul class="description_text details_link">
+    <?php foreach ($achievement_tests as $key => $value) {?>
+	    <?php if(strtolower($value['label']) == strtolower('High Impact Player Assessment (HIP)')){?>
+	    <li><a href="<?php echo Mage::getUrl('').'hip'?>"><?php echo $value['label']?></a></li>
+	    <?php } else {?>
+<li><a href="<?php echo Mage::getUrl('catalogsearch/advanced/result').'?achievement_tests='.$value['value']?>"><?php echo $value['label']?></a></li>
+    	<?php   }?>
+    <?php   }?>
+    
+    </ul>
+</div></div>
+</div>

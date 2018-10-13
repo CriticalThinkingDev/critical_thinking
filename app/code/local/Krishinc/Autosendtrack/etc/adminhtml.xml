@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config>
+
+    <acl>
+        <resources>
+            <all>
+                <title>Allow Everything</title>
+            </all>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <updatepriority translate="title" module="testimonial">
+                                        <title>Update Grouped Priority</title>
+                                    </updatepriority>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

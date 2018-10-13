@@ -1,0 +1,10 @@
+<?php
+    $_ordertype = $this->getOrderType();
+    if ($_ordertype != '') {
+        echo ' <div class="entry-edit"><div class="entry-edit-head" id="ordertype"> 
+				    <h4 class="icon-head head-ordertype">'. $this->__('Order Type') .'</h4>
+				</div>
+				<fieldset>'.$_ordertype.'</fieldset></div>'; 
+    }
+?>
+

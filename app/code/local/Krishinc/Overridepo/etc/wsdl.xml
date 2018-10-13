@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+    <types>
+        <schema> 
+            <complexType name="salesOrderEntity">
+                <all>
+                	<element name="order_type" type="xsd:string" minOccurs="0" />
+                	<element name="source_code" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+             <complexType name="salesOrderPaymentEntity">
+                <all>
+                   <element name="netterm" type="xsd:string" minOccurs="0" />
+                    <element name="credit_limit" type="xsd:string" minOccurs="0" />
+                       <element name="check_number" type="xsd:string" minOccurs="0" />
+                    <element name="check_amt" type="xsd:string" minOccurs="0" />
+                     </all>
+            </complexType>
+              <complexType name="salesOrderListEntity">
+                <all>
+                	<element name="source_code" type="xsd:string" minOccurs="0" />
+                	  <element name="customer_type" type="xsd:string" minOccurs="0" />
+                	<element name="order_type" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+              <complexType name="salesOrderAddressEntity">
+                <all>
+                	 <element name="nomail" type="xsd:string" minOccurs="0" />
+                     <element name="customer_type" type="xsd:string" minOccurs="0" />
+                     <element name="address_street1" type="xsd:string" minOccurs="0" />
+                	 <element name="address_street2" type="xsd:string" minOccurs="0" />
+                </all>
+            </complexType>
+            </schema>
+    	</types>
+</definitions>

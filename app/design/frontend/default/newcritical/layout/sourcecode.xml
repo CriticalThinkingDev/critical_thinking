@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<layout version="0.1.0">
+
+<checkout_onepage_index>
+	<reference name="checkout.onepage">
+		<!-- Extra step added to OnePage Checkout -->
+		<block type="sourcecode/onepage_sourcecode" name="checkout.onepage.sourcecode" as="sourcecode" after="checkout.onepage.billing" template="checkout/onepage/sourcecode.phtml"/>		
+	</reference>
+</checkout_onepage_index>
+
+</layout>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Krishinc_Catalogue>
+            <active>true</active>
+            <codePool>local</codePool> 
+       </Krishinc_Catalogue>
+    </modules>
+</config>

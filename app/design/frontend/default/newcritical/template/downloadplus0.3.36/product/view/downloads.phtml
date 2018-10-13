@@ -1,0 +1,40 @@
+<?php
+/**
+ * Product View Downloads Page for Products
+ *
+ * @see Pisc_Downloadplus_Block_Product_View_Downloads
+ */
+
+/* To filter based on Attribute set Attribute Code and Attribute Value here: */
+// $this->setAttributeCode('code');
+// $this->setAttributeValue('value');
+
+$_count = 0;
+?>
+<div class="downloadplus-product-download">
+<?php if ($this->hasLinks()): ?>
+	<div class="downloadplus-product-download-links">
+<?php
+	$_items = $this->getLinks();
+	foreach ($_items as $_item):
+?>
+		<div class="downloadplus-product-download-entry">
+		<a href="<?php echo $this->getDownloadUrl($_item) ?>"><?php echo $_item->getLinkTitle() ?></a>
+<?php
+		$_detail = $_item->getDownloadDetail();
+		if ($_detail->getDetail()) {
+?>
+			<div class="downloadplus-product-download-detail">
+			<?php echo $_detail->getDetail() ?>
+            <?php echo $this->getLayout()->createBlock('downloadplus/widget_link_attributes')->setLink($_item)->toHtml(); ?>
+			</div>
+<?php
+		}
+		$_count++;
+?>
+		</div>
+<?php endforeach; ?>
+	</div>
+<?php endif; ?>
+<?php if ($_count==0) { echo $this->__('Currently there are no additional Downloads available for this product.'); } ?>	
+</div>

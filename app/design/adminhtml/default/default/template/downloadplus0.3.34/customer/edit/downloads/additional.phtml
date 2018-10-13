@@ -1,0 +1,240 @@
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Customer_Edit_Tab_Downloads_Additional
+ */
+
+$orderItems = $this->getOrderItems();
+
+if (empty($orderItems)):
+?>
+<div class="fieldset">
+	<?php echo Mage::helper('downloadplus')->__('There are currently no related orders for this customer.') ?>
+</div>
+<?php
+else:
+?>
+<div class="fieldset">
+<div class="grid">
+<div class="hor-scroll">
+<table cellspacing="0" class="data border">
+		<col width="10%" />
+		<col width="1" />
+		<col />
+		<col width="1" />
+		<col width="5%" />
+		<col width="10%" />
+		<col width="1" />
+		<thead>
+				<tr class="headings">
+						<th><?php echo Mage::helper('downloadplus')->__('Related to Product & Order #')?> <span class="required">*</span></th>
+						<th><?php echo Mage::helper('downloadplus')->__('Status')?></th>
+						<th><?php echo Mage::helper('downloadplus')->__('Title')?> <span class="required">*</span></th>
+						<th><span class="nobr"><?php echo Mage::helper('downloadplus')->__('Max. Downloads')?></span></th>
+						<th><?php echo Mage::helper('downloadplus')->__('Shareable')?></th>
+						<th><?php echo Mage::helper('downloadplus')->__('Link')?></th>
+						<th>&nbsp;</th>
+				</tr>
+		</thead>
+		<tfoot>
+				<tr>
+						<td colspan="7" class="a-right"><?php echo $this->getAddButtonHtml()?>&nbsp;<?php echo $this->getUploadButtonHtml() ?></td>
+				</tr>
+		</tfoot>
+		<tbody id="link_items_body">
+		</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var maxUploadFileSizeInBytes = <?php echo Mage::helper('downloadplus')->getDataMaxSizeInBytes() ?>;
+var maxUploadFileSize = '<?php echo Mage::helper('downloadplus')->getDataMaxSize() ?>';
+           
+var linkTemplate = '<tr>'+
+		'<td>'+
+				'<input type="hidden" class="__delete__" name="downloadable[link][{{id}}][is_delete]" value="" />'+
+				'<input type="hidden" name="downloadable[link][{{id}}][link_id]" value="{{link_id}}" />'+
+			'<select id="downloadable_link_{{id}}_order_item_id" name="downloadable[link][{{id}}][order_item_id]">'+
+		 <?php foreach ($orderItems as $key=>$item): ?>
+					'<option value="<?php echo $item['order_item_id'] ?>"><?php echo addslashes($item['name']).' (#'.$item['order_increment_id'].')' ?></option>'+ 
+		 <?php endforeach; ?>
+			'</select>'+
+			'<div class="clear"></div>'+
+			'<input type="checkbox" class="checkbox" name="downloadable[link][{{id}}][notify_customer]" id="downloadable_link_{{id}}_notify_customer" value="1" />'+
+			'<label class="normal" for="downloadable_link_{{id}}_notify_customer"> <?php echo $this->__('Notify Customer') ?></label>'+
+	'</td>'+
+		'<td>'+
+		 '{{link_status}}'+
+	'</td>'+
+	'<td>'+
+				'<input type="text" class="required-entry input-text" name="downloadable[link][{{id}}][title]" value="{{title}}" />'+
+				'<div class="clear"></div>'+
+		'<label for="downloadable_link_{{id}}_description" style="color:#67767e;"><?php echo Mage::helper('downloadplus')->__('Description')?></label><br />'+
+				'<textarea class="textarea" style="width:86%;height:150px;"; id="downloadable_link_{{id}}_description" name="downloadable[link][{{id}}][description]">'+
+				'{{description}}'+
+				'</textarea>'+
+		'</td>'+
+		'<td>'+
+			'<input type="text" id="downloadable_link_{{id}}_downloads" name="downloadable[link][{{id}}][number_of_downloads]" class="input-text downloads" value="{{number_of_downloads}}" />'+
+			'<p><input type="checkbox" class="checkbox" id="downloadable_link_{{id}}_is_unlimited" name="downloadable[link][{{id}}][is_unlimited]" value="1" {{is_unlimited}} /> <label for="downloadable_link_{{id}}_is_unlimited"><?php echo Mage::helper('downloadplus')->__('Unlimited') ?></label></p>'+
+			'<p>{{downloads_used}}</p>'+
+		'</td>'+
+		'<td class="a-center">'+
+				'<select id="downloadable_link_{{id}}_shareable" name="downloadable[link][{{id}}][is_shareable]">'+
+						'<option value="1"><?php echo Mage::helper('downloadplus')->__('Yes') ?></option>'+
+						'<option value="0"><?php echo Mage::helper('downloadplus')->__('No') ?></option>'+
+				'</select>'+
+		'</td>'+
+		'<td>'+
+				'<div class="files">'+
+						'<div class="row">'+
+								'<label for="downloadable_link_{{id}}_file_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_file_type" name="downloadable[link][{{id}}][type]" value="file"{{file_checked}} /> <?php echo Mage::helper('downloadplus')->__('File:') ?></label>'+
+							'<input type="hidden" class="validate-downloadable-file" id="downloadable_link_{{id}}_file_save" name="downloadable[link][{{id}}][file]" value="{{file_save}}" />'+
+								'<div id="downloadable_link_{{id}}_file" class="uploader">'+
+										'<div id="downloadable_link_{{id}}_file-old" class="file-row-info"></div>'+
+										'<div id="downloadable_link_{{id}}_file-new" class="file-row-info new-file"></div>'+
+										'<div class="buttons">'+
+												'<div id="downloadable_link_{{id}}_file-install-flash" style="display:none">'+
+														'<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
+												'</div>'+
+										'</div>'+
+										'<div class="clear"></div>'+
+								'</div>'+
+						'</div>'+
+						'<div class="row">'+
+								'<label for="downloadable_link_{{id}}_url_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_url_type" name="downloadable[link][{{id}}][type]" value="url"{{url_checked}} /> URL:</label><input type="text" class="validate-downloadable-url input-text" name="downloadable[link][{{id}}][link_url]" value="{{link_url}}" />'+
+						'</div>'+
+						'<div>'+
+								'<span id="downloadable_link_{{id}}_link_container"></span>'+
+						'</div>'+
+				'</div>'+
+		'</td>'+
+		'<td>'+
+				'<button type="button" class="scalable delete icon-btn delete-link-item"><span>Delete</span></button>'+
+		'</td>'+
+'</tr>';
+
+var linkItems = {
+			tbody : $('link_items_body'),
+			templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+			templateText : linkTemplate,
+			itemCount : 0,
+			add : function(data) {
+					alertAlreadyDisplayed = false;
+					this.template = new Template(this.templateText, this.templateSyntax);
+
+					if(!data.link_id){
+							data = {};
+							data.link_id  = 0;
+							data.order_item_id = 0;
+							data.title = '';
+							data.description = '';
+							data.downloads_used = '';
+							data.link_type = 'file';
+							data.link_status = '';
+							data.number_of_downloads = '<?php echo $this->getConfigMaxDownloads() ?>';
+					}
+
+					data.id = this.itemCount;
+
+					if (data.link_type == 'url') {
+							data.url_checked = ' checked="checked"';
+					} else if (data.link_type == 'file') {
+							data.file_checked = ' checked="checked"';
+					}
+
+					Element.insert(this.tbody, {'bottom':this.template.evaluate(data)});
+
+					downloadsElm = $('downloadable_link_'+data.id+'_downloads');
+					isUnlimitedElm = $('downloadable_link_'+data.id+'_is_unlimited');
+					if (data.is_unlimited) {
+							downloadsElm.disabled = true;
+					}
+					Event.observe(isUnlimitedElm, 'click', function(event){
+							if (isUnlimitedElm.checked == true) {
+									downloadsElm.disabled = true;
+							} else {
+									downloadsElm.disabled = false;
+							}
+					});
+
+			if (data.order_item_id) {
+							options = $('downloadable_link_'+data.id+'_order_item_id').options;
+							for (var i=0; i < options.length; i++) {
+									if (options[i].value == data.order_item_id) {
+											options[i].selected = true;
+									}
+							}
+			}
+
+					if (data.is_shareable) {
+							options = $('downloadable_link_'+data.id+'_shareable').options;
+							for (var i=0; i < options.length; i++) {
+									if (options[i].value == data.is_shareable) {
+											options[i].selected = true;
+									}
+							}
+					}
+
+					linkUrl = $('downloadable_link_'+data.id+'_url_type');
+
+					if (!data.file_save) {
+							data.file_save = [];
+					}
+					// link file
+					new Downloadable.FileUploader(
+							'links',
+							'links_'+data.id,
+							linkUrl.up('td'),
+							'downloadable[link]['+data.id+']',
+							data.file_save,
+							'downloadable_link_'+data.id+'_file',
+							<?php echo $this->getConfigJson() ?>
+					);
+
+					$('downloadable_link_'+data.id+'_file_save').advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+
+					this.itemCount++;
+					this.bindRemoveButtons();
+			},
+			remove : function(event){
+					var element = $(Event.findElement(event, 'tr'));
+					alertAlreadyDisplayed = false;
+					if(element){
+							element.down('input[type="hidden"].__delete__').value = '1';
+							Element.select(element, 'div.flex').each(function(elm){
+									elm.remove();
+							});
+							element.addClassName('no-display');
+							element.addClassName('ignore-validate');
+							element.hide();
+					}
+			},
+			bindRemoveButtons : function(){
+					var buttons = $$('tbody#link_items_body .delete-link-item');
+					for(var i=0;i<buttons.length;i++){
+							if(!$(buttons[i]).binded){
+									$(buttons[i]).binded = true;
+									Event.observe(buttons[i], 'click', this.remove.bind(this));
+							}
+					}
+			}
+	}
+
+	linkItems.bindRemoveButtons();
+
+	if($('add_link_item')) {
+			Event.observe('add_link_item', 'click', linkItems.add.bind(linkItems));
+	}
+
+	<?php foreach ($this->getLinkData() as $item): ?>
+			linkItems.add(<?php echo $item->toJson()?>);
+	<?php endforeach; ?>
+
+	//]]>
+</script>
+<?php
+endif;
+?>

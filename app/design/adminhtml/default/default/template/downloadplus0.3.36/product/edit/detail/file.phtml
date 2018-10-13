@@ -1,0 +1,73 @@
+<?php
+?>
+
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Detail_Files
+ */
+?>
+
+<?php
+	$_product = $this->getProduct();
+	$_detail = $this->getDetail();
+	$_key = $this->getDetailKey();
+	$_filename = $this->getFileBasename();
+?>
+
+<div class="fieldset" id="group_fields_downloadplus_<?php echo $_key; ?>">
+
+<input type="hidden" name="downloadplus[detail][file][<?php echo $_key; ?>]" value="<?php echo $this->getFileWithType(); ?>" />
+<input type="hidden" name="downloadplus[detail][area][<?php echo $_key; ?>]" value="<?php echo $this->getDetailArea(); ?>" />
+<div class="hor-scroll">
+<table cellspacing="0" class="form-list">
+	<tbody>
+		<?php if (!Mage::app()->isSingleStoreMode()): ?>
+		<tr>
+		    <td class="scope-label">
+            <?php if($_product->getStoreId()) { echo $this->__('[STORE VIEW]'); } ?>
+		    </td>
+            <td class="value use-default">
+            <?php if($_product->getStoreId()): ?>
+                <input id="link_title_default" type="checkbox" name="downloadplus[detail][use_default][<?php echo $_key; ?>]" value="1" onclick="toggleValueElements(this, $('<?php echo $_key ?>'))" <?php echo $_detail->getUsedDefault()?'checked="checked"':'' ?> />
+                <label class="normal" for="link_title_default"><?php echo $this->__('Use Default Value') ?></label>
+            <?php endif; ?>
+            </td>
+        </tr>
+		<?php endif; ?>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_detail_relation_<?php echo $_key; ?>"><?php echo $this->__('Related To'); ?></label></td>
+    		<td class="value toggleValueElements">
+    			<?php echo $this->getFileRelation($_product->getStoreId()!=null); ?>
+    		</td>
+		    <td id="note_downloadplus_detail_relation_<?php echo $_key; ?>"></td>
+    	</tr>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_detail_filedate_<?php echo $_key; ?>"><?php echo $this->__('Size & Date'); ?></label></td>
+    		<td class="value toggleValueElements">
+    			<input id="product_downloadplus_detail_filedate_<?php echo $_key; ?>" name="downloadplus[detail][filedate][<?php echo $_key; ?>]" value="<?php echo $_detail->getSizeFormatted().', '.date('Y-m-d - H:i:s', $_detail->getTimestamp()); ?>" class="input-text" disabled="disabled" type="text"/>
+    		</td>
+		    <td id="note_downloadplus_detail_filedate_<?php echo $_key; ?>"></td>
+    	</tr>
+    </tbody>
+</table>
+<table cellspacing="0" class="form-list" id="<?php echo $_key ?>">
+	<tbody>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_detail_fileversion_<?php echo $_key; ?>"><?php echo $this->__('Version'); ?></label></td>
+    		<td class="value">
+    			<input id="product_downloadplus_detail_fileversion_<?php echo $_key; ?>" name="downloadplus[detail][fileversion][<?php echo $_key; ?>]" value="<?php echo $_detail->getVersion(); ?>" class="input-text" type="text" <?php echo ($_product->getStoreId()&&$_detail->getUsedDefault())?'disabled="disabled"':'' ?>/>
+    		</td>
+		    <td id="note_downloadplus_detail_fileversion_<?php echo $_key; ?>"></td>
+    	</tr>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_detail_filedescription_<?php echo $_key; ?>"><?php echo $this->__('Description'); ?></label></td>
+    		<td class="value">
+    			<textarea id="product_downloadplus_detail_filedescription_<?php echo $_key; ?>" name="downloadplus[detail][filedetail][<?php echo $_key; ?>]" class="textarea downloadplus-detail-filedetail" <?php echo ($_product->getStoreId()&&$_detail->getUsedDefault())?'disabled="disabled"':'' ?>><?php echo $_detail->getDetail(); ?></textarea>
+    		</td>
+		    <td id="note_downloadplus_detail_filedescription_<?php echo $_key; ?>"></td>
+    	</tr>
+    </tbody>
+</table>
+</div>
+
+</div>

@@ -1,0 +1,12 @@
+<config>
+    <modules>
+        <Pisc_Downloadplus>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Mage_Downloadable />
+            </depends>
+            <version>0.3.84</version>
+        </Pisc_Downloadplus>
+    </modules>
+</config>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+		<Krishinc_Cartmessage>
+            <version>0.0.1</version>
+        </Krishinc_Cartmessage>    
+  	</modules>
+  	 <admin>
+            <routers>
+                <cartmessage>
+                    <use>admin</use>
+                    <args>
+                        <module>Krishinc_Cartmessage</module>
+                        <frontName>cartmessage</frontName>
+                    </args>
+                </cartmessage>
+            </routers>
+        </admin>
+  	<frontend>	
+  		<layout>
+  			<updates>
+  				<cartmessage>
+  					<file>cartmessage.xml</file>
+  				</cartmessage>
+  			</updates>
+  		</layout> 
+  	</frontend>
+  	<global>
+         <helpers>
+            <cartmessage>
+                <class>Krishinc_Cartmessage_Helper</class>
+            </cartmessage>
+        </helpers>
+    </global>
+</config>

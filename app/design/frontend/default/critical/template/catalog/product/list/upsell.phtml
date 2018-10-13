@@ -1,0 +1,92 @@
+<?php 
+$cp = Mage::registry('current_product');
+$cpid=$cp->getId();
+$sku = $cp->getSku();
+?>
+<?php if($count = count($this->getItemCollection()->getItems())):  ?> 
+<h2><?php echo $this->__('Bundle Contents') ?></h2><br/>
+  <p>
+    <?php $this->resetItemsIterator(); $values = ''; $first='';?>
+    <?php //for($_i=0;$_i<$this->getRowCount();$_i++): ?>
+    <?php if($sku == '05235XIN'){?>
+    	<?php  
+    	$subpro = Mage::getModel('catalog/product')->loadByAttribute('sku','05235XIN-1');
+     	$values = $subpro->getId();
+    	$upsellProducts = $subpro->getUpSellProductCollection()
+								->setPositionOrder()
+								->addStoreFilter();
+		if( count($upsellProducts->getItems())) {
+			$_related_products = array();
+			foreach ($upsellProducts as $relUpsel)
+			{
+				$_link1 = Mage::getModel('catalog/product')->load($relUpsel->getId());
+				 
+				?>
+				 <a href="<?php echo $_link1->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_link1->getName()) ?>"><?php echo $this->htmlEscape($_link1->getName()) ?></a>
+                   <br/>
+				<?php
+			}
+		}
+	?>
+    <?php }?>
+    
+        <?php for($_j=0;$_j<=$count;$_j++): ?>
+            <?php if($_link=$this->getIterableItem()): ?>
+                   <a href="<?php echo $_link->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_link->getName()) ?>"><?php echo $this->htmlEscape($_link->getName()) ?></a>
+                   <br/>
+                   
+                   <?php if($_j == 0 && $_link->getId()==$cpid && $sku != '05235XIN'):?>
+                   	<?php echo $first  = $_link->getId(); ?>
+                   	<?php else:?>
+					<?php
+					/* get all internal product if exists */
+					
+					/* $current_pid = $_link->getId();
+					$_thisProduct = Mage::getModel('catalog/product')->load($current_pid); 
+					
+					if ($_thisProduct->getTypeId() == 'grouped'){
+						$associatedProducts = $_thisProduct->getTypeInstance(true)->getAssociatedProducts($_thisProduct);
+						
+						if(count($associatedProducts))
+						{
+							foreach($associatedProducts as $associatedProduct)
+							{								
+								$values .= ','.$associatedProduct->getId();
+							}
+						}
+						else
+						{
+							$values .= ','.$_link->getId();
+						}
+					}
+					else
+					{
+						$values .= ','.$_link->getId();
+					} */
+					
+					$values .= ','.$_link->getId();
+					
+					?>
+                   	<?php ?>
+                   <?php endif;?>
+            <?php else: ?>
+				<br/>   
+            <?php endif; ?>
+        <?php endfor; ?>
+    <?php //endfor; ?>
+</p>
+<?php /*****Start:: For buldle extraction feature****/?>
+			                    	
+  <script type="text/javascript">
+    //<![CDATA[
+      if($('related-products-field')){
+            $('related-products-field').value = '<?php echo ltrim($values,',')?>';  
+        }
+        if($('product-field')){
+        	$('product-field').value = '<?php echo $first?>';  
+        }
+    //]]>
+    </script>
+ <?php /*****End:: For buldle extraction feature****/?>
+			                    	
+<?php  endif ?>

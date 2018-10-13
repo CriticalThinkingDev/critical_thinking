@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Krishinc_Free>
+            <version>0.1.0</version>
+        </Krishinc_Free>
+    </modules>
+     <frontend>
+        <routers>
+            <free>
+                <use>standard</use>
+                <args>
+                    <module>Krishinc_Free</module>
+                    <frontName>free</frontName> 
+                </args>
+            </free>
+        </routers> 
+        <layout>
+            <updates>
+                <free>
+                    <file>free.xml</file>
+                </free>
+            </updates>
+        </layout>
+    </frontend>
+	  <default>
+		   <web>
+		     <routers>
+		        <free_router>
+		            <area>frontend</area>
+		            <class>Krishinc_Free_Controller_Router</class>
+		        </free_router>
+		    </routers>
+		   </web>
+	</default>
+ 	<global>
+ 		<page>
+            <layouts> 
+		 		<logo_content module="page" translate="label">
+			        <label>Logo Content[For Free Download]</label>
+			        <template>page/logo_content.phtml</template>
+		            <layout_handle>page_logo_content</layout_handle>
+		         </logo_content> 
+		    </layouts>
+         </page>
+         <blocks>
+         	<free>
+         		<class>Krishinc_Free_Block</class>
+         	</free>
+         </blocks>
+ 		 <helpers>
+	            <free>
+	                <class>Krishinc_Free_Helper</class>
+	            </free>
+        </helpers>
+
+ 	</global>    
+</config>

@@ -1,0 +1,343 @@
+<?php
+/**
+* aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/AW-LICENSE-COMMUNITY.txt
+ *
+ * =================================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * =================================================================
+ * This package designed for Magento COMMUNITY edition
+ * aheadWorks does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * aheadWorks does not provide extension support in case of
+ * incorrect edition usage.
+ * =================================================================
+ *
+ * @category   AW
+ * @package    AW_Relatedproducts
+ * @version    1.4.0
+ * @copyright  Copyright (c) 2010-2012 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/AW-LICENSE-COMMUNITY.txt
+ */
+?>
+<?php
+/**
+ * aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @category   AW
+ * @package    AW_Relatedproducts
+ * @copyright  Copyright (c) 2008-2012 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/LICENSE-M1.txt
+ *
+ * @var $this AW_Relatedproducts_Block_Relatedproducts
+ */
+?>
+<?php if($this->getEnabled() && count($this->getRelatedProductsCollection())): ?>
+<script src="<?php echo $this->getSkinUrl('js/jquery.bxslider.min.js'); ?>"></script>
+<link href="<?php echo $this->getSkinUrl('css/jquery.bxslider.css'); ?>" rel="stylesheet" />
+<div class="aw-box aw-mini-related-items block1 nwslide">
+<div class="aw-content-box1">
+    <div class="head">
+        <!-- h4><?php // echo $this->__('Customers Who Bought This Also Bought') ?></h4 -->
+		<h4><?php echo $this->__('Recommendation') ?></h4> 
+    </div>
+    <div class="aw-content" <?php if (Mage::helper('relatedproducts')->checkVersion('1.4.1.0')) { echo "id=\"after1400\""; }?>>
+       <?php /* <p><strong><?php echo $this->__('Check items to add to the cart or') ?>&nbsp;<a href="#" onclick="selectAllAwRelated(this);return false;"><?php echo $this->__('select all') ?></a></strong></p>      */ ?>   
+        <ol class="alsoboughtthis">
+        <?php $ij = 0;$total = count($this->getRelatedProductsCollection()); foreach($this->getRelatedProductsCollection() as $_item): $ij++;?>
+        <li class="<?php if($_item->isComposite() || !$_item->isSaleable()): ?> super-products <?php endif; ?><?php if($ij == $total):?> last <?php endif;?> ">
+            <div class="product-images">
+            <?php if(!$_item->isComposite() && $_item->isSaleable()): ?>
+               
+            <?php /* <span class="checkbox-container">
+                <?php if (!$_item->getRequiredOptions()): ?>
+                    <input type="checkbox" class="aw-related-checkbox left" id="aw-related-checkbox<?php echo $_item->getId() ?>" name="aw_related_products[]" value="<?php echo $_item->getId() ?>" />
+                <?php endif; ?>
+                </span>
+                    */ ?>
+            
+            <?php else: ?>
+                <!--span class="checkbox-container">&nbsp;</span-->
+            <?php endif; ?>
+                <a href="<?php echo $_item->getProductUrl() ?>"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(130,140) ?>" alt="<?php echo $this->htmlEscape($_item->getName()) ?>" width="130" height="140" /></a>
+            </div>
+            <div class="product-details">
+                    <a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>
+                    <?php if(is_null($_item->isSaleable() && $_item->getAvailableText())){?>
+                    	  <div class="available_text"><font color="#0033CC"><?php echo  $_item->getAvailableText()?></font></div>
+                    <?php } else {?><?php echo $this->getPriceHtml($_item, true); ?>
+                
+                    <?php }?>
+                    <?php if ($this->helper('wishlist')->isAllow()) : ?>
+                    <a href="<?php echo $this->getAddToWishlistUrl($_item) ?>" class="aw-link-cart"><?php echo $this->__('Add to Wishlist') ?></a>
+                    <?php endif; ?>
+<?php  $_ppro = Mage::getModel('catalog/product')->load($_item->getId());  
+if($_ppro->isSaleable()): ?>
+                <form action="<?php //echo $this->getAddToCartUrl($_product) ?>" method="post" id="aw_product_addtocart_form_<?php echo $_item->getId()?>"<?php if($_item->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+                    <div class="add_cart_box">
+                        <span><b><?php echo $this->__('Qty')?></b></span>
+                        <?php /*****Start:: For buldle extraction feature****/?>
+
+                        <?php $upscount=0;
+                        $upsellProducts = $_item->getUpSellProductCollection()
+                            ->setPositionOrder()
+                            ->addStoreFilter();
+                        $upscount = count($upsellProducts->getItems());
+                        ?>
+                        <?php if(($_item->getProductType() == 125) && ($upscount > 0)){?>
+                        <?php
+                        $j=0;$values = '';$first='';
+                        foreach ($upsellProducts as $_link) {
+                            if($j == 0 && $_link->getId()==$_item->getId()):
+                                $first  = $_link->getId();
+                            else:
+                                $values .= ','.$_link->getId();
+                            endif;
+                            $j++;
+                        }
+
+                        ?>
+                            <input type="text" size="3" class="pd-qty-textsize" name="qty" onkeyup="changeQty(this.value,'<?php echo $_item->getId()?>');" id="qty_<?php echo $_item->getId()?>" maxlength="12" value="<?php echo ($this->getMinimalQty($_item)?$this->getMinimalQty($_item):1); ?>" />
+                            <input type="hidden" size="3"  name="first<?php echo $_item->getId()?>"  id="first<?php echo $_item->getId()?>" maxlength="12" value="<?php echo $_item->getId() ?>"  />
+                            <input type="hidden" name="related_product<?php echo $_item->getId()?>" id="related_product<?php echo $_item->getId()?>" value="<?php echo ltrim($values,',')?>" />
+                        <?php } else { ?>
+
+                            <input type="text" size="3" class="pd-qty-textsize" name="qty" onkeyup="changeQty(this.value,'<?php echo $_item->getId()?>');" id="qty_<?php echo $_item->getId()?>" maxlength="12" value="<?php echo ($this->getMinimalQty($_item)?$this->getMinimalQty($_item):1); ?>" />
+                            <input type="hidden" name="related_product<?php echo $_item->getId()?>" id="related_product<?php echo $_item->getId()?>" value=""  />
+                        <?php }?>
+                        <?php /*****End:: For buldle extraction feature****/?>
+                        <button  type="button" class="btn-cart1"onclick="addtocartaw('<?php echo $_item->getId()?>','aw_product_addtocart_form_');" >
+                            <span><?php echo $this->__('Add to Cart') ?></span>
+                        </button>
+                    </div>
+                    </form>
+                <?php endif; ?>
+            </div>
+        </li>
+        <?php endforeach ?>
+        </ol>
+    </div>
+</div>
+</div>   
+
+<script type="text/javascript">
+<!--
+$$('.aw-related-checkbox').each(function(elem){
+    Event.observe(elem, 'click', addAwRelatedToProduct)
+});
+
+var relatedAwProductsCheckFlag = false;
+function selectAllAwRelated(txt){
+    if (relatedAwProductsCheckFlag == false) {
+        $$('.aw-related-checkbox').each(function(elem){
+            elem.checked = true;
+        });
+        relatedAwProductsCheckFlag = true;
+        txt.innerHTML="<?php echo $this->__('unselect all') ?>";
+    } else {
+        $$('.aw-related-checkbox').each(function(elem){
+            elem.checked = false;
+        });
+        relatedAwProductsCheckFlag = false;
+        txt.innerHTML="<?php echo $this->__('select all') ?>";
+    }
+    addAwRelatedToProduct();
+}
+
+function addAwRelatedToProduct(){
+    var checkboxes = $$('.aw-related-checkbox');
+    var values = [];
+    for(var i=0;i<checkboxes.length;i++){
+        if(checkboxes[i].checked) values.push(checkboxes[i].value);
+    }
+    
+    if($('related-products-field')){
+        $('related-products-field').value = values.join(',');
+    }
+    
+}
+//-->
+
+jQuery(document).ready(function(){
+
+    jQuery('.alsoboughtthis').bxSlider({
+        slideWidth: 174,
+		pager: false,
+		minSlides: 1,
+        maxSlides: 4,
+        slideMargin: 10
+    });
+});
+function updateaw(response) {
+
+    jQuery('#mg-ajaxcart-dialog .product-info img').remove();
+    jQuery('.block-cart').replaceWith(response.sidebar);
+    jQuery('.header-cartlink-itemnum-display span').html(response.count);
+    jQuery('#longTextContent').html(response.sidebar);
+
+    if(response.product_message!='')
+        jQuery('#mg-ajaxcart-dialog .product-info .msg').html(response.product_message);
+
+    else
+        jQuery('#mg-ajaxcart-dialog .product-info .msg .name').html(response.name);
+
+    if(response.component_sold == '1') {
+        jQuery('#mg-ajaxcart-dialog .product-info .component_sold').show();
+    } else if(response.component_sold == '0') {
+        jQuery('#mg-ajaxcart-dialog .product-info .component_sold').hide();
+    }
+
+    var imgLength =jQuery('#mg-ajaxcart-dialog .product-info img').length;
+    if(imgLength == 0)
+    {
+        var img = '<img/>';
+        jQuery('#mg-ajaxcart-dialog .product-info').prepend(img);
+    }
+
+
+    jQuery('#mg-ajaxcart-dialog .product-info img').attr('src', response.thumbnail);
+    jQuery('#mg-ajaxcart-dialog').fadeIn();
+    dialog = setTimeout(function() { jQuery('#mg-ajaxcart-dialog').fadeOut(); }, 1000000);
+}
+function getInfoaw(formpostdata) {
+    var form_key = "<?php echo Mage::getSingleton('core/session')->getFormKey();?>";
+    var url = "<?php echo Mage::helper('ajaxtocart')->getInfoUrl()?>";
+
+    mask('Updating information ...');
+    var data = {};
+    var productid = formpostdata['product'];
+
+    data.form_key = form_key;
+    if (jQuery('#is_master_grouped'+productid).length > 0 && jQuery('#is_master_grouped'+productid).val() == '1') {
+        productid = jQuery('#product_id_super_group'+productid).val();
+        data.is_master_grouped = 1;
+    }
+    data.form_productid = productid;
+    jQuery.post(
+        url,
+        data,
+        function (response) {
+            unmask();
+            response = jQuery.parseJSON(response);
+            updateaw(response);
+        }
+    )
+}
+function addtocartaw(id,prefix) {
+
+    var data = new Object();
+
+    if(jQuery('#span_'+id).html() == '')
+    {
+        alert('Please select License!');
+        return false;
+    }
+    mask('Adding Product to Cart ...');
+
+    var form_key = "<?php echo Mage::getSingleton('core/session')->getFormKey();?>";
+    var url = "<?php echo Mage::helper('ajaxtocart')->getAddUrl();?>";
+
+
+    var inp = jQuery('#'+prefix+id+' input');
+    var sel = jQuery('#'+prefix+id+' select');
+
+    jQuery.each(inp, function(key, value) {
+        var name = jQuery(value).attr('name');
+        var value = jQuery(value).val();
+        data[name] = value;
+    });
+
+    jQuery.each(sel, function(key, value) {
+        var name = jQuery(value).attr('name');
+        var value = jQuery(value).val();
+        data[name] = value;
+    });
+    if(data['related_product'+id] != '')
+    {
+        if (jQuery('#is_master_grouped'+id).length > 0 && jQuery('#is_master_grouped'+id).val() == 1) {
+            data['product'] = jQuery('#product_id_super_group'+id).val();
+        } else {
+            data['product'] = data['first'+id];
+        }
+        data['related_product']  = data['related_product'+id];
+    }else {
+        if (jQuery('#is_master_grouped'+id).length > 0 && jQuery('#is_master_grouped'+id).val() == 1) {
+            data['product'] = jQuery('#product_id_super_group'+id).val();
+        } else {
+            data['product'] = id;
+        }
+    }
+
+    data['form_key'] = form_key;
+
+    jQuery.post(
+        url,
+        data,
+        function (response) {
+            unmask();
+            response = jQuery.parseJSON(response);
+            if (response.success) {
+                console.log(response);
+
+                getInfoaw(data);
+            } else {
+                alert(response.msg);
+            }
+        }
+    );
+
+    return false;
+}
+
+</script>
+<?php  $current_product = Mage::registry('current_product');
+
+ if(!$current_product->getIsSalable()): ?>
+<div id="mg-ajaxcart-dialog">
+<div id="mg-ajaxcart-dialog1">
+    <div class="ui-dialog-titlebar">
+    <span class="ui-dialog-title-ajax">Item Added to Shopping Cart</span>
+    
+    
+    <span class="ui-dialog-title-ajax-close"><a class="closeajaxcart" href="javascript:void(0);">close</a></span>
+    
+    </div>
+    	<div class="product-info">
+     
+    		<p class="msg">You have added  <span class="name"></span> into shopping cart.
+				<span style="display: none;" class="component_sold">
+					<br>
+					<br>
+					<font color="#CC3333" <strong="">**Required and/or Optional Components sold separately for this product.**</font>
+					<br>
+					Please read the description carefully.
+				</span>
+			</p>
+    	</div>
+        <div style="width:500px; padding:13px 20px 0 0;" class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <div class="ui-dialog-buttonset">
+        <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only  continue-shop" type="button">
+        <span class="ui-button-text">Continue Shopping</span>
+        </button>
+        <button onclick="setLocation('<?php echo Mage::getUrl(''); ?>checkout/cart')" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" type="button">
+        <span class="ui-button-text">View Cart</span></button>
+        </div>
+        </div>
+        </div>
+		    </div>
+ <?php endif; ?>
+
+<?php endif ?>

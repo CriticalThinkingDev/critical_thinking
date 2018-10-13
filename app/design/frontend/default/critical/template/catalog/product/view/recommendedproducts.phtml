@@ -1,0 +1,80 @@
+<?php $count = 0;?>
+<?php if(count($this->getItems())>0): ?>   
+<?php foreach($this->getItems() as $_item)://print_r($_item->getData())?>
+<?php if($_item->getSeries() !=1){
+	$count = 1;
+	break;
+	?>
+<?php }?>
+<?php endforeach;?>
+<?php if($count>0){?>
+    
+    <div style="margin-left: 0px; position: relative; width: 270px; height: 155px;  overflow: hidden;">
+
+        <div onmouseover="jQuery('#rec_prod_carriage').animate( { left:'0px' } ,'slow','swing',function() { jQuery('#rec_prod_arrow_lt').css('visibility','hidden');jQuery('#rec_prod_arrow_rt').css('visibility','visible'); } ); jQuery('#rec_prod_label').animate( { left:'0px' } ,'slow','swing');" style="width: 50px; height: 155px; overflow: hidden; position: absolute; top: 0px; left: 0px; z-index: 10000; visibility: visible;" id="rec_prod_arrow_lt">&nbsp;</div>
+
+
+
+
+
+<div style="position: relative; left: 0px; height: 155px; width: 100%;" id="rec_prod_carriage">
+<div style="font-size: 12px; font-weight: bold; position: relative; left: 0px; padding: 0px 10px 5px 4px;" id="rec_prod_label" class="product_detail_helper_link"><h2>Recommended Products</h2></div>
+
+
+
+
+
+
+<table border="0" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<?php $i = 0; ?>
+<?php foreach($this->getItems() as $_item)://print_r($_item->getData())?>
+<?php if($_item->getSeries() !=1){ ?>
+<?php  if($i < 2) { ?>
+<td style="padding-right:55px;" align="left" valign="top">
+<a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_item, 'thumbnail')->resize(80) ?>" width="80"  alt="<?php echo $this->htmlEscape($_item->getName()) ?>" /></a>
+                    <div class="product-details1 recommended">
+                        <p class="product-name-releted"><a href="<?php echo $_item->getProductUrl() ?>"><?php echo $this->htmlEscape($_item->getName()) ?></a>  </p> <?php //echo $this->getPriceHtml($_item, true, '-related') ?>
+			
+                    </div>
+                </div>
+          </td>
+<?php
+    $i++;
+	} ?>
+   <?php }?>
+<?php endforeach ?>
+</tr>
+</tbody>
+</table> 
+       
+  </div>
+  
+<div onmouseover="jQuery('#rec_prod_carriage').animate( { left:'-130px' } ,'slow','swing',function() { jQuery('#rec_prod_arrow_rt').css('visibility','hidden');jQuery('#rec_prod_arrow_lt').css('visibility','visible'); } ); jQuery('#rec_prod_label').animate( { left:'130px' } ,'slow','swing');" style="width: 50px; height: 155px; overflow: hidden; position: absolute; top: 0px; left: 219px; z-index: 10000;  visibility: hidden;"  id="rec_prod_arrow_rt">&nbsp;</div>
+
+
+
+
+    </div>
+<script type="text/javascript">
+//<![[CDATA
+	jQuery(document).ready(function() 
+	{
+		if(jQuery('#rec_prod_carriage').find('img').length < 3) 
+			{ 
+				jQuery('#rec_prod_arrow_rt').remove();
+				jQuery('#rec_prod_arrow_lt').remove(); 
+			} 
+	});
+//]]>
+</script>
+
+
+ 
+ 
+<?php }?> 
+<?php endif ?>
+
+
+

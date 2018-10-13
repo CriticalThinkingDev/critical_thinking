@@ -1,0 +1,18 @@
+<?php
+/**
+ * GoogleTagManager plugin for Magento 
+ *
+ * @package     Yireo_GoogleTagManager
+ * @author      Yireo (http://www.yireo.com/)
+ * @copyright   Copyright (c) 2014 Yireo (http://www.yireo.com/)
+ * @license     Open Software License
+ */
+ 
+?>
+<?php if($this->isEnabled()) : ?>
+<script> 
+dataLayer = [{
+     <?php echo $visitorsData = Mage::helper('googletagmanager')->getVisitorData();?>
+}]; 
+</script>
+<?php endif; ?>

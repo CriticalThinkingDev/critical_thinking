@@ -1,0 +1,493 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Grouped product data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
+
+<?php $this->setPreconfiguredValue(); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php //$_associatedProducts = $this->getAssociatedProducts(); ?>
+<?php $_associatedProducts = Mage::helper('grouped')->getSeriesProduct($_product); ?>
+<?php $constant_helper = Mage::helper('grouped/constants'); ?>
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php /*if ($_product->isAvailable() && $_hasAssociatedProducts): ?>
+    <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+<?php else: ?>
+    <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+<?php endif;*/ ?>
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+<table class="data-table grouped-items-table" id="super-product-table">
+    <col />
+    <col />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th style="border-right:#fff solid 2px;"><?php echo $this->__('Item No.') ?></th>
+            <th style="border-right:#fff solid 2px;"><?php echo $this->__('Title') ?></th> 
+            <th style="border-right:#fff solid 2px;width:10%;"><?php echo $this->__('Grade') ?></th>
+            <th style="border-right:#fff solid 2px;"><?php echo $this->__('Type') ?></th>
+            <?php if ($this->getCanShowProductPrice($_product)): ?>
+            <th style="border-right:#fff solid 2px;"><?php echo $this->__('Price') ?></th>
+            <?php endif; ?>
+            <?php //if ($_product->isSaleable()): ?>
+            <th style="" ><?php echo $this->__('Qty') ?></th>
+            <?php //endif; ?>  
+            
+            
+        </tr>
+    </thead>
+    <tbody>
+    <?php if ($_hasAssociatedProducts): ?>
+    <?php $productType = '';
+	      $search_Set = array('Default','criticalthinking_simple');
+    foreach ($_associatedProducts as $_item): 
+		$prodAttributeSet = Mage::getModel('eav/entity_attribute_set')->load($_item->getAttributeSetId())->getAttributeSetName();
+        if($_item->getTypeId() == 'grouped' && !in_array($prodAttributeSet,$search_Set)) {
+            continue;
+
+        }
+        //if($_item->getTypeId() != 'grouped'): //added this condition to not display grouped products on series list anymore 11/12/14
+			if($_item->getTypeId() == 'grouped'):
+				$_subAssociatedProducts = $_item->getTypeInstance(true)->getAssociatedProducts($_item);
+				//$_subAssociatedProducts = array();
+        	endif;
+        	if($_item->getTypeId()=='downloadable') {$_item = Mage::getModel('catalog/product')->load($_item->getId());// added to resolve issue of out-of-stock in listing page
+          	}
+        ?>
+        
+        <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>
+        <?php if(($productType == '') || ($productType !=$_item->getProductType())): ?>
+            <tr><td colspan="6" class="hed_popup">
+			<div >
+			<?php $productType = $_item->getProductType();?><b><?php echo $_item->getAttributeText('product_type');?></b>
+                    <?php
+
+                    if($_item->getAttributeText('product_type')=='eBooks' && $_product->getEbookImportant()): ?>
+                    <a href="javascript:void(0);" onclick="openebookinfo();"><?php echo $this->__('Important eBook Information');?></a>
+            <?php endif; ?>
+                    <?php if($_item->getAttributeText('product_type')=='Win/Mac Software' && $_product->getSoftwareImportant()): ?>
+                    <a href="javascript:void(0);" onclick="openesoftwareinfo();"><?php echo $this->__('Important Software Information');?></a>
+                    <?php endif; ?>
+ <?php if($_item->getAttributeText('product_type')=='Win Software' && $_product->getSoftwareImportant()): ?>
+                    <a href="javascript:void(0);" onclick="openesoftwareinfo();"><?php echo $this->__('Important Software Information');?></a>
+                    <?php endif; ?>
+					</div>
+                </td></tr>
+        <?php endif;?>
+        <tr>
+            <td class="left_td_bold" valign="top"><?php echo $_item->getSku() ?></td>
+            <td valign="top">  <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName())?>" ><?php echo $this->htmlEscape($_item->getName()) ?></a>
+				<?php
+					if($hascomponent = $_item->getHasRequiredComponent()) { ?>
+					<br><font color="green"><?php echo $this->__('*Required components sold separately*'); ?></font>
+				<?php } ?>
+			</td> 
+            <td valign="top"><?php echo Mage::getModel('catalog/product')->getProductGrade($_item->getGrade())?></td>
+            <td valign="top">
+                <?php if($_item->getTypeId() == 'grouped'):?>
+                <?php $subItemId='';$subItemQty='';$subPrice=array();$subAvailText='';$availText=array();?>
+                    <?php if(count($_subAssociatedProducts)>0):?>    
+                        <select name="grouped_items"  onchange="changePrice(this,<?php echo $_item->getId() ?>)" id="series_prod_<?php echo $_item->getId()?>">
+                            <?php $i=0;   foreach ($_subAssociatedProducts as $_subItem): 
+                            $priceArr[$_subItem->getId()] =  $this->getPriceHtml($_subItem, true);
+                            $availText[$_subItem->getId()] =   $_subItem->getAvailableText();
+                            $isSaleable[$_subItem->getId()] =   $_subItem->isSaleable();
+                             if($_subItem->getTypeId()=='downloadable') {$_subItem = Mage::getModel('catalog/product')->load($_subItem->getId());// added to resolve issue of out-of-stock in listing page
+          }
+                            if($i==0)
+                            { 
+                                
+                                $subItemId =$_subItem->getId();
+                                $subItemQty =$_subItem->getQty();
+                                $subPrice =   $this->getPriceHtml($_subItem, true);  
+                                $subAvailText =   $_subItem->getAvailableText();
+                                //
+                                if($_subItem->isSaleable())
+                                {
+                                     $defostat = 1;
+                                }else
+                                {
+                                     $defostat = 0;
+                                }
+                            }
+                            $i++;
+                            if($_subItem->isSaleable())    { $status = 1;} else { $status = 0; }
+                            if(!$_subItem->isSaleable() && ($_subItem->getAvailableText()))    { $isComingSoon = 1;} else { $isComingSoon = 0; }
+                             ?> 
+                            <option id="<?php echo $_subItem->getId()."_".$_subItem->getProductType(); ?>" status="<?php echo $status; ?>" value="<?php echo $_subItem->getId()?>" comingsoon="<?php echo $isComingSoon;?>"><?php  echo (($_subItem->getAttributeText('license'))?$_subItem->getAttributeText('license').(($_subItem->getAttributeText('media_type_details'))?' - '.$_subItem->getAttributeText('media_type_details'):''):$this->htmlEscape($_subItem->getName()))?> </option> 
+                        <?php endforeach;?>
+                        </select>
+                        <?php
+                            $i=0;   foreach ($_subAssociatedProducts as $_subItem):
+                            
+                            if($_subItem->getProductType() == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $_subItem->getProductType() == $constant_helper::PRODUCT_TYPE_IOS_APP || $_subItem->getProductType() == $constant_helper::PRODUCT_TYPE_WIN_APP) { ?>
+                                <input type="hidden" id="<?php echo 'appurl_'.$_subItem->getProductType().'_'.$_item->getId().'_'.$_subItem->getId(); ?>" name="appurl[]" value="<?php echo $_subItem->getAppUrl(); ?>">
+                        <?php
+                            } //elseif($_subItem->getProductType() == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $_subItem->getProductType() == $constant_helper::PRODUCT_TYPE_IOS_APP) { ?>
+                                
+                            <?php //} ?>
+                        <?php endforeach;?>
+                    <?php else: ?> 
+                        <?php echo $_item->getAttributeText('media_type') ?>
+                    <?php endif; ?>
+                <?php else: ?> 
+                    <?php echo $_item->getAttributeText('media_type') ?>
+                <?php endif; ?>
+            </td>
+            <?php if ($this->getCanShowProductPrice($_product)): ?>
+            <td valign="top">
+                
+            <?php  if($_item->getTypeId() == 'grouped'){?>
+                    <div id="price_div_<?php echo $_item->getId();?>">
+                    <?php if(count($_subAssociatedProducts)>0):?>     
+                             <div id="group_price_<?php echo $_item->getId();?>" class='regular-price' > 
+                             <?php if(!isset($subAvailText)):?>
+                                 <?php echo $subPrice ?>
+                                 <?php endif;?>
+                             </div>
+                            
+                             <?php foreach ($priceArr as $key => $value):?>
+                                <div id="sub_group_price_<?php echo $key;?>" style="display:none;" >
+                                <?php if(!isset($availText[$key])):?>
+                                    <?php echo $value;?> 
+                                <?php elseif(isset($availText[$key]) && !$isSaleable[$key]):?>
+                                    <?php echo $value;?> 
+                                <?php endif;?>
+                                </div>
+                             <?php endforeach;?>  
+                            <?php else:?>                                
+                                <?php if ($this->getCanShowProductPrice($_item)): ?>
+                                    <?php echo $this->getPriceHtml($_item, true) ?>
+                                    <?php echo $this->getTierPriceHtml($_item) ?>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                       <?php } else { ?>
+                            <?php if(!($_item->getProductType() == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $_item->getProductType() == $constant_helper::PRODUCT_TYPE_IOS_APP || $_item->getProductType() == $constant_helper::PRODUCT_TYPE_WIN_APP)) { ?>
+                                <?php if(is_null($_item->getAvailableText())) { ?>
+                                    <?php if ($this->getCanShowProductPrice($_item)): ?>
+                                        <?php echo $this->getPriceHtml($_item, true) ?>
+                                        <?php echo $this->getTierPriceHtml($_item) ?>
+                                    <?php endif; ?>
+                                <?php } ?>
+                            <?php } ?>
+                       <?php } ?>
+            <?php endif; ?>
+            </td>
+            <?php //if ($_product->isSaleable()): ?>
+            <td valign="top">
+            <?php if ($_item->isSaleable()) : ?>  
+            
+           <?php  if($_item->getTypeId() == 'grouped') { ?>
+                       <?php if($defostat == 1) { ?>
+                            <?php /* associated items add to cart */?>
+                            <div id="addtocart_div_<?php echo $_item->getId() ?>" style="display: none;">
+                            <?php $upsellProducts = $_item->getUpSellProductCollection()->setPositionOrder()->addStoreFilter();
+                            
+                                   $upscount = count($upsellProducts); 
+                                   if(($_item->getProductType() == 125) && ($upscount > 0)){ 
+                                    $j=0;$values = '';$first='';
+                                    foreach ($upsellProducts as $_link) {  
+                                            /* if(($_link->isSaleable() == 1) && (($_link->getTypeId() == 'simple')||($_link->getTypeId() == 'downloadable'))){ */
+                                            //if($_link->isSaleable() == 1){
+                                                 /*if($j == 0 && $_link->getId()==$_item->getId()): 
+                                                      $first  = $_link->getId();
+                                                  else: */
+                                                    $values .= ','.$_link->getId(); 
+                                                 //endif;  
+                                                // $j++; 
+                                            //}
+                                            
+                                        }
+                                        
+                                        ?>
+                                        <input type="hidden" name="series_related_products[<?php echo $_item->getId() ?>]"  id="related_products[<?php echo $_item->getId() ?>]" value="<?php echo ltrim($values,',')?>"/> 
+                            <?php } ?>
+                            <?php /* associated items add to cart */?>
+                            <?php /* START:: Showing coming soon text */?>
+                             <?php if(count($_subAssociatedProducts)>0):?>   
+                             <div id="comming_soon_text_<?php echo $_item->getId() ?>"></div>
+                             <?php foreach ($priceArr as $key => $value):?>
+                               <div id="no_sale_cs_<?php echo $key ?>" style="display:none">
+                                <?php if(isset($availText[$key])):?> 
+                                        <p class="availability out-of-stock"><span><?php echo $availText[$key];?></span></p> 
+                                <?php endif;?>
+                                </div>
+                                 
+                             <?php endforeach;?>   
+                            <?php endif; ?>                            
+                        
+                            <?php /* END:: Showing coming soon text */?>
+                                
+                                <div id="no_sale_<?php echo $_item->getId() ?>" style="display:none">
+                                    <p class="availability out-of-stock"><span>Out of stock</span></p>
+                                </div>
+                                <div id="sale_<?php echo $_item->getId() ?>" style="display:block">
+                                     <input type="text"  id="custom_group_prod_<?php echo $_item->getId() ?>" name="series_qty[<?php echo $_item->getId()?>][<?php echo $subItemId; ?>]" maxlength="12" value="<?php echo $subItemQty*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />       
+                                </div>
+                            </div>
+                               
+                            <?php } else { ?>
+                            <div id="addtocart_div_<?php echo $_item->getId() ?>" style="display: none;">
+                                <div id="no_sale_<?php echo $_item->getId() ?>" style="display:block">
+                                    <p class="availability out-of-stock"><span>Out of stock</span></p>
+                                </div>
+                                <div id="sale_<?php echo $_item->getId() ?>" style="display:none">
+                                 <input type="text"  id="custom_group_prod_<?php echo $_item->getId() ?>" name="series_qty[<?php echo $_item->getId()?>][<?php echo $subItemId; ?>]" maxlength="12" value="<?php echo $subItemQty*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />       
+                                </div>
+                            </div>
+                            <?php } ?>
+                            
+                            <div id="android_div_<?php echo $_item->getId() ?>" style="display:none">
+                                <a href="#" id="google_play_lnk_<?php echo $_item->getId() ?>" target="_blank"><img src="<?php echo $this->getSkinUrl('images/catalog/google_play_btn-sm.png'); ?>" title="<?php echo $this->__('Google Play'); ?>" /></a>
+                            </div>
+                            <div id="winstore_div_<?php echo $_item->getId() ?>" style="display:none">
+                                <a href="#" id="win_store_lnk_<?php echo $_item->getId() ?>" target="_blank"><img src="<?php echo $this->getSkinUrl('images/catalog/win_store_btn-sm.png'); ?>" title="<?php echo $this->__('Windows Store'); ?>" /></a>
+                            </div>
+                            <div id="ios_div_<?php echo $_item->getId() ?>" style="display:none">
+                                <a href="#" id="apple_store_lnk_<?php echo $_item->getId() ?>" target="_blank"><img src="<?php echo $this->getSkinUrl('images/catalog/itunes_store_btn-sm.png'); ?>" title="<?php echo $this->__('Apple Store'); ?>" /></a>
+                            </div>
+                <?php } else  { ?>
+                 <?php $upsellProducts = $_item->getUpSellProductCollection()->setPositionOrder()->addStoreFilter();
+                        $upscount = count($upsellProducts); 
+                       if(($_item->getProductType() == 125) && ($upscount > 0)){ 
+                        $j=0;$values = '';$first='';
+                        foreach ($upsellProducts as $_link) {  
+                                if(($_link->isSaleable() == 1) && ($_link->getTypeId() != 'group')){
+//                                     if($j == 0 && $_link->getId()==$_item->getId()): 
+//                                           $first  = $_link->getId();
+//                                      else: 
+                                        $values .= ','.$_link->getId(); 
+//                                     endif;  
+//                                     $j++; 
+                                }
+                            }?>
+                            <input type="hidden" name="series_related_products[<?php echo $_item->getId() ?>]"  id="related_products[<?php echo $_item->getId() ?>]" value="<?php echo ltrim($values,',')?>"/> 
+                <?php } ?>
+                    
+                <?php /*if(($_item->getProductType() != "") && ($constant_helper::PRODUCT_TYPE_BOOKS == $_item->getProductType() || $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE == $_item->getProductType() || $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE == $_item->getProductType() || $constant_helper::PRODUCT_TYPE_EBOOK == $_item->getProductType())) { ?>
+                        <input type="text" name="series_qty[<?php echo $_item->getId() ?>]"  maxlength="12" value="<?php echo $_item->getQty()*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty"  />
+                <?php }*/ if($constant_helper::PRODUCT_TYPE_ANDROID_APP == $_item->getProductType() && $_item->getAppUrl() != "") { ?>
+                        <a href="<?php echo $_item->getAppUrl(); ?>" id="google_play_lnk_<?php echo $_item->getId() ?>" target="_blank"><img src="<?php echo $this->getSkinUrl('images/catalog/google_play_btn-sm.png'); ?>" title="<?php echo $this->__('Google Play'); ?>" /></a>
+                <?php } elseif($constant_helper::PRODUCT_TYPE_WIN_APP == $_item->getProductType() && $_item->getAppUrl() != "") { ?>
+                        <a href="<?php echo $_item->getAppUrl(); ?>" id="win_store_lnk_<?php echo $_item->getId() ?>" target="_blank"><img src="<?php echo $this->getSkinUrl('images/catalog/win_store_btn-sm.png'); ?>" title="<?php echo $this->__('Windows Store'); ?>" /></a>
+                <?php } elseif($constant_helper::PRODUCT_TYPE_IOS_APP == $_item->getProductType() && $_item->getAppUrl() != "") { ?>
+                        <a href="<?php echo $_item->getAppUrl(); ?>" id="apple_store_lnk_<?php echo $_item->getId() ?>" target="_blank"><img src="<?php echo $this->getSkinUrl('images/catalog/itunes_store_btn-sm.png'); ?>" title="<?php echo $this->__('Apple Store'); ?>" /></a>
+                <?php } else { ?>
+						<input type="text" name="series_qty[<?php echo $_item->getId() ?>]"  maxlength="12" value="<?php echo $_item->getQty()*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty"  />
+				<?php }?>
+             <?php } ?> 
+                
+             <?php else: ?>
+				
+				<?php
+					if(!($constant_helper::PRODUCT_TYPE_ANDROID_APP == $_item->getProductType() || $constant_helper::PRODUCT_TYPE_WIN_APP == $_item->getProductType() || $constant_helper::PRODUCT_TYPE_IOS_APP == $_item->getProductType()))
+					{
+				?>
+						<p class="availability out-of-stock"><span><?php echo ((is_null($_item->getAvailableText()))?'Out of stock':$_item->getAvailableText())?></span></p>
+				<?php
+					}
+				?>
+                <?php /*if($constant_helper::PRODUCT_TYPE_BOOKS == $_item->getProductType() || $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE == $_item->getProductType() || $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE == $_item->getProductType() || $constant_helper::PRODUCT_TYPE_EBOOK == $_item->getProductType()) { ?>
+                     <p class="availability out-of-stock"><span><?php echo ((is_null($_item->getAvailableText()))?'Out of stock':$_item->getAvailableText())?></span></p>
+                <?php } */ ?>
+            <?php endif; ?>
+            </td>
+            <?php //endif; ?>
+            
+            
+            <?php  if($_item->getTypeId() == 'grouped') { ?>
+                <script type="text/javascript">
+                    jQuery('document').ready(function() {
+                        changePrice(document.getElementById('series_prod_<?php echo $_item->getId(); ?>'),'<?php echo $_item->getId(); ?>');
+                    });
+                </script>
+            <?php } ?>
+            
+        </tr> 
+        <?php //endif;?>
+    <?php endforeach; ?>
+    <?php else: ?>
+       <tr>
+           <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+       </tr>
+    <?php endif; ?>
+    </tbody>
+</table>
+<div class="pouptrans" id="important_notes_ebook" style="display: none;">
+ <div class="popup_contain sm_box">
+     <div>
+         <a title="Close" ;="" onclick="closebuttonebookinformation()" id="close_imporatnt_notes" class="modalCloseImg"></a>
+         <div class="ui-widget-header">Important eBook Information</div>
+          <p><?php echo $_product->getEbookImportant(); ?></p>
+     </div>
+ </div>
+ <div class="clextr"></div> 
+</div>
+
+<div class="pouptrans" id="important_notes_software" style="display: none;">
+    <div class="popup_contain sm_box">
+        <div>
+            <a title="Close" ;="" onclick="closebuttonsoftwareinformation()" id="close_imporatnt_notes" class="modalCloseImg"></a>
+            <div class="ui-widget-header">Important Software Information</div>
+            <p><?php echo $_product->getSoftwareImportant(); ?></p>
+        </div>
+    </div>
+	 <div class="clextr"></div>  
+</div>
+<script type="text/javascript">
+//<![CDATA[
+
+decorateTable('super-product-table');
+function changePrice(sel,priceId)
+{
+    var selected = sel.options[sel.selectedIndex];
+    var cust_prod_arr = selected.getAttribute('id').split('_');
+    var cust_prod_id = cust_prod_arr[0];
+    var productType = cust_prod_arr[1];
+    var status = selected.getAttribute('status');
+    var comingsoon = selected.getAttribute('comingsoon');
+         //alert(selected);alert(cust_prod_id);alert(status);
+    
+    var android_type_val = '<?php echo $constant_helper::PRODUCT_TYPE_ANDROID_APP; ?>';
+    var ios_type_val = '<?php echo $constant_helper::PRODUCT_TYPE_IOS_APP; ?>';
+    var winapp_type_val = '<?php echo $constant_helper::PRODUCT_TYPE_WIN_APP; ?>';
+    
+    if (productType == android_type_val) {
+        jQuery('#addtocart_div_'+priceId).hide();
+        jQuery('#price_div_'+priceId).hide();
+        jQuery('#ios_div_'+priceId).hide();
+        jQuery('#winapp_div_'+priceId).hide();
+        jQuery('#android_div_'+priceId).show();
+        jQuery('#apple_store_lnk_'+priceId).attr('href','#');
+        jQuery('#win_store_lnk_'+priceId).attr('href','#');
+        jQuery('#custom_group_prod_'+priceId).val(0);
+        if (jQuery('#appurl_'+productType+'_'+priceId+'_'+cust_prod_id).val() != "") {
+            jQuery('#google_play_lnk_'+priceId).attr('href',jQuery('#appurl_'+productType+'_'+priceId+'_'+cust_prod_id).val());
+        }
+    } else if(productType == ios_type_val ) {
+        jQuery('#addtocart_div_'+priceId).hide();
+        jQuery('#price_div_'+priceId).hide();
+        jQuery('#android_div_'+priceId).hide();
+        jQuery('#winapp_div_'+priceId).hide();
+        jQuery('#ios_div_'+priceId).show();
+        jQuery('#google_play_lnk_'+priceId).attr('href','#');
+        jQuery('#win_store_lnk_'+priceId).attr('href','#');
+        jQuery('#custom_group_prod_'+priceId).val(0);
+        if (jQuery('#appurl_'+productType+'_'+priceId+'_'+cust_prod_id).val() != "") {
+            jQuery('#apple_store_lnk_'+priceId).attr('href',jQuery('#appurl_'+productType+'_'+priceId+'_'+cust_prod_id).val());
+        }
+    } else if(productType == winapp_type_val ) {
+        jQuery('#addtocart_div_'+priceId).hide();
+        jQuery('#price_div_'+priceId).hide();
+        jQuery('#android_div_'+priceId).hide();
+        jQuery('#ios_div_'+priceId).hide();
+        jQuery('#winapp_div_'+priceId).show();
+        jQuery('#google_play_lnk_'+priceId).attr('href','#');
+        jQuery('#apple_store_lnk_'+priceId).attr('href','#');
+        jQuery('#custom_group_prod_'+priceId).val(0);
+        if (jQuery('#appurl_'+productType+'_'+priceId+'_'+cust_prod_id).val() != "") {
+            jQuery('#win_store_lnk_'+priceId).attr('href',jQuery('#appurl_'+productType+'_'+priceId+'_'+cust_prod_id).val());
+        }
+    } else {
+        jQuery('#android_div_'+priceId).hide();
+        jQuery('#ios_div_'+priceId).hide();
+        jQuery('#winapp_div_'+priceId).hide();
+        jQuery('#addtocart_div_'+priceId).show();
+        jQuery('#price_div_'+priceId).show();
+    }
+    
+    if(!$("sub_group_price_"+cust_prod_id).empty())                    
+    { 
+        var priceHtml =$("sub_group_price_"+cust_prod_id).innerHTML;
+        
+        if (productType == android_type_val || productType == ios_type_val || productType == winapp_type_val ) {
+           document.getElementById("group_price_"+priceId).innerHTML = '';
+        } else {
+            document.getElementById("group_price_"+priceId).innerHTML = priceHtml;
+        }
+        
+        $('custom_group_prod_'+priceId).name = "series_qty["+priceId+"]["+cust_prod_id+"]"; 
+    
+    
+         if(status == 1)
+        {
+            $('sale_'+priceId).show();
+            $('no_sale_'+priceId).hide();
+        }else if(status == 0)
+        {
+            $('sale_'+priceId).hide(); 
+        }
+        if(comingsoon == 1){
+               $('no_sale_'+priceId).hide();
+               if(document.getElementById("comming_soon_text_"+priceId) != null) {
+                    document.getElementById("comming_soon_text_"+priceId).innerHTML =$('no_sale_cs_'+cust_prod_id).innerHTML;
+               }
+               
+         } else if(comingsoon == 0) {
+             if(status == 0) {
+                $('no_sale_'+priceId).show();
+             }
+             if(document.getElementById("comming_soon_text_"+priceId) != null) {
+                document.getElementById("comming_soon_text_"+priceId).innerHTML ='';
+             }
+         }  
+    } else{
+        document.getElementById("group_price_"+priceId).innerHTML ='';
+    }
+}
+
+function changeQty(val,itemId)
+{
+
+    document.getElementById('custom_group_prod_'+itemId).value = val;
+}
+function openebookinfo() {
+    jQuery("#important_notes_ebook").show();
+
+}
+
+function openesoftwareinfo() {
+    jQuery("#important_notes_software").show();
+
+}
+
+function closebuttonebookinformation(){
+ jQuery("#important_notes_ebook").hide();
+}
+
+function closebuttonsoftwareinformation(){
+ jQuery("#important_notes_software").hide();
+}
+
+//]]>
+</script>
+

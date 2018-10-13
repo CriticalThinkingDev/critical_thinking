@@ -1,0 +1,19 @@
+<?php
+/**
+ * RSS Feed on Version History of Downloadable Products List
+ * Feed Entry Content Block, HTML allowed
+ *
+ * @see Pisc_Downloadplus_Block_Rss_Updates
+ */
+
+$update = $this->getUpdate();
+$product = $this->getProduct();
+$detail = $this->getDetail();
+
+if ($detail && $detail->getDetail()) {
+	echo $product->getShortDescription();
+	echo '<p><u>'.$this->__('Details on this Version:').'</u></p>';
+	echo $detail->getDetail();
+}
+
+?>

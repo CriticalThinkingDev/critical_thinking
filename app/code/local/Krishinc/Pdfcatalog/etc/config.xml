@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Krishinc_Pdfcatalog>
+            <version>0.1.0</version>
+        </Krishinc_Pdfcatalog>
+    </modules>
+    <global> 
+	    <rewrite>
+	         <krishinc_pdfcatalog_product> <!--This can be any unique id -->
+<!--This can be any unique id -->
+	            <from><![CDATA[#^/catalog/product/#]]></from>  <!-- the URL which u want to override-->
+	            <to>/pdfcatalog/product/</to>  <!-- destination url --> 
+	        </krishinc_pdfcatalog_product> 
+	    </rewrite>
+	    <blocks>
+            <pdfcatalog>
+                <class>Krishinc_Pdfcatalog_Block</class>
+            </pdfcatalog>
+        </blocks>
+        <!--<helpers>
+            <pdfcatalog>
+                <class>Krishinc_Pdfcatalog_Helper</class>
+            </pdfcatalog>
+        </helpers>-->
+    </global>
+    <frontend>
+    	<routers>
+    		<pdfcatalog>
+    			<use>standard</use>
+    			<args> 
+    				<module>Krishinc_Pdfcatalog</module>
+    				<frontName>pdfcatalog</frontName>
+    			</args>
+    		</pdfcatalog>
+    	</routers> 
+        <layout>
+            <updates>
+                <pdfcatalog>
+                    <file>pdfcatalog.xml</file>
+                </pdfcatalog>                
+            </updates>
+        </layout>
+    </frontend>
+</config>

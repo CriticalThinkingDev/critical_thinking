@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <marketsuite_adminhtml_filterconf_index>
+        <reference name="content">
+            <block type="marketsuite/adminhtml_filterconf" name="filterconf"/>
+        </reference>
+    </marketsuite_adminhtml_filterconf_index>
+    <marketsuite_adminhtml_filterconf_edit>
+        <reference name="js">
+            <block type="marketsuite/js" template="marketsuite/js.phtml" name="mss_conf"/>
+        </reference>
+    </marketsuite_adminhtml_filterconf_edit>
+    <marketsuite_adminhtml_customer_index>
+        <reference name="content">
+            <block type="marketsuite/adminhtml_customer" name="mss.customer"/>
+        </reference>
+    </marketsuite_adminhtml_customer_index>
+    <marketsuite_adminhtml_order_index>
+        <reference name="content">
+            <block type="marketsuite/adminhtml_order" name="mss.order"/>
+        </reference>
+    </marketsuite_adminhtml_order_index>
+    <adminhtml_customer_edit>
+        <reference name="content">
+            <block type="adminhtml/template" template="marketsuite/backurl.phtml"/>
+        </reference>
+    </adminhtml_customer_edit>
+    <adminhtml_sales_order_view>
+        <reference name="content">
+            <block type="adminhtml/template" template="marketsuite/backurl.phtml"/>
+        </reference>
+    </adminhtml_sales_order_view>
+</layout>

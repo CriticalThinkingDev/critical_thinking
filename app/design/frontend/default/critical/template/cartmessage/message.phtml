@@ -1,0 +1,7 @@
+<?php
+if($isActive = Mage::getStoreConfig('checkout/cart_message/active'))
+{?>
+<div class="cart_message_box">
+	<?php echo Mage::getStoreConfig('checkout/cart_message/topmessage');?>
+</div>
+<?php } ?>

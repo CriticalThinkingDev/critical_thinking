@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <updatepriority translate="label" module="autosendtrack">
+            <label>Update Grouped Priority</label>
+            <sort_order>22000</sort_order>
+        </updatepriority>
+    </tabs>
+    <sections>
+        <updatepriority translate="label" module="autosendtrack">
+            <label>Update Grouped Priority</label>
+            <tab>updatepriority</tab>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label" module="autosendtrack">
+                    <label>General</label>
+                    <frontend_type>select</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <button translate="label">
+
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>autosendtrack/button</frontend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </button>
+  <button_series translate="label">
+
+                            <frontend_type>button</frontend_type>
+                            <frontend_model>autosendtrack/buttonseries</frontend_model>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </button_series>
+
+                    </fields>
+                </general>
+
+            </groups>
+        </updatepriority>
+    </sections>
+</config>

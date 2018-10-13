@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <TinyBrick_GiftCard>
+            <active>true</active>
+            <codePool>community</codePool>
+        </TinyBrick_GiftCard>
+    </modules>
+</config>

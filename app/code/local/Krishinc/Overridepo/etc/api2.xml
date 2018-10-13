@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<config>
+    <api2>  
+  	  <resources>
+            <order translate="title" module="api2">
+	            <attributes   module="api2">
+	              <order_type>Order Type</order_type>
+	            </attributes>
+            </order>
+             <order_address translate="title" module="api2">
+            	<attributes   module="api2">
+                  <customer_type>Customer Type</customer_type> 
+	              <nomail>Do Not Mail</nomail>
+                  <address_street1>Address Street1</address_street1>
+                  <address_street2>Address Street2</address_street2>
+	            </attributes> 
+	         </order_address>
+	    </resources>
+   </api2>
+</config>

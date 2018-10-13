@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <pressrelease_index_index>
+        <reference name="content">
+            <block type="pressrelease/pressrelease" name="pressrelease" template="pressrelease/pressrelease.phtml" />
+        </reference>
+    </pressrelease_index_index>
+      <pressrelease_index_view>
+        <reference name="content">
+            <block type="pressrelease/pressrelease" name="pressrelease" template="pressrelease/pressrelease.phtml" />
+        </reference>
+    </pressrelease_index_view>
+</layout> 

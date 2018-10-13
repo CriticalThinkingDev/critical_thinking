@@ -1,0 +1,13 @@
+<div class="entry-edit-head" id='shipnote'>
+    <h4 class="icon-head head-shipnote"><?php echo $this->__(Mage::helper('shipnote')->getFrontendLabel()) ?></h4>
+</div>
+<fieldset>
+<?php
+    $_note = $this->getNote();
+    if (false !== $_note) {
+        echo $_note;
+    } else {
+    	echo 'N/A'; 
+    }
+?>
+</fieldset>

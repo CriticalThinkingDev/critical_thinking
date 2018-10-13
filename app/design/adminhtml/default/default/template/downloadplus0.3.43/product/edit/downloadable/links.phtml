@@ -1,0 +1,597 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design_default
+ * @package     Mage_Downloadable
+ * @copyright   Copyright (c) 2008 Irubin Consulting Inc. DBA Varien (http://www.varien.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<?php
+
+/**
+ * @see Mage_Downloadable_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links
+ */
+?>
+<?php $_product = $this->getProduct() ?>
+<div class="fieldset">
+<table cellspacing="0" class="form-list">
+    <tbody>
+        <tr class="headings">
+            <td class="label"><label for="name"><?php echo Mage::helper('downloadable')->__('Title')?></label>
+            </td>
+            <td class="value">
+                <input type="text" class="input-text" name="product[links_title]" value="<?php echo $_product->getId()?$_product->getLinksTitle():$this->getLinksTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?> />
+            </td>
+            <td class="scope-label"><?php if (!Mage::app()->isSingleStoreMode()) echo $this->__('[STORE VIEW]'); ?></td>
+            <td class="value use-default">
+            <?php if($_product->getStoreId()): ?>
+                <input id="link_title_default" type="checkbox" name="use_default[]" value="links_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault()?'checked="checked"':'' ?> />
+                <label class="normal" for="link_title_default">Use Default Value</label>
+            <?php endif; ?>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table cellspacing="0" class="form-list">
+    <tbody>
+        <tr class="headings">
+            <td class="label">
+            	<label for="name"><?php echo $this->__('Links can be purchased separately')?></label>
+            </td>
+            <td class="value">
+            	<?php echo $this->getPurchasedSeparatelySelect()?>
+            </td>
+            <td class="scope-label"><?php if (!Mage::app()->isSingleStoreMode()) echo $this->__('[GLOBAL]'); ?></td>
+            <td><small>&nbsp;</small></td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<div class="grid">
+<div class="hor-scroll">
+<table cellspacing="0" class="form-list data border" id="link_items">
+    <col width="33%" />
+    <col />
+    <col />
+    <col />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr class="headings">
+            <th><?php echo $this->__('Title')?> <span class="required">*</span></th>
+            <?php if ($this->getCanReadPrice() !== false) : ?>
+            <th><?php echo $this->__('Price')?></th>
+            <?php endif; ?>
+            <th><span class="nobr"><?php echo $this->__('Max. Downloads')?></span></th>
+            <th><?php echo $this->__('Shareable')?></th>
+            <th><?php echo $this->__('Sample')?></th>
+            <th><?php echo $this->__('File')?></th>
+            <th><span class="nobr"><?php echo $this->__('Sort Order')?></span></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="8" class="a-right"><?php echo $this->getAddButtonHtml()?>&nbsp;<?php echo $this->getUploadButtonHtml() ?></td>
+        </tr>
+    </tfoot>
+    <tbody id="link_items_body">
+    </tbody>
+</table>
+<div><small><?php echo $this->__('Alphanumeric, dash and underscore characters are recommended for filenames. Improper characters are replaced with \'_\'.')?></small></div>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var linkTemplate = '<tr>'+
+    '<td class="value">'+
+        '<input type="hidden" class="__delete__" name="downloadable[link][{{id}}][is_delete]" value="" />'+
+        '<input type="hidden" name="downloadable[link][{{id}}][link_id]" value="{{link_id}}" />'+
+	    <?php if ($this->getCanReadPrice() == false) : ?>    
+	    '<input type="hidden" id="downloadable_link_{{id}}_price_value" class="link-prices" name="downloadable[link][{{id}}][price]" value="0" />' +
+    	<?php if ($_product->getStoreId() && $this->getIsPriceWebsiteScope()) : ?>
+	    '<input type="hidden" id="downloadable_link_{{id}}_price" name="downloadable[link][{{id}}][use_default_price]" value="1" />' +
+    	<?php endif; ?>
+	    <?php endif; ?>
+		'<textarea class="required-entry textarea link_title" name="downloadable[link][{{id}}][title]" id="downloadable_link_{{id}}_title" rows="2" cols="15">{{title}}</textarea>'+
+		'<?php echo $this->getLinkTitleOptions('downloadable_link_{{id}}_title_options', 'downloadable[link][{{id}}][use_title]'); ?>'+
+        '<?php echo $_product->getStoreId()?'<br/><input type="checkbox" id="downloadable_link_{{id}}_use_default_title" name="downloadable[link][{{id}}][use_default_title]" value="1" /><label class="normal" for="downloadable_link_{{id}}_use_default_title"> '.$this->__('Use Default Value').'</label>':'' ?>'+
+        '<?php if ($this->hasLinkAttributes()) { echo '<div class="downloadplus_admin_link_attributes">'.$this->__('Title Attributes').'</div>'.$this->getLinkAttributes('downloadable_link_{{id}}_attribute_', 'downloadable[link][{{id}}][attributes]'); } ?>'+
+    '</td>'+
+    <?php if ($this->getCanReadPrice() !== false) : ?>    
+    '<td class="input-price">'+
+        '<input type="text" class="input-text validate-number link-prices" name="downloadable[link][{{id}}][price]" value="{{price}}"/> '+
+        '<label>[<?php echo Mage::app()->getBaseCurrencyCode() ?>]</label>'+
+        '<?php echo $_product->getStoreId() && $this->getIsPriceWebsiteScope()?'<br /><input type="checkbox" id="downloadable_link_{{id}}_price" name="downloadable[link][{{id}}][use_default_price]" value="1" /> <label for="downloadable_link_{{id}}_price">'.$this->__('Use Default Value').'</label>':'' ?>'+
+    '</td>'+
+    <?php endif; ?>
+    '<td><input type="text" id="downloadable_link_{{id}}_downloads" name="downloadable[link][{{id}}][number_of_downloads]" class="input-text downloads" value="{{number_of_downloads}}" />'+
+    '<p><input type="checkbox" class="checkbox" id="downloadable_link_{{id}}_is_unlimited" name="downloadable[link][{{id}}][is_unlimited]" value="1" {{is_unlimited}} /> <label for="downloadable_link_{{id}}_is_unlimited"><?php echo $this->__('Unlimited') ?></label></p></td>'+
+    '<td class="a-center">'+
+        '<select id="downloadable_link _{{id}}_shareable" name="downloadable[link][{{id}}][is_shareable]">'+
+            '<option value="1"><?php echo $this->__('Yes') ?></option>'+
+            '<option value="0"><?php echo $this->__('No') ?></option>'+
+            '<option value="2" selected="selected"><?php echo $this->__('Use config') ?></option>'+
+        '</select>'+
+    '</td>'+
+    '<td>'+
+        '<div class="files">'+
+            '<div class="row">'+
+                '<label for="downloadable_link_{{id}}_sample_file_type"><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_file_type" name="downloadable[link][{{id}}][sample][type]" value="file"{{sample_file_checked}} /> <?php echo $this->__('File:') ?></label>'+
+                '<input type="hidden" id="downloadable_link_{{id}}_sample_file_save" name="downloadable[link][{{id}}][sample][file]" value="{{sample_file_save}}" />'+
+                '<div id="downloadable_link_{{id}}_sample_file" class="uploader">'+
+                    '<div id="downloadable_link_{{id}}_sample_file-old" class="file-row-info"></div>'+
+                    '<div id="downloadable_link_{{id}}_sample_file-new" class="file-row-info"></div>'+
+                    '<div class="buttons">'+
+                        '<div id="downloadable_link_{{id}}_sample_file-install-flash" style="display:none">'+
+                            '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="clear"></div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="row">'+
+                '<label for="downloadable_link_{{id}}_sample_url_type"><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_url_type" name="downloadable[link][{{id}}][sample][type]" value="url"{{sample_url_checked}} /> URL:</label>'+
+                '<textarea class="textarea sample_url" name="downloadable[link][{{id}}][sample][url]" id="downloadable_link_{{id}}_sample_url">{{sample_url}}</textarea>'+
+            '</div>'+
+            '<div>'+
+        	    '<span id="downloadable_link_{{id}}_sample_container"></span>'+
+    	    '</div>'+
+       	<?php if ($html = $this->toJSHtml($this->getLocalFileObjectsSelect('downloadable_link_{{id}}_sample_file_local_object', 'downloadable[link][{{id}}][sample][file_local_object]'))): ?>
+      		'<div class="row">'+
+  			'<label for="downloadable_link_{{id}}_sample_filelocal_type" class="file"><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_filelocal_type" name="downloadable[link][{{id}}][sample][type]" value="file-local"{{sample_filelocal_checked}} /> <?php echo $this->__('Local File:') ?></label>'+
+      		'<?php echo $html; ?>'+
+      		'</div>'+
+     	<?php endif; ?>
+       	<?php if ($html = $this->toJSHtml($this->getAmazonS3BucketsSelect('downloadable_link_{{id}}_sample_amazon_s3_bucket', 'downloadable[link][{{id}}][sample][amazon_s3_bucket]'))): ?>
+      		'<div class="row">'+
+  			'<label for="downloadable_link_{{id}}_sample_amazons3_type" class="aws"><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_amazons3_type" name="downloadable[link][{{id}}][sample][type]" value="aws-s3"{{sample_awss3_checked}} /> Amazon S3:</label>'+
+      		'<?php echo $html; ?>'+
+      		'<textarea class="textarea s3_file" name="downloadable[link][{{id}}][sample][amazon_s3_file]" id="downloadable_link_{{id}}_sample_amazon_s3_file">{{sample_amazon_s3_file}}</textarea>'+
+      		'</div>'+
+       	<?php endif; ?>
+       	<?php if ($html = $this->toJSHtml($this->getAmazonS3ObjectsSelect('downloadable_link_{{id}}_sample_amazon_s3_object', 'downloadable[link][{{id}}][sample][amazon_s3_object]'))): ?>
+      		'<div class="row">'+
+  			'<label for="downloadable_link_{{id}}_sample_amazons3_type" class="aws"><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_amazons3_type" name="downloadable[link][{{id}}][sample][type]" value="aws-s3"{{sample_awss3_checked}} /> Amazon S3:</label>'+
+      		'<?php echo $html; ?>'+
+      		'</div>'+
+       	<?php endif; ?>
+        <?php if ($html = $this->toJSHtml($this->getAmazonCloudfrontObjectsSelect('downloadable_link_{{id}}_sample_amazon_cf_object', 'downloadable[link][{{id}}][sample][amazon_cf_object]'))): ?>
+  			'<div class="row">'+
+			'<label for="downloadable_link_{{id}}_sample_amazoncf_type" class="aws"><input type="radio" class="radio" id="downloadable_link_{{id}}_sample_amazoncf_type" name="downloadable[link][{{id}}][sample][type]" value="aws-cf"{{sample_awscf_checked}} /> Amazon Cloudfront:</label>'+
+			'<?php echo $html; ?>'+
+			'</div>'+
+  		<?php endif; ?>
+			'<div class="row">'+
+			'<button id="test_sample_url_{{id}}" type="button" class="scalable" onclick="linkItems.testSampleUrl({{id}});"><span><?php echo $this->__('Test URL') ?></span></button>'+
+			'</div>'+
+        '</div>'+
+    '</td>'+
+    '<td>'+
+        '<div class="files">'+
+            '<div class="row">'+
+                '<label for="downloadable_link_{{id}}_file_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_file_type" name="downloadable[link][{{id}}][type]" value="file"{{file_checked}} /> <?php echo $this->__('File:') ?></label>'+
+            '<input type="hidden" class="validate-downloadable-file" id="downloadable_link_{{id}}_file_save" name="downloadable[link][{{id}}][file]" value="{{file_save}}" />'+
+                '<div id="downloadable_link_{{id}}_file" class="uploader">'+
+                    '<div id="downloadable_link_{{id}}_file-old" class="file-row-info"></div>'+
+                    '<div id="downloadable_link_{{id}}_file-new" class="file-row-info new-file"></div>'+
+                    '<div class="buttons">'+
+                        '<div id="downloadable_link_{{id}}_file-install-flash" style="display:none">'+
+                            '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="clear"></div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="row">'+
+                '<label for="downloadable_link_{{id}}_url_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_link_{{id}}_url_type" name="downloadable[link][{{id}}][type]" value="url"{{url_checked}} /> URL:</label>'+
+                '<textarea class="validate-downloadable-url textarea link_url" name="downloadable[link][{{id}}][link_url]" id="downloadable_link_{{id}}_link_url">{{link_url}}</textarea>'+
+            '</div>'+
+            '<div>'+
+        	     '<span id="downloadable_link_{{id}}_link_container"></span>'+
+            '</div>'+
+        <?php if ($html = $this->toJSHtml($this->getLocalFileObjectsSelect('downloadable_link_{{id}}_file_local_object', 'downloadable[link][{{id}}][file_local_object]'))): ?>
+      		'<div class="row">'+
+  			'<label for="downloadable_link_{{id}}_filelocal_type" class="file"><input type="radio" class="radio" id="downloadable_link_{{id}}_filelocal_type" name="downloadable[link][{{id}}][type]" value="file-local"{{filelocal_checked}} /> <?php echo $this->__('Local File:') ?></label>'+
+      		'<?php echo $html; ?>'+
+      		'</div>'+
+      	<?php endif; ?>
+        <?php if ($html = $this->toJSHtml($this->getAmazonS3BucketsSelect('downloadable_link_{{id}}_amazon_s3_bucket', 'downloadable[link][{{id}}][amazon_s3_bucket]'))): ?>
+      		'<div class="row">'+
+  			'<label for="downloadable_link_{{id}}_amazons3_type" class="aws"><input type="radio" class="radio" id="downloadable_link_{{id}}_amazons3_type" name="downloadable[link][{{id}}][type]" value="aws-s3"{{awss3_checked}} /> Amazon S3:</label>'+
+      		'<?php echo $html; ?>'+
+      		'<textarea class="textarea s3_file" name="downloadable[link][{{id}}][amazon_s3_file]" id="downloadable_link_{{id}}_amazon_s3_file">{{amazon_s3_file}}</textarea>'+
+      		'</div>'+
+      	<?php endif; ?>
+        <?php if ($html = $this->toJSHtml($this->getAmazonS3ObjectsSelect('downloadable_link_{{id}}_amazon_s3_object', 'downloadable[link][{{id}}][amazon_s3_object]'))): ?>
+      		'<div class="row">'+
+  			'<label for="downloadable_link_{{id}}_amazons3_type" class="aws"><input type="radio" class="radio" id="downloadable_link_{{id}}_amazons3_type" name="downloadable[link][{{id}}][type]" value="aws-s3"{{awss3_checked}} /> Amazon S3:</label>'+
+      		'<?php echo $html; ?>'+
+      		'</div>'+
+       	<?php endif; ?>
+        <?php if ($html = $this->toJSHtml($this->getAmazonCloudfrontObjectsSelect('downloadable_link_{{id}}_amazon_cf_object', 'downloadable[link][{{id}}][amazon_cf_object]'))): ?>
+  			'<div class="row">'+
+			'<label for="downloadable_link_{{id}}_amazoncf_type" class="aws"><input type="radio" class="radio" id="downloadable_link_{{id}}_amazoncf_type" name="downloadable[link][{{id}}][type]" value="aws-cf"{{awscf_checked}} /> Amazon Cloudfront:</label>'+
+			'<?php echo $html; ?>'+
+			'</div>'+
+        <?php endif; ?>
+    	   	'<div class="row">'+
+	   		'<button id="test_link_url_{{id}}" type="button" class="scalable" onclick="linkItems.testLinkUrl({{id}});"><span><?php echo $this->__('Test URL') ?></span></button>'+
+    	   	'</div>'+
+        '</div>'+
+    '</td>'+
+    '<td class="a-center"><input type="text" name="downloadable[link][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>'+
+    '<td>'+
+        '<button type="button" class="scalable delete icon-btn delete-link-item"><span><?php echo $this->__('Delete') ?></span></button>'+
+    '</td>'+
+'</tr>';
+
+var linkItems = {
+    tbody : $('link_items_body'),
+    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+    templateText : linkTemplate,
+    itemCount : 0,
+    add : function(data) {
+        alertAlreadyDisplayed = false;
+        this.template = new Template(this.templateText, this.templateSyntax);
+
+        if(!data.link_id){
+            data = {};
+            data.link_id  = 0;
+            data.link_type = 'file';
+            data.sample_type = 'none';
+            data.number_of_downloads = '<?php echo $this->getConfigMaxDownloads() ?>';
+        }
+
+        data.id = this.itemCount;
+
+        if (data.link_type == 'url') {
+            data.url_checked = ' checked="checked"';
+        } else if (data.link_type == 'aws-s3') {
+            data.awss3_checked = ' checked="checked"';
+        } else if (data.link_type == 'aws-cf') {
+            data.awscf_checked = ' checked="checked"';
+		} else if (data.link_type == 'file') {
+            data.file_checked = ' checked="checked"';
+        } else if (data.link_type == 'file-local') {
+            data.filelocal_checked = ' checked="checked"';
+        }
+        if (data.sample_type == 'url') {
+            data.sample_url_checked = ' checked="checked"';
+        } else if (data.sample_type == 'aws-s3') {
+            data.sample_awss3_checked = 'checked="checked"';
+        } else if (data.sample_type == 'aws-cf') {
+            data.sample_awscf_checked = 'checked="checked"';
+        } else if (data.sample_type == 'file') {
+            data.sample_file_checked = ' checked="checked"';
+        } else if (data.sample_type == 'file-local') {
+            data.sample_filelocal_checked = ' checked="checked"';
+        }
+
+        Element.insert(this.tbody, {'bottom':this.template.evaluate(data)});
+
+		if (data.attributes) {
+			$H(data.attributes).each(function(attribute) {
+				scopeAttribute = $('downloadable_link_'+data.id+'_attribute_'+attribute.key);
+				if (scopeAttribute) {
+					scopeAttribute.value = attribute.value;
+				}
+			});
+		}
+		if (data.sample_amazon_s3_object) {
+			scopeAttribute = $('downloadable_link_'+data.id+'_sample_amazon_s3_object');
+			if (scopeAttribute) { scopeAttribute.value = data.sample_amazon_s3_object; }
+		}
+		if (data.sample_amazon_s3_bucket) {
+			scopeAttribute = $('downloadable_link_'+data.id+'_sample_amazon_s3_bucket');
+			if (scopeAttribute) { scopeAttribute.value = data.sample_amazon_s3_bucket; }
+		}
+		if (data.sample_amazon_cf_object) {
+			scopeAttribute = $('downloadable_link_'+data.id+'_sample_amazon_cf_object');
+			if (scopeAttribute) { scopeAttribute.value = data.sample_amazon_cf_object; }
+		}
+		if (data.sample_file_local_object) {
+			scopeAttribute = $('downloadable_link_'+data.id+'_sample_file_local_object');
+			if (scopeAttribute) { scopeAttribute.value = data.sample_file_local_object; }
+		}
+		
+		if (data.amazon_s3_object) {
+			scopeAttribute = $('downloadable_link_'+data.id+'_amazon_s3_object');
+			if (scopeAttribute) { scopeAttribute.value = data.amazon_s3_object; }
+		}
+		if (data.amazon_s3_bucket) {
+			scopeAttribute = $('downloadable_link_'+data.id+'_amazon_s3_bucket');
+			if (scopeAttribute) { scopeAttribute.value = data.amazon_s3_bucket; }
+		}
+		if (data.amazon_cf_object) {
+			scopeAttribute = $('downloadable_link_'+data.id+'_amazon_cf_object');
+			if (scopeAttribute) { scopeAttribute.value = data.amazon_cf_object; }
+		}
+		if (data.file_local_object) {
+			scopeAttribute = $('downloadable_link_'+data.id+'_file_local_object');
+			if (scopeAttribute) { scopeAttribute.value = data.file_local_object; }
+		}
+		
+        scopeTitle = $('downloadable_link_'+data.id+'_use_default_title');
+        if (scopeTitle) {
+            Event.observe(scopeTitle, 'click', function(event){
+                scopeElm = $(Event.findElement(event, 'input'));
+                if (el = scopeElm.up(0).down('textarea')) { el.disabled = (scopeElm.checked==true); }
+                if (el = scopeElm.up(0).down('select')) { el.disabled = (scopeElm.checked==true); }
+            });
+        }
+        if (!data.store_title && scopeTitle) {
+            if (el = $('downloadable_link_'+data.id+'_title')) { el.disabled = true; }
+            if (el = $('downloadable_link_'+data.id+'_title_options')) { el.disabled = true; }
+            scopeTitle.checked = true;
+        }
+
+        scopePrice = $('downloadable_link_'+data.id+'_price');
+        if (scopePrice) {
+            Event.observe(scopePrice, 'click', function(event){
+                scopeElm = $(Event.findElement(event, 'input'));
+                priceField = scopeElm.up(0).down('input[type="text"]');
+                if (scopeElm.checked == true) {
+                    priceField.disabled = true;
+                } else {
+                    priceField.disabled = false;
+                }
+            });
+        }
+        if (!data.website_price && scopePrice) {
+            scopePrice.up(0).down('input[type="text"]').disabled = true;
+            scopePrice.checked = true;
+        }
+        downloadsElm = $('downloadable_link_'+data.id+'_downloads');
+        isUnlimitedElm = $('downloadable_link_'+data.id+'_is_unlimited');
+        if (data.is_unlimited) {
+            downloadsElm.disabled = true;
+        }
+        Event.observe(isUnlimitedElm, 'click', function(event){
+            if (isUnlimitedElm.checked == true) {
+                downloadsElm.disabled = true;
+            } else {
+                downloadsElm.disabled = false;
+            }
+        });
+
+        if (data.is_shareable) {
+            options = $('downloadable_link _'+data.id+'_shareable').options;
+            for (var i=0; i < options.length; i++) {
+                if (options[i].value == data.is_shareable) {
+                    options[i].selected = true;
+                }
+            }
+        }
+
+        sampleUrl = $('downloadable_link_'+data.id+'_sample_url_type');
+        linkUrl = $('downloadable_link_'+data.id+'_url_type');
+
+        if (!data.file_save) {
+            data.file_save = [];
+        }
+        if (!data.sample_file_save) {
+            data.sample_file_save = [];
+        }
+
+        // link sample file
+        new Downloadable.FileUploader(
+            'linkssample',
+            'linkssample_'+data.id,
+            sampleUrl.up('td'),
+            'downloadable[link]['+data.id+'][sample]',
+            data.sample_file_save,
+            'downloadable_link_'+data.id+'_sample_file',
+            <?php echo $this->getConfigJson('link_samples') ?>
+        );
+        // link file
+        new Downloadable.FileUploader(
+            'links',
+            'links_'+data.id,
+            linkUrl.up('td'),
+            'downloadable[link]['+data.id+']',
+            data.file_save,
+            'downloadable_link_'+data.id+'_file',
+            <?php echo $this->getConfigJson() ?>
+        );
+
+        linkFile = $('downloadable_link_'+data.id+'_file_type');
+        linkFile.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+        linkUrl.advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+        $('downloadable_link_'+data.id+'_file_save').advaiceContainer = 'downloadable_link_'+data.id+'_link_container';
+
+        sampleFile = $('downloadable_link_'+data.id+'_sample_file_type');
+
+        this.itemCount++;
+        this.togglePriceFields();
+        this.bindRemoveButtons();
+        this.bindLinkTitleInput();
+    },
+    remove : function(event){
+        var element = $(Event.findElement(event, 'tr'));
+        alertAlreadyDisplayed = false;
+        if(element){
+            element.down('input[type="hidden"].__delete__').value = '1';
+            Element.select(element, 'div.flex').each(function(elm){
+                elm.remove();
+            });
+            element.addClassName('no-display');
+            element.addClassName('ignore-validate');
+            element.hide();
+        }
+    },
+    bindRemoveButtons : function(){
+        var buttons = $$('tbody#link_items_body .delete-link-item');
+        for(var i=0;i<buttons.length;i++){
+            if(!$(buttons[i]).binded){
+                $(buttons[i]).binded = true;
+                Event.observe(buttons[i], 'click', this.remove.bind(this));
+            }
+        }
+        var selects = $$('tbody#link_items_body .downloadplus_searchable_select');
+        for(var i=0;i<selects.length;i++){
+	        if (!$(selects[i]).binded){
+				$(selects[i]).binded = true;
+				new Chosen ($(selects[i]), {width:'100%', search_contains:true, no_results_text:'<?php echo $this->__('No results match') ?>'});
+	        }
+        }       
+    },
+    togglePriceFields : function(){
+        var toogleTo = $('downloadable_link_purchase_type').value;
+        var disableFlag = true;
+        if (toogleTo == '1') {
+            disableFlag = false;
+        }
+        $$('.link-prices[type="text"]').each(function(elm){
+            elm.disabled = disableFlag;
+        });
+    },
+    bindLinkTitleInput : function(){
+        var selects = $$('select.downloadplus_admin_link_title_options');
+        for(var i=0;i<selects.length;i++){
+            if(!$(selects[i]).binded){
+                $(selects[i]).binded = true;
+                Event.observe(selects[i], 'change', this.toggleLinkTitleRequired.bind(this));
+            }
+        }
+    },
+    toggleLinkTitleRequired : function(event){
+        var element = $(Event.element(event).previous('textarea'));
+        var select = $(Event.element(event));
+        if (select.value) {
+            element.removeClassName('required-entry');
+        } else {
+            element.addClassName('required-entry');
+        }        
+    },
+    testSampleUrl : function(id){
+        var request = {url:null,type:null};
+        if (el = $$('input[name="downloadable[link]['+id+'][sample][type]"]:checked')) {
+            request.type = (el.length>0)?el.first().value:null;
+        }
+        switch (request.type) {
+           	case 'aws-s3':
+               	if (el = $('downloadable_link_'+id+'_sample_amazon_s3_bucket')) {
+                   	request.url = el.value+'|'+$('downloadable_link_'+id+'_sample_amazon_s3_file').value;
+               	} else {
+                   	request.url = $('downloadable_link_'+id+'_sample_amazon_s3_object').value;
+               	}
+               	break;
+           	case 'aws-cf':
+                request.url = $('downloadable_link_'+id+'_sample_amazon_cf_object').value;
+               	break;
+            default:
+                request.url = $('downloadable_link_'+id+'_sample_url').value;
+                break;
+        }
+        this.testUrl(request);
+    },
+    testLinkUrl: function(id){
+        var request = {url:null,type:null};
+        if (el = $$('input[name="downloadable[link]['+id+'][type]"]:checked')) {
+            request.type = (el.length>0)?el.first().value:null;
+        }
+        switch (request.type) {
+           	case 'aws-s3':
+               	if (el = $('downloadable_link_'+id+'_amazon_s3_bucket')) {
+                   	request.url = el.value+'|'+$('downloadable_link_'+id+'_amazon_s3_file').value;
+               	} else {
+                   	request.url = $('downloadable_link_'+id+'_amazon_s3_object').value;
+               	}
+               	break;
+           	case 'aws-cf':
+                request.url = $('downloadable_link_'+id+'_amazon_cf_object').value;
+               	break;
+            default:
+                request.url = $('downloadable_link_'+id+'_link_url').value;
+                break;
+        }
+        this.testUrl(request);
+    },
+    testUrl: function(request){
+        if (request.type && request.url) {
+            request.form_key = '<?php echo $this->getFormKey() ?>';
+            request.store = '<?php echo Mage::helper('downloadplus')->getStoreId() ?>';
+            new Ajax.Request('<?php echo $this->getTestUrlAction() ?>', {
+                	method: 'post',
+                	parameters: request, 
+                	onSuccess: function(transport){
+                			var response = transport.responseText.evalJSON();
+                			if (response.redirect) {
+                    			if (response.object) {
+                        			new Ajax.Request(response.redirect, {
+                            				method: 'post',
+                            				parameters: response.object,
+                            				onSuccess: function(transport){
+                                				var response = transport.responseText;
+                                    			var wnd = window.open();
+                                				wnd.document.write(response);
+                            				}
+                            			});
+                    			} else {
+                        			var wnd = window.open();
+                        			wnd.location = response.redirect; 
+                    			}
+                			}                    	
+                    	}
+                });
+        }
+    }
+}
+
+linkItems.bindRemoveButtons();
+
+if ($('downloadable_link_purchase_type')) {
+    Event.observe('downloadable_link_purchase_type', 'change', linkItems.togglePriceFields.bind());
+}
+
+if($('add_link_item')) {
+    Event.observe('add_link_item', 'click', linkItems.add.bind(linkItems));
+}
+
+<?php foreach ($this->getLinkData() as $item): ?>
+    linkItems.add(<?php echo $item->toJson()?>);
+<?php endforeach; ?>
+
+Validation.addAllThese([
+    ['validate-downloadable-link-sample-file', 'Please specify File.', function(v,element) {
+            fileSaveElm = element.up('div').next('input[type="hidden"]');
+            if (element.checked && (fileSaveElm.value == '' || fileSaveElm.value == '[]')) {
+                return false;
+            }
+            return true;
+        }]
+    ]);
+Validation.addAllThese([
+    ['validate-downloadable-link-sample-url', 'Please specify Sample URL.', function(v,element) {
+            if (element.checked && element.up('p').down('input[type="text"]').value == '') {
+                return false;
+            }
+            return true;
+        }]
+    ]);
+//]]>
+</script>

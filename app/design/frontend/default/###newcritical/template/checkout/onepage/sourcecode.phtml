@@ -1,0 +1,92 @@
+<form id="co-sourcecode-form" action=""> 
+<p><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('sourcecode_text')->toHtml();?></p>
+<br/>
+<input type="text" name="source_code" id="source_code" value="" class="input-text"/><br/>
+<p><?php echo $this->__('*Offer not valid on wholesale orders. Offer excludes bundles, manipulatives, gift cards, and volume software licenses.');?></p>
+</form>
+
+
+<div class="button-set">
+   <?php /* <p class="required"><?php echo $this->__('* Required Fields') ?></p>*/?>
+    <div id="sourcecode-buttons-container" style="text-align: right;padding-top: 10px;">
+        <button type="button" class="button" onclick="sourcecode.save();"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+        <span id="sourcecode-please-wait" style="display:none;" class="opc-please-wait">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" class="v-middle" alt="" /> &nbsp; <?php echo $this->__('Loading next step...') ?> &nbsp;
+        </span>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+var Sourcecode = Class.create();
+Sourcecode.prototype = {
+    initialize: function(form, saveUrl){
+        this.form = form;
+        if ($(this.form)) {
+            $(this.form).observe('submit', function(event){this.save();Event.stop(event);}.bind(this));
+        }
+        this.saveUrl = saveUrl;
+        this.onSave = this.nextStep.bindAsEventListener(this);
+        this.onComplete = this.resetLoadWaiting.bindAsEventListener(this);
+    },
+
+    save: function(){
+        if (checkout.loadWaiting!=false) return;
+
+        var validator = new Validation(this.form);
+        if (validator.validate()) {
+
+            checkout.setLoadWaiting('sourcecode');
+
+
+            var request = new Ajax.Request(
+                this.saveUrl,
+                {
+                    method: 'post',
+                    onComplete: this.onComplete,
+                    onSuccess: this.onSave,
+                    onFailure: checkout.ajaxFailure.bind(checkout),
+                    parameters: Form.serialize(this.form)
+                }
+            );
+        }
+    },
+
+    resetLoadWaiting: function(transport){
+        checkout.setLoadWaiting(false);
+    },
+
+    nextStep: function(transport){
+        if (transport && transport.responseText){
+            try{
+                response = eval('(' + transport.responseText + ')');
+            }
+            catch (e) {
+                response = {};
+            }
+        }
+
+        if (response.error){
+            if ((typeof response.message) == 'string') {
+                alert(response.message);
+            } else {
+                if (window.billingRegionUpdater) {
+                    billingRegionUpdater.update();
+                }
+
+                alert(response.message.join("\n"));
+            }
+
+            return false;
+        }
+
+        checkout.setStepResponse(response);
+    }    
+}
+
+var sourcecode = new Sourcecode('co-sourcecode-form', '<?php echo $this->getUrl('checkout/onepage/saveSourcecode') ?>');
+
+//]]>
+</script>

@@ -1,0 +1,56 @@
+<?php
+/**
+ * @category    Fishpig
+ * @package     Fishpig_Wordpress
+ * @license     http://fishpig.co.uk/license.txt
+ * @author      Ben Tideswell <help@fishpig.co.uk>
+ */
+?>
+<?php $_products = $this->getProducts() ?>
+<?php if (count($_products) > 0): ?>
+	<div class="block block-related">
+		<?php if ($title = $this->getTitle()): ?>
+			<div class="block-title">
+				<strong><?php echo $title ?></strong>
+			</div>
+		<?php endif; ?>
+		<div class="block-content">
+			<ol class="mini-products-list" id="block-blog-related">
+				<?php foreach($_products as $_product): ?>
+					<li class="item">
+						<div class="product"> 
+							<div >
+                          
+                          
+                          
+                          
+                           
+							<a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(52,65) ?>" width="52" height="65" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" /></a>
+                            
+                            
+								
+                                
+                                
+                                
+                                
+                                <div class="product_text_box_list12">
+                                <p class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></p>
+								<p class="product-desc">
+								<?php echo $this->htmlEscape($_product->getShortDescription()) ?>
+								</p>
+                                
+								<?php echo $this->getPriceHtml($_product, true, '-blog-related') ?>
+                                </div>
+                                
+                                
+                                
+                                
+							</div>
+						</div>
+					</li>
+				<?php endforeach; ?>
+			</ol>
+		</div>
+		<script type="text/javascript">decorateList('block-blog-related', 'none-recursive')</script>
+	</div>
+<?php endif; ?>

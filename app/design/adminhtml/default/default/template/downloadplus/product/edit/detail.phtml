@@ -1,0 +1,45 @@
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Detail
+ */
+?>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('pisc/downloadplus/adminhtml/catalog/product/edit/form.js') ?>"></script>
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('downloadplus')->__('Current Downloadable Files') ?>&nbsp;(&nbsp;<?php echo count($this->getCurrentFiles()); ?>&nbsp;)</h4>
+    </div>
+    <fieldset>
+        <legend><?php echo Mage::helper('downloadplus')->__('Current Downloadable Files') ?></legend>
+		<?php echo $this->getChildHtml('accordion-current') ?>
+	</fieldset>
+</div>
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('downloadplus')->__('Historical Downloadable Files') ?>&nbsp;(&nbsp;<?php echo count($this->getHistoricalFiles()); ?>&nbsp;)</h4>
+    </div>
+    <fieldset>
+        <legend><?php echo Mage::helper('downloadplus')->__('Historical Downloadable Files'); ?></legend>
+    	<?php echo $this->getChildHtml('accordion-historical'); ?>
+    </fieldset>
+</div>
+
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="icon-head head-edit-form fieldset-legend"><?php echo Mage::helper('downloadplus')->__('Add other available historical Downloadable Files') ?></h4>
+    </div>
+    <fieldset>
+        <legend><?php echo Mage::helper('downloadplus')->__('Add other available historical Downloadable Files'); ?></legend>
+    	<?php echo $this->getChildHtml('accordion-add-other-historical'); ?>
+    </fieldset>
+</div>
+
+<div style="display:none">
+    <div id="custom-advice-container"></div>
+</div>
+
+<script type="text/javascript">
+	downloadplusForm = new downloadplusAdminForm();
+	downloadplusForm.bindFieldsChange(downloadplusForm.getDataElements());
+</script>

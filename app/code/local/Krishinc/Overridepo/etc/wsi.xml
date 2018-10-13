@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:typens="urn:{{var wsdl.name}}"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             name="{{var wsdl.name}}"
+             targetNamespace="urn:{{var wsdl.name}}">
+	    <wsdl:types>
+	        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:{{var wsdl.name}}">
+	            <xsd:complexType name="salesOrderEntity">
+	                <xsd:sequence>
+	                  <xsd:element name="source_code" type="xsd:string" minOccurs="0" />
+	                  <xsd:element name="order_type" type="xsd:string" minOccurs="0" />
+	                   </xsd:sequence>
+	            </xsd:complexType>
+	           <xsd:complexType name="salesOrderListEntity">
+	                <xsd:sequence>
+	               	 	<xsd:element name="order_type" type="xsd:string" minOccurs="0" />
+	              	 	<xsd:element name="source_code" type="xsd:string" minOccurs="0" />
+	                </xsd:sequence>
+	            </xsd:complexType>
+	              <xsd:complexType name="salesOrderAddressEntity">
+	                <xsd:sequence>
+	                  <xsd:element name="nomail" type="xsd:string" minOccurs="0" />  
+                      <xsd:element name="customer_type" type="xsd:string" minOccurs="0" />
+                      <xsd:element name="address_street1" type="xsd:string" minOccurs="0" />
+	                  <xsd:element name="address_street2" type="xsd:string" minOccurs="0" />
+	                </xsd:sequence>
+	            </xsd:complexType>
+	             <xsd:complexType name="salesOrderPaymentEntity">
+	                <xsd:sequence>
+	                     <xsd:element name="netterm" type="xsd:string" minOccurs="0" />
+	                    <xsd:element name="credit_limit" type="xsd:string" minOccurs="0" />
+	                    <xsd:element name="check_number" type="xsd:string" minOccurs="0" />
+	                    <xsd:element name="check_amt" type="xsd:string" minOccurs="0" />
+	               </xsd:sequence>
+	            </xsd:complexType>
+	        </xsd:schema>
+	    </wsdl:types>
+ </wsdl:definitions>

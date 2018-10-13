@@ -1,0 +1,43 @@
+<!--@subject {{var order.getStoreGroupName()}}: Aktualisierung zu Bestellung # {{var order.increment_id}} @-->
+<style type="text/css">body,td { color:#2f2f2f; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; }</style>
+<div style="font:11px/1.35em Verdana, Arial, Helvetica, sans-serif;">
+<table cellspacing="0" cellpadding="0" border="0" width="98%" style="margin-top:10px; font:11px/1.35em Verdana, Arial, Helvetica, sans-serif; margin-bottom:10px;">
+<tr>
+    <td align="center" valign="top">
+        <!-- [ header starts here] -->
+        <table cellspacing="0" cellpadding="0" border="0" width="650">
+        <tr>
+            <td valign="top"><a href="{{store url=""}}"><img src="{{skin url="images/logo_email.gif" _area='frontend'}}" alt="Magento"  style="margin-bottom:10px;" border="0"/></a></td>
+        </tr>
+        </table>
+
+        <!-- [ middle starts here] -->
+        <table cellspacing="0" cellpadding="0" border="0" width="650">
+        <tr>
+            <td valign="top">
+                <p>
+                    <strong>Gesch&auml;tzter {{htmlescape var=$order.getCustomerName()}}</strong>,<br/>
+                    Ihre Bestellung # {{var order.increment_id}} hat eine zus&auml;tzliche Datei erhalten.
+                </p>
+                <p>
+ 					Die folgende Datei ist nun zum herunterladen verf&uuml;gbar, über diesen Link zu folgen oder direkt auf Ihrem Konto mit uns:
+                </p>
+                <p>
+                	F&uuml;r <i>{{var order_item.name}}</i>: <a href="{{var download.getUrl()}}">{{htmlescape var=$download.getLinkTitle()}}</a>
+                </p>
+                <p>
+                	{{var download.getDescription()}}
+                </p>
+                <p>
+                    F&uuml;r Fragen stehen wir Ihnen gerne zu Verf&uuml;gung unter
+                    <a href="mailto:magento@varien.com" style="color:#1E7EC8;">dummyemail@magentocommerce.com</a>
+                    oder &uuml;ber Telefon unter (555) 555-0123.
+                </p>
+                <p>Besten Dank,<br/><strong>{{var order.getStoreGroupName()}}</strong></p>
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+</div>

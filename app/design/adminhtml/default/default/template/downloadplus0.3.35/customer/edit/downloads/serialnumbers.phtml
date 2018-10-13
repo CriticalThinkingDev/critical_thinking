@@ -1,0 +1,149 @@
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Customer_Edit_Tab_Downloads_Additional
+ */
+
+$orderItems = $this->getOrderItems();
+
+if (empty($orderItems)):
+?>
+<div class="fieldset">
+	<?php echo Mage::helper('downloadplus')->__('There are currently no related orders for this customer.') ?>
+</div>
+<?php
+else:
+?>
+<div class="fieldset">
+<div class="grid">
+<div class="hor-scroll">
+<table cellspacing="0" class="data border">
+    <col width="10%" />
+    <col width="1" />
+    <col width="40%"/>
+    <col width="40%" />
+    <col width="1" />
+    <thead>
+        <tr class="headings">
+            <th><?php echo Mage::helper('downloadplus')->__('Related to Product & Order #')?> <span class="required">*</span></th>
+            <th><?php echo Mage::helper('downloadplus')->__('Status')?></th>
+            <th><?php echo Mage::helper('downloadplus')->__('Title')?> <span class="required">*</span></th>
+            <th><?php echo Mage::helper('downloadplus')->__('Serial Number')?> <span class="required">*</span></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="5" class="a-right"><?php echo $this->getAddButtonHtml()?></td>
+        </tr>
+    </tfoot>
+    <tbody id="serial_items_body">
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var serialTemplate = '<tr>'+
+    '<td>'+
+        '<input type="hidden" class="__delete__" name="downloadable[serial][{{id}}][is_delete]" value="" />'+
+        '<input type="hidden" name="downloadable[serial][{{id}}][serial_id]" value="{{serial_id}}" />'+
+	    '<select id="downloadable_serial_{{id}}_order_item_id" name="downloadable[serial][{{id}}][order_item_id]">'+
+	   <?php foreach ($orderItems as $key=>$item): ?>
+	   	 	'<option value="<?php echo $item['order_item_id'] ?>"><?php echo htmlentities($item['name']).' (#'.$item['order_increment_id'].')' ?></option>'+
+	   <?php endforeach; ?>
+	    '</select>'+
+	    '<div class="clear"></div>'+
+	    '<input type="checkbox" class="checkbox" name="downloadable[serial][{{id}}][notify_customer]" id="downloadable_serial_{{id}}_notify_customer" value="1" />'+
+	    '<label class="normal" for="downloadable_serial_{{id}}_notify_customer"> <?php echo $this->__('Notify Customer') ?></label>'+
+	'</td>'+
+    '<td>'+
+   	'{{serial_status}}'+
+	'</td>'+
+	'<td>'+
+        '<input type="text" class="required-entry input-text" name="downloadable[serial][{{id}}][title]" value="{{title}}" />'+
+    '</td>'+
+	'<td>'+
+		'<textarea class="textarea" style="width:86%;height:150px;"; id="downloadable[serial][{{id}}][number]" name="downloadable[serial][{{id}}][number]">'+
+		'{{number}}'+
+		'</textarea>'+
+	'</td>'+
+    '<td>'+
+        '<button type="button" class="scalable delete icon-btn delete-link-item"><span>Delete</span></button>'+
+    '</td>'+
+'</tr>';
+
+var serialItems = {
+	    tbody : $('serial_items_body'),
+	    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+	    templateText : serialTemplate,
+	    itemCount : 0,
+	    add : function(data) {
+	        alertAlreadyDisplayed = false;
+	        this.template = new Template(this.templateText, this.templateSyntax);
+
+	        if(!data.serial_id){
+	            data = {};
+	            data.serial_id  = 0;
+	            data.order_item_id = 0;
+	            data.title = '';
+	            data.number = '';
+	            data.serial_status = '';
+	        }
+
+	        data.id = this.itemCount;
+
+	        Element.insert(this.tbody, {'bottom':this.template.evaluate(data)});
+
+			if (data.order_item_id) {
+	            options = $('downloadable_serial_'+data.id+'_order_item_id').options;
+	            for (var i=0; i < options.length; i++) {
+	                if (options[i].value == data.order_item_id) {
+	                    options[i].selected = true;
+	                }
+	            }
+			}
+
+	        this.itemCount++;
+	        this.bindRemoveButtons();
+	    },
+	    remove : function(event){
+	        var element = $(Event.findElement(event, 'tr'));
+	        alertAlreadyDisplayed = false;
+	        if(element){
+	            element.down('input[type="hidden"].__delete__').value = '1';
+	            Element.select(element, 'div.flex').each(function(elm){
+	                elm.remove();
+	            });
+	            element.addClassName('no-display');
+	            element.addClassName('ignore-validate');
+	            element.hide();
+	        }
+	    },
+	    bindRemoveButtons : function(){
+	        var buttons = $$('tbody#serial_items_body .delete-link-item');
+	        for(var i=0;i<buttons.length;i++){
+	            if(!$(buttons[i]).binded){
+	                $(buttons[i]).binded = true;
+	                Event.observe(buttons[i], 'click', this.remove.bind(this));
+	            }
+	        }
+	    }
+	}
+
+	serialItems.bindRemoveButtons();
+
+	if($('add_serial_item')) {
+	    Event.observe('add_serial_item', 'click', serialItems.add.bind(serialItems));
+	}
+
+	<?php foreach ($this->getSerialnumberData() as $item): ?>
+	    serialItems.add(<?php echo $item->toJson()?>);
+	<?php endforeach; ?>
+
+	//]]>
+</script>
+<?php
+endif;
+?>

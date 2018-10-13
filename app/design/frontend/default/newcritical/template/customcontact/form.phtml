@@ -1,0 +1,165 @@
+<?php /********* Catalog Request form*******/ ?>
+<?php $formData = Mage::getSingleton('core/session')->getCcFormData();  ?>
+<?php if(isset($_GET['subject']))
+{
+	$formData['subject'] = $_GET['subject'];
+}
+?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="page-title">
+	<h1>Customer Feedback / Questions?</h1>
+</div>
+<form action="<?php echo Mage::helper('customcontact')->getCustomcontactPostUrl(); ?>" id="customcontact-form" method="post"   name="customcontact-form">
+
+
+
+	<div class="fieldset">
+
+		<div class="catalogrequest-from2">
+			<ul>
+				<li>
+					<div class="field">
+						<label for="name" ><?php echo Mage::helper('customcontact')->__('Name') ?><span class="required">*</span></label>
+						<div class="input-box">
+							<input class="required-entry input-text" name="name" id="name"  type="text" value="<?php echo  (isset($formData['name']) && $formData['name']?$formData['name']:'')  ?>" />
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="email"><?php echo Mage::helper('customcontact')->__('Email Address') ?><span class="required">*</span></label>
+						<div class="input-box"> <input name="email" type="text" id="email"  class="required-entry validate-email input-text" value="<?php echo  (isset($formData['email']) && $formData['email']?$formData['email']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="address1"><?php echo Mage::helper('offerlanding')->__('Address1') ?></label>
+						<div class="input-box"> <input class="input-text" name="address1" id="address1" style="width 250px;" type="text" value="<?php echo  (isset($formData['address1'])?$formData['address1']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="address2"><?php echo Mage::helper('offerlanding')->__('Address2') ?> </label>
+						<div class="input-box"> <input class=" input-text" name="address2" id="address2" style="width 250px;" type="text" value="<?php echo  (isset($formData['address2'])?$formData['address2']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="city"><?php echo Mage::helper('offerlanding')->__('City') ?></label>
+						<div class="input-box"> <input class="input-text" name="city" id="city" style="width 250px;" type="text" value="<?php echo  (isset($formData['city'])?$formData['city']:'')  ?>" /></div>
+					</div>
+
+				</li>
+
+
+				<li>
+					<div class="field">
+						<label for="country"><?php echo Mage::helper('offerlanding')->__('Country') ?></label>
+						<div class="input-box">  <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect();?>
+						</div>
+
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="state"><?php echo Mage::helper('customcontact')->__('State/Province') ?></label>
+						<div class="input-box">  <input type="text" id="region" name="region"   class="input-text" value="<?php echo (isset($formData['region']) && $formData['region']?$this->escapeHtml($formData['region']):'') ?>"  title="<?php echo $this->__('State/Province') ?>"  /></div>
+					</div>
+				</li>
+<li>
+					<div class="field">
+						<label for="zipcode"><?php echo Mage::helper('offerlanding')->__('Zip Or Postal Code') ?></label>
+						<div class="input-box">   <input name="zipcode" class="input-text"  id="zipcode"  type="text" value="<?php echo  (isset($formData['zipcode'])?$formData['zipcode']:'')  ?>" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="phone"><?php echo Mage::helper('offerlanding')->__('Phone') ?></label>
+						<div class="input-box"> <input name="phone" class="input-text" id="phone" type="text" value="<?php echo  (isset($formData['phone'])?$formData['phone']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="subject"><?php echo Mage::helper('customcontact')->__('Subject') ?><span class="required">*</span></label>
+
+						<div class="input-box">  <select onchange="if (this.options[this.selectedIndex].value == 'Parent') { this.form.cat_code.value='p'; } else if (this.options[this.selectedIndex].value == 'Home Educator') { this.form.cat_code.value='h'; } "  class="required-entry input-text"  name="subject" size="1">
+								<option value="">-- Please Select --</option>
+								<?php $arrSubject = $this->helper('customcontact')->getAllSubjects();?>
+								<?php foreach($arrSubject as $key => $value): ?>
+									<option value="<?php echo $key ?>" <?php echo ((isset($formData['subject']) && $formData['subject'] == $key)?'selected="selected"':'')?>><?php echo $value ?></option>
+								<?php endforeach; ?>
+							</select>
+						</div>
+
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="best_describe"><?php echo Mage::helper('catalogrequest')->__('Which best describes you?') ?><span class="required">*</span></label>
+
+						<div class="input-box">
+							<select  class="input-text" name="position" size="1">
+								<option value="">-- Please Select --</option>
+								<?php $arrMarket = array('Parent','Home Educator', 'Classroom Educator'); ?>
+								<?php foreach($arrMarket as $key => $value): ?>
+									<option value="<?php echo $value ?>" <?php echo (($formData['position'] == $value)?'selected="selected"':'')?>><?php echo $value ?></option>
+								<?php endforeach; ?>
+							</select></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="comment"><?php echo Mage::helper('customcontact')->__('Comments') ?><span class="required">*</span></label>
+						<div class="input-box"> <textarea cols="40" style=""  class="required-entry input-text" rows="6" name="comment"><?php echo  (isset($formData['comment']) && $formData['comment']?$formData['comment']:'')  ?></textarea><br />
+							<span style="font-size:10px; color:#666666; line-height:20px;"><?php echo $this->__('* Required');?></span></div>
+
+					</div>
+				</li>
+				<input type="hidden" name="bsest_sales_news" value="2405405"/>
+				<li style="padding: 0px 0 5px 20px;">
+					<!--div class="field">
+						<b> <?php echo $this->__('Website Survey (Optional)');?></b>
+					</div-->
+					<img class="disk_img" src="<?php echo $this->getSkinUrl('images/kids7.gif')?>"  alt="" style="float: right;   margin-bottom: -175px; margin-left: 0; padding-bottom: 0;  padding-left: 0; padding-right: 0; position: relative;" />
+				</li>
+				
+
+				<br/>
+
+				 <li>
+			    <div class="field">
+			        <label for="Captch">&nbsp;</label>
+					
+<?php //echo $this->getChildHtml('form.additional.info'); ?> 
+
+<div class="input-box" style="width:auto;"> 
+<?php echo $this->getLayout()->createBlock('studioforty9_recaptcha/explicit')->setTemplate('studioforty9/recaptcha/explicit.phtml')->tohtml(); ?>
+</div>
+                           
+                     
+		        </div>  		        
+		     </li>
+			</ul>
+		</div>
+		<div class="button-set-box" style=" padding:10px 0 0 265px;">
+			<input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+			<button type="submit" title="<?php echo Mage::helper('customcontact')->__('Submit') ?>" class="button-form"><?php echo Mage::helper('customcontact')->__('Submit') ?></button>
+		</div>
+	</div>
+
+	<div class="contact-privacy-text">&nbsp</div>
+
+
+</form>
+<script type="text/javascript">
+	//<![CDATA[
+	var customcontactForm = new VarienForm('customcontact-form', true);
+	//]]>
+</script>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<layout version="1.0.0"> 
+    <adminhtml_softwaredemos_index>
+         <reference name="content">
+            <block type="softwaredemos/adminhtml_softwaredemos" name="softwaredemos" />
+        </reference>
+    </adminhtml_softwaredemos_index>
+     <adminhtml_softwaredemos_edit>
+        <update handle="editor"/>
+        <reference name="content">
+            <block type="softwaredemos/adminhtml_form_edit" name="softwaredemos"/>
+        </reference>
+        <reference name="left">
+            <block type="softwaredemos/adminhtml_form_edit_tabs" name="softwaredemos_tabs"/>
+        </reference>
+    </adminhtml_softwaredemos_edit>  
+</layout>
+
+<!--?xml version="1.0"?>
+<layout version="0.1.0">
+    <softwaredemos_adminhtml_softwaredemos_index>
+        <reference name="content">
+            <block type="softwaredemos/adminhtml_softwaredemos" name="softwaredemos" />
+        </reference>
+    </softwaredemos_adminhtml_softwaredemos_index>
+    <softwaredemos_adminhtml_softwaredemos_edit>
+       <update handle="editor"/>
+    </softwaredemos_adminhtml_softwaredemos_edit>
+</layout-->

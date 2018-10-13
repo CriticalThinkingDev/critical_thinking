@@ -1,0 +1,63 @@
+<style>
+.table1
+{
+  border-spacing: 10px;
+}
+.table_head
+{
+	background-color:#0A263D;
+	color:#fff;
+}
+.tabletd
+{
+border-left:#0A263D solid 1px;
+border-bottom:#0A263D solid 1px;
+padding:0px 5px;
+}
+.tabletd_last
+{
+border-left:#0A263D solid 1px;
+border-right:#0A263D solid 1px;
+border-bottom:#0A263D solid 1px;
+padding:0px 5px;
+}
+
+</style>
+<?php
+$product_data = $this->getAllStandardProductData();
+?>
+<?php if(count($product_data)>0)
+{?>
+<div class="standards_right_text_table">
+<table cellspacing="4" cellpadding="2" border="0" width="800" style="float: left; clear: both;" class="detail_text">
+<tr align="left">
+                <td valign="top" class="description_text" colspan="2"> 
+                Standards For:  </td>
+                <td align="right" valign="top" class="description_text" colspan="2"><span class="generic_link"></span></td>
+                </tr>
+ 
+<tr bgcolor="#DDDDDD" align="left">
+<td class="subheadblack" width="102"><?php echo $this->__('Subject/Grade');?></td>
+<td class="subheadblack" width="186"><?php echo $this->__('Standard');?></td>
+<td class="subheadblack" width="276"><?php echo $this->__('Benchmark');?></td>
+<td class="subheadblack" width="110"><?php echo $this->__('Page#');?></td>
+</tr>
+<?php $i=0;
+foreach($product_data as $data)
+{
+?>
+<tr bgcolor="<?php echo ((($i++%2) ==0)?'#EEEEEE':'#FFFFFF')?>">
+<td align="left" valign="top"><?php echo $this->getGradesubject($data['product_id']);?></td>
+<td align="left" valign="top" ><?php echo $data['standard'];?></td>
+<td align="left" valign="top"><?php echo $data['benchmark'];?></td>
+<td align="left" valign="top"><?php echo $data['page_numbers'];?></td>
+</tr>				
+<?php } ?>
+</table>
+</div>
+<?php }
+//else
+//{
+//	//echo $this->__('No Data Found');
+//}
+?>

@@ -1,0 +1,45 @@
+<?php
+/**
+ * Product View Downloads Page for Products
+ *
+ * @see Pisc_Downloadplus_Block_Product_View_Downloads
+ */
+/* To filter based on Attribute set Attribute Code and Attribute Value here: */
+// $this->setAttributeCode('code');
+// $this->setAttributeValue('value');
+
+?>
+<?php if ($this->hasLinks()): ?>
+<div class="downloadplus-product-download">
+	<div class="downloadplus-product-download-links">
+	<?php if ($product = $this->getProduct()): ?>
+		<div class="product">
+			<?php echo $product->getName() ?>
+			<span class="short-description">
+				<?php echo $product->getShortDescription() ?>
+			</span>
+		</div>
+	<?php endif; ?>
+<?php
+	$_count = 0;
+	$_items = $this->getLinks();
+	foreach ($_items as $_item):
+?>
+		<div class="downloadplus-product-download-entry">
+		<a href="<?php echo $this->getDownloadUrl($_item) ?>"><?php echo $_item->getLinkTitle() ?></a>
+<?php
+		$_detail = $_item->getDownloadDetail();
+		if ($_detail->getDetail()) {
+?>
+			<div class="downloadplus-product-download-detail">
+			<?php echo $_detail->getDetail() ?>
+			</div>
+<?php
+		}
+		$_count++;
+?>
+		</div>
+<?php endforeach; ?>		
+	</div>
+</div>	
+<?php endif; ?>

@@ -1,0 +1,73 @@
+<?php
+/**
+ * Downloadable Products Serialnumber for Customer
+ *
+ * @see Pisc_Downloadplus_Block_Customer_Products_Serialnumber
+ */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_items = $this->getItems(); ?>
+
+<div class="page-head">
+    <h3><?php echo Mage::helper('downloadable')->__('My Serial Numbers') ?></h3>
+	<?php if ($this->isRssAvailable()): ?>
+	<a href="<?php echo $this->getRssLink() ?>" class="link-feed right"><?php echo $this->__('Subscribe to RSS Feed on updates of all Products') ?></a>
+	<?php endif; ?>
+</div>
+
+<div id="my-downloadable-serialnumbers">
+<?php
+	if(count($_items)):
+	  echo $this->getChildHtml('pager');
+		
+      $_odd = '';
+      $_previtem = false;
+      foreach ($_items as $_item):
+?>
+    	<div class="downloadplus-serialnumber <?php echo $_odd ?>">
+	        <?php if (!$_previtem || ($_previtem && $_item->getProductId()!=$_previtem->getProductId())): ?>
+	        <h2><?php echo $_item->getProductName() ?></h2>
+	        <?php endif; ?>
+	     	<em>
+	          <?php
+	            if ($_item->getStatus()!='available') {
+	              echo $this->__('Order is').'&nbsp;'.$_item->getStatus();
+	            }
+	          ?>
+	          &nbsp;(<a href="<?php echo $this->getOrderViewUrl($_item->getPurchased()->getOrderId()) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $this->__('Order').'&nbsp;#'.$_item->getPurchased()->getOrderIncrementId() ?></a>)
+	      	</em>
+	      	<?php if ($_item->getLinkPurchasedItem()): ?>
+	      	<h3><?php echo $_item->getLinkPurchasedItem()->getLinkTitle() ?></h3>
+	      	<?php else: ?>
+	      	<h3></h3>
+	      	<?php endif; ?>
+    	</div>
+  <?php if ($_item->getStatus()=='available'): ?>
+	    <div class="downloadplus-serialnumber-entry">
+	    <span class="title"><?php echo $_item->getSerialTitle() ?>:</span> <span class="serialnumber"><pre><?php echo $_item->getSerialNumber() ?></pre></span>
+  <?php if ($this->isDownloadable()): ?>
+  		<a href="<?php echo $this->getDownloadUrl($_item); ?>"><?php echo $this->__('Download Serialnumber'); ?></a>
+  <?php endif; ?>
+		</div>
+  <?php else: ?>
+	    <div class="downloadplus-serialnumber-entry">
+	    <div class="notice-msg">
+	    <?php echo $this->__('Please complete your order first.') ?>&nbsp;
+	    <a href="<?php echo $this->getOrderViewUrl($_item->getPurchased()->getOrderId()) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $this->__('View Order').'&nbsp;#'.$_item->getPurchased()->getOrderIncrementId() ?></a>
+	    </div>
+	    </div>
+<?php
+		endif;
+	    $_previtem = $_item;
+		if ($_odd) { $_odd=''; } else { $_odd='downloadplus-odd-entry'; }
+	  endforeach;
+	  echo $this->getChildHtml('pager');
+?>
+<?php else: ?>
+    <p><?php echo Mage::helper('downloadable')->__('Currently there are no Serial Numbers available for you.'); ?></p>
+<?php endif; ?>
+</div>
+
+<div class="buttons-set">
+    <a href="<?php echo $this->getBackUrl() ?>" class="back-link">&laquo; <?php echo $this->__('Back') ?></a>
+</div>

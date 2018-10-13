@@ -1,0 +1,45 @@
+<div class="homepage_shopbyneed">
+<?php echo $this->getLayout()->createBlock('sidebarsearch/advanced_sidebar')->setTemplate('sidebarsearch/advanced/shopneed.phtml')->toHtml(); ?>
+</div>
+
+<div class="homepage_shopbysearch"> 
+<?php echo $this->getLayout()->createBlock('sidebarsearch/advanced_sidebar')->setTemplate('sidebarsearch/advanced/search.phtml')->toHtml(); ?>
+
+<div class="homepage_shopbysearch1">
+<h3><img src="<?php echo $this->getSkinUrl('images/search-heading-home.jpg')?>" alt="" /></h3>
+<label><input name="search" type="text" value="SKU, Title or ISBN" /></label>
+<label><img src="<?php echo $this->getSkinUrl('images/shopneed-go-btn.png')?>" alt="" /></label>
+</div>
+
+<div class="homepage_shopbysearch2">
+<h3>Featured Title</h3>
+<img src="<?php echo $this->getSkinUrl('images/featured-title-img.jpg')?>" alt="" />
+
+</div>
+
+ </div>
+ 
+ 
+ 
+
+<div class="homepage_shopbysearch"> 
+<div class="homepage_shopbysearch1">
+<h3><img src="<?php echo $this->getSkinUrl('images/shop-by-text-h.jpg')?>" alt="" /></h3>
+<label>
+<select name="Select a Product Family">
+  <option value="Select a Product Family">Select a Product Family</option>
+</select>
+</label>
+
+</div>
+
+<div class="homepage_shopbysearch2">
+<h3>Featured Series</h3>
+<img src="<?php echo $this->getSkinUrl('images/featured-series-img.jpg')?>" alt="" />
+
+</div>
+
+ </div>
+ 
+ 
+ 

@@ -1,0 +1,51 @@
+<div id="nav_shopneed_custom" class="nav_shopneed_custom waves-effect waves-light mb-enable"><span>Search by Grade &amp; Subject</span></div>
+<div id="nav_shopneedcollapsible" class="mb-enable" style="display:none; " >
+<form action="<?php echo $this->getUrl('catalogsearch/advanced/result'); ?>" method="get" id="form-validate-home-nav">
+
+<?php $shop_need = array('subject','grade','product_type') ?>
+<div class="cu_search_subject_box">
+
+  <?php foreach ($this->getSearchableAttributes() as $_attribute): ?>
+        <?php $_code = $_attribute->getAttributeCode() ?>
+        <?php  if(in_array($_code,$shop_need)) { ?>
+
+        <?php switch($this->getAttributeInputType($_attribute)):
+           case 'select': ?>
+                    <?php echo $this->getAttributeSelectElementNavMobile($_attribute) ?>
+                    <?php break;
+        default: ?>
+                <input name="<?php echo $_code ?>" id="<?php echo $_code ?>" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute)) ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text <?php echo $this->getAttributeValidationClass($_attribute) ?>" type="text" />
+            <?php endswitch; ?>
+            
+
+  <?php } ?>
+  <?php endforeach; ?>
+  
+  <div class="search_btn_box">
+    <button class="form-button waves-effect" type="submit"><span><?php echo $this->__('FIND IT') ?></span></button>
+</div>
+</div>
+
+  </form>
+</div>
+
+
+<script>
+$('form-validate-home-nav').observe('submit',function(e){
+        this.getElements().each(function(el){
+            if(!el.getValue() || el.getValue()==''){
+                //add class?
+                 el.disable(); 
+            }
+        });
+        //Event.stop(e);
+    });
+jQuery(document).ready(function(){
+   jQuery("#nav_shopneed_custom").click(function(){
+
+        jQuery("#nav_shopneedcollapsible").toggle();
+ jQuery(this).toggleClass('active');
+jQuery("#nav_shopneedcollapsible").css('overflow', 'visible');
+    });
+});
+</script>

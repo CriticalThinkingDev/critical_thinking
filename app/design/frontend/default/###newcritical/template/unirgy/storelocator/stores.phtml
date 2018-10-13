@@ -1,0 +1,113 @@
+<?php $countries = $this->getAllCountries();?>
+<div class="page-title">
+    <h1><?php echo $this->__('Store Locations') ?></h1>
+</div>
+<div class="fieldset">
+<div class="store_location_box">
+<h3>Choose a location from the list below:</h3>
+	<ul class="form-list">
+		<li class="fields">
+			
+				<select name="country" id="country" onchange="getstate(this);" class="browser-default"> 
+					<option value="">Select Country</option>
+					<?php foreach ($countries as $country):?>
+						<option value="<?php echo $country['value']?>" <?php echo (($country['value'] == 'US')?'selected="selected"':'')?> ><?php echo $country['label']?></option>
+					<?php endforeach;?>
+				</select>
+			
+			<div id="state"> 
+			</div> 
+			<div>
+			<input type="text" name="postcode" id="postcode" value="" class="input-text"  style="width:145px;" />
+		 
+			<button  onclick="getLocations();" class="btn-submit" type="button">
+           		<span class=" waves-effect waves-light">Submit</span>
+   			</button>
+   			</div>
+		</li>
+	</ul> 
+	</div>
+	<div id="locations">
+	</div>
+</div>
+
+<div class="test_top_back_btn"><a href="#"><img src="<?php echo $this->getskinUrl('images/backtotop.gif') ?>" alt="" border="0" /></a></div>
+
+<script type="text/javascript">  
+ window.onload=function(){
+ 		getstate($('country'));
+ };
+    function getstate(selectElement){ 
+    	$('postcode').value = '';
+        var reloadurl = '<?php echo $this->getUrl('ustorelocator/location/state')?>';
+		$('locations').update('Loading...'); 
+        new Ajax.Request(reloadurl, {
+            method: 'post',
+			parameters: {country: $('country').value},
+            onLoading: function (stateform) {
+                $('state').update('Loading...'); 
+            },
+            onComplete: function(stateform) {
+
+            	if(stateform.responseText =='')
+            	{
+            		$('state').update(stateform.responseText);
+            		
+            	} else {
+                	$('state').update(stateform.responseText);
+            	}
+				
+			getLocations();
+            }
+        });
+        getLocations();
+    }    
+          
+        
+   /* function getLocations(selectElement,field){ 
+        var reloadurl = '<?php echo $this->getUrl('ustorelocator/location/alllocations')?>'+field+'/' + selectElement.value;
+        new Ajax.Request(reloadurl, {
+            method: 'get',
+            onLoading: function (stateform) {
+                $('locations').update('Loading...');
+            },
+            onComplete: function(stateform) {
+                $('locations').update(stateform.responseText); 
+            }
+        });
+    }*/
+    function getLocations(){ 
+		var postcode = $('postcode').value;
+		var region_id = '';
+		
+		var element =  $('region_id');
+		if (typeof(element) != 'undefined' && element != null)
+		region_id = $('region_id').value;
+		
+        var reloadurl = '<?php echo $this->getUrl('ustorelocator/location/alllocations')?>'; 
+        new Ajax.Request(reloadurl, {
+            method: 'post',
+			parameters: {country: $('country').value,region_id: region_id,postcode: postcode},
+            onLoading: function (stateform) {
+                $('locations').update('Loading...');
+            },
+            onComplete: function(stateform) {
+                $('locations').update(stateform.responseText); 
+            }
+        });
+    }
+   
+    function getRegionLocations(selectElement,field,country){ 
+    	 $('postcode').value = '';
+        var reloadurl = '<?php echo $this->getUrl('ustorelocator/location/alllocations')?>'+field+'/' + selectElement.value+'/country/'+country;
+        new Ajax.Request(reloadurl, {
+            method: 'get',
+            onLoading: function (stateform) {
+                $('locations').update('Loading...');
+            },
+            onComplete: function(stateform) {
+                $('locations').update(stateform.responseText); 
+            }
+        });
+    }
+</script>

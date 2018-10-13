@@ -1,0 +1,614 @@
+<?php
+    $_helper = $this->helper('catalog/output');
+    $_taxHelper  = $this->helper('tax');
+    $constant_helper  = $this->helper('grouped/constants');
+    $_simplePricesTax = ($_taxHelper->displayPriceIncludingTax() || $_taxHelper->displayBothPrices());
+
+    $todayStartOfDayDate  = Mage::app()->getLocale()->date()
+		->setTime('00:00:00')
+		->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+		
+	$todayEndOfDayDate  = Mage::app()->getLocale()->date()
+		->setTime('23:59:59')
+		->toString(Varien_Date::DATETIME_INTERNAL_FORMAT);
+		
+	$constant_helper = $this->helper('grouped/constants');
+	$associated_products_types = $this->helper('grouped')->getAssicatedProductTypes($_product);
+	$associated_products_accesories = $this->helper('grouped')->getAssicatedProductTypesAccesories($_product,$associated_products_types);
+	if($_product->isGrouped()){
+		$_subAssociatedProducts = $this->helper('grouped')->getAssociatedProducts($_product);
+	}
+	/* Krish dev : to get the product type selected if the Product Type is searched from Shop BY Need */
+	$first_product = array();
+	if(count($_subAssociatedProducts) > 0) {
+		$producttype = $this->getRequest()->getParam('product_type');
+		if(isset($producttype) && !empty($producttype)) {
+			foreach($_subAssociatedProducts as $subpro) {
+				if($producttype[0] == $subpro->getProductType()) {
+					$first_product = $subpro;
+					break;
+				}
+			}
+			
+			if(empty($first_product)) {
+				$first_product = $_subAssociatedProducts[0];
+			}
+		} else {
+			$first_product = $_subAssociatedProducts[0];
+		}
+	}
+?>
+
+<div class="product-img-box product_view_detail_link" id="mastergrouped_product_image_<?php echo $_product->getId(); ?>">
+    <input type="hidden" name="product_detail_url[]" value="<?php echo $_product->getProductUrl() ?>" id="product_detail_url_<?php echo $_product->getId(); ?>" />
+    <a href="<?php echo $first_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($first_product, 'small_image'), null, true) ?>"
+        class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($first_product, 'small_image')->resize(129,138); ?>" width="129" height="138" alt="<?php echo $this->stripTags($this->getImageLabel($first_product, 'small_image'), null, true) ?>" /><span class="learn-hover"><?php echo $this->__('Learn more') ?></span></a>
+    <?php /*
+	<p class="mastergroup_product_detail_lnk"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $_product->getProductName() ?>"><?php echo Mage::helper('mastergrouped')->__('View Product Details'); ?></a></p>
+	*/ ?>
+</div>
+<?php // Product description ?>
+<div class="product-shop apps_section">
+    <div class="f-fix">
+	<div class="prdinfo_<?php echo $_product->getId(); ?> masterproductinfo prdinfo">
+	    <?php $_productNameStripped = $this->stripTags($first_product->getName(), null, true); ?>
+	    <h2 class="product-name <?php if(!Mage::helper('mastergrouped')->hasFlagNotification($first_product)) {echo "product-name-full";} ?>"><a href="<?php echo $first_product->getProductUrl() ?>" title="<?php echo $_productNameStripped; ?>"><?php echo $_helper->productAttribute($first_product, $first_product->getName() , 'name'); ?></a></h2>
+	    
+	    <div id="flag_notification_<?php echo $_product->getId(); ?>">
+			<?php echo Mage::helper('mastergrouped')->getFlagNotification($first_product); ?>
+		</div>
+	    
+	    <div id="grade_subject_<?php echo $_product->getId(); ?>">
+	    <?php if($first_product->getGrade()):?>
+	       <?php $grade = Mage::getModel('catalog/product')->getProductGrade($first_product->getGrade());?>
+	    <p><?php echo $this->__('Grade Level: ')?> <?php echo $grade;?> </p>
+	     <?php endif;?>
+	    <?php if($first_product->getSubject()):?>
+	     <?php $subject = Mage::getModel('catalog/product')->getProductSubject($first_product->getSubject());?>
+	    <p class="subject_area"><?php echo $this->__('Subject Area(s): ')?> <?php echo  $subject?> </p>
+	    <?php endif;?>
+	    </div>
+	     <?php if($_product->getAvaibilityPreorder()): ?>
+				<p style="color: #CC0000; min-height: 20px; font-size: 12px;"><strong><?php echo $this->escapeHtml($_product->getAvaibilityPreorder()); ?></strong></p>
+			<?php endif; ?>
+	    <div class="desc std short_desc_<?php echo $_product->getId(); ?>">
+		<a href="<?php echo $first_product->getProductUrl() ?>" class="link-learn"><?php echo $this->helper('core/string')->truncate($this->stripTags($first_product->getDescription()),250,'...', $recomnded, false) ?> </a>
+			<!--a href="<?php echo $first_product->getProductUrl() ?>" class="link-learn"><?php echo $this->__('More') ?></a-->
+	    </div>
+	  
+	    <div class="award_detail_<?php echo $first_product->getId(); ?>">
+	    <?php if ($first_product->getAward() != '') {?> 
+		<ul class="search_result_product_award_list">
+		    <li class="award_list_item">	
+			     <span class="award_list_tem s_icon"></span>&nbsp;<?php  echo ((strstr($first_product->getAward(),','))?'Multiple Award Winner':'Award Winner')?>
+		    </li>
+		</ul>
+	    <?php }?>
+	    </div>
+	</div>
+	
+	<?php  //Dropdown code start ?>
+	
+	    <?php  //Dropdown code end ?>
+    </div>
+</div>
+
+
+	<div class="cart_btn_box">
+		
+		<?php //if($_product->getProductType() != '') { 
+		    $attribute = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'product_type');
+		    if ($attribute->usesSource()) {
+			$options = $attribute->getSource()->getAllOptions(false);
+		    } 
+		?>
+		    <ul id="product_types_<?php echo $_product->getId(); ?>" class="producttype_buttons">
+		<?php
+		$cnt = 0;
+		    foreach($options as $option_val) {
+				if(!empty($associated_products_types) && in_array($option_val['value'], $associated_products_types)) {
+					$class = '';
+					if($option_val['value'] == $constant_helper::PRODUCT_TYPE_BOOKS): $class = 'books_btn';
+					elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_ANDROID_APP): $class = 'android_app_btn';
+					elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_IOS_APP): $class = 'ios_app_btn';
+					elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_WIN_APP): $class = 'win_app_btn';
+					elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE): $class = 'win_btn';
+					elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE): $class = 'software_btn';
+					elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_EBOOK): $class = 'ebook_btn';
+					endif;
+					
+					if($class!=""){
+                        if($option_val['value'] == $first_product->getProductType()) {
+                            $class .= ' active';
+                        }
+                    }
+					
+					if($class != "") {
+					$cnt++;
+				?>
+				
+				<li class="<?php echo $class; ?>" id="protypebtn_<?php echo $_product->getId(); ?>_<?php echo $option_val['value']; ?>"><a href="javascript:void(0);" onclick="getSelectedProductType('<?php echo $option_val['value']; ?>','<?php echo $_product->getId(); ?>',this)"><?php echo $option_val['label']; ?></a></li>
+				<?php
+					}
+				}
+		    }
+			 if(!empty($associated_products_accesories)) {
+                foreach($associated_products_accesories  as $key=>$option_val) {
+                    $option_val['value'] = reset($option_val);
+
+                    $mediaType = key($option_val);
+
+
+                    $class = '';
+
+                    if($mediaType=='eBook'): $class = 'ebook_btn';
+                    elseif($mediaType=='Paperback Book'): $class = 'books_btn';
+                    endif;
+
+                    if($option_val['value'] == $first_product->getProductType() && $first_product->getAttributeText('media_type')==$mediaType) {
+                        $class .= ' active';
+                    }
+
+                    if($class != "") {
+                        $cnt++;
+                        ?>
+                        <?php
+                        $attribute = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'product_type');
+                        if ($attribute->usesSource()) {
+                            $productTypeLabel =  $attribute->getSource()->getOptionText($option_val['value']);
+
+                        }
+
+                        ?>
+                        <li class="<?php echo $class; ?>" id="protypebtn_<?php echo $_product->getId(); ?>_<?php echo $option_val['value']; ?>_<?php echo $key; ?>"><a href="javascript:void(0);" onclick="getSelectedProductTypeAccess('<?php echo $option_val['value']; ?>','<?php echo $_product->getId(); ?>','<?php echo $key; ?>',this)"><?php echo $productTypeLabel; ?></a></li>
+                    <?php
+                    }
+                }
+            }
+		    
+		    if($cnt > 0) {
+		    ?>
+			<?php /*
+			<li class="product_type_lbl"><?php echo $this->__('Click a media icon for more details') ?></li>
+			*/ ?>
+		    <?php } ?>
+		    </ul>
+		<?php //} ?>
+	
+	<?php 	 //if($_product->isSaleable()){ ?>
+                   <form action="<?php //echo $this->getAddToCartUrl($_product) ?>" method="post" id="product_addtocart_form_<?php echo $_product->getId()?>"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+                   <?php //}?>
+
+                  <?php if(!$_product->isGrouped()): ?>
+	                   <?php //if($_product->isSaleable()): ?>
+ 				<?php if(is_null($first_product->getAvailableText())):?>
+		                    <div><?php echo $this->getPriceHtml($first_product, true) ?></div>
+		                <?php endif;?> 
+	                   <?php //endif;?> 
+                   <?php endif;?>
+                   
+                   <div class="search_result_product_purchase_container">  
+                    	<?php //if($_product->isSaleable()){ ?>
+ 			    <?php if($_product->isGrouped()){ ?>
+				<?php  //$_subAssociatedProducts = $this->helper('grouped')->getAssociatedProducts($_product); ?>
+					<?php if(count($_subAssociatedProducts) > 0){?> 
+						<div class="gp_product" >
+							<div class="gp_select_item">
+								<div class="gp_select_val associate_product_dd" id="gp_price_<?php echo $_product->getId()?>">
+									<span>
+										<?php $_price = $_taxHelper->getPrice($first_product, $first_product->getPrice()) ?>
+										<?php $_regularPrice = $_taxHelper->getPrice($first_product, $first_product->getPrice(), $_simplePricesTax) ?>
+										<?php $_finalPrice = $_taxHelper->getPrice($first_product, $first_product->getFinalPrice()) ?>
+										<?php $priceString = $this->helper('core')->currency($_finalPrice);?>
+										<?php if($_finalPrice < $_price){
+											$priceString = '<span style="text-decoration:line-through;">'. $this->helper('core')->currency($_price).'</span> <span style="color:red;padding-left: 5px;">'.$this->helper('core')->currency($_finalPrice).'</span>';
+										}?>
+										<?php echo ($priceString != "")? $priceString : '&nbsp;'; ?>
+									
+									</span>
+								</div>
+								<a  style="cursor:pointer" onclick="showItem('<?php echo $_product->getId()?>')" class="search_result_product_model_selection_toggle">[s]</a>
+							</div>
+							
+							<?php
+							$product_type = $first_product->getProductType();
+							$mediaString = $first_product->getAttributeText('media_type');
+							if($product_type == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $product_type == $constant_helper::PRODUCT_TYPE_IOS_APP || $product_type == $constant_helper::PRODUCT_TYPE_WIN_APP || $product_type == $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE || $product_type == $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE) {
+								if($product_type == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $product_type == $constant_helper::PRODUCT_TYPE_IOS_APP || $product_type == $constant_helper::PRODUCT_TYPE_WIN_APP) {
+									$sel_prod = $first_product->getSku(). " - ". $first_product->getAttributeText('model_type');
+								} else {
+									
+									$licenseString = $first_product->getAttributeText('license');
+									if($licenseString == '2 Computer License') {
+										$licenseString = '(2 PCs)';
+									} else if($licenseString == '6 Computer License') {
+										$licenseString = '(6 PCs)';
+									}
+									$productname = $mediaString." ".$licenseString;
+									$sel_prod = $first_product->getSku(). " - ". $productname;
+								}
+							} else {
+								$productname = $first_product->getAttributeText('media_type');
+								$sel_prod = $first_product->getSku(). " - ". $productname;
+							}
+                            //$mediaString = $first_product->getAttributeText('media_type');
+                        ?>
+							
+							
+                            <?php
+                                //$mediaString = $first_product->getAttributeText('media_type');
+                            ?>
+                            <?php //$sel_prod = $first_product->getSku(). " - ". $mediaString; ?>
+                            <div id="gp_sel_prod_<?php echo $_product->getId()?>" class="gp_sel_prod" <?php if($sel_prod == "") { ?>style="display:none;" <?php } ?> >
+								<?php echo $sel_prod; ?>
+							</div>
+							<div class="gp_item_drop_box" id="gp_item_<?php echo $_product->getId()?>" style="display:none">
+							<ul>
+							    <?php $i=0; $defostatus=0;$total = count($_subAssociatedProducts); 
+								foreach ($_subAssociatedProducts as $_item) {
+								?>
+								<?php $i++;?>
+								<?php
+								
+								    $status = $_item->getIsSalable(); // changes done to resolve out of stock issue
+								     if($i==1){ $defostatus = $status; }
+								     $defostatus=1;
+								    if(is_null($_item->getAvailableText())) {$oos = false;} else {$oos = true;}
+								?>  
+								    <?php $_price = $_taxHelper->getPrice($_item, $_item->getPrice()) ?>
+								    <?php $_regularPrice = $_taxHelper->getPrice($_item, $_item->getPrice(), $_simplePricesTax) ?>
+								    <?php $_finalPrice = $_taxHelper->getPrice($_item, $_item->getFinalPrice()) ?>
+								    <?php $priceString = $this->helper('core')->currency($_finalPrice);?>
+								    <?php $licenseString = $_item->getAttributeText('license');?>
+								    <?php $mediaString = $_item->getAttributeText('media_type');?>
+								     <?php if($_finalPrice < $_price){
+									    $priceString = '<span style="text-decoration:line-through;">'. $this->helper('core')->currency($_price).'</span> <span style="color:red;padding-left: 5px;">'.$this->helper('core')->currency($_finalPrice).'</span>';
+								    }?>
+								    
+								    
+								    <?php
+									$product_type = $_item->getProductType();
+									$app = false;
+									$appUrl = '';
+									if($product_type == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $product_type == $constant_helper::PRODUCT_TYPE_IOS_APP || $product_type == $constant_helper::PRODUCT_TYPE_WIN_APP || $product_type == $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE || $product_type == $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE) {
+										if($product_type == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $product_type == $constant_helper::PRODUCT_TYPE_IOS_APP || $product_type == $constant_helper::PRODUCT_TYPE_WIN_APP) {
+											$detail_item = Mage::getModel('catalog/product')->load($_item->getId());   
+											$app = true;
+											$appUrl = $detail_item->getAppUrl();
+											//$priceString = '';
+											
+											$productname = $_item->getAttributeText('model_type')." - ".$_item->getAttributeText('license');
+                                            $selected_text = $_item->getSku(). " - ". $_item->getAttributeText('model_type');
+											$productname .= ($priceString != "") ? ' - '.$priceString:'';
+										}
+										else {
+											if($licenseString == '2 Computer License') {
+												$licenseString = '(2 PCs)';
+											} else if($licenseString == '6 Computer License') {
+												$licenseString = '(6 PCs)';
+											}
+											//if($mediaString == 'Win/Mac Download') {
+											//	$mediaString = 'Win/Mac DWNLD';
+											//} else if($mediaString == 'Win Download') {
+											//	$mediaString = 'Win DWNLD';
+											//}
+											$productname = $mediaString." ".$licenseString;
+											$selected_text = $_item->getSku(). " - ". $productname;
+											$productname .= ($priceString != "") ? ' - '.$priceString:'';
+										}
+									} else {
+										$productname = $_item->getAttributeText('media_type');
+										$selected_text = $_item->getSku(). " - ". $productname;
+										$productname .= ($priceString != "") ? ' - '.$priceString:'';
+									}
+								    ?>
+									<li id="subitem_<?php echo $_item->getId(); ?>" onclick="addSuperQty_mastergrouped('<?php echo $_product->getId()?>','<?php echo $_item->getId()?>','<?php echo $status; ?>','<?php echo $this->htmlescape($priceString); ?>','<?php echo $selected_text; ?>','<?php echo $oos;?>', '<?php echo $product_type; ?>','<?php echo $app;?>', '<?php echo $appUrl;?>')" title="<?php echo $selected_text; ?>" style="cursor:pointer;" class="<?php if($first_product->getId() == $_item->getId()) { ?> active <?php } ?> <?php echo (($i == $total)?' last ':''); ?>" >
+										<a id="proType_<?php echo $_item->getProductType(); ?>_<?php echo $_product->getId(); ?>_<?php echo $_item->getId()?>">
+											<?php echo $productname; ?>
+										</a>
+								    </li>
+							    <?php } ?>
+						    </ul>
+						</div>
+                        
+					    </div>
+					<?php
+                        }
+                        elseif(count($_subAssociatedProducts) == 1){
+                    ?>
+ 						<?php
+							$product_type = $first_product->getProductType();
+							if($product_type == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $product_type == $constant_helper::PRODUCT_TYPE_IOS_APP || $product_type == $constant_helper::PRODUCT_TYPE_WIN_APP || $product_type == $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE || $product_type == $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE) {
+								if($product_type == $constant_helper::PRODUCT_TYPE_ANDROID_APP || $product_type == $constant_helper::PRODUCT_TYPE_IOS_APP || $product_type == $constant_helper::PRODUCT_TYPE_WIN_APP) {
+									$sel_prod = $first_product->getSku(). " - ". $first_product->getAttributeText('model_type');
+								} else {
+									
+									$licenseString = $first_product->getAttributeText('license');
+									if($licenseString == '2 Computer License') {
+										$licenseString = '(2 PCs)';
+									} else if($licenseString == '6 Computer License') {
+										$licenseString = '(6 PCs)';
+									}
+									$productname = $mediaString." ".$licenseString;
+									$sel_prod = $first_product->getSku(). " - ". $productname;
+								}
+							} else {
+								$productname = $first_product->getAttributeText('media_type');
+								$sel_prod = $first_product->getSku(). " - ". $productname;
+							}
+                            //$mediaString = $first_product->getAttributeText('media_type');
+                        ?>
+                        <?php //$sel_prod = $first_product->getSku(). " - ". $mediaString; ?>
+                        <div class="sku_mediatype_box">
+                            <?php if(is_null($first_product->getAvailableText())):?>
+                                <?php echo $this->getPriceHtml($first_product, true) ?>
+                            <?php endif;?>
+                            <div class="sku_mediatype" id="gp_sel_prod_<?php echo $_product->getId()?>" class="gp_sel_prod" <?php if($sel_prod == "") { ?>style="display:none;" <?php } ?> >
+                                <?php echo $sel_prod; ?>
+                            </div>
+                        </div>
+                        
+                    <?php
+                        }
+                    ?>
+				    <?php /* added for add to cart feature*/?>
+				    
+				    <?php $upscount=0;
+					    $upsellProducts = $_product->getUpSellProductCollection()
+									->setPositionOrder()
+									->addStoreFilter();
+					    $upscount = count($upsellProducts->getItems());
+				      ?>
+				      <?php if(($_product->getProductType() == 125) && ($upscount > 0)){?>
+				      <?php 
+					    $j=0;$values = '';$first='';
+					    foreach ($upsellProducts as $_link) {
+						    if($_link->isSaleable()){
+							     if($j == 0 && $_link->getId()==$_product->getId()): 
+								      $first  = $_link->getId();
+							      else: 
+								    $values .= ','.$_link->getId(); 
+							     endif;  
+							     $j++; 
+						    }
+					    }
+				    ?>
+				    <?php /* added for add to cart feature*/?>
+					    <input type="hidden" name="related_product<?php echo $_product->getId()?>" id="related_product<?php echo $_product->getId()?>" value="<?php echo ltrim($values,',')?>" /> 
+					    <?php /* added for add to cart feature*/?>
+				    <?php } ?>	
+				    <?php /* added for add to cart feature*/?>
+				    <input type="hidden" size="3" name="first<?php echo $_product->getId()?>"  id="first<?php echo $_product->getId()?>" maxlength="12" value="<?php echo $_product->getId()?>"  />
+					<input type="hidden" size="3" name="is_master_grouped" id="is_master_grouped<?php echo $_product->getId()?>" maxlength="12" value="1"  />  
+				    <input type="hidden" name="super_group_product_id" id="product_id_super_group<?php echo $_product->getId()?>" value="<?php echo ($first_product->getId() != '') ? $first_product->getId() : ''; ?>" />
+					
+				    <div id="span_<?php echo $_product->getId()?>">
+						<div id="span_<?php echo $_product->getId()?>"><input type="hidden" name="super_group[<?php echo $first_product->getId(); ?>]" id="super_group_<?php echo $_product->getId()?>" value="1"></div>
+					</div>
+                    
+                    <?php
+                    $isApp = false;
+                    if(($constant_helper::PRODUCT_TYPE_ANDROID_APP == $first_product->getProductType()) || $constant_helper::PRODUCT_TYPE_WIN_APP == $first_product->getProductType() || $constant_helper::PRODUCT_TYPE_IOS_APP == $first_product->getProductType())
+                    {
+                        $isApp = true;
+                    }
+					
+                    if($first_product->getIsSalable()) { // changes done to resolve out of stock issue
+                        $defostatus = 1;
+                    } else {
+                        $defostatus = '';
+                    }
+                    ?>
+				    <div id="qty_sale_<?php echo $_product->getId()?>" style="display: <?php echo  ($defostatus == 1 && !$isApp) ?  'block ':'none'; ?> " class="qty_sale_addtocart">
+                        <div class="qtyaddtocart">
+                            <label for="qty_<?php echo $_product->getId()?>"><?php echo $this->__('Qty') ?>:</label> 
+                            <input type="text" size="3" name="qty" class="qty" onkeyup="changeQty(this.value,'<?php echo $_product->getId()?>');" id="qty_<?php echo $_product->getId()?>" maxlength="12" value="<?php echo ($this->getMinimalQty($first_product)?$this->getMinimalQty($first_product):1) ?>" />
+                        </div>
+                        
+                        <div class="addtocartdiv">
+                            <button id="button_sale_<?php echo $_product->getId()?>" <?php echo  ($defostatus == 1) ?  '':'style="display:none"'; ?> type="button" class="button btn-cart" onclick="addtocart('<?php echo $_product->getId()?>','product_addtocart_form_');"><span><?php echo $this->__('Add to Cart') ?></span></button>
+                        </div>
+				    </div>
+                    
+				    <div class="qty_sale_addtocart" id="not_qty_sale_<?php echo $_product->getId()?>" style="display: <?php echo  ($defostatus == '' && !$isApp) ?  'block ':'none'; ?> ">
+					    <p class="availability out-of-stock"><span>
+						<?php
+							if(is_null($first_product->getAvailableText())) {
+						?>
+							<?php echo $this->__('Out of Stock') ?>
+						<?php } else { ?>
+							<?php echo $this->__('Coming Soon') ?>
+						<?php	}  ?>
+						</span></p>
+						
+				    </div>
+					<div class="wishlist_<?php echo $_product->getId()?> mastergrouped_wishlist" style="display: <?php echo (!$isApp) ?  'block ':'none'; ?> ">
+						   <?php
+							   //if($constant_helper::PRODUCT_TYPE_BOOKS == $first_product->getProductType() || $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE == $first_product->getProductType() || $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE == $first_product->getProductType() || $constant_helper::PRODUCT_TYPE_EBOOK == $first_product->getProductType()) {
+								   if (Mage::helper('wishlist')->isAllow()) :
+									   echo '<p> <a href="'.Mage::helper('wishlist')->getAddUrl($first_product).'" class="link-wishlist">'.Mage::helper("mastergrouped")->__("Add to Wishlist").'</a> </p>';
+								   endif;
+							   //}
+						   ?>
+					</div>
+				   
+                    <?php
+                        if($constant_helper::PRODUCT_TYPE_ANDROID_APP != $first_product->getProductType()) {
+                            $style = "style = 'display:none;'";
+                            $url = '#';
+                        } else {
+                            $style = '';
+                            $url = $first_product->getAppUrl();
+                        }
+                    ?>
+                        <div id="googleplay_div_<?php echo $_product->getId()?>" <?php echo $style; ?> >
+                            <div id="android_div" class="android_div"><a href="<?php echo $url; ?>" id="android_link" target="_blank"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/catalog/google_play_btn.png'); ?>"/></a></div>
+                        </div>
+					<?php
+                        if($constant_helper::PRODUCT_TYPE_WIN_APP != $first_product->getProductType()) {
+                            $style = "style = 'display:none;'";
+                            $url = '#';
+                        } else {
+                            $style = '';
+                            $url = $first_product->getAppUrl();
+                        }
+                    ?>
+                        <div id="winstore_div_<?php echo $_product->getId()?>" <?php echo $style; ?>>
+                            <div id="winapp_div" class="winapp_div"><a href="<?php echo $url; ?>" id="winapp_link" target="_blank"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/catalog/win_store_btn.png'); ?>"/></a></div>
+                        </div>
+					<?php
+                        if($constant_helper::PRODUCT_TYPE_IOS_APP != $first_product->getProductType()) {
+                            $style = "style = 'display:none;'";
+                            $url = '#';
+                        } else {
+                            $style = '';
+                            $url = $first_product->getAppUrl();
+                        }
+                    ?>
+                        <div id="ios_div_<?php echo $_product->getId()?>"  <?php echo $style; ?>>
+                            <div id="ios_div" class="ios_div"><a href="<?php echo $url; ?>" id="itunes_link" target="_blank"><img src="<?php echo Mage::getDesign()->getSkinUrl('images/catalog/itunes_store_btn.png'); ?>"/></a></div>
+                        </div>
+				    
+				    <script type="text/javascript">
+					jQuery(document).ready(function() {
+					    
+					    if (jQuery('#gp_item_<?php echo $_product->getId(); ?> ul li').length == 1) {
+                            //jQuery('#gp_item_<?php echo $_product->getId(); ?> ul li a').trigger('click');
+					    } else {
+                           // jQuery('#gp_item_<?php echo $_product->getId(); ?> ul li a:first').trigger('click');
+						   
+						   
+						// get the result for the first time when nothig will be selected.
+						<?php /*$params = Mage::app()->getRequest()->getParams();
+						    if(isset($params['product_type']) && !empty($params['product_type'])) {
+							$pro_type = is_array($params['product_type']) ? $params['product_type'][0] : $params['product_type'];
+						?>
+							if (jQuery('#protypebtn_<?php echo $_product->getId(); ?>_<?php echo $pro_type; ?> a').length > 0) {
+							    jQuery('#protypebtn_<?php echo $_product->getId(); ?>_<?php echo $pro_type; ?> a').trigger('click');
+							}
+						<?php
+						    } else {
+						?>
+						    addSuperQty_mastergrouped('<?php echo $_product->getId()?>','','','<?php echo $this->htmlescape($priceString); ?>','','<?php echo $oos;?>', '','', '');
+						<?php } */ ?>
+					    }
+					});
+				    </script>
+	                    <?php }else{?>
+					<?php if($first_product->getTypeId() == 'downloadable'){ ?>
+			    
+					    <?php /*****Start:: For downloadable purchase link as separately****/?>
+					    <?php /* @var $this Krishinc_Ajaxtocart_Block_List */ ?>
+					    <?php $_linksPurchasedSeparately = $this->getLinksPurchasedSeparately($first_product); ?>
+					    <?php if ($first_product->getIsSalable() && $this->hasLinks($first_product)){// changes done to resolve out of stock issue ?> 
+					     <script type="text/javascript">
+						//<![CDATA[
+						    Product.Downloadable = Class.create();
+						    Product.Downloadable.prototype = {
+							config : {},
+							initialize : function(config){
+							    this.config = config;
+							    this.reloadPrice();
+							    document.observe("dom:loaded", this.reloadPrice.bind(this));
+							},
+							reloadPrice : function(){
+							    var price = 0;
+							    config = this.config;
+							    $$('.product-downloadable-link').each(function(elm){
+								//if (config[elm.value] && elm.checked) {
+								if (config[elm.value] ) {
+								    price += parseFloat(config[elm.value]);
+								}
+							    });
+							    try {
+								var _displayZeroPrice = optionsPrice.displayZeroPrice;
+								optionsPrice.displayZeroPrice = false;
+								optionsPrice.changePrice('downloadable', price);
+								optionsPrice.reload();
+								optionsPrice.displayZeroPrice = _displayZeroPrice;
+							    } catch (e) {
+					    
+							    }
+							}
+						    };
+					    
+					       
+							    var dConfig = new Product.Downloadable(<?php echo $this->getJsonConfig($first_product) ?>);
+						//]]>
+						</script> 
+    
+						    <?php $_links = $this->getLinks($first_product); ?>
+						    <?php $_isRequired = $this->getLinkSelectionRequired($first_product); ?>
+							<ul id="downloadable-links-list" class="options-list">
+							<?php foreach ($_links as $_link): ?>
+							    <li>
+								<?php if ($_linksPurchasedSeparately): ?>
+								<script type="text/javascript">dConfig.reloadPrice();</script>
+								    <input type="hidden" class="checkbox<?php if($_isRequired):?> validate-one-required-by-name<?php endif; ?> product-downloadable-link" onclick="dConfig.reloadPrice()" name="links[]" id="links_<?php echo $_link->getId() ?>" value="<?php echo $_link->getId(); ?>" <?php echo $this->getLinkCheckedValue($_link,$first_product); ?> />
+								<?php endif; ?>
+								 
+							    </li>
+							<?php endforeach; ?>
+							</ul>
+					      
+					    <?php } ?>
+					    <?php /*****END:: For downloadable purchase link as separately****/?>
+					    
+			                    <?php }?>
+	                    		<div>
+	                              <label for="qty<?php echo $_product->getId()?>" ><?php echo $this->__('Qty') ?>:</label>
+								  
+								  <?php /*****Start:: For buldle extraction feature****/?>
+			                    	
+								  <?php $upscount=0;
+								  		$upsellProducts = $_product->getUpSellProductCollection()
+												            ->setPositionOrder()
+												            ->addStoreFilter();
+										$upscount = count($upsellProducts->getItems());
+								  ?>
+								  
+		                	      <?php if(($_product->getProductType() == 125) && ($upscount > 0)){?>
+		                	      <?php
+						    $j=0;$values = '';$first='';
+						    foreach ($upsellProducts as $_link) {
+							if($_link->isSaleable()){
+							    if($j == 0 && $_link->getId()==$_product->getId()):
+								$first  = $_link->getId();
+							    else:
+								$values .= ','.$_link->getId();
+							    endif;
+							    $j++;
+							}
+						    }
+						?>
+						    <input type="text" size="3" name="qty" class="qty" id="qty<?php echo $_product->getId()?>" maxlength="12" value="<?php echo ($this->getMinimalQty($_product)?$this->getMinimalQty($_product):1) ?>" />						
+						       <input type="hidden" name="related_product<?php echo $_product->getId()?>" id="related_product<?php echo $_product->getId()?>" value="<?php echo ltrim($values,',')?>" /> 
+		                	        <?php } else { ?>
+		                	       <input type="hidden" size="3" name="first<?php echo $_product->getId()?>"  id="first<?php echo $_product->getId()?>" maxlength="12" value="<?php echo $_product->getId()?>"  />  
+		                	      <input type="text" size="3" name="qty" class="qty" id="qty<?php echo $_product->getId()?>" maxlength="12" value="<?php echo ($this->getMinimalQty($_product)?$this->getMinimalQty($_product):1) ?>" />						
+		                	       <input type="hidden" name="related_product<?php echo $_product->getId()?>" id="related_product<?php echo $_product->getId()?>" value=""  />
+		                	        <?php }?>
+		                	        <?php /*****End:: For buldle extraction feature****/?>
+									<input type="hidden" size="3" name="first<?php echo $_product->getId()?>"  id="first<?php echo $_product->getId()?>" maxlength="12" value="<?php echo $_product->getId()?>"  />  
+									
+		                	      <br/>
+				                   <button  type="button" class="btn-cart" onclick="addtocart('<?php echo $_product->getId()?>','product_addtocart_form_');" >
+				                   		<span><?php echo $this->__('Add to Cart') ?></span>
+		                   			</button>
+		                	   </div>
+	                    <?php } ?> 
+					 
+                    <?php /*} else { ?>
+                   	<?php if(is_null($_product->getAvailableText())){?>
+                       	 <p class="availability out-of-stock"><span><?php echo $this->__('Out Of Stock') ?></span></p>
+                        <?php } else {?>
+                      	  <p class="availability coming-soon"><span><?php echo $this->__('Coming soon') ?></span></p>
+                        <?php }?>
+                    <?php } */?> 
+                    
+		    
+                    </div>
+                    <?php //if($_product->isSaleable()){ ?>
+                  	</form>
+                  <?php //}?>
+			</div>

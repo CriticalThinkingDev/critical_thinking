@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <fieldtester_adminhtml_fieldtester_index>
+        <reference name="content">
+            <block type="fieldtester/adminhtml_fieldtester" name="fieldtester" />
+        </reference>
+    </fieldtester_adminhtml_fieldtester_index>
+    <fieldtester_adminhtml_fieldtester_view>
+        <reference name="content">
+            <block type="fieldtester/adminhtml_fieldtester_view" name="fieldtester_view" template="fieldtester/view.phtml" />
+        </reference>
+    </fieldtester_adminhtml_fieldtester_view>
+</layout> 

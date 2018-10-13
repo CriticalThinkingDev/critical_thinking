@@ -1,0 +1,234 @@
+<h1><?php echo $this->__('Catalog Request')?></h1>
+<p><?php echo $this->__("Enter your information below to receive our free catalog by mail");?></p>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
+<form name="form" id="catalogrequest" method="post" action="<?php echo $this->getFormAction(); ?>" onsubmit="return verify();">
+              <ul>
+                  <li>
+                      <div class="input-box">
+                          <label for="firstname"><?php echo $this->__('First Name'); ?><span class="required">*</span></label>
+                          <input name="fname" type="text" class="input-text">
+                      </div>
+
+                      <div class="input-box">
+                          <label for="lastname"><?php echo $this->__('Last Name'); ?><span class="required">*</span></label>
+                          <input type="text" name="lname" class="required-entry input-text">
+                      </div>
+                  </li>
+                  <li>
+
+                      <div class="input-box">
+                          <label for="address1"><?php echo $this->__('Address'); ?><span class="required">*</span></label>
+                          <input type="text" name="address1" size="50" class="required-entry input-text">
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="address2"></label>
+                          <input type="text" name="address2" size="50" class=" input-text">
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="city"><?php echo $this->__('City'); ?><span class="required">*</span></label>
+                          <input type="text" name="city" class="required-entry input-text">
+                      </div>
+
+                      <div class="input-box">
+                          <label for="region"><?php echo $this->__('State/Province'); ?><span class="required">*</span></label>
+                          <select id="region_id" name="state" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display: none;">
+                              <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                          </select>
+                          <input type="text" id="region" name="region" value=""  title="<?php echo $this->__('State/Province') ?>" class="input-text" style="display:none;" />
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="zip"><?php echo $this->__('Zip Code'); ?><span class="required">*</span></label>
+                          <input type="text" name="zip" class="required-entry input-text">
+                      </div>
+
+                      <div class="input-box">
+                          <label for="country"><?php echo $this->__('Country'); ?><span class="required">*</span></label>
+                          <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect(); ?>
+                      </div>
+                  </li>
+                  <li>
+                      <div class="input-box">
+                          <label for="phone"><?php echo $this->__('Phone'); ?></label>
+                          <input type="text" name="phone" class=" input-text">
+                      </div>
+                  </li>
+					<li>
+						<div class="input-box">
+							<label for="email"><?php echo $this->__('Email'); ?></label>
+							<input type="text" name="email" class="validate-email input-text" size="50">
+						</div>
+					</li>
+					<li>
+						<div class="input-box">
+							<label for="position"><?php echo $this->__('Your Position'); ?></label>
+							<select name="position" value="" size="1" title="Your Position" class="required-entry input-text">
+							          <option value="">Select One</option>
+							          <option value="A">Administrator</option>
+							          <option value="1">Chapter/Title 1</option>
+							          <option value="F">Consultant</option>
+							          <option value="C">Curriculum Director</option>
+							          <option value="2">ESL Teacher</option>
+							          <option value="G">Guidance Teacher</option>
+							          <option value="B">Librarian</option>
+							          <option value="Z">Literacy Coach</option>
+							          <option value="V">Math Coach</option>
+							          <option value="H">Parent/Home School</option>
+							          <option value="P">Principal</option>
+							          <option value="Q">Professor/College Level</option>
+							          <option value="R">Reading Specialist</option>
+							          <option value="X">Science Coach</option>
+							          <option value="Y">Secretary</option>
+							          <option value="E">Special Education</option>
+							          <option value="K">Student/Student Teacher</option>
+							          <option value="T">Teacher</option>
+							          <option value="3">Technology Specialist</option>
+							          <option value="U">Other</option>
+							        </select>
+						</div>
+					</li>
+					<li>
+						<div class="input-box">
+							<label for="grade"><?php echo $this->__('Grade Level'); ?></label>
+							<select name="grade" value="" size="1" title="Grade Level" class="required-entry input-text">
+								          <option value="">Select One</option>
+								          <option value="P">Grade Pre-K</option>
+								          <option value="K">Grade K</option>
+								          <option value="1">Grade 1</option>
+								          <option value="2">Grade 2</option>
+								          <option value="3">Grade 3</option>
+								          <option value="4">Grade 4</option>
+								          <option value="5">Grade 5</option>
+								          <option value="6">Grade 6</option>
+								          <option value="7">Grade 7</option>
+								          <option value="8">Grade 8</option>
+								          <option value="9">Grade 9</option>
+								          <option value="10">Grade 10</option>
+								          <option value="11">Grade 11</option>
+								          <option value="12">Grade 12</option>
+								          <option value="NA">K-12</option>
+								          <option value="M1">Multiage K-3</option>
+								          <option value="M2">Multiage 4-6</option>
+								          <option value="L1">Looping K-3</option>
+								          <option value="L2">Looping 4-6</option>
+								          <option value="E">Elementary</option>
+								          <option value="M">Middle School</option>
+								          <option value="H">High School</option>
+								          <option value="U">Other</option>
+							        </select>
+						</div>
+					</li>
+
+					<li>
+						<div class="input-box">
+							<label for="specialty"><?php echo $this->__('Specialty'); ?></label>
+							<select name="specialty" value="" size="1" title="Specialty" class="required-entry input-text">
+					          <option value="">Select One</option>
+					          <option value="N/A">N/A</option>
+					          <option value="ESL">ESL</option>
+					          <option value="G">Gifted & Talented</option>
+					          <option value="LA">Language Arts</option>
+					          <option value="M">Math</option>
+					          <option value="R">Reading</option>
+					          <option value="S">Science</option>
+							</select>
+						</div>
+					</li>
+<!--					
+                  <li><input name="updates" id="updates" value="1" type="checkbox" /> <label for="updates" style="display: inline;"><?php echo $this->__('Send me email updates on sales and promotions'); ?>.</label></li>
+-->
+					<li>
+						<div class="input-box">
+							<label for="updates"><?php echo $this->__('Send me email updates'); ?></label>
+							<select name="updates" value="" size="1" title="Send Email Updates" class="required-entry input-text">
+							          <option value="T">Yes</option>
+							          <option value="F">No</option>
+							</select>
+						</div>
+					</li>
+
+              </ul>
+      
+  		<ul>
+
+        <li>
+          <label for="heardofus"><?php echo $this->__('Where did you hear about us?'); ?></label>
+          <!-- These can be changed to your liking -->
+			<select name="heardofus" class="required-entry input-text" id="heardofus-select">
+                  <option value="SL-A NONE">Select One</option>
+                  <option value="SL-ACSB">REPEAT CUSTOMER </option>
+                  <option value="SL-AOL">AOL SEARCH </option>
+                  <option value="SL-ASCD">ASCD SMART BRIEF </option>
+                  <option value="SL-CAT">CATALOG </option>
+                  <option value="SL-EMAIL">E-MAIL </option>
+                  <option value="SL-FRIEND">FRIEND </option>
+                  <option value="SL-GOOGLE">GOOGLE SEARCH </option>
+                  <option value="SL-MSN">MSN SEARCH </option>
+                  <option value="NEWS">NEWSPAPER </option>
+                  <option value="SL-OTHER">OTHER </option>
+                  <option value="SL-ZSEARC">OTHER SEARCH ENGINE </option>
+                  <option value="SL-SDE1">SDE.COM LINK </option>
+                  <option value="SL-TK8">TEACHING K-8 MAGAZINE </option>
+                  <option value="SL-TN">TEACHERNET.COM LINK </option>
+                  <option value="SL-TWITTR">TWITTER</option>
+                  <option value="SL-YAHOO">YAHOO SEARCH </option>
+            </select>
+        </li>
+ <!--
+        <li>
+             <div class="input-box">
+                 <label for="heardofus"><?php echo $this->__('Catalog VIP Code'); ?></label>
+                 <input type="text" name="heardofus" id="heardofus-text" class="input-text" size="50">
+             </div>
+         </li>
+ -->
+ <!--
+ <li>
+       <div class="input-box">
+           <label for="catalogcode"><?php echo $this->__('Catalog VIP Code'); ?></label>
+           <input type="text" name="catalogcode" id="catalogcode" class="input-text" size="50">
+       </div>
+   </li>
+ -->
+  
+
+        <li><input type="submit" name="Send" value="<?php echo $this->__('Submit'); ?>"></li>
+    </ul>
+</form>
+
+<script type="text/javascript">
+    var dataForm = new VarienForm('catalogrequest', true);
+    new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>);
+</script>
+
+<!-- 
+<script type="text/javascript">
+
+    jQuery(function () {
+        $('heardofusx-select').observe('change',heardSelectChange);
+        if ($F($('heardofus-select')) == 'SL-CAT') {
+            $('catalogcode').up('li').show();
+        } else {
+            $('catalogcode').up('li').hide();
+            jQuery('#catalogcode').val('');
+        }
+    });
+
+    function heardSelectChange (event) {
+        var elm = event.target;
+        if ($F(elm) == 'SL-CAT') {
+            $('catalogcode').up('li').show();
+        } else {
+            $('catalogcode').up('li').hide();
+            jQuery('catalogcode').val('');
+        }
+    }
+
+</script>
+-->

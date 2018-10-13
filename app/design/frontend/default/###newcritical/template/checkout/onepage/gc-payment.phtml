@@ -1,0 +1,185 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2010 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<script type="text/javascript">
+//<![CDATA[
+    var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>');
+//]]>
+</script>
+
+<style>
+#gift-card-container {border-bottom:1px solid #E4E4E4; padding-bottom: 15px; color: #666666; font-weight: bold;}
+#gift-card-container h5 {color: #666666;}
+#gift-card-container form {margin-left: 20px;}
+#gc-loader	{margin-left: 5px;}
+#gc-bal-loader	{margin-left: 5px;}
+</style>
+<div id="gift-card-container">
+<!--h5>Apply a Gift Card</h5>
+Gift Card Number <input id="gcnum" name="gc[number]" size="18" /> Amount: <input id="gcamount" name="gc[amount]" size="5" /> <button type="button" class="button btn-cart" onclick="applyGCard()"><span><span>Apply</span></span></button><img src="<?php echo $this->getSkinUrl('images/ajax_loader.gif') ?>" id="gc-loader" style="display:none;" />
+<br /><br />
+<div id="applied-gift-cards" style="width:100%;">
+	<?php foreach($this->getCards() as $card): ?>
+		Gift Card: $<?php echo number_format($card->getAmount(), 2) ?> (<?php echo $card->getNumber() ?>) <a href="javascript:void(0);" onclick="removeCard('<?php echo $card->getNumber() ?>')">remove</a><br />
+	<?php endforeach ?>
+	<br />
+</div-->
+<div id="gc-order-total">
+Order Total: <a href="javascript:void(0);" onclick="getTotal();">Click to get updated total</a><img src="<?php echo $this->getSkinUrl('images/ajax_loader.gif') ?>" id="gc-bal-loader" style="display:none;" />
+</div>
+</div>
+
+<form action="" id="co-payment-form">
+    <fieldset>
+        <?php echo $this->getChildHtml('methods') ?>
+    </fieldset>
+</form>
+<div class="tool-tip" id="payment-tool-tip" style="display:none;">
+    <div class="btn-close"><a href="#" id="payment-tool-tip-close" title="<?php echo $this->__('Close') ?>"><?php echo $this->__('Close') ?></a></div>
+    <div class="tool-tip-content"><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" title="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></div>
+</div>
+<div class="buttons-set" id="payment-buttons-container">
+    <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+    <p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    <button type="button" class="button" onclick="payment.save()"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+    <span class="please-wait" id="payment-please-wait" style="display:none;">
+        <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading next step...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+    </span>
+</div>
+<script type="text/javascript">
+//<![CDATA[
+    function toggleToolTip(event){
+        if($('payment-tool-tip')){
+            $('payment-tool-tip').setStyle({
+                top: (Event.pointerY(event)-560)+'px'//,
+                //left: (Event.pointerX(event)+100)+'px'
+            })
+            $('payment-tool-tip').toggle();
+        }
+        Event.stop(event);
+    }
+    if($('payment-tool-tip-close')){
+        Event.observe($('payment-tool-tip-close'), 'click', toggleToolTip);
+    }
+//]]>
+</script>
+<script type="text/javascript">
+//<![CDATA[
+    payment.currentMethod = "<?php echo $this->getChild('methods')->getSelectedMethodCode() ?>";
+//]]>
+</script>
+
+<script type='text/javascript'>
+	if($('gc-order-total').innerHTML == 'Order Total: $0.00') {
+		$('checkout-payment-method-load').hide();
+		payment.gcCoveredAll = 1;
+	} else {
+		$('checkout-payment-method-load').show();
+		payment.gcCoveredAll = 0;
+	}
+	var total = getTotal;
+	if(total == 'Order Total: $0.00') {
+		$('checkout-payment-method-load').hide();
+		payment.gcCoveredAll = 1;
+	} else {
+		$('checkout-payment-method-load').show();
+		payment.gcCoveredAll = 0;
+	}
+	function applyGCard()
+	{
+		if($('gcnum').value == '' || $('gcamount').value == '') {
+			alert('Please enter a valid gift card number or amount.');
+		} else {
+			$('gc-loader').show();
+			params = {};
+			params['cardNum'] = $('gcnum').value;
+			params['amount'] = $('gcamount').value;
+			new Ajax.Request('<?php echo   '/giftcard/index/applycard' ?>', {
+				method: 'get',
+				parameters: params,
+				onSuccess: function(transport) {
+					$('gc-loader').hide();
+					if(transport.responseText == 'Invalid Card') {
+						alert('Invalid Card');
+					} else if(transport.responseText == 'Card Balance Too Low.') {
+						alert('Your gift card balance is too low to cover this amount.');
+					} else if(transport.responseText == 'invalid amount') {
+						alert('Please enter a valid amount for this gift card');
+					} else {
+						var response = transport.responseText.evalJSON();
+						$('applied-gift-cards').innerHTML = response.html;
+						$('gc-order-total').innerHTML = response.total;
+						$('gcnum').value = '';
+						$('gcamount').value = '';
+						if(response.total == 'Order Total: $0.00') {
+							$('checkout-payment-method-load').hide();
+							payment.gcCoveredAll = 1;
+						} else {
+							$('checkout-payment-method-load').show();
+							payment.gcCoveredAll = 0;
+						}
+					}
+				}
+			});
+		}
+	}
+	function removeCard(num)
+	{
+		params = {};
+		params['cardNum'] = num;
+		$('gc-loader').show();
+		new Ajax.Request('<?php echo  '/giftcard/index/removecard' ?>',  {
+			method: 'get',
+			parameters: params,
+			onSuccess: function(transport) {
+				$('gc-loader').hide();
+				var response = transport.responseText.evalJSON();
+				$('applied-gift-cards').innerHTML = response.html;
+				$('gc-order-total').innerHTML = response.total;
+				$('gcnum').value = '';
+				$('gcamount').value = '';
+				if(response.total == 'Order Total: $0.00') {
+					$('checkout-payment-method-load').hide();
+					payment.gcCoveredAll = 1;
+				} else {
+					$('checkout-payment-method-load').show();
+					payment.gcCoveredAll = 0;
+				}
+			}
+		});	
+	}
+	function getTotal()
+	{
+		$('gc-bal-loader').show();
+		 
+		new Ajax.Request('<?php echo '/giftcard/index/gettotal' ?>', {
+			onSuccess: function(transport) { 
+				$('gc-order-total').innerHTML = transport.responseText;
+				return transport.responseText;
+			} 
+		});	
+	}
+</script>

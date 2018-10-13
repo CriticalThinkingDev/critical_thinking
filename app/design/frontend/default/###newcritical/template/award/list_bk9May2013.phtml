@@ -1,0 +1,56 @@
+<p><?php echo $this->__('<strong>Awards & Honors</strong> - More Than 100 National Award Winners!')?></p>
+<?php $collection = $this->getAwardProducts();?>
+<?php $companyCollection = $this->getAllCompanyAwards();?>
+<?php if($collection->Count() > 0):?>
+	<ul style="float:left;width:550px;" class="award_list" > 
+	<?php foreach ($collection as $product):?>
+	<?php $awardNames = trim($this->getAwardNames($product->getAward()));?>
+		<?php if(!empty($awardNames)):?>
+			<li class="detail_text">
+				<?php /*?><img width="12" height="10" alt="" src="<?php echo $this->getSkinUrl('images/blue_arrow_small.gif')?>"><?php */?>
+				<a href="<?php echo $product->getProductUrl()?>" class="award_product_link" title="<?php echo $product->getName()?>"><?php echo $product->getName()?></a> - <span class="award_description"><?php echo $awardNames;?></span>
+			</li>
+		<?php endif;?>
+	<?php endforeach;?> 
+	<?php foreach ($companyCollection as $awd):?>
+	<?php $awardNames = trim($this->getAwardNames($awd->getAwardId()));?>
+		<?php if(!empty($awardNames)):?>
+			<li class="detail_text"> 
+				  <span class="award_description"><?php echo $awardNames;?></span>
+			</li>
+		<?php endif;?>
+	<?php endforeach;?>
+	</ul>
+<?php endif; ?>
+<?php $allAwards = $this->getAllAwards();?>
+<?php if(sizeof($allAwards) > 0):?>
+	<div style="float:left;">
+	<ul>
+		<?php
+		$iTotcnt = sizeof($allAwards);
+		$icnt = 0;
+		foreach ($allAwards as $award):?>
+        <?php if($award->getImage()):?>		
+			 <?php if ($i++%2==0): ?>
+	   		 <li>
+	        <?php endif ?>
+	
+	        <div style="width:120px;float:left;margin-bottom:10px;" align="center">
+			<a href="<?php echo $award->getAwardUrl()?>" title="<?php echo $award->getName()?>" >
+				<img alt="<?php echo $award->getName()?>" src="<?php echo Mage::getBaseUrl('media')."award/".$award->getImage()?>"   />
+			</a>
+			</div>
+			
+			<?php if ($i%2==0 || $i==$iTotcnt): ?>
+			<span style="height:5px;"></span>
+	       		 </li>
+	        <?php endif ?>
+        <?php endif ?>
+		<?php endforeach;?>
+	</ul>  
+	</div>
+<?php endif;?>
+
+<div style="clear:both;">
+<?php echo $this->__('For more information, please call 800.458.4849 or email ')?><a href="mailto:marketing@criticalthinking.com">marketing@criticalthinking.com</a>
+</div>

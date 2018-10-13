@@ -1,0 +1,44 @@
+<?php
+?>
+
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Serialnumber_Import
+ */
+?>
+
+<?php
+	$_product = $this->getProduct();
+?>
+<table cellspacing="0" class="form-list">
+	<tbody>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_serialnumber"><?php echo $this->__('New Serialnumbers'); ?></label></td>
+    		<td class="value">
+				<textarea id="product_downloadplus_serialnumber" name="downloadplus[serialnumbers]" class="textarea downloadplus-serialnumber-import"></textarea>
+			</td>
+		    <td><small><?php echo $this->__("Paste one-line serialnumbers here and use 'Save and Continue Edit' to import.") ?></small></td>
+    	</tr>
+<?php if ($_product && $_product->getTypeId()==Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE): ?>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_serialnumber_new-pool"><?php echo $this->__('Add to new Pool'); ?></label></td>
+        	<td class="value">
+        		<input type="text" id="product_downloadplus_serialnumber_new-pool" name="downloadplus[serialnumberpool][new]" class="input-text" />
+        	</td>
+        	<td><small><?php echo $this->__("Leave empty when importing to whole product.") ?></small></td>
+    	</tr>
+<?php endif; ?>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_serialnumber_use-pool"><?php echo $this->__('Import into Pool'); ?></label></td>
+			<td class="value">
+				<?php echo $this->getOptionSerialnumberPoolHtml('product_downloadplus_serialnumber_use-pool', 'downloadplus[serialnumberpool][use]', null) ?>
+			</td>
+			<td></td>		    	
+    	</tr>
+    	<tr>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    	</tr>
+	</tbody>
+</table>

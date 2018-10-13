@@ -1,0 +1,11 @@
+<?php $testimonials = $this->getRecents(); ?>
+<?php if($testimonials->count() > 0): ?>
+ <div class="homepage_testimonial_box">
+	<?php foreach ($testimonials as $testimonial): ?>
+		<p>  "<?php  echo $this->htmlEscape($testimonial->getPostContent()); ?>"<br/>
+		<?php echo $this->__('- %s Reviews', $testimonial->getClientName());?>
+		</p>
+		<span><a href="<?php echo Mage::getUrl("testimonial"); ?>"><?php echo $this->__('Tell Us Your Story &raquo;')?></a></span>
+	<?php endforeach; ?>
+ </div>
+<?php endif;?>

@@ -1,0 +1,337 @@
+	
+	<div class="gift-card">
+    <div class="page-title">
+    	<h1>Gift Cards</h1>
+    </div>
+    
+	
+		<p>Give someone something they really want -- the freedom to choose! Here, you can purchase a gift card to email to a friend, add money to an existing gift card, or check the balance of your existing gift card.</p>
+		<div class="container">
+			<form id="cardForm" name="cardForm">
+			<div class="section left-side">
+				<input name="giftcard" onclick="changeType();" value="1" checked="checked" type="radio"> <span class="label">Buy a Gift Card</span>
+				<label class="first" id="buy-type-lbl">Select Gift Card Type <span class="req-ast">*</span></label>
+				<div class="box-one">
+					<?php if(Mage::getStoreConfig('sales/giftcard/ship_card_enable')): ?>
+						<div class="box-one">
+							<input name="cardtype" value="ship" onclick="shipType();" type="radio"> <span class="small-label" id="buy-lbl1">Physical Gift Card</span>
+						</div>
+					<?php endif ?>
+					<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+						<div class="box-one">
+							<input name="cardtype" value="print" onclick="shipType();" type="radio"> <span class="small-label" id="buy-lbl2">Email Gift Card</span>
+						</div>
+					<?php endif ?>
+				</div>
+				<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+					<div class="box-one">
+						<label class="" id="buy-email-lbl">Recipient Email Address <span class="req-ast">*</span></label>
+						<input class="full" id="buy-email" name="remail" type="text">
+					</div>
+					<div class="box-one">
+						<label class="" id="buy-msg-lbl">Gift Message <span class="req-ast">*</span></label>
+						<textarea name="rmsg" id="buy-msg" class="full"></textarea>
+					</div>
+				<?php endif ?>
+				<div class="box-one">
+					<label class="" id="buy-amt-lbl">Select Amount <span class="req-ast">*</span></label>
+					<select class="half" id="buy-amt" name="cars">
+					<?php foreach($this->getCardAmounts() as $amount): ?>
+						<option value="<?php echo $amount ?>">$<?php echo $amount ?></option>
+					<?php endforeach ?>
+					</select>
+				</div>
+				<button type="button" title="Add to Cart" class="button btn-cart" id="buy-btn" onclick="buyCard();"><span><span>Add to Cart</span></span></button><img src="<?php echo $this->getSkinUrl('images/ajax_loader.gif') ?>" class="loader-btn" id="buy-loader" style="display:none;" />
+			</div>
+			<?php if(Mage::getStoreConfig('sales/giftcard/add_card_enable')): ?>
+			<div class="section middle">
+				<input name="giftcard" onclick="changeType();" value="2" type="radio"> <span class="label">Add to a Gift Card</span>
+				<label class="first grey" id="add-num-lbl">Gift Card Number <span class="req-ast">*</span></label>
+				<input class="full grey" id="add-num" name="lastname" type="text">
+				<div class="box-one">
+					<label class="grey" id="add-amt-lbl">Select Amount <span class="req-ast">*</span></label>
+					<select class="half grey" id="add-amt" name="cars">
+					<?php foreach($this->getCardAmounts() as $amount): ?>
+						<option value="<?php echo $amount ?>">$<?php echo $amount ?></option>
+					<?php endforeach ?>					</select>
+				</div>
+				<span style="display:none;" id="add-checking"></span>
+				<button type="button" title="Add to Cart" id="add-btn" class="button btn-cart grey" onclick="addCard();"><span><span>Add to Cart</span></span></button><img src="<?php echo $this->getSkinUrl('images/ajax_loader.gif') ?>" class="loader-btn" id="add-loader" style="display:none;" />
+			</div>
+			<?php endif ?>
+			<div class="section right-side">
+				<input name="giftcard" onclick="changeType();" value="3" type="radio"> <span class="label">Check Your Balance</span>
+				<label class="first grey" id="bal-num-lbl">Gift Card Number <span class="req-ast">*</span></label>
+				<input class="full grey" id="bal-num" name="bal-num" type="text">
+				<button type="button" title="balance" class="button blue grey" onclick="checkBal(); return false;" id="bal-btn"><span><span>Check Balance</span></span></button><img src="<?php echo $this->getSkinUrl('images/ajax_loader.gif') ?>" class="loader-btn" id="bal-loader" style="display:none;" />
+				<div id="balance-text" style="display:none;">
+					<p class="balance">Your Balance is:</p>
+					<p class="amount" id="bal-bal"></p>
+				</div>
+				<div id="bal-error" style="display:none;">
+				</div>
+			</div>
+			</form>
+			<form action="<?php echo Mage::getUrl('') . 'giftcard/index/buycard' ?>" method="post" name="buy-form" id="buy-form">
+				<input type="hidden" value="" name="type" id="hidden-buy-type" />
+				<input type="hidden" value="" name="email" id="hidden-buy-email" />
+				<input type="hidden" value="" name="msg" id="hidden-buy-msg" />
+				<input type="hidden" value="" name="amount" id="hidden-buy-amount" />
+			</form>
+			<form action="<?php echo Mage::getUrl('') . 'giftcard/index/addtocard' ?>" method="post" name="add-form" id="add-form">
+				<input type="hidden" value="" name="cardnum" id="hidden-add-cardnum" />
+				<input type="hidden" value="" name="amount" id="hidden-add-amount" />
+			</form>
+		</div>
+	</div>
+	
+<script type="text/javascript">
+function addCard()
+{
+	if(radioValue('cardForm', 'giftcard') == 2) {
+		$('add-loader').show();
+		params = {};
+		params['cardnum'] = $('add-num').value;
+		new Ajax.Request('<?php echo Mage::getUrl('')  . 'giftcard/index/checkcard' ?>', {
+			method: 'get',
+			parameters: params,
+			onSuccess: function(transport) {
+				if(transport.responseText == 'valid') {
+					$('hidden-add-cardnum').value = $('add-num').value;
+					$('hidden-add-amount').value = $('add-amt').value;
+					$('add-form').submit();
+				} else {
+					$('add-loader').hide();
+					$('add-checking').show();
+					$('add-checking').innerHTML = 'Invalid card';
+				}
+			}
+		});	
+	}
+}
+
+function buyCard()
+{
+	<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable') && Mage::getStoreConfig('sales/giftcard/ship_card_enable')): ?>
+	if(radioValue('cardForm', 'giftcard') == 1) {
+		if(($('buy-email').value != '' && $('buy-email').value != 'Enter Email Address' && radioValue('cardForm', 'cardtype') == 'print') || (radioValue('cardForm', 'cardtype') == 'ship')) {
+			$('buy-loader').show();
+			$('hidden-buy-type').value = radioValue('cardForm', 'cardtype');
+			$('hidden-buy-email').value = $('buy-email').value;
+			$('hidden-buy-msg').value = $('buy-msg').value;
+			$('hidden-buy-amount').value = $('buy-amt').value;
+			$('buy-form').submit();
+		} else {
+			$('buy-email').setAttribute('class', 'giftcard-email-validate full');
+			$('buy-msg').setAttribute('class', 'giftcard-email-validate full');
+		}
+	}
+	<?php else: ?>
+		<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+			if(radioValue('cardForm', 'giftcard') == 1) {
+				if($('buy-email').value != '' && $('buy-email').value != 'Enter Email Address' && radioValue('cardForm', 'cardtype') == 'print') {
+					$('buy-loader').show();
+					$('hidden-buy-type').value = radioValue('cardForm', 'cardtype');
+					$('hidden-buy-email').value = $('buy-email').value;
+					$('hidden-buy-amount').value = $('buy-amt').value;
+					$('buy-form').submit();
+				} else {
+					$('buy-email').setAttribute('class', 'giftcard-email-validate full');
+				}
+			}
+		<?php endif ?>
+		<?php if(Mage::getStoreConfig('sales/giftcard/ship_card_enable')): ?>
+				if(radioValue('cardForm', 'giftcard') == 1) {
+					if(radioValue('cardForm', 'cardtype') == 'ship') {
+						$('buy-loader').show();
+						$('hidden-buy-type').value = radioValue('cardForm', 'cardtype');
+						$('hidden-buy-amount').value = $('buy-amt').value;
+						$('buy-form').submit();
+					} else {
+						$('buy-email').setAttribute('class', 'giftcard-email-validate full');
+					}
+				}
+		<?php endif ?>
+	<?php endif ?>
+}
+
+function shipType()
+{
+	<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+		if(radioValue('cardForm', 'cardtype') == 'print') {
+			$('buy-email-lbl').setAttribute('class', '');
+			$('buy-email').setAttribute('class', 'full');
+			$('buy-msg-lbl').setAttribute('class', '');
+			$('buy-msg').setAttribute('class', 'full');
+		} else {
+			$('buy-email-lbl').setAttribute('class', 'grey');
+			$('buy-email').setAttribute('class', 'full grey');
+			$('buy-msg-lbl').setAttribute('class', 'grey');
+			$('buy-msg').setAttribute('class', 'full grey');
+		}
+	<?php endif ?>
+}
+
+function changeShip()
+{
+	<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+		var val = radioValue('cardForm', 'cardtype');
+		if(val == 'ship') {
+			$('buy-email').setAttribute('class', 'grey');
+		} else {
+			$('buy-email').setAttribute('class', '');
+		}
+	<?php endif ?>
+}
+
+function changeType()
+{
+	var val = radioValue('cardForm', 'giftcard');
+	if(val == 1) {
+		//buy form
+		$('buy-type-lbl').setAttribute('class', 'first');
+		<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+			$('buy-email-lbl').setAttribute('class', '');
+			$('buy-email').setAttribute('class', 'full');
+			$('buy-msg-lbl').setAttribute('class', '');
+			$('buy-msg').setAttribute('class', 'full');
+		<?php endif ?>
+		$('buy-amt-lbl').setAttribute('class', '');
+		$('buy-amt').setAttribute('class', 'half');
+		$('buy-btn').setAttribute('class', 'button btn-cart');
+		<?php if(Mage::getStoreConfig('sales/giftcard/ship_card_enable')): ?>
+			$('buy-lbl1').setAttribute('class', 'small-label');
+		<?php endif ?>
+		<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+			$('buy-lbl2').setAttribute('class', 'small-label');
+		<?php endif ?>
+		
+		<?php if(Mage::getStoreConfig('sales/giftcard/add_card_enable')): ?>
+			//add form
+			$('add-num-lbl').setAttribute('class', 'first grey');
+			$('add-num').setAttribute('class', 'full grey');
+			$('add-btn').setAttribute('class', 'button btn-cart grey');
+			$('add-amt-lbl').setAttribute('class', 'grey');
+			$('add-amt').setAttribute('class', 'half grey');
+		<?php endif ?>
+		
+		//balance form
+		$('bal-num-lbl').setAttribute('class', 'first grey');
+		$('bal-num').setAttribute('class', 'full grey');
+		$('bal-btn').setAttribute('class', 'button blue grey');
+		
+		$('bal-error').hide();
+		$('balance-text').hide();
+	}
+	if(val == 2) {
+		//buy form
+		$('buy-type-lbl').setAttribute('class', 'first grey');
+		<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+			$('buy-email-lbl').setAttribute('class', 'grey');
+			$('buy-email').setAttribute('class', 'full grey');
+			$('buy-msg-lbl').setAttribute('class', 'grey');
+			$('buy-msg').setAttribute('class', 'full grey');
+		<?php endif ?>
+		$('buy-amt-lbl').setAttribute('class', 'grey');
+		$('buy-amt').setAttribute('class', 'half grey');
+		$('buy-btn').setAttribute('class', 'button btn-cart grey');
+		<?php if(Mage::getStoreConfig('sales/giftcard/ship_card_enable')): ?>
+			$('buy-lbl1').setAttribute('class', 'small-label grey');
+		<?php endif ?>
+		<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+			$('buy-lbl2').setAttribute('class', 'small-label grey');
+		<?php endif ?>
+		
+		<?php if(Mage::getStoreConfig('sales/giftcard/add_card_enable')): ?>
+			//add form
+			$('add-num-lbl').setAttribute('class', 'first');
+			$('add-num').setAttribute('class', 'full');
+			$('add-btn').setAttribute('class', 'button btn-cart');
+			$('add-amt-lbl').setAttribute('class', '');
+			$('add-amt').setAttribute('class', 'half');
+		<?php endif ?>
+		
+		//balance form
+		$('bal-num-lbl').setAttribute('class', 'first grey');
+		$('bal-num').setAttribute('class', 'full grey');
+		$('bal-btn').setAttribute('class', 'button blue grey');
+		
+		$('bal-error').hide();
+		$('balance-text').hide();
+	}
+	if(val == 3) {
+		//buy form
+		$('buy-type-lbl').setAttribute('class', 'first grey');
+		<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+			$('buy-email-lbl').setAttribute('class', 'grey');
+			$('buy-email').setAttribute('class', 'full grey');
+			$('buy-msg-lbl').setAttribute('class', 'grey');
+			$('buy-msg').setAttribute('class', 'full grey');
+		<?php endif ?>
+		$('buy-amt-lbl').setAttribute('class', 'grey');
+		$('buy-amt').setAttribute('class', 'half grey');
+		$('buy-btn').setAttribute('class', 'button btn-cart grey');
+		<?php if(Mage::getStoreConfig('sales/giftcard/ship_card_enable')): ?>
+			$('buy-lbl1').setAttribute('class', 'small-label grey');
+		<?php endif ?>
+		<?php if(Mage::getStoreConfig('sales/giftcard/virtual_card_enable')): ?>
+			$('buy-lbl2').setAttribute('class', 'small-label grey');
+		<?php endif ?>
+		
+		<?php if(Mage::getStoreConfig('sales/giftcard/add_card_enable')): ?>
+			//add form
+			$('add-num-lbl').setAttribute('class', 'first grey');
+			$('add-num').setAttribute('class', 'full grey');
+			$('add-btn').setAttribute('class', 'button btn-cart grey');
+			$('add-amt-lbl').setAttribute('class', 'grey');
+			$('add-amt').setAttribute('class', 'half grey');
+		<?php endif ?>
+		
+		//balance form
+		$('bal-num-lbl').setAttribute('class', 'first');
+		$('bal-num').setAttribute('class', 'full');
+		$('bal-btn').setAttribute('class', 'button blue');
+	}
+}
+
+function checkBal()
+{
+	if(radioValue('cardForm', 'giftcard') == 3) {
+		var params = {};
+		$('bal-loader').show();
+		$('bal-error').hide();
+		$('balance-text').hide();
+		params['cardnum'] = $('bal-num').value;
+		new Ajax.Request('<?php echo Mage::getUrl('')  . 'giftcard/index/checkbalance' ?>', {
+			method: 'get',
+			parameters: params,
+			onSuccess: function(transport) {
+				if(transport.responseText == '<p>Your card number is not valid</p>') {
+					$('bal-error').innerHTML = transport.responseText;
+					$('bal-error').show();
+				} else {
+					$('bal-bal').innerHTML = transport.responseText;
+					$('balance-text').show();
+				}
+				$('bal-loader').hide();
+			}
+		});	
+	}
+}
+
+function radioValue(el, radioGroup) {
+    if($(el).type && $(el).type.toLowerCase() == 'radio') {
+        var radioGroup = $(el).name;
+        var el = $(el).form;
+    } else if ($(el).tagName.toLowerCase() != 'form') {
+        return false;
+    }
+
+    var checked = $(el).getInputs('radio', radioGroup).find(
+        function(re) {return re.checked;}
+    );
+    return (checked) ? $F(checked) : null;
+}
+</script>
+
+                

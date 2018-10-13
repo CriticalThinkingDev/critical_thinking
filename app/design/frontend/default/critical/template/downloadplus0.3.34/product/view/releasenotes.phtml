@@ -1,0 +1,77 @@
+<?php
+/**
+ * Product View Version History Page for Downloadable Products
+ *
+ * @see Pisc_Downloadplus_Block_Product_View_History
+ */
+
+$_count = 0;
+$_totalcount = 0;
+?>
+<div class="downloadplus-product-releasenotes">
+
+<?php if ($this->hasLinks()): ?>
+	<div class="downloadplus-product-releasenotes-links">
+	<h2><?php echo $this->getLinksTitle() ?></h2>
+<?php
+	$_items = $this->getLinks();
+	$_count = 0;
+	foreach ($_items as $_item) {
+		$_detail = $this->getLinkDetail($_item->getId());
+		if ($_detail && $_detail->getVersion() && $_detail->getDetail()) {
+?>
+			<div class="downloadplus-product-releasenotes-entry">
+			<h3><?php echo $_item->getTitle() ?></h3>
+			<h4><?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion(); ?></h4>
+			<div class="downloadplus-product-releasenotes-detail">
+			<?php echo $_detail->getDetail(); ?>
+			</div>
+			</div>
+<?php
+			$_count++;
+		}
+	}
+	$_totalcount = $_totalcount+$_count;
+	if ($_count==0) {
+		echo $this->__('Currently there are no Release Notes available.');
+	}
+?>
+	</div>
+<?php endif; ?>
+
+<?php if ($this->hasSamples()): ?>
+	<div class="downloadplus-product-releasenotes-samples">
+	<h2><?php echo $this->getSamplesTitle() ?></h2>
+<?php
+	$_items = $this->getSamples();
+	$_count = 0;
+	foreach ($_items as $_item) {
+		$_detail = $this->getSampleDetail($_item->getId());
+		if ($_detail && $_detail->getVersion() && $_detail->getDetail()) {
+?>
+			<div class="downloadplus-product-releasenotes-entry">
+			<h3><?php echo $_item->getTitle() ?></h3>
+			<h4><?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion(); ?></h4>
+			<div class="downloadplus-product-releasenotes-detail">
+			<?php echo $_detail->getDetail(); ?>
+			</div>
+			</div>
+<?php
+			$_count++;
+		}
+	}
+	$_totalcount = $_totalcount+$_count;
+	if ($_count==0) {
+		echo $this->__('Currently there are no Release Notes available.');
+	}
+?>
+	</div>
+<?php endif; ?>
+
+<?php
+	if ($_totalcount==0) {
+		echo $this->__('Currently there are no Release Notes available.');
+	}
+?>
+
+</div>

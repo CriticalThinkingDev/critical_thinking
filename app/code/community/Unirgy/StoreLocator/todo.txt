@@ -1,0 +1,37 @@
+Admin:
+
+ Location entry:
+  -- * Add multi-store selection list
+  -- * Add country
+  -- * Add location tags
+  -- * add icon image input
+  -- * add checkbox, to use or not marker label, changed check boxes to yes/no selects
+  -- * add initial zoom box
+  -- * add featured box
+
+ General settings
+  -- * add custom url input, after save add URL rewrite
+  -- * add default sort criteria - Alpha, Distance
+  -- * add default sort direction
+  -- * add default country, if selected, on map load we show all locations in that country if not, we show all locations
+  -- * upload and import locations
+    fields:
+        required
+            title, address
+        optional
+            latitude, longitude, address_display, notes, website_url, phone, product_types, udropship_vendor, country, stores, icon, use_label, is_featured, zoom
+  -- * export locations
+
+Frontend
+
+  -- * Migrate to api v.3
+  -- * provide directions to location
+  -- * add search by name
+  -- * add search by country
+  -- * order featured stores first
+  -- * add tag row filter
+
+  -- * add more radius
+  -- * fix image size
+  -- * google directions public transportation - not available
+  -- * default zoom

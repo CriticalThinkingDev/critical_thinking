@@ -1,0 +1,103 @@
+<?php $formUrl =  Mage::getUrl('testimonial/submit/post', array('_secure'=>true)); ?>
+<div class="page-title">
+    <h1><?php echo Mage::helper('testimonial')->__('Let us know your thoughts...') ?></h1>
+</div>
+
+
+
+
+<form action="<?php echo $formUrl; ?>" id="testimonial-form" method="post" enctype="multipart/form-data" onsubmit="return jcap();" name="testimonial-form">
+<?php $formData = Mage::getSingleton('core/session', array('name'=>'frontend'))->getFormData();?>
+<fieldset>
+<div class="div_submit">
+			<div class="div_submit_content" >
+<ul>
+        <?php // do not remove div - some problem whith validator in IE ?>
+     <li>  
+        <label for="client_name"><?php echo Mage::helper('testimonial')->__('Your Name') ?><span class="required">*</span></label>
+        <div class="input-box"><input class="required-entry input-text" name="client_name" id="client_name"  type="text" value="<?php echo (($formData['client_name'])?$formData['client_name']:'');?>" /></div>
+       </li>
+	
+      <li>  
+        <label for="email"><?php echo Mage::helper('testimonial')->__('Your Email') ?><span class="required">*</span></label>
+       <div class="input-box"><input name="email" type="text" id="email"  class="required-entry validate-email input-text" value="<?php echo (($formData['email'])?$formData['email']:'');?>" />
+        </div></li>
+     	<!--
+        <div>
+        <label for="company"><?php //echo Mage::helper('testimonial')->__('Your Company') ?></label><br />
+        <input name="company" class="input-text" id="company" style="width: 450px;" type="text" value="" />
+        </div>-->
+        
+       <li> 
+        <label for="address"><?php echo Mage::helper('testimonial')->__('Your Location') ?><span class="required">*</span></label>
+       <div class="input-box"><input name="address" class="input-text required-entry"  type="text" id="address"  value="<?php echo (($formData['address'])?$formData['address']:'');?>" />
+        </div></li>
+
+ <li> 
+        <label for="product_name"><?php echo Mage::helper('testimonial')->__('Product Name') ?>&nbsp;&nbsp;</label>
+       <div class="input-box"><input name="product_name" class="input-text"  type="text" id="product_name"  value="<?php echo (($formData['product_name'])?$formData['product_name']:'');?>" />
+        </div></li>
+        
+     <?php /*  <li>
+        <label for="media"><?php echo Mage::helper('testimonial')->__('Upload Image') ?></label>
+        <div class="input-box">
+        <input type="file" name="media1" id="media1" style="width:200px;margin-left:20px;" />
+        </div>
+        </li>
+        
+        
+         <div>
+        <label for="media_url"><?php //echo Mage::helper('testimonial')->__('Media(Video, Image) URL') ?></label><br />
+        <input class="MW_validate_media input-text" name="media_url" type="text" id="media_url" style="width: 450px;"  />
+        </div>
+ */?>
+      <li>  
+        <label for="description"><?php echo Mage::helper('testimonial')->__('Your Testimonial') ?><span class="required">*</span></label>
+       <div class="input-box">  <textarea class="required-entry" name="description" id="description" cols="53" rows="6" style="width: 254px;"><?php echo (($formData['description'])?$formData['description']:'');?></textarea>
+       <br />
+       <span style="font-size:10px; color:#666666; line-height:20px;"><?php echo $this->__('* Required');?></span> </div></li>
+     <li>
+       <div class="field">
+			        <label for="Captch">&nbsp;</label>
+					
+<?php //echo $this->getChildHtml('form.additional.info'); ?> 
+<?php echo $this->getLayout()->createBlock('studioforty9_recaptcha/explicit')->setTemplate('studioforty9/recaptcha/explicit.phtml')->tohtml(); ?>
+                           
+                     
+		        </div>  		        
+		     </li>
+       <li>  	  
+        
+		<?php /*if (Mage::getStoreConfig("hm_testimonial/general/enable")==true): ?>
+		<label for="security_code"><?php echo Mage::helper('testimonial')->__('Security code') ?><span class="required">*</span></label>
+		<div class="input-box">
+			<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS).'testimonial/md5.js';?>"></script>
+			<script type="text/javascript" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS).'testimonial/jcap.js';?>"></script>
+
+				<script type="text/javascript">
+				sjcap();
+				</script>
+				<noscript><p>[This resource requires a Javascript enabled browser.]</p></noscript></div>
+<?php endif;*/?>
+
+ <img src="<?php echo $this->getSkinUrl('images/kids7.gif')?>"  alt="" style="float: right;    margin-bottom: -175px;    margin-left: 0;    margin-right: -71px;    margin-top: -100px;    padding-bottom: 0;    padding-left: 0;    padding-right: 0;    position: relative;" />
+ </li>
+
+	<li>
+    <label>&nbsp;</label>
+  <div class="input-box"><div class="button-set">        
+        <button class="form-button button"  id="submit" name="submit" type="submit"><span><span><?php echo Mage::helper('testimonial')->__('Submit Testimonial') ?></span></span></button>
+    </div></div>
+    </li>
+    
+    </ul>
+    
+    </div>
+     </div>
+</fieldset>
+<!--<p><input type="submit" id="submit" name="submit" value="Submit"></p>-->
+
+</form>
+	<script type="text/javascript">
+	editForm = new Validation('testimonial-form'); 
+	</script>

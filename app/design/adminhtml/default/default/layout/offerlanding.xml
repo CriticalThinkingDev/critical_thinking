@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <offerlanding_adminhtml_offerlanding_index>
+        <reference name="content">
+            <block type="offerlanding/adminhtml_offerlanding" name="offerlanding" />
+        </reference>
+    </offerlanding_adminhtml_offerlanding_index>
+    <offerlanding_adminhtml_offerlanding_view>
+        <reference name="content">
+            <block type="offerlanding/adminhtml_offerlanding_view" name="offerlanding_view" template="offerlanding/view.phtml" />
+        </reference>
+    </offerlanding_adminhtml_offerlanding_view>
+<offerlanding_adminhtml_puzzle_index>
+        <reference name="content">
+            <block type="offerlanding/adminhtml_puzzle" name="puzzle" />
+        </reference>
+    </offerlanding_adminhtml_puzzle_index>
+</layout> 

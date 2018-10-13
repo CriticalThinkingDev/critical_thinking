@@ -1,0 +1,6 @@
+<?php
+$productSku = trim($this->getProduct_sku());
+if($_product = Mage::getModel('catalog/product')->loadByAttribute('sku',$productSku)){ 
+?>
+<a href="<?php echo $_product->getProductUrl() ?>"><img src="<?php echo Mage::helper('catalog/image')->init($_product, 'thumbnail'); ?>" alt="<?php echo $this->htmlEscape($_product['name']); ?>" border="0"  /></a>
+<?php }?>

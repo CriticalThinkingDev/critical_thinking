@@ -1,0 +1,91 @@
+<link rel="stylesheet" type="text/css" href="<?php echo $this->getSkinUrl('css/testimonial/style.css')?>" />
+<style>
+.mw_clear{clear:both;width:100%;}
+</style>
+<p>
+<a href="<?php echo Mage::getUrl("testimonials/submit"); ?>">
+	<img width="805" height="150" border="0" alt="<?php echo $this->__('Success Stories &amp; Testimonials')?>" src="<?php echo $this->getSkinUrl('images/testimonial/success_stories_lg2.jpg')?>"></a><br>
+ </p>
+ <p class="description_text"><h3><strong><?php echo $this->__('Featured Success Stories &amp; Testimonials:')?></strong></h3>
+  <em><?php echo $this->__('Learning moments and reviews from parents, homeschooling parents, kids, teachers and administrators.')?></em><br/>
+  </p>
+<div class="mw_clear"></div>
+<?php 
+	$testimonial = $this->getTestimonials(2);
+	//$allow_media = (Mage::getStoreConfig('hm_testimonial/general/allow_media')) ? Mage::getStoreConfig('hm_testimonial/general/allow_media'):0;
+?>
+<?php
+    if($testimonial->count() < 1):
+?>
+<div class="postWrapper">
+<p><?php echo Mage::helper('testimonial')->__('No Testimonials'); ?></p>
+</div>
+<?php
+    else:
+?>
+<div class="postWrapper">
+<?php foreach ($testimonial as $post): ?> 
+    	<div>
+    	<?php $desc = trim($post->getDescription());
+    	$desc = ltrim($desc,'<p>');
+    	$desc = rtrim($desc,'</p>');?>
+    	<p class="description_text"><?php echo $desc; ?> - <?php echo $post->getClientName();?><?php if($post->getAddress()!=''){ echo ', '.$post->getAddress(); }?>
+		</p>
+        	
+			<!--<p style="float:right; margin-right:0.4em; "><?php //echo $post->getClientName();?> 
+			<?php 
+			
+				/*$allow_Email = Mage::getStoreConfig('hm_testimonial/general/allow_email');
+				$allow_address = Mage::getStoreConfig('hm_testimonial/general/allow_address');
+				$allow_company = Mage::getStoreConfig('hm_testimonial/general/allow_company');
+		                if($allow_Email && $post->getEmail()!=''){
+				      echo ' - '.$post->getEmail();
+				}
+				if($allow_company && $post->getCompany()!='') {?>- <a href="<?php echo $post->getWebsite(); ?>" ><?php echo $post->getCompany();?></a><?php } */
+				
+			?>
+			</p>-->
+   		</div>
+    	<div class="mw_clear"></div>  
+  
+<?php endforeach; ?>
+</div>
+<?php
+	//echo $this->getToolbarHtml();
+?> 
+<?php
+    endif;
+?>
+<?php 
+	$fTeacherTestimonial = $this->getTestimonials(1);
+?>
+
+ <p class="description_text"><strong><?php echo $this->__('Featured Teacher Testimonials: ')?></strong> 
+   <br/> <em><?php echo $this->__('"Why Educators Like You Choose Our Critical Thinking Products!"')?></em><br/>
+  </p>
+<div class="mw_clear"></div>
+<?php
+    if(!$fTeacherTestimonial):
+?>
+<div class="postWrapper">
+<p><?php echo Mage::helper('testimonial')->__('No Teacher Testimonials'); ?></p>
+</div>
+<?php
+    else:
+?>
+
+<div class="postWrapper">
+<?php foreach ($fTeacherTestimonial as $post): ?> 
+    	<div>
+    	<?php $desc = trim($post->getDescription());
+    	$desc = ltrim($desc,'<p>');
+    	$desc = rtrim($desc,'</p>');?>
+    	<p class="description_text"><?php echo $desc; ?> - <?php echo $post->getClientName();?><?php if($post->getAddress()!=''){ echo ', '.$post->getAddress(); }?>
+		</p>  
+   		</div>
+    	<div class="mw_clear"></div>   
+<?php endforeach; ?>
+</div> 
+<?php
+    endif;
+?>

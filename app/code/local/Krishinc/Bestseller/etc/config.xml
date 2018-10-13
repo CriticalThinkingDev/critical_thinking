@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+    <config>
+        <modules>
+            <Krishinc_Bestseller>
+                <version>0.1.1</version>
+            </Krishinc_Bestseller>
+        </modules>     
+     <!--   <admin>
+            <routers>
+                <bestseller>
+                    <use>admin</use>
+                    <args>
+                        <module>Krishinc_Bestseller</module>
+                        <frontName>bestseller</frontName>
+                    </args>
+                </bestseller>
+            </routers>
+        </admin> --> 
+    
+        <global>
+             <helpers>
+                <bestseller>
+                    <class>Krishinc_Bestseller_Helper</class>
+                </bestseller>
+            </helpers>   
+            <blocks>
+                <bestseller>
+                    <class>Krishinc_Bestseller_Block</class>
+                </bestseller>
+            </blocks>   
+            <models>
+            	<reports_resource>	
+            		<rewrite>
+            			<product_collection>Krishinc_Bestseller_Model_Reports_Resource_Product_Collection</product_collection>
+            		</rewrite>
+            	</reports_resource>
+            </models>
+        </global>
+    </config>

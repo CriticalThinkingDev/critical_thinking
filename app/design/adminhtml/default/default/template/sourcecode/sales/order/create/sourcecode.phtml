@@ -1,0 +1,25 @@
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="fieldset-legend head-shipping-method icon-head"><?php echo $this->__('Source Code') ?></h4>
+    </div>
+    <div class="fieldset">
+        <div id="order-sourcecode">
+            <input type="text" name="order[source_code]"   id="sourcecode" value="<?php echo $this->getsourcecode() ?>" /> 
+        </div>
+        <script type="text/javascript">
+            AdminOrder.addMethods({
+                sourcecodeFieldsBind:function (container) {
+                    if ($(container)) {
+                        var fields = $(container).select('input'); 
+                        for (var i = 0; i < fields.length; i++)
+                            fields[i].observe('change', this.sourcecodeFieldChange.bind(this))
+                    }
+                },
+                sourcecodeFieldChange:function () {
+                    this.saveData(this.serializeData('order-sourcecode'));
+                }
+            });
+            order.sourcecodeFieldsBind('order-sourcecode');
+        </script>
+    </div>
+</div>

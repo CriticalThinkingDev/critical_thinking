@@ -1,0 +1,16 @@
+Changes in 2.2.0
+
+
+Bug Fixes
+* Grey out Recipient Email Address on physical gift card
+* Character limit on Gift Card messages. Max is now 250.
+* Fixed issue with Gift Card Messages stretching
+* Fixed error message size on Check Balance
+* Fixed right side cropping of drop down box in Buy A Gift Card section
+* Can no longer "Add to Gift Card" and then use that same gift card to pay for the transaction. Will return an error message.
+* Updated config.xml with new version number
+
+Feature Additions
+* Added "Save And Continue Edit" to adminhtml edit gift card
+* Can now edit Gift Card number in adminhtml to make it whatever you want. Can be used for physical Gift Cards
+* Added TinyBrick to the Menu Bar. Removed Gift Card. This will be used to keep everything in order and under the same tab

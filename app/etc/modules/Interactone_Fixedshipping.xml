@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Interactone_Fixedshipping>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends>
+                <Interactone_Common/>
+                <Mage_Shipping/>
+            </depends>
+        </Interactone_Fixedshipping>
+    </modules>
+</config>

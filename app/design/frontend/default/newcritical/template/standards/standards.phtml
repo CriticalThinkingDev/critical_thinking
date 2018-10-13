@@ -1,0 +1,147 @@
+<style>
+.table1
+{
+  border-spacing: 10px;
+}
+.table_head
+{
+	background-color:#0A263D;
+	color:#fff;
+}
+.tabletd
+{
+border-left:#0A263D solid 1px;
+border-bottom:#0A263D solid 1px;
+padding:0px 5px;
+}
+.tabletd_last
+{
+border-left:#0A263D solid 1px;
+border-right:#0A263D solid 1px;
+border-bottom:#0A263D solid 1px;
+padding:0px 5px;
+}
+
+</style>
+
+<script>
+function callAjax(obj)
+{ 
+	document.getElementById('loading').style.display = 'block';
+	//document.getElementById('stateBox').style.display = 'none';
+	document.getElementById('standarddata').style.display = 'none';
+	
+	new Ajax.Request('<?php echo Mage::getUrl('',array('_secure' => true))?>standards/index/getstate',
+	{
+		method: 'post',
+		parameters: {product_id: obj.value},
+		onSuccess: function(transport){
+			var response = transport.responseText;
+			if(response!='')
+			{
+				document.getElementById('loading').style.display = 'none';
+				//document.getElementById('stateBox').style.display = "";
+				document.getElementById('stateDD').innerHTML = '2. ' + response;
+				jQuery("#state").material_select();
+			}
+			else
+			{
+				document.getElementById('loading').style.display = 'none';
+				//alert("No Standard Specified.");
+			}	
+		},
+		onFailure: function(){ alert('something wrong') }
+	});
+}
+
+function callDataAjax()
+{ 
+	document.getElementById('loading').style.display = 'block';
+	var product_id = document.getElementById('product_id').value;
+	var state = document.getElementById('state').value;
+	document.getElementById('standarddata').style.display = 'none';
+	
+	new Ajax.Request('<?php echo Mage::getUrl('',array('_secure' => true))?>standards/index/getstandarddata',
+	{
+		method: 'post',
+		parameters: {product_id: product_id, state: state},
+		onSuccess: function(transport){
+			var response = transport.responseText; 
+			if(response!='')
+			{
+				document.getElementById('loading').style.display = 'none';
+				document.getElementById('standarddata').style.display = 'block';
+				document.getElementById('standarddata').innerHTML = response;				
+			}
+			else
+			{
+				document.getElementById('loading').style.display = 'none';
+			}	
+		},
+		onFailure: function(){ alert('something wrong') }
+	});
+}
+</script>
+<?php
+
+$product_array = $this->getAllStandardProduct();
+$model = Mage::getModel('standards/standards');
+$product_data = $model->getProductIdOptionArrayByFilter($product_array)
+
+?>
+
+<div class="col-v8"><span class="bold_blue style1" style="padding:0 0 20px 0; float:left; width:100%;">Generate a Standards Report</span>
+<?php if(count($product_data)>0):?>1.
+			<select id="product_id" style="width:470px;" name="product_id" onChange="callAjax(this);">
+			<?php foreach($product_data as $product):?>
+			<option value="<?php echo $product['value']; ?>"><?php echo $product['label']; ?></option>
+			<?php endforeach; ?>
+			</select>
+			<?php endif; ?>  
+			 <br/><br/>
+			<span id="stateDD"></span>
+			<div style="display:none;" id="loading"><img src="<?php echo $this->getSkinUrl('images/ajax-loader.gif'); ?>" /></div>
+			<div id="standarddata">
+			</div>
+</div>
+<div class="col-v4"><div class="standards_right_text_box">
+                    <p class="bold_text"><strong>Directions</strong>:</p>
+						<ol>     
+					    <li class="description_text">Select a product from the drop-down list </li>
+							<li class="description_text">Select a state</li>
+						</ol>
+						<span class="detail_text_light"><strong>Notes:</strong> Our products align with most state and common core standards, but we pride ourselves in teaching more than the standards.  We look at and consider national, state, and now the common core standards when designing our products to make sure that our products cover those basics, but we try to teach beyond those standards in an effort to improve each child's problem solving ability.  Our motto is <em>"If we teach children everything we know, their knowledge is limited to ours. If we teach children to think, their knowledge is limitless."</em><br>
+<br>New products and state correlations are added regularly.<br>
+<br>
+Reference: <a href="http://www.corestandards.org" target="_blank">www.statestandards.org</a><br>
+<br>
+</span>
+			</div></div>
+ 
+<!-- table cellspacing="0" cellpadding="0" width="800">
+	      <tbody><tr>
+		<td align="left" valign="top" width="71%" height="20"></td>
+		<td align="right" width="29%" valign="middle" rowspan="3">
+
+					
+
+		</td>
+	      </tr>
+	      <tr>
+		<td align="left" valign="top"> 
+			
+		</td>
+       </tr>
+	      <tr>
+	        <td align="left" valign="top">
+            
+			</td>
+	      </tr>
+    </tbody>
+ </table -->
+            
+
+ 
+
+ 
+ 

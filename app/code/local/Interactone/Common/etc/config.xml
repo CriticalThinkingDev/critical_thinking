@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Interactone_Common>
+            <version>1.0.1</version>
+        </Interactone_Common>
+    </modules>
+    <global>
+        <blocks>
+            <interactone_common>
+                <class>Interactone_Common_Block</class>
+            </interactone_common>
+        </blocks>
+        <helpers>
+            <interactone_common>
+                <class>Interactone_Common_Helper</class>
+            </interactone_common>
+        </helpers>
+        <models>
+            <interactone_common>
+                <class>Interactone_Common_Model</class>
+            </interactone_common>
+        </models>
+    </global>
+    <default>
+        <interactone>
+            <settings>
+                <debug>0</debug>
+            </settings>
+        </interactone>
+    </default>
+</config>

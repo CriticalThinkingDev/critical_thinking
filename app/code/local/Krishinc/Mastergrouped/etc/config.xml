@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Krishinc_Mastergrouped>
+            <version>0.1.0</version>
+        </Krishinc_Mastergrouped>
+    </modules>
+    <frontend>
+        <routers>
+            <mastergrouped>
+                <use>standard</use>
+                <args>
+                    <module>Krishinc_Mastergrouped</module>
+                    <frontName>mastergrouped</frontName>
+                </args>
+            </mastergrouped>
+        </routers>
+    </frontend>
+    <global>
+        <helpers>
+            <mastergrouped>
+                <class>Krishinc_Mastergrouped_Helper</class>
+            </mastergrouped>
+        </helpers>
+        <blocks>
+            <mastergrouped>
+                <class>Krishinc_Mastergrouped_Block</class>
+            </mastergrouped>
+        </blocks>
+    </global>
+</config>

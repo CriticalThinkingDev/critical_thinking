@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <ebooksubscribe_index_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>
+        </reference>
+        <reference name="content">
+            <block type="ebooksubscribe/ebooksubscribe" name="ebooksubscribe" template="ebooksubscribe/ebooksubscribe.phtml" />
+        </reference>
+    </ebooksubscribe_index_index>
+</layout> 

@@ -1,0 +1,18 @@
+<?php
+/**
+ * RSS Feed on Additional Downloads of Products
+ * Feed Entry Content Block, HTML allowed
+ *
+ * @see Pisc_Downloadplus_Block_Rss_Available
+ */
+
+$download = $this->getDownload();
+$product = $this->getProduct();
+
+if ($download && $product) {
+	echo $product->getShortDescription();
+	echo '<p><u>'.$download->getLinkTitle().'</u></p>';
+	echo $download->getDescription();
+}
+
+?>

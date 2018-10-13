@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Krishinc
+ * @package    Krishinc_Hardcode
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Krishinc_Hardcode>
+            <version>0.1.0</version>
+        </Krishinc_Hardcode>
+    </modules>
+    <frontend>
+        <routers>
+            <hardcode>
+                <use>standard</use>
+                <args>
+                    <module>Krishinc_Hardcode</module>
+                    <frontName>hardcode</frontName>
+                </args>
+            </hardcode>
+        </routers>
+        <layout>
+            <updates>
+                <hardcode>
+                    <file>hardcode.xml</file>
+                </hardcode>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Krishinc_Hardcode after="Mage_Adminhtml">Krishinc_Hardcode_Adminhtml</Krishinc_Hardcode>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<catalog>
+
+				<children>
+					<items>
+						<title>Hard Code Search Rank</title>
+						<sort_order>12</sort_order>
+						<action>adminhtml/hardcode/</action>
+					</items>
+				</children>
+			</catalog>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<catalog>
+							<title>Hardcode Module</title>
+							<sort_order>10</sort_order>
+						</catalog>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<hardcode>
+					<file>hardcode.xml</file>
+				</hardcode>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <hardcode>
+                <class>Krishinc_Hardcode_Model</class>
+                <resourceModel>hardcode_mysql4</resourceModel>
+            </hardcode>
+            <hardcode_mysql4>
+                <class>Krishinc_Hardcode_Model_Mysql4</class>
+                <entities>
+                    <hardcode>
+                        <table>hardcode</table>
+                    </hardcode>
+                </entities>
+            </hardcode_mysql4>
+        </models>
+        <resources>
+            <hardcode_setup>
+                <setup>
+                    <module>Krishinc_Hardcode</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </hardcode_setup>
+            <hardcode_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </hardcode_write>
+            <hardcode_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </hardcode_read>
+        </resources>
+        <blocks>
+            <hardcode>
+                <class>Krishinc_Hardcode_Block</class>
+            </hardcode>
+        </blocks>
+        <helpers>
+            <hardcode>
+                <class>Krishinc_Hardcode_Helper</class>
+            </hardcode>
+        </helpers>
+<events>
+            <adminhtml_cms_page_edit_tab_content_prepare_form>
+                <observers>
+                    <atwix_page_edit_tab_content>
+                        <type>singleton</type>
+                        <class>Krishinc_Hardcode_Model_Observer</class>
+                        <method>cmsField</method>
+                    </atwix_page_edit_tab_content>
+                </observers>
+            </adminhtml_cms_page_edit_tab_content_prepare_form>
+        </events>
+    </global>
+</config>

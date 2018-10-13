@@ -1,0 +1,104 @@
+<?php
+    $params = Mage::app()->getRequest()->getParams();
+    $grade = (isset($params['grade']) && $params['grade'] != "") ? $params['grade']: '';
+    $constant_helper = Mage::helper('grouped/constants');
+?>
+<?php if($grade != '') { ?>
+<?php  $collection = $this->getProductCollectionOrderByGrades($grade); ?>
+
+<?php if($collection) { ?>
+    <div class="free_online_playroom_prod_box1">
+        <ul> 
+	    <?php
+		$i = 1;
+		foreach($collection as $product_data) {
+		    $class_last = '';
+		    if($i % 4 == 0) {
+			    $class_last = 'class = "last"';
+		    }
+		    $i++;
+			/* added by KTPL(31 dec) - to add first product info if its master grouped product */
+			if($product_data->getIsMasterGroupProduct()) {
+				$associate_products = Mage::helper('grouped')->getAssociatedProducts($product_data);
+				$mastergrouped_url = $associate_products[0]->getProductUrl();
+			}
+	    ?>
+            <li <?php echo $class_last; ?>>
+                <h3><?php echo $product_data->getName(); ?>
+		<?php if($product_data->getSubject()):?>
+		    <?php $subject = Mage::getModel('catalog/product')->getProductSubject($product_data->getSubject());?>
+		    <span><?php echo $this->__('Subject(s)').": ".$subject;?></span>
+		<?php endif;?>
+		</h3>
+				<?php if($product_data->getIsMasterGroupProduct()) { ?>
+					<a href="<?php echo $mastergrouped_url; ?>" title="<?php echo $this->stripTags($this->getImageLabel($product_data, 'small_image'), null, true) ?>" class="product-image">
+				<?php } else { ?>
+					<a href="<?php echo $product_data->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($product_data, 'small_image'), null, true) ?>" class="product-image">
+				<?php  } ?>
+				
+				<?php if($product_data->getIsMasterGroupProduct()) { ?>
+					<img src="<?php echo $this->helper('catalog/image')->init($product_data, 'online_playroom_image')->resize(156); ?>" width="156" height="156" alt="<?php echo $this->stripTags($this->getImageLabel($product_data, 'online_playroom_image'), null, true) ?>" />
+				<?php } else { ?>
+					<img src="<?php echo $this->helper('catalog/image')->init($product_data, 'small_image')->resize(156); ?>" width="156" height="156" alt="<?php echo $this->stripTags($this->getImageLabel($product_data, 'small_image'), null, true) ?>" />
+				<?php  } ?>
+                </a>
+                <div class="actions">
+		    <div class="play_download_btn"><?php 
+			    //if($playdemoUrl = Mage::helper('softwaredemos')->isPlayDemo($product_data)) {
+			    if($product_data->getIsSoftwareDemos() == '1' && $product_data->getSoftwareDemoFlag() == $constant_helper::SOFTWARE_DEMO_FLAG_ONLINE) {
+			    ?>
+				<?php if($playdemoUrl = $product_data->getPlaydemoUrl()):?>
+				    <a target="_blank" href="<?php echo $playdemoUrl ?>"  title="<?php echo $this->__('Play Online Demo!');?>"><span><span><?php echo $this->__('Play Online Demo!');?></span></span></a>
+				<?php endif;?>
+			<?php //} else if(Mage::helper('softwaredemos')->isDownloadableDemo($product_data)) { ?>
+			<?php } else if($product_data->getIsSoftwareDemos() == '1' && $product_data->getSoftwareDemoFlag() == $constant_helper::SOFTWARE_DEMO_FLAG_DOWNLOAD) { ?>
+				<?php
+				    if(strlen($product_data->getName()) > 43) {
+					$proname = substr($product_data->getName(),0,40);
+					$proname = substr($proname,0,strrpos($proname," "));
+					$proname = $proname."...";
+				    } else {
+					$proname = $product_data->getName();
+				    }
+				?>
+				<a href="#soft_detail_<?php echo $product_data->getId(); ?>" rel="inline-350"  class="pirobox_gall1 cd" title="<?php echo $proname; ?>"><span><span><?php echo $this->__('Download Demo!')?></span></span></a>
+				
+				<div id="soft_detail_<?php echo $product_data->getId(); ?>" class="soft_detail" style="height:150px;display:none; background:white;">
+				    <div class="soft_associated_product"> 
+					<div class="window">
+					    <?php $wd=''; if($wd = $product_data->getWindowDownload()):?>
+					    <?php  $wpath = Mage::getBaseDir('media').'/'.'blfa_files/'.$wd; ?>
+					    <a href="<?php echo Mage::getBaseUrl('media').'blfa_files/'.$wd; ?>"  title="<?php echo $wd;?>"><?php echo $this->__('WINDOWS')?></a>
+						<span>(<?php echo Mage::helper('softwaredemos')->get_file_size($wpath ,'MB');  ?>)<br /><?php echo $product_data->getWindowPlatform()?><br/><?php echo $product_data->getWindowRam()?></span>
+					    <?php else:?>
+					    <?php echo $this->__('Coming Soon')?>
+					    <?php endif;?>
+					</div>
+					<div class="mac">
+					    <?php if($md =$product_data->getMacDownload()):?>
+					    <?php  $mpath = Mage::getBaseDir('media').'/'.'blfa_files/'.$md; ?>
+						<a href="<?php echo   Mage::getBaseUrl('media').'blfa_files/'.$md; ?>"  title="<?php echo $md;?>"><?php echo $this->__('MACINTOSH')?></a>
+						<span>(<?php echo Mage::helper('softwaredemos')->get_file_size($mpath,'MB');  ?>)<br /><?php echo $product_data->getMacPlatform();?><br/><?php echo $product_data->getMacRam();?></span> 
+					    <?php else:?>
+						<?php echo $this->__('Coming Soon')?>
+					    <?php endif;?>
+					</div>
+				    </div>
+				</div>
+			<?php } ?>
+		    </div> 
+		    <div class="buy_now_btn"><a href="<?php echo ($product_data->getIsMasterGroupProduct())? $mastergrouped_url : $product_data->getProductUrl() ?>">Buy Now</a></div>
+		</div>
+		<?php // echo $product_data->getShortDescription(); ?>
+		<p>
+		    <?php echo $this->AbstractHTMLContents($product_data->getShortDescription(),90,($product_data->getIsMasterGroupProduct())? $mastergrouped_url : $product_data->getProductUrl()); ?>
+		</p>
+	    </li>
+        <?php } ?>
+     </ul>
+</div>
+<?php } else { ?>
+    <!--<h2><?php //echo $gradetext?></h2>-->
+    <div class="free_online_playroom_no_product_msg"><?php echo $this->__('No Product in this Grade.'); ?></div>
+<?php } ?>
+<?php }?>

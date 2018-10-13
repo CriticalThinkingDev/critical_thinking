@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <teachingsupport_index_index>
+	    <reference name="root">
+            <action method="setTemplate"><template>page/blank.phtml</template></action>
+        </reference> 
+        <reference name="content">
+            <block type="teachingsupport/teachingsupport" name="teachingsupport" template="teachingsupport/teachingsupport.phtml" />
+        </reference>
+    </teachingsupport_index_index> 
+     <teachingsupport_index_post>
+	    <reference name="root">
+            <action method="setTemplate"><template>page/blank.phtml</template></action>
+        </reference> 
+        <reference name="content">
+            <block type="teachingsupport/teachingsupport" name="teachingsupport" template="teachingsupport/teachingsupport.phtml" />
+        </reference>
+    </teachingsupport_index_post>
+</layout> 

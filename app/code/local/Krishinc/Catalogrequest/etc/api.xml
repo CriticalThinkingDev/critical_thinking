@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <catalogrequest_api translate="title" module="catalogrequest">
+                <title>Request a catalog Api</title>
+                <acl>catalogrequest/api</acl>
+                <model>catalogrequest/api</model>
+                <methods>                    
+						<items translate="title" module="catalogrequest">
+							<title>Catalogrequest</title>
+							<acl>catalogrequest/items</acl>
+						</items>
+						 <create translate="title" module="catalogrequest">
+	                        <title>Create customer</title>
+	                        <acl>catalogrequest/create</acl>
+	                    </create>
+	                    <info translate="title" module="catalogrequest">
+	                        <title>Retrieve customer data</title>
+	                        <acl>catalogrequest/info</acl>
+	                    </info>
+	                    <update translate="title" module="catalogrequest">
+	                        <title>Update customer data</title>
+	                        <acl>catalogrequest/update</acl>
+	                    </update>
+	                    <delete translate="title" module="catalogrequest">
+	                        <title>Delete customer</title>
+	                        <acl>catalogrequest/delete</acl>
+	                    </delete>
+                </methods> 
+               <faults module="catalogrequest">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid customer data. Details in error message.</message>
+                    </data_invalid>
+                    <filters_invalid>
+                        <code>101</code>
+                        <message>Invalid filters specified. Details in error message.</message>
+                    </filters_invalid>
+                    <not_exists>
+                        <code>102</code>
+                        <message>Customer not exists.</message>
+                    </not_exists>
+                     <not_deleted>
+                        <code>103</code>
+                        <message>Customer not deleted. Details in error message.</message>
+                    </not_deleted>
+                     <already_exists>
+                        <code>106</code>
+                        <message>Customer Email already exists.</message>
+                    </already_exists> 
+                </faults>
+                
+            </catalogrequest_api>
+        </resources> 
+        <resources_alias>
+        	<catalogrequest>catalogrequest_api</catalogrequest>
+        </resources_alias>
+         <v2>
+            <resources_function_prefix>
+                <catalogrequest>catalogequest</catalogrequest>
+            </resources_function_prefix>
+        </v2>
+        <acl>
+            <resources>
+                  <customer translate="title" module="customer">  
+	                  <catalogrequest module="catalogrequest" translate="title">
+		                  	<sort_order>1000</sort_order>
+		                  	<title>catalogrequest</title>
+							<items translate="title" module="catalogrequest">
+		                        <title>Catalogrequest List</title>
+		                    </items>
+							<create translate="title" module="catalogrequest">
+		                        <title>Catalogrequest create</title>
+		                    </create>
+							<info translate="title" module="catalogrequest">
+		                        <title>Catalogrequest info</title>
+		                    </info>
+							<update translate="title" module="catalogrequest">
+		                        <title>Catalogrequest update</title>
+		                    </update>
+		                    <delete translate="title" module="catalogrequest">
+		                        <title>Catalogrequest delete</title>
+		                    </delete> 
+		              </catalogrequest>
+                  </customer>
+            </resources>
+        </acl>
+    </api>
+</config>

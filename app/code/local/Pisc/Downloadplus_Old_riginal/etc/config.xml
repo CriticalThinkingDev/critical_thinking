@@ -1,0 +1,461 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category    Pisc
+ * @package     Pisc_Downloadplus
+ * @copyright   Copyright (c) 2009 PILLWAX Industrial Solutions Consulting
+ * @license
+ */
+-->
+<config>
+
+    <modules>
+        <Pisc_Downloadplus>
+            <version>0.3.43</version>
+        </Pisc_Downloadplus>
+    </modules>
+
+   <default>
+       	<catalog>
+       		<downloadable_delivery>
+       			<resumeable_packetsize>8</resumeable_packetsize>
+       		</downloadable_delivery>
+       		<downloadable_serialnumbers>
+       			<order_item_status_products>2</order_item_status_products>
+       			<expire_with_link>1</expire_with_link>
+       			<filename_pattern>serialnumber-{{var product.sku}}-{{var order.increment_id}}.lic</filename_pattern>
+       		</downloadable_serialnumbers>
+   		</catalog>
+    </default>
+
+    <global>
+        <models>
+            <downloadplus>
+                <class>Pisc_Downloadplus_Model</class>
+                <resourceModel>downloadplus_mysql4</resourceModel>
+            </downloadplus>
+            <downloadplus_mysql4>
+                <class>Pisc_Downloadplus_Model_Mysql4</class>
+                <entities>
+                	<link>
+                		<table>downloadable_link</table>
+                	</link>
+                	<link_title>
+                		<table>downloadable_link_title</table>
+                	</link_title>
+                    <log>
+                        <table>downloadplus_log</table>
+                    </log>
+                    <download_detail>
+                    	<table>downloadplus_download_detail</table>
+                    </download_detail>
+                    <link_customer_item>
+                    	<table>downloadplus_link_customer_item</table>
+                    </link_customer_item>
+                    <link_product_item>
+                    	<table>downloadplus_link_product_item</table>
+                    </link_product_item>
+                    <link_product_item_title>
+                    	<table>downloadplus_link_product_item_title</table>
+                    </link_product_item_title>
+                    <link_purchased_item_serialnumber>
+                    	<table>downloadplus_link_purchased_item_serialnumber</table>
+                    </link_purchased_item_serialnumber>
+                    <product_serialnumber>
+                    	<table>downloadplus_product_serialnumber</table>
+                    </product_serialnumber>
+                    <link_extension>
+                    	<table>downloadplus_link_extension</table>
+                    </link_extension>
+                    <link_purchased_item_extension>
+                    	<table>downloadplus_link_purchased_item_extension</table>
+                    </link_purchased_item_extension>
+                </entities>
+            </downloadplus_mysql4>
+            <downloadable>
+            	<rewrite>
+            		<product_type>Pisc_Downloadplus_Model_Product_Type</product_type>
+            	</rewrite>
+            </downloadable>
+        </models>
+
+        <blocks>
+            <downloadplus>
+                <class>Pisc_Downloadplus_Block</class>
+            </downloadplus>
+            <downloadable>
+            	<rewrite>
+            		<adminhtml_catalog_product_edit_tab_downloadable_links>Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Links</adminhtml_catalog_product_edit_tab_downloadable_links>
+            		<adminhtml_catalog_product_edit_tab_downloadable_samples>Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloadable_Samples</adminhtml_catalog_product_edit_tab_downloadable_samples>
+            	</rewrite>
+            </downloadable>
+		</blocks>
+
+		<!-- Adds the Downloadable Product to allowed types for Bundled Product -->
+        <catalog>
+            <product>
+                <type>
+                    <bundle translate="label" module="bundle">
+                        <allowed_selection_types>
+                            <downloadable/>
+                        </allowed_selection_types>
+					</bundle>
+				</type>
+			</product>
+		</catalog>
+
+        <template>
+        	<email>
+        		<catalog_downloadable_delivery_email_template translate="label" module="catalog">
+                   <label>New Customer Download</label>
+                   <file>downloadplus/new_customer_download.html</file>
+                   <type>html</type>
+               	</catalog_downloadable_delivery_email_template>
+        		<catalog_downloadable_serialnumbers_email_template translate="label" module="catalog">
+                   <label>New Serialnumber for Customer</label>
+                   <file>downloadplus/new_customer_serialnumber.html</file>
+                   <type>html</type>
+               	</catalog_downloadable_serialnumbers_email_template>
+				<catalog_downloadable_serialnumbers_notification_email_template translate="label" module="catalog">
+                   <label>Notification on Serialnumbers for Product</label>
+                   <file>downloadplus/notification_product_serialnumber.html</file>
+                   <type>html</type>
+               	</catalog_downloadable_serialnumbers_notification_email_template>
+				<catalog_downloadable_serialnumbers_pending_email_template translate="label" module="catalog">
+                   <label>Request for Serialnumber on Order-Item</label>
+                   <file>downloadplus/notification_orderitem_serialnumber.html</file>
+                   <type>html</type>
+               	</catalog_downloadable_serialnumbers_pending_email_template>
+           </email>
+        </template>
+
+		<helpers>
+			<downloadplus>
+				<class>Pisc_Downloadplus_Helper</class>
+			</downloadplus>
+		</helpers>
+
+        <resources>
+            <downloadplus_setup>
+                <setup>
+                    <module>Pisc_Downloadplus</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </downloadplus_setup>
+            <downloadplus_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </downloadplus_write>
+            <downloadplus_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </downloadplus_read>
+        </resources>
+
+		<events>
+	  		<downloadplus_download_process_before>
+				<observers>
+					<downloadplus_event_download_process_before>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Observer</class>
+                        <method>eventDownloadProcessBefore</method>
+					</downloadplus_event_download_process_before>
+				</observers>
+	  		</downloadplus_download_process_before>
+
+<!-- Example Event to invoke automatic creating of serial numbers for orders
+	  		<downloadplus_order_save_after_downloadable_create_serialnumber>
+				<observers>
+					<downloadplus_event_create_serialnumber>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Observer_Serialnumber</class>
+                        <method>eventDownloadableCreateSerialnumber</method>
+					</downloadplus_event_create_serialnumber>
+				</observers>
+	  		</downloadplus_order_save_after_downloadable_create_serialnumber>
+-->
+
+<!-- Event for automatically assigning Serialnumbers to downloadable products -->
+	  		<downloadplus_order_save_after_downloadable_create_serialnumber>
+				<observers>
+					<downloadplus_event_assign_serialnumber>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Observer_Serialnumber</class>
+                        <method>eventProductAssignSerialnumber</method>
+					</downloadplus_event_assign_serialnumber>
+				</observers>
+	  		</downloadplus_order_save_after_downloadable_create_serialnumber>
+<!-- Event for automatically assigning Serialnumbers to products -->
+	  		<downloadplus_order_save_after_product_create_serialnumber>
+				<observers>
+					<downloadplus_event_assign_serialnumber>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Observer_Product</class>
+                        <method>eventProductAssignSerialnumber</method>
+					</downloadplus_event_assign_serialnumber>
+				</observers>
+	  		</downloadplus_order_save_after_product_create_serialnumber>
+
+			<sales_model_service_quote_submit_after>
+                <observers>
+                    <downloadplus_event_order_save_after>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Observer</class>
+                        <method>eventOrderSaveAfter</method>
+                    </downloadplus_event_order_save_after>
+                </observers>
+			</sales_model_service_quote_submit_after>
+
+	        <sales_order_save_after>
+                <observers>
+                    <downloadplus_event_order_save_after>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Observer</class>
+                        <method>eventOrderSaveAfter</method>
+                    </downloadplus_event_order_save_after>
+                </observers>
+            </sales_order_save_after>
+	        <sales_order_save_commit_after>
+                <observers>
+                    <downloadplus_event_order_save_after>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Observer</class>
+                        <method>eventOrderSaveAfter</method>
+                    </downloadplus_event_order_save_after>
+                </observers>
+            </sales_order_save_commit_after>
+            
+            <core_abstract_save_after>
+            	<observers>
+                    <downloadplus_event_core_model_save_after>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Observer</class>
+                        <method>eventCoreModelSaveAfter</method>
+                    </downloadplus_event_core_model_save_after>
+            	</observers>
+            </core_abstract_save_after>
+            
+		</events>
+    </global>
+
+    <frontend>
+        <routers>
+            <downloadplus>
+                <use>standard</use>
+                <args>
+                    <module>Pisc_Downloadplus</module>
+                    <frontName>downloadable</frontName>
+                </args>
+            </downloadplus>
+			<downloadable>
+				<rewrite>
+					<download>
+						<to>Pisc_Downloadplus/download</to>
+					</download>
+				</rewrite>
+			</downloadable>
+        </routers>
+
+<!-- The Blocks for Terms of Use are to be defined in 'downloadable.xml' for the frontend layout, Downloadplus is extending Mage/Downloadable -->
+		<layout>
+            <updates>
+                <downloadplus>
+                    <file>downloadplus.xml</file>
+                </downloadplus>
+            </updates>
+		</layout>
+
+        <translate>
+            <modules>
+                <Pisc_Downloadplus>
+                    <files>
+                        <default>Pisc_Downloadplus.csv</default>
+                    </files>
+                </Pisc_Downloadplus>
+            </modules>
+        </translate>
+    </frontend>
+
+    <admin>
+        <routers>
+			<downloadplusadmin>
+				<use>admin</use>
+				<args>
+					<module>Pisc_Downloadplus</module>
+					<frontName>downloadplusadmin</frontName>
+				</args>
+			</downloadplusadmin>
+			<!-- Rewrite default upload action for case-sensitive setting on filenames -->
+			<downloadableadmin>
+				<rewrite>
+					<file>
+						<to>Pisc_Downloadplus/adminhtml_downloadable_file</to>
+						<override_actions>true</override_actions>
+						<actions>
+							<upload>
+								<to>Pisc_Downloadplus/adminhtml/downloadable/file/upload</to>
+							</upload>
+						</actions>
+					</file>
+				</rewrite>
+			</downloadableadmin>
+        </routers>
+		<blocks>
+        </blocks>
+    </admin>
+
+	<adminhtml>
+        <menu>
+            <catalog>
+                <children>
+					<serialnumber_import translate="title" module="downloadplus">
+						<title>Import storewide Serialnumbers</title>
+						<sort_order>200</sort_order>
+						<action>downloadplusadmin/adminhtml_serialnumber/import</action>
+					</serialnumber_import>
+					<download_statistics translate="title" module="downloadplus">
+						<title>Download Statistics</title>
+						<sort_order>201</sort_order>
+						<action>downloadplusadmin/adminhtml_dashboard</action>
+					</download_statistics>
+                 </children>
+            </catalog>
+            <sales>
+                <children>
+                	<download_serialnumbers translate="title" module="downloadplus">
+                		<title>Serialnumbers</title>
+                		<sort_order>90</sort_order>
+                		<children>
+							<download_serialnumbers_assigned translate="title" module="downloadplus">
+								<title>Serialnumbers assigned to Orders</title>
+								<sort_order>100</sort_order>
+								<action>downloadplusadmin/adminhtml_serialnumber/assigned</action>
+							</download_serialnumbers_assigned>
+                		</children>
+                	</download_serialnumbers>
+                 </children>
+            </sales>
+        </menu>
+        <events>
+        	<model_save_before>
+        		<observers>
+        			<downloadplus_adminhtml_model_save_before>
+        				<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+        				<method>eventAdminhtmlModelSaveBefore</method>
+        			</downloadplus_adminhtml_model_save_before>
+        		</observers>
+        	</model_save_before>
+        	<model_save_after>
+        		<observers>
+        			<downloadplus_adminhtml_model_save_after>
+        				<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+        				<method>eventAdminhtmlModelSaveAfter</method>
+        			</downloadplus_adminhtml_model_save_after>
+        		</observers>
+        	</model_save_after>
+        	<model_delete_after>
+        		<observers>
+        			<downloadplus_adminhtml_model_delete_after>
+        				<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+        				<method>eventAdminhtmlModelDeleteAfter</method>
+        			</downloadplus_adminhtml_model_delete_after>
+        		</observers>
+        	</model_delete_after>
+        	<adminhtml_block_html_before>
+        		<observers>
+        			<downloadplus_adminhtml_block_html_before>
+        				<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+        				<method>eventAdminhtmlBlockHtmlBefore</method>
+        			</downloadplus_adminhtml_block_html_before>
+        		</observers>
+        	</adminhtml_block_html_before>
+        	<core_block_abstract_to_html_before>
+        		<observers>
+        			<downloadplus_adminhtml_core_block_abstract_html_before>
+        				<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+        				<method>eventCoreBlockAbstractToHtmlBefore</method>
+        			</downloadplus_adminhtml_core_block_abstract_html_before>
+        		</observers>
+        	</core_block_abstract_to_html_before>
+        	<catalog_product_prepare_save>
+        		<observers>
+        			<downloadplus_adminhtml_catalog_product_prepare_save>
+        				<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+        				<method>eventCatalogProductPrepareSave</method>
+        			</downloadplus_adminhtml_catalog_product_prepare_save>
+        		</observers>
+        	</catalog_product_prepare_save>
+        	<adminhtml_customer_prepare_save>
+        		<observers>
+        			<downloadplus_adminhtml_customer_prepare_save>
+        				<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+        				<method>eventCustomerPrepareSave</method>
+        			</downloadplus_adminhtml_customer_prepare_save>
+        		</observers>
+        	</adminhtml_customer_prepare_save>
+            <!--controller_action_predispatch>
+                <observers>
+                    <downloadplus_adminnotification>
+                        <type>singleton</type>
+                        <class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+                        <method>eventUpdateNotifications</method>
+                    </downloadplus_adminnotification>
+                </observers>
+            </controller_action_predispatch-->
+            <catalog_product_save_after>
+            	<observers>
+            		<downloadplus_adminhtml_catalog_product_duplicate>
+            			<type>singleton</type>
+            			<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+            			<method>eventCatalogProductDuplicate</method>
+            		</downloadplus_adminhtml_catalog_product_duplicate>
+            	</observers>
+            </catalog_product_save_after>
+            <downloadplus_catalog_product_update_downloadable_link>
+            	<observers>
+            		<downloadplus_adminhtml_update_link_history>
+            			<type>singleton</type>
+            			<class>Pisc_Downloadplus_Model_Adminhtml_Observer</class>
+            			<method>eventDownloadableProductUpdateLinkHistory</method>
+            		</downloadplus_adminhtml_update_link_history>
+            	</observers>
+            </downloadplus_catalog_product_update_downloadable_link>
+        </events>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Pisc_Downloadplus>
+							<title>DownloadPlus Module</title>
+							<sort_order>10</sort_order>
+						</Pisc_Downloadplus>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<downloadplus>
+					<file>downloadplus.xml</file>
+				</downloadplus>
+			</updates>
+		</layout>
+        <translate>
+            <modules>
+                <Pisc_Downloadplus>
+                    <files>
+                        <default>Pisc_Downloadplus.csv</default>
+                    </files>
+                </Pisc_Downloadplus>
+            </modules>
+        </translate>
+	</adminhtml>
+
+</config>

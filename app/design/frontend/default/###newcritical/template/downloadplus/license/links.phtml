@@ -1,0 +1,55 @@
+<?php
+/**
+ * License Page for Downloadable Links
+ *
+ * @see Pisc_Downloadplus_Block_License_Links
+ */
+
+$_product = $this->getProduct();
+$_link = $this->getLink();
+$_detail = $this->getDetail();
+
+?>
+<div class="downloadable-title">
+<h2><?php echo $_product->getName() ?></h2>
+<h4><?php if ($_product->getName()!=$_link->getLinkTitle()) { echo $_link->getLinkTitle(); } ?></h4>
+
+<?php if ($_detail->getVersion()) : ?>
+	<span class="downloadable-detail-version"><?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion() ?></span>
+<?php elseif ($_product->getProductVersion()) : ?>
+	<span class="downloadable-detail-version"><?php echo $this->__('Release').'&nbsp;'.$_product->getProductVersion() ?></span>
+<?php endif ?>
+
+<?php if ($this->hasArchive()) : ?>
+	<span class="downloadable-link-archive"><a href="<?php echo $this->getArchiveUrl() ?>"><?php echo $this->__('Version Archive') ?></a></span>
+<?php endif ?>
+
+<?php if ($_detail->getDetail()) : ?>
+	<div class="downloadable-detail-description">
+	<h3><?php echo $this->__('Release Notes') ?></h3>
+	<?php echo $_detail->getDetail() ?>
+	</div>
+<?php endif ?>
+</div>
+
+<div class="downloadable-license">
+<h3><?php echo $this->__('Terms of Use') ?></h3>
+<?php echo $this->getLicense() ?>
+</div>
+
+<form action="<?php echo $this->getAction() ?>" method="post" id="form-validate">
+	<input type="hidden" name="formKey" value="<?php echo $this->getFormKey() ?>">
+
+    <div class="input-box">
+        <label for="downloadlicense_product_accepted"><?php echo $this->__('Acceptance') ?> <span class="required">*</span></label><br/>
+		<input type="checkbox" name="downloadlicense_product_accepted" class="checkbox required-entry" value="1">&nbsp;<?php echo $this->__('I accept these terms of use') ?></input>
+	</div>
+
+	<div class="button-set">
+        <p class="required"><?php echo $this->__('* Required') ?></p>
+        <input type="submit" class="button" value="<?php echo $this->__('Download') ?>" />
+    </div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate', true);
+</script>

@@ -1,0 +1,136 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="page-sitemap">
+  <div class="page-title">
+        <h1><?php //  echo $this->getTitle() ?>Site Map</h1>
+    </div>
+    <div id="sitemap_top_links">
+        <?php // echo $this->getChildHtml('links') ?>
+      
+<div class="sitemap_content_box" style="width:250px;">
+<h3><strong>Products</strong></h3>
+<ul>
+<li><a  href="<?php echo $this->getUrl('') ?>bestseller">Top Sellers</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>new">New Products</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>catalogsearch/advanced/result/?is_sale=1">Sale Items</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>catalogsearch/advanced/result/?product_type=125">Bundles</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>catalogsearch/advanced/result/?product_type=128">Browse Books</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>catalogsearch/advanced/result/?product_type=127">Browse Software</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>catalogsearch/advanced/result/?product_type=126">Browse E-Books</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>giftcard">Gift Certificates</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>test-directory">Test Prep Guide</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>award">Awards &amp; Honors</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>software-demo">Software Demos</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>printable-samples">Printable Samples</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>catalogrequest">Request a Catalog</a></li>
+</ul>			
+
+<h3><strong>Special Offers</strong></h3>
+<ul>
+<li><a  href="<?php echo $this->getUrl('') ?>overridenewsletter/subscriber/customsubscribe">Signup for eNewsletter</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>testimonial">Share your Success Story</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>special-offers">Limited Time Offers</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>catalogsearch/advanced/result/?is_sale=1">Clearance Items</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>special-offers">Free Gift</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>district-purchasing">Volume Software Savings</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>critical-thinking-quotes">Critical Thinking Quotes</a></li>
+</ul>
+</div>   
+
+<div class="sitemap_content_box" style="width:250px;">
+
+<h3><strong>Ordering Info</strong></h3>
+<ul>
+<li><a  href="<?php echo $this->getUrl('') ?>sales/guest/form">Order Status</a></li>
+<?php /*?><li><?php echo $this->getLayout()->createBlock('core/template')->setTemplate('quickorder/quickorder.phtml')->toHtml(); ?></li><?php */?>
+<li><a  href="<?php echo $this->getUrl('') ?>checkout/cart">Shopping Cart</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>shipping-rates">Shipping Rates</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>critical-giving-program">Critical Giving Program</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>customer-service#guarantee">Money-Back Guarantee</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>customer-service#returns">Return Policy</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>customer-service#previews">Preview Policy</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>district-purchasing">District Software Purchases</a></li>
+<li><a  href="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'media/pdf/ParentOrderForm.pdf'?>" target="_blank">Print Order Form</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>storelocator">Find a Store</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>advertiser">Advertisers</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>licensing-rights">Licensing Rights</a></li>
+</ul>
+
+<h3><strong>Company Info</strong></h3>
+<ul style="padding:0;">
+<li><a  href="<?php echo $this->getUrl('') ?>company">About Us</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>company#mission">Mission</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>company#history">History</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>guarantee">Our Guarantee</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>articles">Articles &amp; Advice</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>company#whatisct">What is Critical Thinking?</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>award">Awards &amp; Honors</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>testimonial">Success Stories</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>product-safety">Product Safety</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>conferences">Workshops &amp; Training</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>conferences#conferences">Conferences</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>author-submissions">Author Submissions</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>catalogrequest">Catalog Request</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>storelocator">Store Locator</a></li>
+<li><a target="_blank" href="//www.twitter.com/criticalthinks">Follow us on Twitter</a></li>
+<li><a target="_blank" href="//www.facebook.com/pages/The-Critical-Thinking-Co/46128092293">Join us on Facebook</a></li>
+</ul>
+
+<h4><a target="_blank" href="//www.twitter.com/criticalthinks"><img width="18" height="17" src="<?php echo $this->getSkinUrl('images/twitter-trans.png')?>" alt="" border="" /></a>
+<a href="//www.facebook.com/pages/The-Critical-Thinking-Co/46128092293" target="_blank"><img width="17" height="17" border="0" src="<?php echo $this->getSkinUrl('images/facebook-trans.png')?>" alt="" /></a>
+</h4>
+
+</div>
+
+
+<div class="sitemap_content_box" style="width:200px;">
+
+<h3><strong>Customer Service</strong></h3>
+<ul>
+<li><a  href="<?php echo $this->getUrl('') ?>sales/guest/form">Order Tracking</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>contacts">Contact Us</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>customcontact">Questions/Feedback</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>technical-support">Technical Support</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>errata">Book Errata</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>faqs">FAQs</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>giftcard">Gift &amp; Rewards Cards</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>storelocator">Store Locator</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>software-licensing">Software Licensing</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>reproduction-rights">Reproductive Permissions</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>site-resources">Site Resources</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>faqs#return1">Return Policy</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>customcontact/?subject=Remove">Remove from Mailing List</a></li>
+<li><a  href="<?php echo $this->getUrl('') ?>customcontact/?subject=Unsubscribe">Unsubscribe to eNewsletter</a></li>
+<li><a href="//www.schoolfundingcenter.net" target="_blank">Grant Finder</a></li>
+</ul>
+</div>
+</div>
+    <?php // echo $this->getChildHtml('pager_top') ?>
+    <?php // echo $this->getChildHtml('sitemap') ?>
+    <?php // echo $this->getChildHtml('links') ?>
+    <?php // echo $this->getChildHtml('pager_bottom') ?>
+</div>

@@ -1,0 +1,16 @@
+ <div class="entry-edit">
+<div class="entry-edit-head" id='sourcecode'>
+    <h4 class="icon-head head-sourcecode"><?php echo $this->__('Source Code') ?></h4>
+</div>
+<fieldset>
+<?php
+    if($_note = $this->getSourceCode()) {
+	    if (false !== $_note) {
+	        echo $_note;
+	    }
+    } else {
+    	echo 'N/A'; 
+    } 
+?>
+</fieldset>
+</div>

@@ -1,0 +1,259 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="page-title">
+  <div class="advanced-search-summary">   <?php $searchCriterias=$this->getSearchCriterias(); $searchCriteriasCombine = array_merge($searchCriterias['left'],$searchCriterias['right']); //echo '<pre>';print_R($searchCriteriasCombine);?>
+    <?php echo $this->__('Your Search: ')?>
+         
+            <?php    $i=1;  $cnt = sizeof($searchCriteriasCombine);?>
+                <?php foreach($searchCriteriasCombine as $criteria):?>
+                	<?php //echo  $this->htmlEscape($this->helper('catalog')->__($criteria['name'])).':'; ?> 
+                	<?php if((strtolower($criteria['value']) == 'yes') || (strtolower($criteria['value']) == 'no')):?>
+                		<?php echo $this->htmlEscape($criteria['name']); ?>
+                	<?php else:?>
+                		<?php echo $this->htmlEscape($criteria['value']); ?>
+                	<?php endif;?>
+                	<?php if($i++ < $cnt): echo ':';endif;?>
+                 <?php endforeach; ?> 
+				 
+           
+        
+      </div>
+</div>
+<?php  echo $this->getMessagesBlock()->toHtml(); ?>
+<?php if($this->getResultCount()): ?>
+ <!--   <p class="advanced-search-amount">
+        <?php //echo $this->helper('catalogsearch')->__('<strong>%d item(s)</strong> were found using the following search criteria', $this->getResultCount()); ?>
+    </p>-->
+<?php else: ?>
+    <p class="error-msg"><?php echo $this->helper('catalogsearch')->__('No items were found using your search criteria. Please try another search.');?> </p>
+	<div id="mg-ajaxcart-dialog">
+<div id="mg-ajaxcart-dialog1">
+    <div class="ui-dialog-titlebar">
+    <span class="ui-dialog-title-ajax"><?php echo $this->__('Item Added to Shopping Cart')?></span>       
+    <span class="ui-dialog-title-ajax-close"><a href="javascript:void(0);" class="closeajaxcart">close</a></span>    
+    </div>
+    	<div class="product-info"> 
+    		<p class="msg"><?php echo $this->__('You have added ');?> <span class="name"></span> into shopping cart.
+				<span class="component_sold" style="display: none;">
+					<br>
+					<br>
+					<font color="#CC3333"<strong>**Required and/or Optional Component(s) sold separately for this product.**</strong></font>
+					<br>
+					Please read the description carefully.
+				</span>
+			</p>
+    	</div>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix" style="width:500px; padding:13px 20px 0 0;">
+        <div class="ui-dialog-buttonset">
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only  continue-shop"  >
+        <span class="ui-button-text">Continue Shopping</span>
+        </button>
+        <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="setLocation('<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?> ')">
+        <span class="ui-button-text">View Cart</span></button>
+        </div>
+        </div>
+        </div>
+		<?php /*?><p class="w-msg"><?php echo $this->__('This dialog will automatically closed in 10 seconds.');?></p><?php */?>
+    </div>
+<script type="text/javascript">
+//<![CDATA[
+	var data = new Object();
+ 
+		var dialog = null;
+			
+		function mask(msg) {
+			jQuery('body').mask(msg);
+		}
+		 
+		function unmask() {
+			jQuery('body').unmask();	
+		}
+	
+		function update(response) { 
+	  	    
+		    jQuery('#mg-ajaxcart-dialog .product-info img').remove();	
+			jQuery('.block-cart').replaceWith(response.sidebar);
+			jQuery('.header-cartlink-itemnum-display span').html(response.count); 
+			jQuery('#longTextContent').html(response.sidebar);  
+			
+			if(response.product_message!='')
+			jQuery('#mg-ajaxcart-dialog .product-info .msg').html(response.product_message);
+			
+			else
+			jQuery('#mg-ajaxcart-dialog .product-info .msg .name').html(response.name);
+			
+			if(response.component_sold == '1') {
+				jQuery('#mg-ajaxcart-dialog .product-info .component_sold').show();
+			} else if(response.component_sold == '0') {
+				jQuery('#mg-ajaxcart-dialog .product-info .component_sold').hide();
+			}
+			
+			var imgLength =jQuery('#mg-ajaxcart-dialog .product-info img').length;
+			if(imgLength == 0)
+			{
+				var img = '<img/>';
+				jQuery('#mg-ajaxcart-dialog .product-info').prepend(img);
+			}
+			
+			
+			jQuery('#mg-ajaxcart-dialog .product-info img').attr('src', response.thumbnail);			
+			jQuery('#mg-ajaxcart-dialog').fadeIn();
+			dialog = setTimeout(function() { jQuery('#mg-ajaxcart-dialog').fadeOut(); }, 1000000);
+		}
+	
+		
+		function getInfo(formpostdata) {
+			var form_key = "<?php echo Mage::getSingleton('core/session')->getFormKey();?>"; 
+			var url = "<?php echo Mage::helper('ajaxtocart')->getInfoUrl()?>"; 
+			
+			mask('Updating information ...');
+			var data = {};
+			var productid = formpostdata['product'];
+			
+			data.form_key = form_key;
+			if (jQuery('#is_master_grouped'+productid).length > 0 && jQuery('#is_master_grouped'+productid).val() == '1') {
+				productid = jQuery('#product_id_super_group'+productid).val();
+				data.is_master_grouped = 1;
+			}
+			data.form_productid = productid;
+			jQuery.post(
+				url,
+				data, 
+				function (response) {
+					unmask();
+					response = jQuery.parseJSON(response);
+					update(response);
+				}
+			) 
+		}
+		
+		jQuery('.continue-shop').click(function() {
+			unmask();
+			jQuery('.qty').attr('value', 1);
+			jQuery('#mg-ajaxcart-dialog').fadeOut();
+			clearTimeout(dialog);
+			return false;
+		});
+		
+		jQuery('.goto-cart').click(function() {
+			window.location = '<?php echo Mage::helper('checkout/cart')->getCartUrl(); ?>';
+			clearTimeout(dialog);
+			return false;
+		});
+		jQuery('.closeajaxcart').click(function(){jQuery('.qty').attr('value', 1); jQuery('#mg-ajaxcart-dialog').fadeOut();});
+	
+		//*****Start:: For bundle extraction feature*****//
+		
+		function addtocart(id,prefix) {
+		
+			var data = new Object();
+			
+			if(jQuery('#span_'+id).html() == '')
+			{
+				alert('Please select License!');
+				return false; 
+			} 
+			mask('Adding Product to Cart ...');
+			
+			var form_key = "<?php echo Mage::getSingleton('core/session')->getFormKey();?>";
+			var url = "<?php echo Mage::helper('ajaxtocart')->getAddUrl();?>";
+			
+			var inp = jQuery('#'+prefix+id+' input'); 
+			var sel = jQuery('#'+prefix+id+' select');
+			
+			jQuery.each(inp, function(key, value) { 
+				var name = jQuery(value).attr('name'); 
+				var value = jQuery(value).val(); 
+				data[name] = value; 
+			}); 
+			 
+			jQuery.each(sel, function(key, value) {
+				var name = jQuery(value).attr('name');
+				var value = jQuery(value).val();
+				data[name] = value; 
+			}); 
+			if(data['related_product'+id] != '')
+			{
+				if (jQuery('#is_master_grouped'+id).length > 0 && jQuery('#is_master_grouped'+id).val() == 1) {
+					data['product'] = jQuery('#product_id_super_group'+id).val();
+				} else {
+					data['product'] = data['first'+id];
+				}
+				data['related_product']  = data['related_product'+id]; 
+			}else {
+				if (jQuery('#is_master_grouped'+id).length > 0 && jQuery('#is_master_grouped'+id).val() == 1) {
+					data['product'] = jQuery('#product_id_super_group'+id).val();
+				} else {
+					data['product'] = id;
+				}
+			}
+			
+			data['form_key'] = form_key;
+			
+			jQuery.post(
+				url,
+				data,
+				function (response) {
+					unmask();
+					response = jQuery.parseJSON(response);
+					if (response.success) {
+						getInfo(data);
+					} else {
+						alert(response.msg);
+					}
+				}
+			);
+			
+			return false;
+		}
+		//*****Start:: For bundle extraction feature*****// 
+//]]>
+</script>
+<?php endif; ?>
+
+ 
+<?php if($this->getResultCount()): ?>
+    <?php echo $this->getProductListHtml() ?>
+     
+	<?php else :?>
+	<div class="toprecommended">
+	 <?php  echo $this->getLayout()->createBlock('bestseller/bestseller')->setTemplate('catalog/product/recommended.phtml')->toHtml(); ?>
+	 </div>
+<?php endif; ?>
+<?php $this->getSearchCriterias(); ?>
+<div class="overwelmed_noti" id="overwelmed_noti" style="display: none;">
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('overwhelmed')->toHtml();  ?>
+</div>
+<script type="text/javascript">
+	jQuery(document).ready( function() {
+		jQuery('#overwelmed_noti').delay(15000).slideToggle();
+		jQuery('#overwelmed_noti').delay(45000).fadeOut();
+	});
+	function overwelmednoticlose(){
+		jQuery("#overwelmed_noti").hide();
+	}
+	</script>

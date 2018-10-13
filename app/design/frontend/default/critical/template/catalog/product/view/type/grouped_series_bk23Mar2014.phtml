@@ -1,0 +1,284 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Grouped product data template
+ *
+ * @see Mage_Catalog_Block_Product_View_Media
+ * @see Mage_Catalog_Block_Product_View_Type_Grouped
+ */
+?>
+<?php $this->setPreconfiguredValue(); ?>
+<?php $_product = $this->getProduct(); ?>
+<?php $_associatedProducts = $this->getAssociatedProducts(); ?>
+ 
+<?php $_hasAssociatedProducts = count($_associatedProducts) > 0; ?>
+<?php /*if ($_product->isAvailable() && $_hasAssociatedProducts): ?>
+    <p class="availability in-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('In stock') ?></span></p>
+<?php else: ?>
+    <p class="availability out-of-stock"><?php echo $this->__('Availability:') ?> <span><?php echo $this->__('Out of stock') ?></span></p>
+<?php endif;*/ ?>
+<?php echo $this->getChildHtml('product_type_data_extra') ?>
+<table class="data-table grouped-items-table" id="super-product-table">
+    <col />
+    <col />
+    <col width="1" />
+    <thead>
+        <tr>
+            <th style="border-right:#fff solid 2px;"><?php echo $this->__('Item No.') ?></th>
+            <th style="border-right:#fff solid 2px;"><?php echo $this->__('Title') ?></th> 
+            <th style="border-right:#fff solid 2px;width:10%;"><?php echo $this->__('Grade') ?></th>
+            <th style="border-right:#fff solid 2px;"><?php echo $this->__('Type') ?></th>
+            <?php if ($this->getCanShowProductPrice($_product)): ?>
+            <th style="border-right:#fff solid 2px;"><?php echo $this->__('Price') ?></th>
+            <?php endif; ?>
+            <?php //if ($_product->isSaleable()): ?>
+            <th style="" ><?php echo $this->__('Qty') ?></th>
+            <?php //endif; ?>  
+            
+            
+        </tr>
+    </thead>
+    <tbody>
+    <?php if ($_hasAssociatedProducts): ?>
+    <?php $productType = '';
+    foreach ($_associatedProducts as $_item): 
+        if($_item->getTypeId() == 'grouped'):
+                $_subAssociatedProducts = $_item->getTypeInstance(true)->getAssociatedProducts($_item); 
+           endif;
+            if($_item->getTypeId()=='downloadable') {$_item = Mage::getModel('catalog/product')->load($_item->getId());// added to resolve issue of out-of-stock in listing page
+          }
+        ?>
+        
+        <?php $_finalPriceInclTax = $this->helper('tax')->getPrice($_item, $_item->getFinalPrice(), true) ?>
+        <?php if(($productType == '') || ($productType !=$_item->getProductType())): ?>
+            <tr><td colspan="5"><?php $productType = $_item->getProductType();?><b><?php echo $_item->getAttributeText('product_type');?></b></td></tr>
+        <?php endif;?>
+        <tr>
+            <td class="left_td_bold" valign="top"><?php echo $_item->getSku() ?></td>
+            <td valign="top">  <a href="<?php echo $_item->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_item->getName())?>" ><?php echo $this->htmlEscape($_item->getName()) ?></a></td> 
+            <td valign="top"><?php echo Mage::getModel('catalog/product')->getProductGrade($_item->getGrade())?></td>
+            <td valign="top">
+                <?php if($_item->getTypeId() == 'grouped'):?>
+                <?php $subItemId='';$subItemQty='';$subPrice=array();$subAvailText='';$availText=array();?>
+                    <?php if(count($_subAssociatedProducts)>0):?>    
+                        <select name="grouped_items"  onchange="changePrice(this,<?php echo $_item->getId() ?>)" id="series_prod_<?php echo $_item->getId()?>">
+                            <?php $i=0;   foreach ($_subAssociatedProducts as $_subItem): 
+                            $priceArr[$_subItem->getId()] =  $this->getPriceHtml($_subItem, true);
+                            $availText[$_subItem->getId()] =   $_subItem->getAvailableText();
+                             if($_subItem->getTypeId()=='downloadable') {$_subItem = Mage::getModel('catalog/product')->load($_subItem->getId());// added to resolve issue of out-of-stock in listing page
+          }
+                            if($i==0)
+                            { 
+                                
+                                $subItemId =$_subItem->getId();
+                                $subItemQty =$_subItem->getQty();
+                                $subPrice =   $this->getPriceHtml($_subItem, true);  
+                                $subAvailText =   $_subItem->getAvailableText();
+                                //
+                                if($_subItem->isSaleable())
+                                {
+                                     $defostat = 1;
+                                }else
+                                {
+                                     $defostat = 0;
+                                }
+                            }
+                            $i++;
+                                if($_subItem->isSaleable())
+                                {
+                                     $status = 1;
+                                }else
+                                {
+                                     $status = 0;
+                                }
+                             ?> 
+                            <option id="<?php echo $_subItem->getId()?>" status="<?php echo $status; ?>" value="<?php echo $_subItem->getId()?>"><?php  echo (($_subItem->getAttributeText('license'))?$_subItem->getAttributeText('license').(($_subItem->getAttributeText('media_type_details'))?' - '.$_subItem->getAttributeText('media_type_details'):''):$this->htmlEscape($_subItem->getName()))?> </option> 
+                        <?php endforeach;?>
+                        </select>
+                        
+                    <?php else: ?> 
+                        <?php echo $_item->getAttributeText('media_type') ?>
+                    <?php endif; ?>
+                <?php else: ?> 
+                    <?php echo $_item->getAttributeText('media_type') ?>
+                <?php endif; ?>
+            </td>
+            <?php if ($this->getCanShowProductPrice($_product)): ?>
+            <td valign="top">
+            <?php  if($_item->getTypeId() == 'grouped'){?>
+                    <?php if(count($_subAssociatedProducts)>0):?>     
+                             <div id="group_price_<?php echo $_item->getId();?>" class='regular-price' > 
+                             <?php if(!isset($subAvailText)):?>
+                                 <?php echo $subPrice ?>
+                                 <?php endif;?>
+                             </div>
+                            
+                             <?php foreach ($priceArr as $key => $value):?>
+                                <div id="sub_group_price_<?php echo $key;?>" style="display:none;" >
+                                <?php if(!isset($availText[$key])):?>
+                                    <?php echo $value;?> 
+                                <?php endif;?>
+                                </div>
+                             <?php endforeach;?>  
+                            <?php else:?>                                
+                                <?php if ($this->getCanShowProductPrice($_item)): ?>
+                                    <?php echo $this->getPriceHtml($_item, true) ?>
+                                    <?php echo $this->getTierPriceHtml($_item) ?>
+                                <?php endif; ?>
+                            <?php endif; ?>                            
+                       <?php } else {?>
+                            <?php if(is_null($_item->getAvailableText())){?>
+                                <?php if ($this->getCanShowProductPrice($_item)): ?>
+                                    <?php echo $this->getPriceHtml($_item, true) ?>
+                                    <?php echo $this->getTierPriceHtml($_item) ?>
+                                <?php endif; ?>
+                              <?php } ?>
+                        <?php } ?>
+            </td>
+            <?php endif; ?>
+            <?php //if ($_product->isSaleable()): ?>
+            <td valign="top">
+            <?php if ($_item->isSaleable()) : ?>  
+            
+           <?php  if($_item->getTypeId() == 'grouped') { ?>
+                       <?php if($defostat == 1) { ?>
+                            <?php /* associated items add to cart */?>
+                            
+                            <?php $upsellProducts = $_item->getUpSellProductCollection()->setPositionOrder()->addStoreFilter();
+                            
+                                   $upscount = count($upsellProducts); 
+                                   if(($_item->getProductType() == 125) && ($upscount > 0)){ 
+                                    $j=0;$values = '';$first='';
+                                    foreach ($upsellProducts as $_link) {  
+                                            /* if(($_link->isSaleable() == 1) && (($_link->getTypeId() == 'simple')||($_link->getTypeId() == 'downloadable'))){ */
+                                            //if($_link->isSaleable() == 1){
+                                                 /*if($j == 0 && $_link->getId()==$_item->getId()): 
+                                                      $first  = $_link->getId();
+                                                  else: */
+                                                    $values .= ','.$_link->getId(); 
+                                                 //endif;  
+                                                // $j++; 
+                                            //}
+                                            
+                                        }
+                                        
+                                        ?>
+                                        <input type="hidden" name="series_related_products[<?php echo $_item->getId() ?>]"  id="related_products[<?php echo $_item->getId() ?>]" value="<?php echo ltrim($values,',')?>"/> 
+                            <?php } ?>
+                            <?php /* associated items add to cart */?>
+                            
+                            <div id="no_sale_<?php echo $_item->getId() ?>" style="display:none">
+                                <p class="availability out-of-stock"><span>Out of stock</span></p>
+                            </div>
+                            <div id="sale_<?php echo $_item->getId() ?>" style="display:block">
+                                 <input type="text"  id="custom_group_prod_<?php echo $_item->getId() ?>" name="series_qty[<?php echo $_item->getId()?>][<?php echo $subItemId; ?>]" maxlength="12" value="<?php echo $subItemQty*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />       
+                            </div>      
+                            <?php } else { ?>
+                            <div id="no_sale_<?php echo $_item->getId() ?>" style="display:block">
+                                <p class="availability out-of-stock"><span>Out of stock</span></p>
+                            </div>
+                            <div id="sale_<?php echo $_item->getId() ?>" style="display:none">
+                             <input type="text"  id="custom_group_prod_<?php echo $_item->getId() ?>" name="series_qty[<?php echo $_item->getId()?>][<?php echo $subItemId; ?>]" maxlength="12" value="<?php echo $subItemQty*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty" />       
+                            </div>
+                            <?php } ?>  
+                <?php } else  { ?>
+                 <?php $upsellProducts = $_item->getUpSellProductCollection()->setPositionOrder()->addStoreFilter();
+                        $upscount = count($upsellProducts); 
+                       if(($_item->getProductType() == 125) && ($upscount > 0)){ 
+                        $j=0;$values = '';$first='';
+                        foreach ($upsellProducts as $_link) {  
+                                if(($_link->isSaleable() == 1) && ($_link->getTypeId() != 'group')){
+//                                     if($j == 0 && $_link->getId()==$_item->getId()): 
+//                                           $first  = $_link->getId();
+//                                      else: 
+                                        $values .= ','.$_link->getId(); 
+//                                     endif;  
+//                                     $j++; 
+                                }
+                            }?>
+                            <input type="hidden" name="series_related_products[<?php echo $_item->getId() ?>]"  id="related_products[<?php echo $_item->getId() ?>]" value="<?php echo ltrim($values,',')?>"/> 
+                <?php } ?>
+                
+                <input type="text" name="series_qty[<?php echo $_item->getId() ?>]"  maxlength="12" value="<?php echo $_item->getQty()*1 ?>" title="<?php echo $this->__('Qty') ?>" class="input-text qty"  />
+                <?php  }  ?>
+                
+                
+             <?php else: ?>
+             
+                  <p class="availability out-of-stock"><span><?php echo ((is_null($_item->getAvailableText()))?'Out of stock':$_item->getAvailableText())?></span></p> 
+            <?php endif; ?>
+            </td>
+            <?php //endif; ?>
+        </tr>
+    <?php endforeach; ?>
+    <?php else: ?>
+       <tr>
+           <td colspan="<?php if ($_product->isSaleable()): ?>4<?php else : ?>3<?php endif; ?>"><?php echo $this->__('No options of this product are available.') ?></td>
+       </tr>
+    <?php endif; ?>
+    </tbody>
+</table>
+<script type="text/javascript">
+//<![CDATA[
+
+decorateTable('super-product-table');
+function changePrice(sel,priceId)
+{
+    var selected = sel.options[sel.selectedIndex];
+    var cust_prod_id = selected.getAttribute('id');
+    var status = selected.getAttribute('status');
+         //alert(selected);alert(cust_prod_id);alert(status);
+    if(!$("sub_group_price_"+cust_prod_id).empty())                    
+    { 
+        var priceHtml =$("sub_group_price_"+cust_prod_id).innerHTML;     
+     
+        document.getElementById("group_price_"+priceId).innerHTML = priceHtml; 
+        $('custom_group_prod_'+priceId).name = "series_qty["+priceId+"]["+cust_prod_id+"]"; 
+    
+    
+        if(status == 1)
+        {
+            $('sale_'+priceId).show();
+            $('no_sale_'+priceId).hide();
+        }else if(status == 0)
+        {
+            $('sale_'+priceId).hide();
+            $('no_sale_'+priceId).show();
+        }
+    } else{
+        document.getElementById("group_price_"+priceId).innerHTML ='';
+    }
+}
+
+function changeQty(val,itemId)
+{
+
+    document.getElementById('custom_group_prod_'+itemId).value = val;
+} 
+
+//]]>
+</script>

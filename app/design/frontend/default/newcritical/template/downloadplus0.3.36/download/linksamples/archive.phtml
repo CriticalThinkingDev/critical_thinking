@@ -1,0 +1,45 @@
+<?php
+/**
+ * Version Archive Block for Downloadable Links
+ *
+ * @see Pisc_Downloadplus_Block_Download_Links_Archive
+ */
+
+$_files = $this->setSort('version DESC')->getCollection();
+$_current = $this->getDetail();
+?>
+
+<div class="downloadable-title">
+<h2><?php echo $this->getProduct()->getName() ?></h2>
+<h3><?php echo $this->getLink()->getLinkTitle().'&nbsp;'.$this->__('(Sample)') ?></h3>
+<?php if ($_current && $_current->getVersion()): ?>
+	<h4><?php echo $this->__('Release').'&nbsp;'.$_current->getVersion() ?></h4>
+	<div class="downloadable-detail-description"><?php echo $_current->getDetail() ?></div>
+<?php endif; ?>
+<span class="downloadable-link-archive"><a href="<?php echo $this->getOriginalDownloadUrl(); ?>">Download current Release</a></span>
+</div>
+
+<div class="downloadable-archive">
+<h3><?php echo $this->__('Archived Versions') ?></h3>
+<?php
+$count = 0;
+foreach ($_files as $_file) {
+	if ($_file->getVersion() && $_file->getDetail()) {
+		$count++;
+?>
+		<div class="downloadable-archive-item">
+			<h4><?php echo $this->__('Release').'&nbsp;'.$_file->getVersion() ?></h4>
+			<span class="downloadable-link-archive"><a href="<?php echo $this->getArchiveDownloadUrl($_file); ?>">Download this Release</a></span>
+			<div class="downloadable-detail-description"><?php echo $_file->getDetail() ?></div>
+		</div>
+<?php
+	}
+}
+if ($count==0) {
+?>
+	<span class="downloadable-archive-empty"><?php echo $this->__('Currently there are no older releases available for download.') ?></span>
+<?php
+}
+?>
+
+</div>

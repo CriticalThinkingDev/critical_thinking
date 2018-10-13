@@ -1,0 +1,74 @@
+<?php
+/**
+ * Register/Login Block for Downloadable Links
+ *
+ * @see Pisc_Downloadplus_Block_Download_Unavailable
+ */
+?>
+
+<div class="downloadable-title">
+<h2><?php echo $this->getProduct()->getName() ?></h2>
+<h4>
+<?php if ($this->getLink()->getId()) { echo $this->getLink()->getLinkTitle(); } ?>
+<?php if ($this->getLinkSample()->getId()) { echo $this->getLinkSample()->getLinkSampleTitle(); } ?>
+<?php if ($this->getSample()->getId()) { echo $this->getSample()->getLinkTitle(); } ?>
+<?php if ($this->getProductLinkItem()->getId()) { echo $this->getProductLinkItem()->getLinkTitle(); } ?>
+</h4>
+<?php if ($this->getDetail()->getVersion()) : ?>
+	<span class="downloadable-detail-version"><?php echo $this->__('Release').'&nbsp;'.$this->getDetail()->getVersion() ?></span>
+<?php elseif ($this->getProduct()->getProductVersion()) : ?>
+	<span class="downloadable-detail-version"><?php echo $this->__('Release').'&nbsp;'.$this->getProduct()->getProductVersion() ?></span>
+<?php endif ?>
+<p>&nbsp;</p>
+</div>
+
+<div class="downloadable-unavailable">
+	<h3><?php echo $this->__('This Download requires you to be registered or logged in') ?></h3>
+	<p><?php echo $this->__('Please login or register with us below to access this download.')?></p>
+</div>
+
+<form action="<?php echo Mage::helper('customer')->getLoginPostUrl(); ?>" method="post" id="login-form">
+<div class="col2-set login-box">
+    <div class="col-1">
+        <div class="content">
+            <div class="head-alt2">
+                <h4 class="title"><?php echo $this->__('Registered Customers') ?></h4>
+            </div>
+            <p><?php echo $this->__('If you have an account with us, please log in.') ?></p>
+            <ul class="form-list">
+            	<li>
+                	<label for="email"><?php echo $this->__('Email Address') ?> <span class="required">*</span></label><br/>
+                  	<input name="login[username]" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" title="<?php echo $this->__('Email Address') ?>" id="email" type="text" class="input-text required-entry" style="width:250px;"/>
+                </li>
+                <li>
+                    <label for="pass"><?php echo $this->__('Password') ?> <span class="required">*</span></label><br/>
+                	<input name="login[password]" type="password" class="input-text required-entry validate-password" id="pass" style="width:250px;"/>
+                </li>
+            </ul>
+            <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+    	</div>
+	    <div class="button-set">
+	        <a href="<?php echo Mage::helper('customer')->getForgotPasswordUrl() ?>" class="f-left"><?php echo $this->__('Forgot Your Password?') ?></a>
+	        <input type="submit" class="button" name="send" id="send2" value="<?php echo $this->__('Login') ?>" />
+	    </div>
+    </div>
+    <div class="col-2">
+        <div class="content">
+            <div class="head-alt2">
+                <h4 class="title"><?php echo $this->__('New Customers') ?></h4>
+            </div>
+            <p><?php echo $this->__('By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.') ?></p>
+        </div>
+        <div class="button-set">
+            <a href="<?php echo Mage::helper('customer')->getRegisterPostUrl() ?>" class="button">
+          		<input type="button" class="button-long" value="<?php echo $this->__('Create an Account') ?>" />
+            </a>
+        </div>
+    </div>
+</div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('login-form', true);
+</script>
+
+</div>

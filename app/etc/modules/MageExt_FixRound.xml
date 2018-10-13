@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MageExt_FixRound>
+            <active>true</active>
+            <codePool>local</codePool>
+        </MageExt_FixRound>
+    </modules>
+</config> 

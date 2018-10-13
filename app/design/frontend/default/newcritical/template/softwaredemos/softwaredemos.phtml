@@ -1,0 +1,96 @@
+<?php  
+$collection = $this->getCollection(); ?>
+<div class="page-title">
+  <h1>Softwaredemos</h1> 
+</div>
+<div class="soft_products">
+  <ol id="soft-list" class="soft_products_list">
+  <?php $type = ''; ?>
+  <?php $classArray = array('first','second','third','forth','fifth'); ?>
+  <?php $i = 0;$ct=count($collection); 
+   foreach($collection as $product) { ?>
+   	<?php //if($product->getType() == 'download'){?>
+		<?php  if(trim($product->getValueId()) != trim($type)) { 
+			 $subcnt=1;
+			$cnt = $this->getSoftwareDemosCount($product->getSubjectId());?>	  
+			<?php if($i!=0){?>
+	    		</li>
+			<?php }?>
+			<li class="<?php echo $classArray[$i]?>"><?php echo $product->getValue()." Software"; ?></li>
+			<li class="<?php echo $classArray[$i]?>1">
+			<?php  $i++;?>
+		<?php }?>  
+	   <div class="soft_products_line <?php echo (($subcnt == $cnt)?' last':'')?>">
+	
+	   
+	    <div class="soft_product_detail">
+	    <?php if($product->getIconImg()):?>
+	    	<span><img  alt="<?php echo $product->getSoftname(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$product->getIconImg();  ?>"/></span>
+	    	<?php endif;?>
+	    	<h2><table width="290" border="0" cellspacing="0" cellpadding="0">
+	  <tr>
+	    <td height="35" style="vertical-align: middle;" align="left" valign="middle"><a id="<?php echo $product->getValueId().$product->getId()?>" name="<?php echo $product->getValueId().$product->getId()?>"></a><?php echo $product->getSoftname(); ?></td>
+	  </tr>
+	</table>
+	</h2> 
+	    	<p><?php echo $product->getDescription(); ?></p>
+	    </div>
+	     <div class="soft_product_image">
+	    	  <img  alt="<?php echo $product->getSoftname(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$product->getLargeImg();  ?>"/>
+	    </div> 
+	     <?php $softproduct = $this->getProductCollectionBySoftwaredemo($product->getId());?>
+	     <?php foreach($softproduct as $softprod)  {?>
+	     <?php  if($softprod !='' )  { ?>
+	     	<?php $prod = Mage::getModel('catalog/product')->load($softprod['product_id']);  ?>
+			 	<?php if($prod->getIsSalable()){?>
+			 	   <div class="soft_associated_product">
+			    	<div class="soft_product_name">
+			        <a href="<?php echo $prod->getProductUrl(); ?>" ><?php echo  $prod->getName(); ?></a>
+			        <?php if($prod->getGrade()):?>
+		        					<span><?php echo $this->__('Grade(s)')?> <?php echo Mage::getModel('catalog/product')->getProductGrade($prod->getGrade());?></span>
+		        				<?php endif;?>
+			        </div>
+			          
+			        <div class="window">
+				        <?php if($wd = $prod->getWindowDownload()):?>
+				        <?php $wpath = Mage::getBaseDir('media').DS.'blfa_files/'.$wd; ?>
+			           <a href="<?php echo Mage::getBaseUrl('media').'blfa_files/'.$wd; ?>"  title="<?php echo $wd;?>">Download Exe</a>
+			            <br />( <?php echo Mage::helper('softwaredemos')->get_file_size($wpath ,'MB');  ?> )  <br /> 
+			             <?php else:?>
+				            <?php echo $this->__('Coming Soon')?>
+			            <?php endif;?>
+					  
+			            <?php echo  $prod->getWindowPlatform();?>				 
+						<br/><?php echo $prod->getWindowRam();?>
+					  
+			        </div> 
+			        <div class="mac">
+			     	<?php if($md =$prod->getMacDownload()):?>
+	 				<?php $mpath = Mage::getBaseDir('media').DS.'blfa_files/'.$md; ?>
+			         <a href="<?php echo   Mage::getBaseUrl('media').'blfa_files/'.$md; ?>"  title="<?php echo $md;?>">Download Exe</a><br />(<?php echo Mage::helper('softwaredemos')->get_file_size($mpath,'MB');  ?> )          
+			            <br />
+			               <?php else:?>
+				            <?php echo $this->__('Coming Soon')?>
+			            <?php endif;?>
+			            <?php echo $prod->getMacPlatform();?>
+			            <br/>
+			            <?php echo  $prod->getMacRam(); ?>
+			            
+			        </div> 
+			    </div>
+			<?php } ?>     
+			<?php } ?>     
+			
+		  <?php  }?>
+	</div>
+    
+   <?php if($ct == $i ) {?>
+  </li>
+  <?php }?>
+  <?php	$type = $product->getValueId();$subcnt++;?>
+  <?php } ?>   
+  <?php //} ?>   
+  </ol>
+</div>
+<div class="test_top_back_btn1"><a href="#"><img src="<?php echo $this->getskinUrl('images/backtotop.gif') ?>" alt="" border="0" /></a></div>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('software_demo_text_box')->toHtml() ?>

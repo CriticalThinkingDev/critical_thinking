@@ -1,0 +1,39 @@
+<?php 
+
+	$_product = $this->getProduct();
+	$grouped_product_model = Mage::getModel('catalog/product_type_grouped');
+	$groupedParentId = $grouped_product_model->getParentIdsByChild($_product->getId());
+	if(sizeof($groupedParentId) >0){
+		$seriesProductData = Mage::getModel('catalog/product')->load($groupedParentId[0]);
+		$_associatedProducts = $this->getSeriesProducts($seriesProductData);
+		if(count($_associatedProducts) > 1) {
+	
+?>
+<div class="aw-box aw-mini-related-items block1">
+<div class="aw-content-box1">
+    <div class="head">
+        <h4><?php echo $this->__('All Products In This Series') ?></h4>
+    </div>
+    <div class="aw-content all_product_series">
+	<ul>
+<?php
+			foreach($_associatedProducts as $_series_products) {
+				if($_series_products->getId() != $_product->getId()) {
+				 $productName = $_series_products->getName();
+				 $grade = Mage::getModel('catalog/product')->getProductGrade($_series_products->getGrade());
+?>
+			<li>
+				<span><a href="<?php echo $_series_products->getProductUrl() ?>"><?php echo $this->htmlEscape($productName) ?></a></span> <?php echo $grade; ?>
+			</li>
+<?php				
+				}
+			}
+ ?>           
+        </ul>
+</div></div></div>
+  <?php  
+		}   
+	}
+
+?>
+	

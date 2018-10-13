@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Krishinc
+ * @package    Krishinc_General
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Krishinc_General>
+            <version>0.1.0</version>
+        </Krishinc_General>
+    </modules>
+    <frontend>
+        <routers>
+            <general>
+                <use>standard</use>
+                <args>
+                    <module>Krishinc_General</module>
+                    <frontName>general</frontName>
+                </args>
+            </general>
+            <catalogsearch>
+                <args>
+                    <modules>
+                        <general before="Mage_CatalogSearch">Krishinc_General</general>
+                    </modules>
+                </args>
+            </catalogsearch>
+
+        </routers>
+
+    </frontend>
+    <adminhtml>
+    <events>
+        <catalog_entity_attribute_save_after>
+            <observers>
+                <general>
+
+                    <class>general/observer</class>
+                    <method>reindexCatalogSearch</method>
+                </general>
+            </observers>
+        </catalog_entity_attribute_save_after>
+    </events>
+    </adminhtml>
+    <admin>
+        <routers>
+			<general>
+				<use>admin</use>
+				<args>
+					<module>Krishinc_General</module>
+					<frontName>general</frontName>
+				</args>
+			</general>
+        </routers>
+    </admin>
+    <global>
+        <helpers>
+            <general>
+                <class>Krishinc_General_Helper</class>
+            </general>
+        </helpers>
+        <models>
+            <general>
+                <class>Krishinc_General_Model</class>
+            </general>
+
+        </models>
+    </global>
+</config>

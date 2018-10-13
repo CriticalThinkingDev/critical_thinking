@@ -1,0 +1,173 @@
+<html><head>
+<title>The Critical Thinking Co. &trade; - Teaching Support Center</title>
+<link rel="icon" href="<?php echo Mage::getBaseUrl('media').'favicon/default/favicon_1.ico'; ?>" type="image/x-icon" />
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<style type="text/css">
+<!--
+.style2 { color: #DCE0F3;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: small;}
+.style2 a {color: #dce0f3; }
+.style3 {font-family: Arial, Helvetica, sans-serif}
+.style4 {font-family: Arial, Helvetica, sans-serif}
+.style6 {font-family: Arial, Helvetica, sans-serif; font-size: x-small;}
+.style7 {color: #666666;
+ font-family: Arial, Helvetica, sans-serif; 
+ font-size: x-small;}
+.style8 {font-size: small;
+font-family: Arial, Helvetica, sans-serif;}
+.style11 {
+    font-size: x-small;
+}
+
+.style12 {
+    color: #DCE0F3;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: x-small;
+}
+.teachingsupport_bg01 { background:url(../images/teachingsupport/teachingsupport_bg01.gif) repeat-x left top #118002;} 
+
+.style5 {
+    color: #666666;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: x-small;
+}
+.style5 a{
+    color: #666666; text-decoration:underline;
+}
+.style5 a:hover { color:#000000; text-decoration:none;}
+-->
+</style>
+<script language="javascript" type="text/javascript">
+<!--
+function MM_preloadImages() { //v3.0
+  var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+    var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+    if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+
+function MM_swapImgRestore() { //v3.0
+  var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+
+function MM_findObj(n, d) { //v4.01
+  var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+    d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+  if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+  for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+  if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+
+function MM_swapImage() { //v3.0
+  var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+   if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+ </head>
+<body leftmargin="0" topmargin="0" onLoad="MM_preloadImages('<?php echo $this->getSkinUrl('images/brightminds_ro.gif')?>','<?php echo $this->getSkinUrl('images/criticalthink_ro.gif')?>')" bgcolor="#FFFFFF" marginheight="0" marginwidth="0">
+<div align="center" >
+<table id="Table_01" align="center" border="0" cellpadding="0" cellspacing="0" height="300" width="600">
+	<tbody><tr>
+		<td colspan="3">
+			<div align="right"><img src="<?php echo $this->getSkinUrl('images/teachingsupport/teachingsupport.gif')?>" alt="Teaching Support" align="top" height="58" width="275"></div></td>
+		<td rowspan="3" valign="top">
+			<div align="left"><img src="<?php echo $this->getSkinUrl('images/teachingsupport/teacher.gif')?>" alt="Instruction Guide provides teaching support..." align="top" height="207" width="325"></div></td>
+	</tr>
+	<tr>
+	  <td width="82">
+	  <a href="<?php echo $this->getBaseUrl('')?>" target="_self" onMouseOver="MM_swapImage('criticalthinking','','<?php echo $this->getSkinUrl('images/criticalthink_ro.gif')?>',1)" onMouseOut="MM_swapImgRestore()"><img src="<?php echo $this->getSkinUrl('images/teachingsupport/criticalthinking.gif')?>" alt="The Critical Thinking Co." name="criticalthinking" id="criticalthinking" align="top" border="0" height="24" width="82"></a></td>
+		<td width="112">
+	  <img src="<?php echo $this->getSkinUrl('images/teachingsupport/downloads.gif')?>" alt="Downloads" align="top" height="24" width="112"></td>
+      <td width="81" style="background:url(<?php echo $this->getSkinUrl('images/teachingsupport/teachingsupport_bg01.gif')?>) repeat-x left top #118002; ">&nbsp;</td>
+	</tr>
+	<tr>
+		<td colspan="3" bgcolor="118002" valign="middle">
+        
+        <table align="right" border="0" height="125" width="100%">
+          <tbody> 
+       	 <?php if($params = $this->getRequest()->getPost()):?>
+            <?php if($this->getTeachingsupport()) {
+            	$tsData = $this->getTeachingsupport()->getData();?>
+		            <tr valign="top">
+		            <td colspan="2" class="style2">
+		              Enjoy this useful teaching tool.<br><br>
+					  <strong><em><?php echo $tsData['title']?></em></strong><br>
+					  <?php echo $tsData['type'];?>
+					  </td>
+					  </tr>
+					  
+					  <tr valign="top">
+					  <?php if(!empty($tsData['pdf'])){?>
+					   <?php $pdfPath = Mage::getBaseDir('media').'/'.$tsData['pdf']; ?>
+					        <td class="style2" <?php if(empty($tsData['pdf1'])){?>colspan="2"<?php }?>><strong><?php echo (!empty($tsData['pdf_title1'])?$tsData['pdf_title1']:' PDF ')?></strong> <span class="style12">(~<?php echo Mage::helper('teachingsupport')->get_file_size($pdfPath,'MB');  ?>)  </span><br> 
+							<a href="<?php echo   Mage::getBaseUrl('media').$tsData['pdf']; ?>" target="_blank" class="style8">Download</a></td>
+						<?php }?> 
+						<?php if(!empty($tsData['pdf1'])){?>
+					   <?php $pdfPath1 = Mage::getBaseDir('media').'/'.$tsData['pdf1']; ?>
+					        <td class="style2"><strong><?php echo (!empty($tsData['pdf_title2'])?$tsData['pdf_title2']:' PDF ')?></strong> <span class="style12">(~<?php echo Mage::helper('teachingsupport')->get_file_size($pdfPath1,'MB');  ?> )   </span><br>
+				            
+							<a href="<?php echo   Mage::getBaseUrl('media').$tsData['pdf1']; ?>" target="_blank" class="style8">Download</a></td>
+						<?php }?>
+						</tr>
+				
+           <?php } else {  ?>
+	           <tr valign="top">
+				 <td colspan="2" class="style9">
+			              <strong>PAGE ACCESS ERROR:</strong><br>
+						  The ID # you entered does not have any additional teaching support materials for download.			  </td>
+	          </tr> 
+           <?php }?>
+           <?php else:?>
+           <tr valign="top">
+            <td class="style2" align="right" valign="top"><br>
+
+              <span class="style4"><strong>Enter Item #:<br></strong></span>
+                      <span class="style8">8-digit item # located&nbsp;<br>
+              on back cover&nbsp;</span>
+              
+            </td>
+            <td class="style2" align="left" valign="top"><br>
+
+            <form method="POST" action="<?php echo Mage::helper('teachingsupport')->getPostUrl(); ?>">
+              <input name="product_id" size="14" maxlength="8" class="required-entry" type="text">
+			  <br>
+			  <input value=" Submit " type="submit">
+            </form></td>
+            </tr>
+            <?php   endif;?>
+          
+          <tr valign="top">
+            <td colspan="2" class="style2"></td>
+          </tr>
+        </tbody></table></td>
+	</tr>
+	<tr>
+		<td colspan="4">
+			<img src="<?php echo $this->getSkinUrl('images/teachingsupport/books.gif')?>" alt="books" height="84" width="600"></td>
+	</tr>
+    
+    <tr>
+    <td class="style5" colspan="4">
+    <?php if($params = $this->getRequest()->getPost()):?>
+  <?php if(!empty($tsData['pdf'])){?>
+
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('teachingsupport_text_box')->toHtml() ?>
+
+  <?php }?>
+  <?php endif;?>
+    </td>
+    
+    </tr>
+	<tr>
+		<td colspan="4">
+		  <span class="style7"><br>
+		 <?php echo  Mage::getStoreConfig('design/footer/copyright')?> </span></td>
+  </tr>
+	
+</tbody></table>
+
+
+</div>
+
+</body></html>

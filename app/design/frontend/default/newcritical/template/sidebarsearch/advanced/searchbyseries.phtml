@@ -1,0 +1,106 @@
+<?php
+/**
+ * Catalog advanced sidebar search box
+ *
+ * @see Inchoo_CatalogSearch_Block_Advanced_Sidebar
+ */
+?>
+<style type="text/css">
+.mini-advanced-search .head h4 {
+	background-image:url(<?php echo $this->getSkinUrl('images/icon_asterick.gif') ?>);
+}
+.base-mini ul li {
+	padding:7px 4px 0 8px;
+}
+
+.mini-advanced-search input, .mini-advanced-search select {
+	display:block;
+	width:167px;
+}
+
+.mini-advanced-search #price,
+.mini-advanced-search #price_to { 
+	display: inline; width: 55px;
+}
+
+.mini-advanced-search .button-set { 
+	margin-top: 15px; padding: 8px; 
+}
+</style>
+
+<div class="box base-mini mini-advanced-search1">
+<div class="head">
+ <h4 class="legend"><?php echo $this->__('Advanced Search') ?></h4>
+</div>
+<form action="<?php echo $this->getUrl('catalogsearch/advanced/result'); ?>" method="get" id="form-validate">
+<?php $shop_need = array('subject','grade','product_type') ?>
+<fieldset class="advanced-search-left wide">
+    <ul id="advanced-search-list">
+        <?php foreach ($this->getSearchableAttributes() as $_attribute): ?>
+        <?php echo "Code :".$_code = $_attribute->getAttributeCode() ?>
+        <?php  if(in_array($_code,$shop_need)) { ?>
+        <li>
+            <label for="<?php echo $_code ?>"><?php echo $this->getAttributeLabel($_attribute) ?></label>
+            <?php switch($this->getAttributeInputType($_attribute)):
+                case 'number': ?>
+                <div class="range field-row">
+                    <input name="<?php echo $_code ?>[from]" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute, 'from')) ?>" id="<?php echo $_code ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text validate-number" type="text" />
+                    -
+                    <input name="<?php echo $_code ?>[to]" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute, 'to')) ?>" id="<?php echo $_code ?>_to" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text validate-number" type="text" />
+                </div>
+                <?php break;
+                case 'price': ?>
+                <div class="range field-row">
+                    <input name="<?php echo $_code ?>[from]" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute, 'from')) ?>" id="<?php echo $_code ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text validate-number" type="text" />
+                    -
+                    <input name="<?php echo $_code ?>[to]" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute, 'to')) ?>" id="<?php echo $_code ?>_to" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text validate-number" type="text" />
+
+                    (<?php echo $this->getCurrency($_attribute); ?>)
+                </div>
+                <?php break;
+                case 'select': ?>
+                    <?php echo $this->getAttributeSelectElement($_attribute) ?>
+                    <?php /* echo preg_replace('/<select.*name="(.*?)".*?>/i','<select name="$1"><option value="">Show All</option>',$this->getAttributeSelectElement($_attribute)); */ ?>
+
+                <?php break;
+                case 'yesno': ?>
+                    <?php echo $this->getAttributeYesNoElement($_attribute) ?>
+                <?php break;
+                case 'date': ?>
+                    <?php echo $this->getDateInput($_attribute, 'from') ?>
+                    -
+                    <?php echo $this->getDateInput($_attribute, 'to') ?>
+                <?php break;
+                default: ?>
+                <input name="<?php echo $_code ?>" id="<?php echo $_code ?>" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute)) ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text <?php echo $this->getAttributeValidationClass($_attribute) ?>" type="text" />
+            <?php endswitch; ?>
+        </li>
+        <?php } ?>
+        <?php endforeach; ?>
+    </ul>
+    <script type="text/javascript">decorateList('advanced-search-list')</script>
+<div style="display:none;" class="validation-advice">You have to specify at least one search term.</div>
+</fieldset>
+<div class="button-set">
+    <p class="required">* <?php echo $this->__('Required Fields') ?></p>
+    <button class="form-button" type="submit"><span><?php echo $this->__('Search') ?></span></button>
+</div>
+</form>
+<script type="text/javascript">
+    var dataForm = new VarienForm('form-validate', true);
+</script>
+<script type="text/javascript">
+//$('form-validate').getElements().each(function(el){ el.enable(); })
+
+	$('form-validate').observe('submit',function(e){
+		this.getElements().each(function(el){
+			if(!el.getValue() || el.getValue()==''){
+				//add class?
+				 el.disable(); 
+			}
+		});
+		//Event.stop(e);
+	});
+</script>
+<br />
+</div>

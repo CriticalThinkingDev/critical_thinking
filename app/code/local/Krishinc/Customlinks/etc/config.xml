@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!-- 
+	created : 11/20/12
+	@category Krishinc
+	@package Krishinc_Customlinks
+	@author Bijal Bhavsar
+	@copyright Krishinc - 2012 - http://www.krishinc.com
+ -->    
+<config>
+    <modules>
+        <Krishinc_Customlinks>
+            <version>0.1.1</version>
+        </Krishinc_Customlinks>
+    </modules>  
+    <global> 
+         <blocks>    
+         	<customlinks> 
+				<class>Krishinc_Customlinks_Block</class>   
+         	</customlinks>                    
+            <adminhtml>
+                <rewrite>
+                    <catalog_product_edit_tabs>Krishinc_Customlinks_Block_Adminhtml_Catalog_Product_Edit_Tabs</catalog_product_edit_tabs>   
+                </rewrite>  
+            </adminhtml> 
+        </blocks>   
+        <helpers>
+			<customlinks>
+				<class>Krishinc_Customlinks_Helper</class>
+			</customlinks>
+		</helpers>
+        <models>
+        	<customlinks> 
+				<class>Krishinc_Customlinks_Model</class>   
+         	</customlinks>     
+         	<catalog>
+         		<rewrite> 
+        			<product>Krishinc_Customlinks_Model_Product</product>
+         		</rewrite>
+         	</catalog>
+        	<catalog>
+        		<rewrite>
+        			<product_link>Krishinc_Customlinks_Model_Product_Link</product_link>
+        			<product_link_api>Krishinc_Customlinks_Model_Product_Link_Api</product_link_api>
+        		</rewrite>
+        	</catalog>
+        </models> 
+	</global>
+    <adminhtml>
+		<layout>
+			<updates>
+				<customlinks>
+					<file>customlinks.xml</file> 
+				</customlinks>
+			</updates>
+		</layout>
+		<events>
+			<catalog_product_save_before>
+				<observers>
+					<save_reverse> 
+						<type>singleton</type>
+						<class>customlinks/observer</class> 
+						<method>saveReverseLinks</method>
+					</save_reverse>
+				</observers>
+			</catalog_product_save_before>
+		</events>
+	</adminhtml> 
+	<frontend>
+		<layout>
+			<updates>
+				<customlinks>
+					<file>customlinks.xml</file> 
+				</customlinks>
+			</updates>
+		</layout> 
+	</frontend>
+	<admin>
+        <routers>
+            <adminhtml>
+                    <args>
+                        <modules>
+                            <Krishinc_Customlinks before="Mage_Adminhtml">Krishinc_Customlinks</Krishinc_Customlinks>
+                        </modules>
+                    </args>
+            </adminhtml>
+        </routers>
+	  	</admin>  
+</config>
+ 

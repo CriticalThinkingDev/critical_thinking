@@ -1,0 +1,17 @@
+<?php if(count($this->getItemCollection()->getItems())): ?> 
+<h2><?php echo $this->__('Bundle Contents') ?></h2><br/>
+  <p>
+    <?php $this->resetItemsIterator() ?>
+    <?php for($_i=0;$_i<$this->getRowCount();$_i++): ?>
+    
+        <?php for($_j=0;$_j<$this->getColumnCount();$_j++): ?>
+            <?php if($_link=$this->getIterableItem()): ?>
+                   <a href="<?php echo $_link->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_link->getName()) ?>"><?php echo $this->htmlEscape($_link->getName()) ?></a>
+                   <br/>
+            <?php else: ?>
+				<br/>            
+            <?php endif; ?>
+        <?php endfor; ?>
+    <?php endfor; ?>
+</p>
+<?php endif ?>

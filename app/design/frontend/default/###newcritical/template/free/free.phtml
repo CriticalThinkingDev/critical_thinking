@@ -1,0 +1,100 @@
+<div class="download_logo_box"><h3><?php echo $this->__('Login to Download your Free eBook! ')?></h3></div>
+	<?php $isSecure = Mage::app()->getFrontController()->getRequest()->isSecure();?>	           
+ 	<?php $sessionData =  Mage::getSingleton('core/session')->getFormData();?>
+		  <tr> 
+		    <td width="52%" valign="top" align="center"> <br>
+				 
+                 
+                 <div class="free_login_box1">
+                 <table width="350" cellspacing="0" cellpadding="0" border="0" class="details_link_light">
+			              <tbody>
+			                <tr>
+			                  <td colspan="4" align="left" valign="top">
+                              
+                              <div style="padding:0px; margin:0px; line-height:0px; border:none 0px;" >
+                              
+                                  
+                                    <div style="line-height:14px; width:4px; height:24px; float:left;" ><img width="4" height="24" src="<?php echo $this->getSkinUrl('images/tab-left4.gif')?>" /></div>
+                                    <div class="customer_login_text-h"><?php echo $this->__('CUSTOMER LOGIN')?></div>
+                                    <div style="line-height:14px; width:7px; height:24px; float:left;" ><img width="7" height="24" src="<?php echo $this->getSkinUrl('images/tab-right4.gif')?>" /></div>
+                                  
+                              
+		                      </div>
+                              
+                              
+                              </td>
+		                    </tr>
+			                <tr> 
+			              
+                          
+                            
+			              </tr>
+			              <tr valign="top" bgcolor="#D8D8FA" align="left"> 
+			                <td height="170" colspan="4"> 
+			                <form method="POST" action="<?php echo $this->getUrl('',array( '_nosid' => true, '_store' => 'default', '_type' => 'direct_link' )).'free/index/download'?>">
+			                    <table width="325" cellspacing="0" cellpadding="0" border="0" class="detail_text">
+			                      <tbody><tr align="left" colspan="2"> 
+			                        <td height="20" class="consultant_finder_error" colspan="2">&nbsp;</td>
+			                      </tr>
+			                      <tr> 
+			                        <td align="center" colspan="2"> <p align="center"> <span class="consultant_finder_text"> 
+			                            <?php echo $this->__('Please enter your name and order number to continue. ')?>
+			                            </span> </p></td>
+			                      </tr>
+			                      <tr> 
+			                        <td>&nbsp;</td>
+			                        <td width="188">&nbsp;</td>
+			                      </tr>
+			                      <tr> 
+			                        <td align="right"> <span class="consultant_finder_text"> 
+			                          <?php echo $this->__('Full Name: ')?>&nbsp;</span> </td>
+			                        <td> 
+									  <span class="consultant_finder_text"> 
+			                          <input value="<?php echo ((isset($sessionData['name']))?$sessionData['name']:'')?>" tabindex="1" size="25" name="name">
+									  </span>									</td>
+			                      </tr>
+			                      <tr>
+			                        <td colspan="2" style="line-height:0;" height="5">&nbsp;</td>
+			                        </tr>
+			                      <tr> 
+			                        <td align="right"> <span class="consultant_finder_text"> 
+			                          <?php echo $this->__('Web Order #:')?>&nbsp;</span> </td>
+			                        <td> <span class="consultant_finder_text"> 
+			                          <input value="<?php echo ((isset($sessionData['order_number']))?$sessionData['order_number']:'')?>" tabindex="2"  size="25" name="order_number">
+									  </span>									  </td>
+			                      </tr>
+			                      <tr> 
+			                        <td colspan="2" style="line-height:0;">&nbsp;</td>
+			                      </tr>
+			                      <tr align="center"> 
+			                        <td height="12" colspan="2">
+									<div align="center">
+									 <font style="font: bold 12px ; color: red;">			                        </font>									</div>									</td>
+			                      </tr>
+			                      <tr> 
+			                        <td align="right">&nbsp; </td>
+			                        <td height="10">
+				                         <p align="left"> 
+				                            <input type="submit" value="Submit" class="search-now" name="submit">
+				                          </p>			                         </td>
+			                      </tr>
+			                    </tbody></table>
+			                    <p></p>
+			                  </form></td>
+			              </tr>
+		              </tbody></table>
+                      </div>
+                 
+                 
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+	        </td>
+  </tr>

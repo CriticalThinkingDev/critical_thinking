@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+
+    <default>
+        <reference name="head">
+           <action method="addCss"><stylesheet>css/downloadplus.css</stylesheet></action>
+		</reference>
+     <!--   <reference name="right">
+            <block type="downloadplus/updated" name="downloadplus_updated_sidebar" template="downloadplus/sidebar/updated.phtml" />
+			
+            <block type="downloadplus/topdownloads" name="downloadplus_topdownloads_sidebar" template="downloadplus/sidebar/topdownloads.phtml" />
+           
+        </reference> -->
+    </default>
+
+<!-- Customer Account Dashboard -->
+    <customer_account>
+        <reference name="customer_account_navigation">
+            <action method="addLink" translate="label" module="downloadplus"><name>downloadplus_navigation_downloadable_serialnumbers</name><path>downloadable/customer/serialnumbers</path><label>My Serial Numbers</label></action>
+        </reference>
+    </customer_account>
+
+<!-- Serialnumbers for Customer purchased Downloadable Products -->
+    <downloadable_customer_serialnumbers>
+        <update handle="customer_account"/>
+        <reference name="my.account.wrapper">
+            <block type="downloadplus/customer_products_serialnumber" name="downloadable_customer_products_serialnumber" template="downloadplus/customer/products/serialnumber.phtml" />
+        </reference>
+        <reference name="root">
+            <action method="setHeaderTitle" translate="title" module="downloadable"><title>My Serial Numbers</title></action>
+        </reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>MyAccount</crumbName>
+                <crumbInfo><label>My Account</label><title>My Account</title></crumbInfo>
+            </action>
+        </reference>
+    </downloadable_customer_serialnumbers>
+
+<!-- The Terms of Use Page for Downloadable Samples -->
+	<downloadable_download_sample>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadSample</crumbName>
+                <crumbInfo><label>Download Sample</label><title>Download Sample</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/license_samples" name="downloadable_license_samples" template="downloadplus/license/samples.phtml" />
+        </reference>
+	</downloadable_download_sample>
+
+<!-- The Terms of Use Page for Downloadable Links -->
+	<downloadable_download_link>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadProduct</crumbName>
+                <crumbInfo><label>Download Product</label><title>Download Product</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/license_links" name="downloadable_license_links" template="downloadplus/license/links.phtml" />
+        </reference>
+	</downloadable_download_link>
+
+<!-- The Terms of Use Page for Downloadable Linksamples -->
+	<downloadable_download_linksample>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadProductSample</crumbName>
+                <crumbInfo><label>Download Product Sample</label><title>Download Product Sample</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/license_linksamples" name="downloadable_license_linksamples" template="downloadplus/license/linksamples.phtml" />
+        </reference>
+	</downloadable_download_linksample>
+
+<!-- The Terms of Use Page for additional Customer Downloadable Links -->
+	<downloadable_download_customer>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadProduct</crumbName>
+                <crumbInfo><label>Download addition to Product</label><title>Download addition to Product</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/license_customer" name="downloadable_license_customer" template="downloadplus/license/customer.phtml" />
+        </reference>
+	</downloadable_download_customer>
+
+<!-- The Terms of Use Page for additional Product Downloadable Links -->
+	<downloadable_download_product>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadProduct</crumbName>
+                <crumbInfo><label>Download addition to Product</label><title>Download addition to Product</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/license_product" name="downloadable_license_product" template="downloadplus/license/product.phtml" />
+        </reference>
+	</downloadable_download_product>
+
+<!-- The Terms of Use Page for Serialnumber Downloads -->
+	<downloadable_download_serialnumber>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadProduct</crumbName>
+                <crumbInfo><label>Download Serialnumber</label><title>Download Serialnumber</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/license_serialnumber" name="downloadable_license_serialnumber" template="downloadplus/license/serialnumber.phtml" />
+        </reference>
+	</downloadable_download_serialnumber>
+
+<!-- The Download Unavailable for all Downloadable Links/Samples -->
+	<downloadable_download_unavailable>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadUnavailable</crumbName>
+                <crumbInfo><label>Download Unavailable</label><title>Download Unavailable</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/download_unavailable" name="downloadplus_download_unavailable" template="downloadplus/download/unavailable.phtml" />
+        </reference>
+	</downloadable_download_unavailable>
+
+<!-- The Download Archive Page for Purchased Links -->
+	<downloadable_archive_purchased>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadPurchasedArchive</crumbName>
+                <crumbInfo><label>Version Archive</label><title>Version Archive</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/download_links_archive" name="downloadplus_links_archive" template="downloadplus/download/links/archive.phtml" />
+        </reference>
+	</downloadable_archive_purchased>
+
+<!-- The Download Archive Page for Downloadable Linksamples -->
+	<downloadable_archive_linksample>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadLinksamplesArchive</crumbName>
+                <crumbInfo><label>Version Archive</label><title>Version Archive</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/download_linksamples_archive" name="downloadplus_linksamples_archive" template="downloadplus/download/linksamples/archive.phtml" />
+        </reference>
+	</downloadable_archive_linksample>
+
+<!-- The Download Archive Page for Downloadable Samples -->
+	<downloadable_archive_samples>
+        <remove name="left"/>
+		<reference name="root">
+			<action method="setTemplate"><template>page/1column.phtml</template></action>
+		</reference>
+		<reference name="breadcrumbs">
+            <action method="addCrumb">
+                <crumbName>Home</crumbName>
+                <crumbInfo><label>Shop Home</label><title>Shop Home</title><link>../../../../home</link></crumbInfo>
+            </action>
+            <action method="addCrumb">
+                <crumbName>DownloadSamplesArchive</crumbName>
+                <crumbInfo><label>Version Archive</label><title>Version Archive</title></crumbInfo>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="downloadplus/download_samples_archive" name="downloadplus_samples_archive" template="downloadplus/download/samples/archive.phtml" />
+        </reference>
+	</downloadable_archive_samples>
+
+<!-- The RSS Feed on the Version History of all downloadable Products -->
+    <downloadable_rss_index>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+        <reference name="content">
+              <block type="rss/list" name="rss.list" template="rss/list.phtml"/>
+        </reference>
+    </downloadable_rss_index>
+
+    <downloadable_rss_nofeed>
+        <block type="core/template" name="root" output="toHtml" template="rss/nofeed.phtml"/>
+    </downloadable_rss_nofeed>
+
+    <downloadable_rss_updates>
+        <block type="downloadplus/rss_updates" name="downloadable.rss.updates" output="toHtml">
+			<block type="downloadplus/rss_header" name="downloadplus.rss.updates.header.title" template="downloadplus/rss/updates/header/title.phtml" />
+			<block type="downloadplus/rss_header" name="downloadplus.rss.updates.header.description" template="downloadplus/rss/updates/header/description.phtml" />
+			<block type="downloadplus/rss_updates_item" name="downloadplus.rss.updates.feed.title" template="downloadplus/rss/updates/feed/title.phtml" />
+			<block type="downloadplus/rss_updates_item" name="downloadplus.rss.updates.feed.description" template="downloadplus/rss/updates/feed/description.phtml" />
+			<block type="downloadplus/rss_updates_item" name="downloadplus.rss.updates.feed.content" template="downloadplus/rss/updates/feed/content.phtml" />
+        </block>
+    </downloadable_rss_updates>
+
+	<downloadable_rss_additional>
+        <block type="downloadplus/rss_additional" name="downloadable.rss.additional" output="toHtml">
+			<block type="downloadplus/rss_header" name="downloadplus.rss.additional.header.title" template="downloadplus/rss/available/header/title.phtml" />
+			<block type="downloadplus/rss_header" name="downloadplus.rss.additional.header.description" template="downloadplus/rss/available/header/description.phtml" />
+			<block type="downloadplus/rss_additional_item" name="downloadplus.rss.additional.feed.title" template="downloadplus/rss/available/feed/title.phtml" />
+			<block type="downloadplus/rss_additional_item" name="downloadplus.rss.additional.feed.description" template="downloadplus/rss/available/feed/description.phtml" />
+			<block type="downloadplus/rss_additional_item" name="downloadplus.rss.additional.feed.content" template="downloadplus/rss/available/feed/content.phtml" />
+        </block>
+	</downloadable_rss_additional>
+	
+</layout>

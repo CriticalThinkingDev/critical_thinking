@@ -1,0 +1,34 @@
+<?php 
+$_ccCollection = $this->getCustomcontacts();
+ 
+?> 
+<div class="content-header">
+<table cellspacing="0">
+    <tr>
+        <td style="width:80%;"><h3 class="<?php echo $this->getHeaderCssClass() ?>"><?php echo $this->helper('customcontact')->__('Contact - View')?></h3></td>
+        <td class="form-buttons"><?php echo $this->getChildHtml('back_button'); ?></td>
+    </tr>
+</table>
+</div>
+ <div class="entry-edit">
+<div class="entry-edit-head"><h4 >View Customer Details </h4></div>
+
+  <fieldset>
+  <table cellspacing="2" class="box-left"> 
+       
+			<?php if(sizeof($_ccCollection) > 0):?> 
+				<!--<tr> <td><strong><?php //echo $this->helper('customcontact')->__('ID')?>: </strong></td> <td><?php //echo $_ccCollection->getId();?></p>-->
+				<tr> <td><strong><?php echo $this->helper('customcontact')->__('Date')?>: </strong></td> <td> <?php echo Mage::helper('core')->formatDate($_ccCollection->getCreatedTime(),  'long', true);?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('customcontact')->__('Name')?>: </strong></td> <td><?php echo $_ccCollection->getName();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('customcontact')->__('Email')?>: </strong></td> <td><?php echo $_ccCollection->getEmail();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('customcontact')->__('State')?>: </strong></td> <td><?php echo $_ccCollection->getRegion();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('customcontact')->__('Subject')?>: </strong></td> <td><?php echo (($_ccCollection->getSubject())?$_ccCollection->getSubject():'N/a');?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('customcontact')->__('Comments')?>: </strong></td> <td><?php echo $_ccCollection->getComment();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('customcontact')->__('How did you find our website?')?>: </strong></td> <td><?php echo (($_ccCollection->getFoundvia())?$_ccCollection->getFoundvia():'N/A');?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('customcontact')->__('Have you ever used our products?')?>: </strong></td> <td><?php echo $_ccCollection->getUsedProducts();?></td>   </tr>
+		<?php else:?>
+			<tr> <td colspan="2"><strong><?php echo $this->helper('customcontact')->__('No Record Found')?></strong></td> </tr>
+		<?php endif;?>
+</table>
+ 
+</fieldset></div>

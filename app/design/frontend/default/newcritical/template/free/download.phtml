@@ -1,0 +1,9 @@
+<?php $isRedirectToDownladFromFreeBook = Mage::getSingleton('core/session')->getFreeBook();
+if(isset($isRedirectToDownladFromFreeBook)):  ?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('download_free_ebook1')->toHtml();?>
+<?php Mage::getSingleton('core/session')->unsFreeBook();?>
+<?php else: 
+	header( 'Location: '.Mage::getUrl('free'));  
+ 	exit();
+  endif;
+?>

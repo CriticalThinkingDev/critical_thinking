@@ -1,0 +1,17 @@
+<?php	 
+	$locations = $this->getFilteredLocations();
+	if(sizeof($locations)> 0):
+?> 
+	<?php foreach ($locations as $location):?> 
+			<div class="ctc_store_locator_result_item col-v6">
+				<h3 class="ctc_store_locator_result_company"><?php echo $location->getTitle()?></h3>
+				<p class="ctc_store_locator_result_address"><?php echo nl2br($location->getAddressDisplay())?></p>
+				<span class="ctc_store_locator_result_phone"><?php echo $location->getPhone()?></span><br>
+				<?php if($location->getWebsiteUrl() != ''):?>
+					<a target="_blank" class="ctc_store_locator_result_map_link" href="<?php echo $location->getWebsiteUrl()?>"><?php echo str_replace('http://','',$location->getWebsiteUrl())?></a><br />
+				<?php endif;?>
+				<a target="_blank" href="//maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=<?php echo $location->getTitle().' '.$location->getAddress()?>&ie=UTF8&iwloc=A" class="ctc_store_locator_result_map_link">View on Google Maps</a>
+
+			</div> 
+	<?php endforeach;?> 
+<?php endif;?>

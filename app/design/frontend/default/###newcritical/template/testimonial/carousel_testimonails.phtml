@@ -1,0 +1,90 @@
+<script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'js/slider/jquery.carouFredSel-6.2.0-packed.js'?>" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">
+    jQuery(document).ready(function() {
+        //    Variable number of visible items with variable sizes
+        jQuery('#foo3').carouFredSel({
+			responsive:true,
+			width: '100%',
+			items: {
+				visible: 1,
+				start: -1
+			},
+			scroll: {
+				items: 1,
+				duration: 300,
+				timeoutDuration: 3000
+			},
+			prev: '#prev3',
+			next: '#next3',
+            auto: 7000
+
+
+
+		});
+    });
+</script>
+<style type="text/css" media="all"> </style>
+<div id="homepage_scrolling_features">
+<h2 class="slid_title">Customers love our products...</h2>
+<h3>
+	<a href="<?php echo Mage::getUrl('').'testimonial'; ?>">
+		<?php echo Mage::helper('testimonial')->__('Tell Us Your Story '); ?>&raquo;
+	</a>
+</h3>
+<?php $allow_media = (Mage::getStoreConfig('hm_testimonial/general/allow_media')) ? Mage::getStoreConfig('hm_testimonial/general/allow_media'):0; ?>
+<?php $allow_media_popup = (Mage::getStoreConfig('hm_testimonial/general/allow_media_popup')) ? Mage::getStoreConfig('hm_testimonial/general/allow_media_popup'):0; ?>
+<?php $testimonials = $this->getAllRecents();
+	if(sizeof($testimonials)>0)
+	{?>
+	  <div class="list_carousel">
+	    <ul id="foo3">
+			<?php	foreach ($testimonials as $testimonial)	{?>
+			<li style="width:500px;">
+				<?php if ($allow_media) {?>
+					<div class="hp-testimonial-pic" >
+	     			<?php $mediaUpload = $testimonial->getMedia();
+	     			$mediaURL = $testimonial->getMediaUrl();
+	     			if ($mediaUpload)
+		     			$media = $this->getMediaUrl($mediaUpload);
+		     		elseif ($mediaURL)
+		     			$media = $mediaURL;
+		     		else
+		     			$media = false;
+	     			?>
+	     			<?php if ($media){?>
+			     		<?php $file_ext = array(); ?>
+						<?php $file_ext = explode('.',$media); ?>
+						<?php $file_ext = $file_ext[sizeof($file_ext)-1];?>
+						<?php $file_ext = strtolower($file_ext) ?>
+
+							<?php if (strpos($media, 'www.youtube.com')!==false || $file_ext=='flv'|| $file_ext=='avi'|| $file_ext=='mp3' || $file_ext=='mp4' || $file_ext=='swf'){?>
+								<img src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'testimonial/260.png';?>" width="<?php echo $this->getWidthMedia();?>" height="<?php echo $this->getHeightMedia();?>">
+							<?php } else{ ?>
+								<a href="<?php echo  $testimonial->getProductUrl() ?>"><img src="<?php echo $media;?>" width="109" height="149"/></a>
+				     		<?php }?>
+	     				<?php }?>
+	     				</div>
+	     		<?php }?>
+	     		<div class="hp-testimonial-content">
+				<?php $desc = trim($testimonial->getPostContent());
+			    	$desc = ltrim($desc,'<p>');
+			    	$desc = rtrim($desc,'</p>');?>
+
+				<?php  echo((strlen($desc)>260)?substr($desc,0,260).' ...':$desc); ?><br>
+<a style="float:left;" href="<?php echo $testimonial->getProductUrl() ?>" class="read-more">
+						<?php echo Mage::helper('testimonial')->__('Learn More '); ?>&raquo;
+					</a>
+				 <?php //echo $testimonial->getClientName();?>
+				 <a href="<?php echo Mage::getUrl('').'testimonial'; ?>" class="read-more">
+				<?php echo Mage::helper('testimonial')->__('More Testimonials '); ?>&raquo;
+			</a>
+				</div>
+			</li>
+			<?php } ?>
+		</ul>
+		<a id="prev3" class="prev" href="#">&lt;aa</a>
+		<a id="next3" class="next" href="#">&gt;aa</a>
+	</div>
+<?php } ?>
+</div>
+

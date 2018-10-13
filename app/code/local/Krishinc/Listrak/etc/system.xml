@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<config>
+	<sections>
+		<customer>
+			<groups>
+				<listrak_config translate="label">
+					<label>Listrak Settings</label>
+					<frontend_type>text</frontend_type>
+                    <sort_order>111</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <fields>
+                    	<enable translate="label">
+                    		 <label>Enable Listrak For Below Forms</label>
+                    		 <frontend_type>select</frontend_type>
+                    		 <source_model>adminhtml/system_config_source_yesno</source_model>
+                    		 <sort_order>10</sort_order>
+                    		 <show_in_default>1</show_in_default>
+                    		 <show_in_website>1</show_in_website>
+                    		 <show_in_store>0</show_in_store>
+                    	</enable>
+                    	<listrak_username translate="label">
+                    		<label>UserName</label>
+                    		<frontend_type>text</frontend_type>
+                    		<sort_order>11</sort_order>
+                   		    <show_in_default>1</show_in_default>
+                    		<show_in_website>1</show_in_website>
+                    		<show_in_store>0</show_in_store>
+                    		 	
+                    		<frontend_class>required-entry</frontend_class>
+                    		<comment>Please enter listrak api username</comment>		 
+                    	</listrak_username>
+                    	<listrak_password translate="label">
+                    		<label>Password</label>
+                    		<frontend_type>text</frontend_type>
+                    		<sort_order>12</sort_order>
+                   		    <show_in_default>1</show_in_default>
+                    		<show_in_website>1</show_in_website>
+                    		<show_in_store>0</show_in_store> 
+                    		<frontend_class>required-entry</frontend_class>
+                    		<comment>Please enter listrak api password</comment>		 
+                    	</listrak_password>
+                   		<listrak_listid translate="label">
+                    		<label>ListID</label>
+                    		<frontend_type>text</frontend_type>
+                    		<sort_order>13</sort_order>
+                   		    <show_in_default>1</show_in_default>
+                    		<show_in_website>1</show_in_website>
+                    		<show_in_store>0</show_in_store> 
+                    		<frontend_class>required-entry</frontend_class>
+                    		<comment>Please enter listrak List ID</comment>		 
+                    	</listrak_listid>
+                    	<catalogrequest translate="label">
+                    		 <label>Catalog Request</label>
+                    		 <frontend_type>select</frontend_type>
+                    		 <source_model>adminhtml/system_config_source_yesno</source_model>
+                    		 <sort_order>20</sort_order>
+                    		 <show_in_default>1</show_in_default>
+                    		 <show_in_website>1</show_in_website>
+                    		 <show_in_store>0</show_in_store>	  
+                    	</catalogrequest>
+                    	<catalogrequest_map_fields translate="label  ">
+                            <label>Catalog Request Fields Mapping</label>
+                            <frontend_model>listrak/adminhtml_system_config_form_field_mapfields</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store> 
+                            	 
+                            <comment><![CDATA[You need to add "Fields" value which will be field name of database without Underscore [e.g.: 'firstname' will be like 'Firstname' &amp; 'mailing_address' is like 'MailingAddress'] and "Listrak Field Id" you need to add field id of Listrak]]></comment>	 
+                        </catalogrequest_map_fields>
+                    	<overridenewsletter translate="label">
+                    		 <label>Newsletter Sign-Up &amp; Reseller Newsletter</label> 
+                    		 <frontend_type>select</frontend_type>
+                    		 <source_model>adminhtml/system_config_source_yesno</source_model>
+                    		 <sort_order>30</sort_order>
+                    		 <show_in_default>1</show_in_default>
+                    		 <show_in_website>1</show_in_website>
+                    		 <show_in_store>0</show_in_store>	 
+                    	</overridenewsletter>
+                    	<overridenewsletter_map_fields translate="label  ">
+                            <label>Newsletter Sign-Up &amp; Reseller Newsletter Fields Mapping</label>
+                            <frontend_model>listrak/adminhtml_system_config_form_field_mapfields</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[ ]]></comment> 
+                            <comment><![CDATA[You need to add "Fields" value which will be field name of database without Underscore [e.g.: 'firstname' will be like 'Firstname' &amp; 'mailing_address' is like 'MailingAddress'] and "Listrak Field Id" you need to add field id of Listrak]]></comment>	 
+                        </overridenewsletter_map_fields>
+                       	<offerlanding translate="label">
+                    		 <label>Landing page Email Sign-up (Free gift)</label>
+                    		 <frontend_type>select</frontend_type>
+                    		 <source_model>adminhtml/system_config_source_yesno</source_model>
+                    		 <sort_order>40</sort_order>
+                    		 <show_in_default>1</show_in_default>
+                    		 <show_in_website>1</show_in_website>
+                    		 <show_in_store>0</show_in_store>	 
+                    	</offerlanding>
+                    	<offerlanding_map_fields translate="label">
+                            <label>Landing page Email Sign-up (Free gift) Fields Mapping</label>
+                            <frontend_model>listrak/adminhtml_system_config_form_field_mapfields</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store> 
+                            <comment><![CDATA[You need to add "Fields" value which will be field name of database without Underscore [e.g.: 'firstname' will be like 'Firstname' &amp; 'mailing_address' is like 'MailingAddress'] and "Listrak Field Id" you need to add field id of Listrak]]></comment>	 
+                        </offerlanding_map_fields>
+                       	<contactus translate="label">
+                    		 <label>Contact Us</label>
+                    		 <frontend_type>select</frontend_type>
+                    		 <source_model>adminhtml/system_config_source_yesno</source_model>
+                    		 <sort_order>50</sort_order>
+                    		 <show_in_default>1</show_in_default>
+                    		 <show_in_website>1</show_in_website>
+                    		 <show_in_store>0</show_in_store>	 
+                    	</contactus>
+                    	<contactus_map_fields translate="label">
+                            <label>Contact Us Fields Mapping</label>
+                            <frontend_model>listrak/adminhtml_system_config_form_field_mapfields</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>51</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store> 
+                            <comment><![CDATA[You need to add "Fields" value which will be field name of database without Underscore [e.g.: 'firstname' will be like 'Firstname' &amp; 'mailing_address' is like 'MailingAddress'] and "Listrak Field Id" you need to add field id of Listrak]]></comment>	 
+                        </contactus_map_fields>
+                    	<fieldtester translate="label">
+                    		 <label>Field Tester</label>
+                    		 <frontend_type>select</frontend_type>
+                    		 <source_model>adminhtml/system_config_source_yesno</source_model>
+                    		 <sort_order>60</sort_order>
+                    		 <show_in_default>1</show_in_default>
+                    		 <show_in_website>1</show_in_website>
+                    		 <show_in_store>0</show_in_store>	 
+                    	</fieldtester>
+                    	<fieldtester_map_fields translate="label  ">
+                            <label>Field Tester Fields Mapping</label>
+                            <frontend_model>listrak/adminhtml_system_config_form_field_mapfields</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>61</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store> 
+                         	<comment><![CDATA[You need to add "Fields" value which will be field name of database without Underscore [e.g.: 'firstname' will be like 'Firstname' &amp; 'mailing_address' is like 'MailingAddress'] and "Listrak Field Id" you need to add field id of Listrak]]></comment>	  
+                        </fieldtester_map_fields>
+                          <dealerskit translate="label">
+                    		 <label>Dealers kit Request</label>
+                    		 <frontend_type>select</frontend_type>
+                    		 <source_model>adminhtml/system_config_source_yesno</source_model>
+                    		 <sort_order>70</sort_order>
+                    		 <show_in_default>1</show_in_default>
+                    		 <show_in_website>1</show_in_website>
+                    		 <show_in_store>0</show_in_store>	  
+                    	</dealerskit>
+                    	<dealerskit_map_fields translate="label  ">
+                            <label>Dealers kit Request Fields Mapping</label>
+                            <frontend_model>listrak/adminhtml_system_config_form_field_mapfields</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>71</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store> 
+                            	 
+                            <comment><![CDATA[You need to add "Fields" value which will be field name of database without Underscore [e.g.: 'firstname' will be like 'Firstname' &amp; 'mailing_address' is like 'MailingAddress'] and "Listrak Field Id" you need to add field id of Listrak]]></comment>	 
+                        </dealerskit_map_fields>
+                    </fields>
+				</listrak_config>
+			</groups>
+		</customer>
+	</sections>
+</config>

@@ -1,0 +1,31 @@
+<?php 
+$collection = $this->getPrintableSoftwaredemos();
+//$collection = $this->getCollection();
+//print_r($collection->getData());
+$i=0;
+ $type = '';
+foreach($collection as $product)
+{
+	 if($product->getValue() != $type) {
+		 if($i!=0 && $i == 2){
+		 echo "</ul>";
+		 }
+	  ?>
+	  <?php if($i!= 1){?>
+     <ul>
+     <?php }?>
+     <li class="title">
+	 <?php echo $product->getValue()?> </li>
+	 <?php $char = substr($product->getValue(),0,1);?> 
+	 <?php }?> 
+     <li>
+     	<a href="<?php echo $this->getUrl('').'software-demo?path='.$char?>"><?php  echo $product->getSoftname(); ?></a>
+     	 <?php if($product->getGrades()):?>
+ 	   <?php $grade = Mage::getModel('catalog/product')->getProductGrade($product->getGrades());?>
+		<span><?php echo $this->__('Grades ')?> <?php echo $grade;?> </span>
+   	 <?php endif;?> 
+     </li>
+     <?php 
+	 	 $i++;
+	 	 $type=$product->getValue();?>
+<?php }?>

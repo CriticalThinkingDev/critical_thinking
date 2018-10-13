@@ -1,0 +1,408 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Xtento_CustomTrackers>
+            <version>1.6.4</version>
+        </Xtento_CustomTrackers>
+    </modules>
+    <global>
+        <helpers>
+            <customtrackers>
+                <class>Xtento_CustomTrackers_Helper</class>
+            </customtrackers>
+            <shipping>
+                <rewrite>
+                    <data>Xtento_CustomTrackers_Helper_Shipping</data>
+                </rewrite>
+            </shipping>
+        </helpers>
+        <models>
+            <customtrackers>
+                <class>Xtento_CustomTrackers_Model</class>
+            </customtrackers>
+            <shipping>
+                <rewrite>
+                    <config>Xtento_CustomTrackers_Model_Shipping_Config</config>
+                </rewrite>
+            </shipping>
+            <sales>
+                <rewrite>
+                    <order_shipment_track>Xtento_CustomTrackers_Model_Sales_Order_Shipment_Track</order_shipment_track>
+                </rewrite>
+            </sales>
+        </models>
+        <sales>
+            <shipping>
+                <carriers>
+                    <tracker1>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker1</class>
+                    </tracker1>
+                    <tracker2>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker2</class>
+                    </tracker2>
+                    <tracker3>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker3</class>
+                    </tracker3>
+                    <tracker4>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker4</class>
+                    </tracker4>
+                    <tracker5>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker5</class>
+                    </tracker5>
+                    <tracker6>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker6</class>
+                    </tracker6>
+                    <tracker7>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker7</class>
+                    </tracker7>
+                    <tracker8>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker8</class>
+                    </tracker8>
+                    <tracker9>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker9</class>
+                    </tracker9>
+                    <tracker10>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker10</class>
+                    </tracker10>
+                    <tracker11>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker11</class>
+                    </tracker11>
+                    <tracker12>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker12</class>
+                    </tracker12>
+                    <tracker13>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker13</class>
+                    </tracker13>
+                    <tracker14>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker14</class>
+                    </tracker14>
+                    <tracker15>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker15</class>
+                    </tracker15>
+                    <tracker16>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker16</class>
+                    </tracker16>
+                    <tracker17>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker17</class>
+                    </tracker17>
+                    <tracker18>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker18</class>
+                    </tracker18>
+                    <tracker19>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker19</class>
+                    </tracker19>
+                    <tracker20>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker20</class>
+                    </tracker20>
+                    <tracker21>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker21</class>
+                    </tracker21>
+                    <tracker22>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker22</class>
+                    </tracker22>
+                    <tracker23>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker23</class>
+                    </tracker23>
+                    <tracker24>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker24</class>
+                    </tracker24>
+                    <tracker25>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker25</class>
+                    </tracker25>
+                    <tracker26>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker26</class>
+                    </tracker26>
+                    <tracker27>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker27</class>
+                    </tracker27>
+                    <tracker28>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker28</class>
+                    </tracker28>
+                    <tracker29>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker29</class>
+                    </tracker29>
+                    <tracker30>
+                        <class>Xtento_CustomTrackers_Model_Shipping_Carrier_Tracker30</class>
+                    </tracker30>
+                </carriers>
+            </shipping>
+        </sales>
+    </global>
+    <adminhtml>
+        <translate>
+            <modules>
+                <Xtento_CustomTrackers>
+                    <files>
+                        <default>Xtento_CustomTrackers.csv</default>
+                    </files>
+                </Xtento_CustomTrackers>
+            </modules>
+        </translate>
+        <events>
+            <core_config_data_save_after>
+                <observers>
+                    <has_value_for_customtrackers_configuration_changed>
+                        <type>model</type>
+                        <class>Xtento_CustomTrackers_Model_System_Config_Backend_Import_Enabled</class>
+                        <method>has_value_for_configuration_changed</method>
+                    </has_value_for_customtrackers_configuration_changed>
+                </observers>
+            </core_config_data_save_after>
+            <controller_action_predispatch_adminhtml>
+                <observers>
+                    <controller_action_predispatch_adminhtml_customtrackers>
+                        <type>model</type>
+                        <class>Xtento_CustomTrackers_Model_Observer</class>
+                        <method>controller_action_predispatch_adminhtml</method>
+                    </controller_action_predispatch_adminhtml_customtrackers>
+                </observers>
+            </controller_action_predispatch_adminhtml>
+        </events>
+        <!-- Following: Compatibility fix for Magento version 1.3 -->
+        <menu>
+            <system>
+                <children>
+                    <xtento_extensions translate="title">
+                        <title>XTENTO Extensions</title>
+                        <sort_order>1</sort_order>
+                        <children>
+                            <customtrackers translate="title">
+                                <title>Custom Carrier Trackers</title>
+                                <sort_order>250</sort_order>
+                                <action>adminhtml/system_config/edit/section/customtrackers</action>
+                            </customtrackers>
+                        </children>
+                    </xtento_extensions>
+                </children>
+            </system>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <customtrackers translate="title">
+                                            <title>XTENTO Custom Carrier Trackers</title>
+                                            <sort_order>1</sort_order>
+                                        </customtrackers>
+                                    </children>
+                                </config>
+                                <xtento_extensions translate="title">
+                                    <title>XTENTO Extensions</title>
+                                    <sort_order>1</sort_order>
+                                    <children>
+                                        <customtrackers translate="title">
+                                            <title>Custom Carrier Trackers</title>
+                                            <sort_order>250</sort_order>
+                                            <action>adminhtml/system_config/edit/section/customtrackers</action>
+                                        </customtrackers>
+                                    </children>
+                                </xtento_extensions>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+    </adminhtml>
+    <default>
+        <customtrackers>
+            <tracker1>
+                <active>0</active>
+                <name>Custom Tracker 1</name>
+                <model>customtrackers/shipping_carrier_tracker1</model>
+                <title>Custom Tracker 1</title>
+            </tracker1>
+            <tracker2>
+                <active>0</active>
+                <name>Custom Tracker 2</name>
+                <model>customtrackers/shipping_carrier_tracker2</model>
+                <title>Custom Tracker 2</title>
+            </tracker2>
+            <tracker3>
+                <active>0</active>
+                <name>Custom Tracker 3</name>
+                <model>customtrackers/shipping_carrier_tracker3</model>
+                <title>Custom Tracker 3</title>
+            </tracker3>
+            <tracker4>
+                <active>0</active>
+                <name>Custom Tracker 4</name>
+                <model>customtrackers/shipping_carrier_tracker4</model>
+                <title>Custom Tracker 4</title>
+            </tracker4>
+            <tracker5>
+                <active>0</active>
+                <name>Custom Tracker 5</name>
+                <model>customtrackers/shipping_carrier_tracker5</model>
+                <title>Custom Tracker 5</title>
+            </tracker5>
+            <tracker6>
+                <active>0</active>
+                <name>Custom Tracker 6</name>
+                <model>customtrackers/shipping_carrier_tracker6</model>
+                <title>Custom Tracker 6</title>
+            </tracker6>
+            <tracker7>
+                <active>0</active>
+                <name>Custom Tracker 7</name>
+                <model>customtrackers/shipping_carrier_tracker7</model>
+                <title>Custom Tracker 7</title>
+            </tracker7>
+            <tracker8>
+                <active>0</active>
+                <name>Custom Tracker 8</name>
+                <model>customtrackers/shipping_carrier_tracker8</model>
+                <title>Custom Tracker 8</title>
+            </tracker8>
+            <tracker9>
+                <active>0</active>
+                <name>Custom Tracker 9</name>
+                <model>customtrackers/shipping_carrier_tracker9</model>
+                <title>Custom Tracker 9</title>
+            </tracker9>
+            <tracker10>
+                <active>0</active>
+                <name>Custom Tracker 10</name>
+                <model>customtrackers/shipping_carrier_tracker10</model>
+                <title>Custom Tracker 10</title>
+            </tracker10>
+            <tracker11>
+                <active>0</active>
+                <name>Custom Tracker 11</name>
+                <model>customtrackers/shipping_carrier_tracker11</model>
+                <title>Custom Tracker 11</title>
+            </tracker11>
+            <tracker12>
+                <active>0</active>
+                <name>Custom Tracker 12</name>
+                <model>customtrackers/shipping_carrier_tracker12</model>
+                <title>Custom Tracker 12</title>
+            </tracker12>
+            <tracker13>
+                <active>0</active>
+                <name>Custom Tracker 13</name>
+                <model>customtrackers/shipping_carrier_tracker13</model>
+                <title>Custom Tracker 13</title>
+            </tracker13>
+            <tracker14>
+                <active>0</active>
+                <name>Custom Tracker 14</name>
+                <model>customtrackers/shipping_carrier_tracker14</model>
+                <title>Custom Tracker 14</title>
+            </tracker14>
+            <tracker15>
+                <active>0</active>
+                <name>Custom Tracker 15</name>
+                <model>customtrackers/shipping_carrier_tracker15</model>
+                <title>Custom Tracker 15</title>
+            </tracker15>
+            <tracker16>
+                <active>0</active>
+                <name>Custom Tracker 16</name>
+                <model>customtrackers/shipping_carrier_tracker16</model>
+                <title>Custom Tracker 16</title>
+            </tracker16>
+            <tracker17>
+                <active>0</active>
+                <name>Custom Tracker 17</name>
+                <model>customtrackers/shipping_carrier_tracker17</model>
+                <title>Custom Tracker 17</title>
+            </tracker17>
+            <tracker18>
+                <active>0</active>
+                <name>Custom Tracker 18</name>
+                <model>customtrackers/shipping_carrier_tracker18</model>
+                <title>Custom Tracker 18</title>
+            </tracker18>
+            <tracker19>
+                <active>0</active>
+                <name>Custom Tracker 19</name>
+                <model>customtrackers/shipping_carrier_tracker19</model>
+                <title>Custom Tracker 19</title>
+            </tracker19>
+            <tracker20>
+                <active>0</active>
+                <name>Custom Tracker 20</name>
+                <model>customtrackers/shipping_carrier_tracker20</model>
+                <title>Custom Tracker 20</title>
+            </tracker20>
+            <tracker21>
+                <active>0</active>
+                <name>Custom Tracker 21</name>
+                <model>customtrackers/shipping_carrier_tracker21</model>
+                <title>Custom Tracker 21</title>
+            </tracker21>
+            <tracker22>
+                <active>0</active>
+                <name>Custom Tracker 22</name>
+                <model>customtrackers/shipping_carrier_tracker22</model>
+                <title>Custom Tracker 22</title>
+            </tracker22>
+            <tracker23>
+                <active>0</active>
+                <name>Custom Tracker 23</name>
+                <model>customtrackers/shipping_carrier_tracker23</model>
+                <title>Custom Tracker 23</title>
+            </tracker23>
+            <tracker24>
+                <active>0</active>
+                <name>Custom Tracker 24</name>
+                <model>customtrackers/shipping_carrier_tracker24</model>
+                <title>Custom Tracker 24</title>
+            </tracker24>
+            <tracker25>
+                <active>0</active>
+                <name>Custom Tracker 25</name>
+                <model>customtrackers/shipping_carrier_tracker25</model>
+                <title>Custom Tracker 25</title>
+            </tracker25>
+            <tracker26>
+                <active>0</active>
+                <name>Custom Tracker 26</name>
+                <model>customtrackers/shipping_carrier_tracker26</model>
+                <title>Custom Tracker 26</title>
+            </tracker26>
+            <tracker27>
+                <active>0</active>
+                <name>Custom Tracker 27</name>
+                <model>customtrackers/shipping_carrier_tracker27</model>
+                <title>Custom Tracker 27</title>
+            </tracker27>
+            <tracker28>
+                <active>0</active>
+                <name>Custom Tracker 28</name>
+                <model>customtrackers/shipping_carrier_tracker28</model>
+                <title>Custom Tracker 28</title>
+            </tracker28>
+            <tracker29>
+                <active>0</active>
+                <name>Custom Tracker 29</name>
+                <model>customtrackers/shipping_carrier_tracker29</model>
+                <title>Custom Tracker 29</title>
+            </tracker29>
+            <tracker30>
+                <active>0</active>
+                <name>Custom Tracker 30</name>
+                <model>customtrackers/shipping_carrier_tracker30</model>
+                <title>Custom Tracker 30</title>
+            </tracker30>
+        </customtrackers>
+    </default>
+</config>
+<!--
+/**
+ * Product:       Xtento_CustomTrackers (1.6.4)
+ * ID:            sPKee7U2Pf2yLNVVEr3/61bKJloT5kL/MaX0TUxtHj4=
+ * Packaged:      2017-11-07T02:07:13+00:00
+ * Last Modified: 2017-08-25T14:35:00+02:00
+ * File:          app/code/local/Xtento/CustomTrackers/etc/config.xml
+ * Copyright:     Copyright (c) 2017 XTENTO GmbH & Co. KG <info@xtento.com> / All rights reserved.
+ */
+-->

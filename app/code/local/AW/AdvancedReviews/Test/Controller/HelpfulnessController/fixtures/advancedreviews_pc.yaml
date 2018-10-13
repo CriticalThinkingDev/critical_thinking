@@ -1,0 +1,102 @@
+tables:
+  advancedreviews/proscons:
+    - 
+      id: 1
+      status: 1
+      type: 1
+      owner: 2
+      sort_order: 1
+      name: pros1 user1
+    - 
+      id: 2
+      status: 1
+      type: 1
+      owner: 2
+      sort_order: 2
+      name: pros2 user1
+    - 
+      id: 3
+      status: 1
+      type: 2
+      owner: 2
+      sort_order: 1
+      name: cons1 user1
+    - 
+      id: 4
+      status: 1
+      type: 1
+      owner: 2
+      sort_order: 3
+      name: pro1user1
+    - 
+      id: 5
+      status: 1
+      type: 2
+      owner: 2
+      sort_order: 2
+      name: cons1user1
+    - 
+      id: 6
+      status: 1
+      type: 1
+      owner: 2
+      sort_order: 4
+      name: prospros2
+    - 
+      id: 7
+      status: 0
+      type: 2
+      owner: 2
+      sort_order: 3
+      name: consuser2
+  advancedreviews/proscons_store:
+    - 
+      proscons_id: 1
+      store_id: 1
+    - 
+      proscons_id: 2
+      store_id: 1
+    - 
+      proscons_id: 3
+      store_id: 1
+    - 
+      proscons_id: 4
+      store_id: 1
+    - 
+      proscons_id: 5
+      store_id: 1
+    - 
+      proscons_id: 6
+      store_id: 1
+    - 
+      proscons_id: 7
+      store_id: 1
+  advancedreviews/proscons_vote:       
+    - 
+      id: 1
+      review_id: 47
+      proscons_id: 1
+    - 
+      id: 2
+      review_id: 47
+      proscons_id: 2
+    - 
+      id: 3
+      review_id: 47
+      proscons_id: 3
+    - 
+      id: 4
+      review_id: 48
+      proscons_id: 4
+    - 
+      id: 5
+      review_id: 48
+      proscons_id: 5
+    - 
+      id: 6
+      review_id: 49
+      proscons_id: 6
+    - 
+      id: 7
+      review_id: 49
+      proscons_id: 7

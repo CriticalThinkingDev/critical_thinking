@@ -1,0 +1,143 @@
+<?php
+/**
+ * Downloadable Products List for Customer
+ *
+ * @see Pisc_Downloadplus_Block_Customer_Products_List
+ */
+
+/*
+ * To change the Sort Order of the Product and Purchased Link Entries
+ * from the default (product_name ASC, item_id DESC), use the commented code below:
+ *
+ * The entries from the tables "downloadable_link_items" and "downloadable_link_purchased_items" are available for Sort:
+ */
+/*
+$this->setSortProducts('purchased_links.product_name ASC');
+$this->setSortPurchasedItems('purchased_links.item_id DESC');
+$this->updateCollection();
+$this->updateLayout();
+*/
+
+// This is setting the sort order for the Version History Entries
+$this->setSortVersionHistory('version DESC');
+
+?>
+<?php $_items = $this->getItems(); ?>
+<div class="box-account box-downloads">
+    <div class="box-head">
+        <h2><?php echo $this->__('Purchased Downloads') ?></h2>
+        <?php if( sizeof($_items) > 0 ): ?><a class="button" href="<?php echo $this->getUrl('downloadable/customer/products') ?>"><span><span><?php echo $this->__('View all with older Releases') ?></span></span></a><?php endif; ?>
+    </div>
+    <table class="data-table" id="my-downloads-table">
+        <thead>
+            <tr>
+                <th><?php echo $this->__('Order #') ?></th>
+                <th><?php echo $this->__('Date') ?></th>
+                <th><?php echo $this->__('Purchased Download') ?></th>
+                <th><?php echo $this->__('Status') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($_items as $_item): ?>
+            	<tr>
+                    <td><a href="<?php echo $this->getOrderViewUrl($_item->getPurchased()->getOrderId()) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $_item->getPurchased()->getOrderIncrementId() ?></a></td>
+                    <td><span class="nobr"><?php echo $this->formatDate($_item->getCreatedAtStoreDate()) ?></span></td>
+                    <td>
+                    	<h2><a href="<?php echo Mage::helper('catalog/product')->getProductUrl($_item->getProductId()) ?>"><?php echo $_item->getProductName(); ?></a></h2>
+                    	<?php if ($_item->getLinkTitle()): ?>
+                    	<h3><?php echo $_item->getLinkTitle() ?></h3>
+                    	<?php endif; ?>
+                    	
+					    <?php if ($_item->getStatus()=='available'): ?>
+					    
+					      <div class="downloadplus-product-history">
+							 <div class="downloadplus-upgrade">
+							 	<span><?php echo $this->__('Want to upgrade?') ?></span>
+							 	<?php echo $this->__('<a href="%s">Please check here for other packages of this Software...</a>', Mage::helper('catalog/product')->getProductUrl($_item->getProductId())) ?>
+							 </div>
+					      
+						    <?php
+						    $_detail = $this->getDetail($_item);
+						    if ($_detail->getVersion()):
+						    ?>
+						    	<div class="downloadplus-product-history-entry">
+								    <em>
+								    <?php
+								    echo $this->formatTimestamp($_detail->getTimestamp(), 'medium');
+								    if ($_detail->getSize()>0) { echo '&nbsp;('.$_detail->getSizeFormatted().')'; }
+								    ?>
+								    </em>
+								    <h4>
+									    <a class="download-file" href="<?php echo $this->getDownloadUrl($_item) ?>" title="<?php echo $this->__('Start Download') ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>>
+									    	<?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion(); ?>
+									    </a>
+								    </h4>
+								    <?php if  ($_detail->getDetail()): ?>
+								    	<div class="downloadplus-product-history-detail">
+								    		<?php echo $_detail->getDetail(); ?>
+								    	</div>
+								    <?php endif; ?>
+							    </div>
+							<?php else: ?>
+								<div class="downloadplus-product-history-entry">
+									<em>
+								    <?php
+								      echo $this->formatTimestamp($_detail->getTimestamp(), 'medium');
+								      if ($_detail->getSize()>0) { echo '&nbsp;('.$_detail->getSizeFormatted().')'; }
+								    ?>
+								    </em>
+								    <h4>
+								    	<a class="download-file" href="<?php echo $this->getDownloadUrl($_item) ?>" title="<?php echo $this->__('Start Download') ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>>
+								    		<?php echo $this->getTextCurrent() ?>
+								    	</a>
+								    </h4>
+								    <?php if  ($_detail->getDetail()): ?>
+								    	<div class="downloadplus-product-history-detail"><?php echo $_detail->getDetail(); ?></div>
+								    <?php endif; ?>
+							    </div>
+							 <?php endif; ?>
+
+						  <?php else: ?>
+						    <div class="downloadplus-product-history-entry">
+							    <div class="notice-msg">
+							    <?php if ($_item->getStatus()=='expired'): ?>
+							    	<?php echo $this->__('This download has expired.') ?>&nbsp;
+							    <?php else: ?>
+							    	<?php echo $this->__('Please complete your order first.') ?>&nbsp;
+							    <?php endif; ?>
+							    <a href="<?php echo $this->getOrderViewUrl($_item->getPurchased()->getOrderId()) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $this->__('View Order').'&nbsp;#'.$_item->getPurchased()->getOrderIncrementId() ?></a>
+							    </div>
+						    </div>
+						  <?php endif; ?>
+							 
+                    </td>
+                    <td>
+			          <?php
+			            if ($_item->getStatus()=='available') {
+			            	if ($this->doesExpire($_item)) {
+			            		$days = $this->getDaysUntilExpiration($_item);
+			            		if (!is_null($days)) {
+				            		if ($days==0) {
+				            			echo $this->__('Download expires today');
+				            		}
+				            		if ($days<0) {
+				            			echo $this->__('Download has expired since %s days', abs($days));
+				            		}
+				            		if ($days>0) {
+					            		echo $this->__('Download expires in %s days', $days);
+					            	}
+			            		}
+			            		echo '<br/>';
+			            	}
+			       			echo $this->__('%s Downloads available', $this->getRemainingDownloads($_item));
+			            } else {
+			              	echo $this->__('Order is %s', $this->__($_item->getStatus()));
+			            }
+			          ?>
+                    </td>
+            	</tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <script type="text/javascript">decorateTable('my-downloads-table')</script>
+</div>

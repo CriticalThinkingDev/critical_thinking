@@ -1,0 +1,52 @@
+<script>
+  var Mergecustomers = Class.create({
+    showGrid: function(){
+      if ($('merge-customers-grid') && typeof(Windows) != 'undefined') {
+        Windows.focus('merge-customers-grid');
+        return;
+      }
+      var url = '<?php echo $this->helper('adminhtml')->getUrl('*/mergecustomers/grid',array('_current' => true)); ?>';
+      var dialogWindow = Dialog.info(url, {
+        closable        : true,
+        resizable       : true,
+        draggable       : true,
+        className       : 'magento',
+        windowClassName : 'popup-window',
+        title           : 'Merge Customers',
+        top             : 20,
+        width           : Math.round(getWindowSize().width * .75),
+        height          : Math.round(getWindowSize().height * .80),
+        zIndex          : 1000,
+        recenterAuto    : false,
+        hideEffect      : Element.hide,
+        showEffect      : Element.show,
+        id              : 'merge-customers-grid',
+        url             : url
+      });
+    }
+  });
+
+  function getWindowSize() {
+    var myWidth = 0, myHeight = 0;
+    if( typeof( window.innerWidth ) == 'number' ) {
+      //Non-IE
+      myWidth = window.innerWidth;
+      myHeight = window.innerHeight;
+    } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+      //IE 6+ in 'standards compliant mode'
+      myWidth = document.documentElement.clientWidth;
+      myHeight = document.documentElement.clientHeight;
+    } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+      //IE 4 compatible
+      myWidth = document.body.clientWidth;
+      myHeight = document.body.clientHeight;
+    }
+
+    var obj = {};
+    obj.width = myWidth;
+    obj.height = myHeight;
+    return obj;
+  }
+
+  var mergecustomers = new Mergecustomers();
+</script>

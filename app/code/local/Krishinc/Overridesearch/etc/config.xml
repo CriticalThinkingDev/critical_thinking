@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Krishinc_Overridesearch>
+            <version>0.1.0</version>
+        </Krishinc_Overridesearch>
+    </modules>
+    <global>
+    	<models>
+    		<catalogsearch_resource>
+    			<rewrite>
+    				<advanced>Krishinc_Overridesearch_Model_Resource_Advanced</advanced>
+    			</rewrite>
+    		</catalogsearch_resource>
+    	</models>
+	<blocks>
+	    <catalogsearch>
+		<rewrite>
+		    <autocomplete>Krishinc_Overridesearch_Block_Autocomplete</autocomplete>
+		</rewrite>
+	    </catalogsearch>
+	</blocks>
+    </global>
+</config>

@@ -1,0 +1,45 @@
+<div style="padding:10px 0 10px 0">
+<?php if($this->isView()){ $pressrelease =  $this->getPressrelease();}?>
+<div class="page-title">
+        <h1><?php echo  ((!$this->isView())?$this->__('Press Releases'):$pressrelease->getTitle())?></h1>
+	</div>
+
+<table class="description_text" border="0" cellspacing="3" cellpadding="0" width="100%" height="">
+  <tr align="left" valign="top">
+   <td colspan="2" rowspan="2" valign="top"><table class="press_link" width="550" border="0" cellspacing="0" cellpadding="4">
+    <?php if(!$this->isView()){?>
+	    <?php $pressreleases =  $this->getAllPressrelease();?> 
+	       <?php $thisYear='';$i=0; foreach ($pressreleases as $pressrelease):$i++;?>
+	       <?php $year = date("Y", Mage::getModel('core/date')->timestamp($pressrelease->getPressdate())); ?>
+		       <?php if($year != $thisYear) {$thisYear = $year;?>
+		        <tr align="left" valign="top">
+		          <td colspan="2" class="detail_text" align="center"><font color="#000" style="	padding: 18px 0;display: block;"><b><?php echo $thisYear?></b></font></td>
+		        </tr>
+		       <?php  }?>
+	    	  <tr align="left" valign="top">
+		          <td height="30"width="17%" align="left" bgcolor="<?php echo (($i%2 ==0)?'#e8f2fe':'#FFFFFF')?>" class="detail_text"><?php echo Mage::app()->getLocale()->date(strtotime($pressrelease->getPressdate()), null, null, false)->toString("MMMM d");// date("F d", Mage::getModel('core/date')->timestamp($pressrelease->getPressdate()));?></td>
+		          <td height="20" valign="top" bgcolor="<?php echo (($i%2 ==0)?'#e8f2fe':'#FFFFFF')?>" class="press_link"><a href="<?php echo Mage::getUrl().'press-releases/'.$pressrelease->getPagelink() ;?>"><?php echo $pressrelease->getTitle() ?></a></td>
+		        </tr> 
+	       <?php endforeach;?>
+		<?php } else {?>
+	<?php $filename = Mage::getBaseUrl('media')."pressrelease/".$pressrelease->getFilename();?>
+		 <small style="font-weight: bold; font-size: 10px;"><?php echo $pressrelease->getDateline().'   ('.Mage::app()->getLocale()->date(strtotime($pressrelease->getPressdate()), null, null, false)->toString("M/d/y") .')'; ?>  </small><br />
+        <embed src="<?php echo  $filename?>#navpanes=0&scrollbar=0" TYPE="application/x-pdf" TITLE="<?php echo $pressrelease->getTitle()?>" WIDTH="800" HEIGHT="1070" />
+        <p><a href="<?php echo $filename?>" target="_blank"><small>If you do not see the PDF file, click here</small></a></p>
+
+		<?php }?>
+     </table>
+      <br>
+      <table width="550" border="0" cellspacing="0" cellpadding="0">
+        <tr align="left" valign="top">
+          <td width="436" class="detail_text">&nbsp;</td>
+          <td width="114"><a href="//www.adobe.com/products/acrobat/readstep.html" target="_blank"><img src="<?php echo $this->getSkinUrl('images/get_adobe_reader.png')?>" width="158" height="39" border="0"></a></td>
+        </tr>
+        <tr align="left" valign="top"><td>&nbsp;</td><td>&nbsp;</td></tr>
+      </table>
+    </td>
+    <td valign="top">&nbsp;</td>
+  </tr>
+  <tr align="left" valign="top"><td valign="top">&nbsp;</td></tr>
+</table>
+</div>

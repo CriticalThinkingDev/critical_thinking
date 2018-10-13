@@ -1,0 +1,21 @@
+<?php
+/**
+ * RSS Feed on Additional Downloads of Products
+ * Feed Entry Description Block, only TEXT (no HTML)
+ *
+ * @see Pisc_Downloadplus_Block_Rss_Additional
+ */
+
+$download = $this->getDownload();
+$product = $this->getProduct();
+
+if ($download && $product) {
+	$description = $download->getDescription();
+	if ($description) {
+		echo strip_tags($product->getShortDescription().' '.$this->__('Details on this Download:').' '.$description);
+	} else {
+		echo strip_tags($product->getShortDescription());
+	}
+}
+
+?>

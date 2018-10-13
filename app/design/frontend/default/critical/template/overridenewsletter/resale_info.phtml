@@ -1,0 +1,81 @@
+<div class="newslatter_form_box">
+	<div class="newslatter_form_box_left">
+		<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+		<?php $formData = Mage::getSingleton('core/session')->getFormData();?>
+
+		<h3> <?php echo Mage::helper('newsletter')->__('Reseller Newsletter')?></h3>
+		<h2><?php echo Mage::helper('newsletter')->__('Sign Up Today!') ?></h2>
+
+		<p>
+			<?php echo $this->__('The Critical Thinking Co.\'s <strong>FREE</strong> Monthly Reseller Newsletter features new products, special offers, teaching tips, selling tips, and more!')?>
+		</p>
+
+
+		<form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
+			<input  name="position" value="Reseller"  type="hidden"/>
+			<div class="fieldset">
+				<div class="newsletter-from">
+					<ul>
+						<li>
+							<div class="field">
+								<label for="name" ><?php echo Mage::helper('newsletter')->__('First Name:') ?><span class="required">*</span></label>
+								<div class="input-box">
+
+									<input class="input-text required-entry" style="width:256px;" name="firstname" id="firstname"  type="text" value="<?php echo  (isset($formData['firstname'])?$formData['firstname']:'')  ?>" />
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="field">
+								<label for="lastname"><?php echo Mage::helper('newsletter')->__('Last Name:') ?><span class="required">*</span></label>
+								<div class="input-box">
+									<input class="input-text required-entry " style="width:256px;" name="lastname" id="lastname"  type="text" value="<?php echo  (isset($formData['lastname'])?$formData['lastname']:'')  ?>" />
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="field">
+								<label for="lastname"><?php echo Mage::helper('newsletter')->__('Email:') ?><span class="required">*</span></label>
+								<div class="input-box">
+									<input type="text" name="email" id="overridenewsletter" style="width:256px;" value="<?php echo  (isset($formData['email'])?$formData['email']:'')  ?>" title="<?php echo $this->__('Email') ?>" class="input-text required-entry validate-email" />
+								</div>
+							</div>
+						</li>
+						<input type="hidden" name="bsest_sales_news" value="2405405"/>
+						<li>
+							<div align="left">
+								<span class="detail_text_red">*(required)</span>
+								<p style="padding-top:10px;"><?php echo $this->__('We respect your privacy. E-mail addresses are not released to third parties. Instructions for removal come with every e-mail.')?></p>
+							</div>
+						</li>
+						 <li>
+			    <div class="field">
+			        <label for="Captch">&nbsp;</label>
+					
+<?php echo $this->getLayout()->createBlock('studioforty9_recaptcha/explicit')->setTemplate('studioforty9/recaptcha/explicit.phtml')->tohtml(); ?>
+                           
+                     
+		        </div>  		        
+		     </li>
+					</ul>
+				</div>
+				<div class="button-set-box" style=" padding:10px 0 0 133px;">
+					<button type="submit" title="<?php echo $this->__('Subscribe') ?>" class="button-form"><?php echo $this->__('Subscribe') ?></button>
+				</div>
+			</div>
+		</form>
+
+		<script type="text/javascript">
+			//<![CDATA[
+			var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+			//]]>
+		</script>
+
+	</div>
+
+	<div class="newslatter_form_box_right">
+		<strong><?php echo $this->__('Monthly Reseller Newsletter')?></strong>
+		<p><img src="<?php echo $this->getSkinUrl('images/cmspages/newsletter_thumb_07.gif')?>" />	</p>
+
+	</div>
+</div>

@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <dealerskit_api translate="title" module="dealerskit">
+                <title>Request a catalog Api</title>
+                <acl>dealerskit/api</acl>
+                <model>dealerskit/api</model>
+                <methods>                    
+						<items translate="title" module="dealerskit">
+							<title>Dealerskit</title>
+							<acl>dealerskit/items</acl>
+						</items>
+						 <create translate="title" module="dealerskit">
+	                        <title>Create customer</title>
+	                        <acl>dealerskit/create</acl>
+	                    </create>
+	                    <info translate="title" module="dealerskit">
+	                        <title>Retrieve customer data</title>
+	                        <acl>dealerskit/info</acl>
+	                    </info>
+	                    <update translate="title" module="dealerskit">
+	                        <title>Update customer data</title>
+	                        <acl>dealerskit/update</acl>
+	                    </update>
+	                    <delete translate="title" module="dealerskit">
+	                        <title>Delete customer</title>
+	                        <acl>dealerskit/delete</acl>
+	                    </delete>
+                </methods> 
+               <faults module="dealerskit">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid customer data. Details in error message.</message>
+                    </data_invalid>
+                    <filters_invalid>
+                        <code>101</code>
+                        <message>Invalid filters specified. Details in error message.</message>
+                    </filters_invalid>
+                    <not_exists>
+                        <code>102</code>
+                        <message>Customer not exists.</message>
+                    </not_exists>
+                     <not_deleted>
+                        <code>103</code>
+                        <message>Customer not deleted. Details in error message.</message>
+                    </not_deleted>
+                     <already_exists>
+                        <code>106</code>
+                        <message>Customer Email already exists.</message>
+                    </already_exists> 
+                </faults>
+                
+            </dealerskit_api>
+        </resources> 
+        <resources_alias>
+        	<dealerskit>dealerskit_api</dealerskit>
+        </resources_alias>
+         <v2>
+            <resources_function_prefix>
+                <dealerskit>catalogequest</dealerskit>
+            </resources_function_prefix>
+        </v2>
+        <acl>
+            <resources>
+                  <customer translate="title" module="customer">  
+	                  <dealerskit module="dealerskit" translate="title">
+		                  	<sort_order>1000</sort_order>
+		                  	<title>dealerskit</title>
+							<items translate="title" module="dealerskit">
+		                        <title>Dealerskit List</title>
+		                    </items>
+							<create translate="title" module="dealerskit">
+		                        <title>Dealerskit create</title>
+		                    </create>
+							<info translate="title" module="dealerskit">
+		                        <title>Dealerskit info</title>
+		                    </info>
+							<update translate="title" module="dealerskit">
+		                        <title>Dealerskit update</title>
+		                    </update>
+		                    <delete translate="title" module="dealerskit">
+		                        <title>Dealerskit delete</title>
+		                    </delete> 
+		              </dealerskit>
+                  </customer>
+            </resources>
+        </acl>
+    </api>
+</config>

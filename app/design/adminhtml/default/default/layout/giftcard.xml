@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <giftcard_adminhtml_giftcard_index>
+        <reference name="content">
+            <block type="giftcard/adminhtml_giftcard" name="giftcard" />
+        </reference>
+    </giftcard_adminhtml_giftcard_index>
+</layout>

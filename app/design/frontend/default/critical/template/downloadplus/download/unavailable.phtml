@@ -1,0 +1,33 @@
+<?php
+/**
+ * Link Unavailable Block for Downloadable Links
+ *
+ * @see Pisc_Downloadplus_Block_Download_Unavailable
+ */
+
+$_product = $this->getProduct();
+$_link = $this->getLink();
+$_detail = $this->getDetail();
+$_linkExtension = $this->getLinkExtension();
+?>
+
+<div class="downloadable-title">
+<h2><?php echo $_product->getName() ?></h2>
+<h4><?php if ($_link && $_product->getName()!=$_link->getLinkTitle()) { echo $this->getLinkTitle(); } ?></h4>
+<?php if ($_detail->getVersion()) : ?>
+	<span class="downloadable-detail-version"><?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion() ?></span>
+<?php elseif ($_product->getProductVersion()) : ?>
+	<span class="downloadable-detail-version"><?php echo $this->__('Release').'&nbsp;'.$_product->getProductVersion() ?></span>
+<?php endif ?>
+<p>&nbsp;</p>
+</div>
+
+<div class="downloadable-unavailable">
+<h3><?php echo $this->__('Download is currently unavailable') ?></h3>
+<?php if ($_linkExtension && $_linkExtension->isExpired()): ?>
+<p><?php echo $this->__('Sorry, this download has expired.'); ?></p>
+<?php else: ?>
+<p><?php echo $this->__('Sorry, this download is currently unavailable.'); ?></p>
+<?php endif; ?>
+<p><?php echo $this->__('Please go to your Account and check your Order Status.'); ?></p>
+</div>

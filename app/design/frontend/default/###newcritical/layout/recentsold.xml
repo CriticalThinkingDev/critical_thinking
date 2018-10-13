@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0"> 
+ 	<recentsold_index_index translate="label">
+ 		<reference name="content">
+ 			<block type="recentsold/recentsold" template="recentsold/items.phtml" name="recentsold.items" />
+ 		</reference>
+ 	</recentsold_index_index>
+</layout>

@@ -1,0 +1,162 @@
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloads_Additional
+ */
+
+?>
+<div class="fieldset">
+<div class="grid">
+<div class="hor-scroll">
+<table cellspacing="0" class="data border">
+    <col width="80%" />
+    <col width="15%" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr class="headings">
+            <th><?php echo Mage::helper('downloadplus')->__('Title')?> <span class="required">*</span></th>
+            <th><?php echo Mage::helper('downloadplus')->__('Link')?></th>
+            <th><?php echo Mage::helper('downloadplus')->__('Sort Order')?></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml()?>&nbsp;<?php echo $this->getUploadButtonHtml() ?></td>
+        </tr>
+    </tfoot>
+    <tbody id="productlink_items_body">
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var productDownloadTemplate = '<tr>'+
+    '<td>'+
+        '<input type="hidden" class="__delete__" name="downloadable[productlink][{{id}}][is_delete]" value="" />'+
+        '<input type="hidden" name="downloadable[productlink][{{id}}][link_id]" value="{{link_id}}" />'+
+        '<input type="text" class="required-entry input-text" name="downloadable[productlink][{{id}}][title]" value="{{title}}" />'+
+        '<div class="clear"></div>'+
+		'<label for="downloadable_productlink_{{id}}_description" style="color:#67767e;"><?php echo Mage::helper('downloadplus')->__('Description')?></label><br />'+
+        '<textarea class="textarea" style="width:86%;height:150px;"; id="downloadable_productlink_{{id}}_description" name="downloadable[productlink][{{id}}][description]">'+
+        '{{description}}'+
+        '</textarea>'+
+    '</td>'+
+    '<td>'+
+        '<div class="files">'+
+            '<div class="row">'+
+                '<label for="downloadable_productlink_{{id}}_file_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_productlink_{{id}}_file_type" name="downloadable[productlink][{{id}}][type]" value="file"{{file_checked}} /> <?php echo Mage::helper('downloadplus')->__('File:') ?></label>'+
+	            '<input type="hidden" class="validate-downloadable-file" id="downloadable_productlink_{{id}}_file_save" name="downloadable[productlink][{{id}}][file]" value="{{file_save}}" />'+
+                '<div id="downloadable_productlink_{{id}}_file" class="uploader">'+
+                    '<div id="downloadable_productlink_{{id}}_file-old" class="file-row-info"></div>'+
+                    '<div id="downloadable_productlink_{{id}}_file-new" class="file-row-info new-file"></div>'+
+                    '<div class="buttons">'+
+                        '<div id="downloadable_productlink_{{id}}_file-install-flash" style="display:none">'+
+                            '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="clear"></div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="row">'+
+                '<label for="downloadable_productlink_{{id}}_url_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_productlink_{{id}}_url_type" name="downloadable[productlink][{{id}}][type]" value="url"{{url_checked}} /> URL:</label><input type="text" class="validate-downloadable-url input-text" name="downloadable[productlink][{{id}}][link_url]" value="{{link_url}}" />'+
+            '</div>'+
+            '<div>'+
+                '<span id="downloadable_productlink_{{id}}_link_container"></span>'+
+            '</div>'+
+        '</div>'+
+    '</td>'+
+    '<td class="a-center"><input type="text" name="downloadable[productlink][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" /></td>'+
+    '<td>'+
+        '<button type="button" class="scalable delete icon-btn delete-link-item"><span>Delete</span></button>'+
+    '</td>'+
+'</tr>';
+
+var productDownloadItems = {
+	    tbody : $('productlink_items_body'),
+	    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+	    templateText : productDownloadTemplate,
+	    itemCount : 0,
+	    add : function(data) {
+	        alertAlreadyDisplayed = false;
+	        this.template = new Template(this.templateText, this.templateSyntax);
+
+	        if(!data.link_id){
+	            data = {};
+	            data.link_id  = 0;
+	            data.title = '';
+	            data.description = '';
+	            data.link_type = 'file';
+	            data.sort_order = '';
+	        }
+
+	        data.id = this.itemCount;
+
+	        if (data.link_type == 'url') {
+	            data.url_checked = ' checked="checked"';
+	        } else if (data.link_type == 'file') {
+	            data.file_checked = ' checked="checked"';
+	        }
+
+	        Element.insert(this.tbody, {'bottom':this.template.evaluate(data)});
+
+	        linkUrl = $('downloadable_productlink_'+data.id+'_url_type');
+
+	        if (!data.file_save) {
+	            data.file_save = [];
+	        }
+	        // link file
+	        new Downloadable.FileUploader(
+	            'productlinks',
+	            'productlinks_'+data.id,
+	            linkUrl.up('td'),
+	            'downloadable[productlink]['+data.id+']',
+	            data.file_save,
+	            'downloadable_productlink_'+data.id+'_file',
+	            <?php echo $this->getConfigJson() ?>
+	        );
+
+	        $('downloadable_productlink_'+data.id+'_file_save').advaiceContainer = 'downloadable_productlink_'+data.id+'_link_container';
+
+	        this.itemCount++;
+	        this.bindRemoveButtons();
+	    },
+	    remove : function(event){
+	        var element = $(Event.findElement(event, 'tr'));
+	        alertAlreadyDisplayed = false;
+	        if(element){
+	            element.down('input[type="hidden"].__delete__').value = '1';
+	            Element.select(element, 'div.flex').each(function(elm){
+	                elm.remove();
+	            });
+	            element.addClassName('no-display');
+	            element.addClassName('ignore-validate');
+	            element.hide();
+	        }
+	    },
+	    bindRemoveButtons : function(){
+	        var buttons = $$('tbody#productlink_items_body .delete-link-item');
+	        for(var i=0;i<buttons.length;i++){
+	            if(!$(buttons[i]).binded){
+	                $(buttons[i]).binded = true;
+	                Event.observe(buttons[i], 'click', this.remove.bind(this));
+	            }
+	        }
+	    }
+	}
+
+	productDownloadItems.bindRemoveButtons();
+
+	if($('add_product_link_item')) {
+	    Event.observe('add_product_link_item', 'click', productDownloadItems.add.bind(productDownloadItems));
+	}
+
+	<?php foreach ($this->getLinkData() as $item): ?>
+	    productDownloadItems.add(<?php echo $item->toJson()?>);
+	<?php endforeach; ?>
+
+	//]]>
+</script>

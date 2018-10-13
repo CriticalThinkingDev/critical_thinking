@@ -1,0 +1,131 @@
+<?php
+	$parent_product = $this->getParentProduct();
+	$parent_id = (!empty($parent_product)) ? $parent_product->getId(): 0;
+	$_product = $this->getProduct();
+	
+	$grouped_product_model = Mage::getModel('catalog/product_type_grouped');
+	$groupedParentId = $grouped_product_model->getParentIdsByChild($_product->getId());
+	$constant_helper = $this->helper('grouped/constants');
+	
+	if(sizeof($groupedParentId) >0) {
+		$seriesProductData = array();
+		foreach($groupedParentId as $pid) {
+			$productData = Mage::getModel('catalog/product')->load($pid);
+			if($productData->getAttributeSetId() == $constant_helper::CRITICAL_SERIES_ATTR_SET) {
+				$seriesProductData = $productData;
+				break;
+			}
+		}
+		if(count($seriesProductData) > 0) {
+		//$seriesProductData = Mage::getModel('catalog/product')->load($groupedParentId[0]);
+		$_associatedProducts = $this->getMasterGroupSeriesProducts($seriesProductData);
+		if(count($_associatedProducts) > 1) {
+	
+?>
+<div class="aw-box aw-mini-related-items block1">
+<a class="view-series-link mb-enable" href="<?php echo $seriesProductData->getProductUrl()?>" title="<?php echo $this->__('View Product Series Page')?>"><?php echo $this->__('View Product Series Page')?></a>
+<div class="aw-content-box1">
+    <div class="head">
+        <h4><?php echo $this->__('Other Products In The Same Series') ?><a class="desktop-enable view-series-link right" href="<?php echo $seriesProductData->getProductUrl()?>" title="<?php echo $this->__('View Product Series Page')?>"><?php echo $this->__('View Product Series Page')?></a></h4>
+    </div>
+    <div class="aw-content all_product_series">
+	<ul>
+
+<?php
+
+	$attribute = Mage::getSingleton('eav/config')->getAttribute('catalog_product', 'product_type');
+	if ($attribute->usesSource()) {
+	    $options = $attribute->getSource()->getAllOptions(false);
+	}
+	
+	foreach($_associatedProducts as $_series_products) {
+		if($_series_products->getId() != $_product->getId() && $_series_products->getId() != $parent_id) {
+			$productName = $_series_products->getName();
+			
+			$productUrlArr = array();
+			if($_series_products->getIsMasterGroupProduct()) {
+				$_associatedProducts_series = $this->helper('grouped')->getAssociatedProducts($_series_products);
+				//$_associatedProducts_series = $_series_products->getTypeInstance(true)->getAssociatedProducts($_series_products);
+				$i = 0;
+				foreach($_associatedProducts_series as $subProduct) {
+					if($i == 0) {
+						$productUrl = $subProduct->getProductUrl();
+					}
+					if(!isset($productUrlArr[$subProduct->getProductType()])) {
+						$productUrlArr[$subProduct->getProductType()] = $subProduct->getProductUrl();
+					}
+					$i++;
+				}
+			} else {
+				$productUrl = $_series_products->getProductUrl();
+			}
+			
+			$grade = Mage::getModel('catalog/product')->getProductGrade($_series_products->getGrade());
+			$associated_products_types = $this->helper('grouped')->getAssicatedProductTypes($_series_products);
+?>
+	<li>
+		<div class="product_name_grade">
+			<span><a href="<?php echo $productUrl; ?>"><?php echo $this->htmlEscape($productName) ?></a></span> <?php echo $grade; ?>
+		</div>
+		<div class="product_type_btn">
+			<?php //if($_series_products->getMediaGroupType() != '') { 
+				 
+			    ?>
+				<ul id="product_types" class="producttype_buttons">
+			    <?php
+                if($associated_products_types) { // added by bijal
+				    foreach($options as $option_val) {
+				        if(!empty($associated_products_types) && in_array($option_val['value'], $associated_products_types)) {
+					    $class = '';
+					    if($option_val['value'] == $constant_helper::PRODUCT_TYPE_BOOKS): $class = 'books_btn';
+					    elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_ANDROID_APP): $class = 'android_app_btn';
+					    elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_IOS_APP): $class = 'ios_app_btn';
+					    elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_WIN_APP): $class = 'win_app_btn';
+					    elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE): $class = 'software_btn';
+					    elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE): $class = 'win_btn';
+					    elseif($option_val['value'] == $constant_helper::PRODUCT_TYPE_EBOOK): $class = 'ebook_btn';
+						endif;
+					    
+					        if($class != "") {
+				        ?>
+				            <li class="<?php echo $class; ?>"><a title="<?php echo $option_val['label'] ?>" href="<?php echo $productUrlArr[$option_val['value']]; ?>"><!--img src="<?php// echo $src; ?>" / --> </a></li>
+				        <?php
+					        }
+				        }
+				    }
+                } else {// else part added by bijal
+                    $productType = $_series_products->getProductType();
+                    $class = '';
+                        if($productType == $constant_helper::PRODUCT_TYPE_BOOKS): $class = 'books_btn';
+                        elseif($productType == $constant_helper::PRODUCT_TYPE_ANDROID_APP): $class = 'android_app_btn';
+                        elseif($productType == $constant_helper::PRODUCT_TYPE_IOS_APP): $class = 'ios_app_btn';
+					    elseif($productType == $constant_helper::PRODUCT_TYPE_WIN_APP): $class = 'win_app_btn';
+                        elseif($productType == $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE): $class = 'software_btn';
+					    elseif($productType == $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE):  $class = 'win_btn';
+                        elseif($productType == $constant_helper::PRODUCT_TYPE_EBOOK):  $class = 'ebook_btn';
+						elseif($productType == $constant_helper::PRODUCT_TYPE_ACCESSORIES && $_product->getAttributeText('media_type')=='eBook'):  $class = 'mebook_btn';
+                        elseif($productType == $constant_helper::PRODUCT_TYPE_ACCESSORIES && $_product->getAttributeText('media_type')=='Paperback Book'):  $class = 'paperbook_btn';
+						endif;
+                        
+                            if($class != "") {
+                        ?>
+                            <li class="<?php echo $class; ?>"><a href="<?php echo $productUrl; ?>"></a></li>
+                        <?php
+                            }
+                }
+				?>
+				</ul>
+			    <?php //} ?>
+		</div>
+	</li>
+<?php				
+		}
+	}
+ ?>           
+        </ul>
+</div></div></div>
+  <?php  
+		}
+		}
+	}
+?>

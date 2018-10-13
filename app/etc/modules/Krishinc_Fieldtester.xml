@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+         <Krishinc_Fieldtester>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Krishinc_Fieldtester>
+    </modules>
+</config> 

@@ -1,0 +1,48 @@
+<form action="<?php echo $this->getUrl('catalogsearch/advanced/result'); ?>" method="get" id="form-validate-home">
+
+<?php $shop_need = array('subject','grade','product_type') ?>
+<div class="search_subject_box">
+<h2 class="title 0">Shop by Need</h2>
+  <?php foreach ($this->getSearchableAttributes() as $_attribute): ?>
+        <?php $_code = $_attribute->getAttributeCode() ?>
+        <?php  if(in_array($_code,$shop_need)) { ?>
+<!-- label -->
+        <?php switch($this->getAttributeInputType($_attribute)):
+           case 'select': ?>
+                    <?php echo $this->getAttributeSelectElement($_attribute) ?>
+                    <?php break;
+        default: ?>
+                <input name="<?php echo $_code ?>" id="<?php echo $_code ?>" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute)) ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text <?php echo $this->getAttributeValidationClass($_attribute) ?>" type="text" />
+            <?php endswitch; ?>
+            
+<!--<select name="Select Grade">
+  <option value="Select Grade">Select Grade</option>
+</select>
+</label>-->
+  <?php } ?>
+  <?php endforeach; ?>
+  
+  <div class="search_btn_box">
+    <button class="form-button waves-effect" type="submit"><span><?php echo $this->__('FIND IT') ?></span></button>
+<!--<a href="#"><img src="<?php //echo $this->getSkinUrl('images/shopneed-go-btn.png')?>" alt="" /></a>--></div>
+
+</div>
+
+    <script type="text/javascript">decorateList('advanced-search-list')</script>
+<div style="display:none;" class="validation-advice">You have to specify at least one search term.</div>
+
+
+</form>
+<script type="text/javascript">
+ 
+
+    $('form-validate-home').observe('submit',function(e){
+        this.getElements().each(function(el){
+            if(!el.getValue() || el.getValue()==''){
+                //add class?
+                 el.disable(); 
+            }
+        });
+        //Event.stop(e);
+    });
+</script>

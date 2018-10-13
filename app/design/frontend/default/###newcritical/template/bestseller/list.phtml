@@ -1,0 +1,95 @@
+<div class="bestseller_box">
+	<div class="page-title">
+		<h1><?php echo $this->__('Top Selling Products');?></h1>
+	</div>
+	<p><?php echo $this->__('Below is a list of our most popular series titles listed by subject. Each title comes highly recommended by our customers, and we guarantee that you and your child will benefit from them as well.')?></p>
+	
+		<?php $subjects = $this->getSubjectOptions();$_columnCount=2;$i=0;$_collectionSize = sizeof($subjects);
+			  $seriesIdExists = array();
+		?>
+		<?php foreach ($subjects as $key => $value):?>
+		  	<?php if ($i++%$_columnCount==0): ?>
+		       <div class="bestseller_box2 col-v6">
+	        <?php endif ?>
+			<div class="bestseller_box1" >
+			<?php $products = $this->getCollectionBySubjectFilter($value['value']);?>
+					<?php if($products->count()>0):?>	
+					<h3><?php echo $value['label']?></h3>  
+					<ul>
+					<?php $icnt = 0;foreach ($products as $product):?>
+					<?php 
+					$product_url = $product->getProductUrl();
+					$product_name = $product->getName();
+					$grouped_product_model = Mage::getModel('catalog/product_type_grouped');
+					$groupedParentId = $grouped_product_model->getParentIdsByChild($product->getId()); 
+					if(sizeof($groupedParentId) >0){
+						$seriesProductData = Mage::getModel('catalog/product')->load($groupedParentId[0]);
+						if($seriesProductData->getStatus()==1 && $seriesProductData->getAttributeSetId()==11){
+						if($seriesProductData->getId()):
+							$product_url = $seriesProductData->getProductUrl();
+							$product_name = $seriesProductData->getName();
+						endif; 
+					
+						if(!in_array($seriesProductData->getId(),$seriesIdExists)) {
+							$icnt++;
+							$seriesIdExists[] = $seriesProductData->getId(); 
+					
+					?>
+					<?php $grade = Mage::getModel('catalog/product')->getProductGrade($seriesProductData->getGrade());?>
+						<li <?php if ($product->getAward() != '') {?> class="starimg"<?php }?>>
+							 
+								<a href="<?php echo $product_url?>" title="<?php echo $product_name?>"><?php echo $product_name?></a> <?php echo (($product->getGrade())? '(Grades '.$grade. ')':'')?><?php if ($product->getAward() != '') {?>
+								<span class="product_award_container">
+									<img src="<?php echo $this->getSkinUrl('images/award_winner_star.gif')?>" />	
+								</span> 
+                                
+								<?php }?>
+						 
+                         
+                        
+						</li>
+						<?php } ?>
+                                                <?php } ?>
+					<?php }?>
+					<?php if($icnt ==10){  
+						break;
+					 }?>
+					
+					<?php endforeach;?> 
+					</ul>
+				<?php endif;?>
+				</div>
+			  <?php if ($i%$_columnCount==0 || $i==$_collectionSize): ?>
+		      </div>
+		      <?php endif ?>
+			
+		<?php endforeach;?>
+	
+	<div style="clear:both;">
+		<p>
+			<img width="254" height="195" align="left" style="margin-left: 250px;" src="<?php echo $this->getSkinUrl('images/kids6.gif')?>" alt="image"/>
+		</p>
+		<div style="clear: none;font-family: Verdana,Geneva,sans-serif; font-size: 10px; margin-top: 45px;">
+		    <strong><?php echo $this->__('Key to symbols:')?></strong><br>
+		    <img src="<?php echo $this->getSkinUrl('images/award_winner_star.gif')?>"> - <?php echo $this->__('Award Winner')?><br>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+jQuery(document).ready(function() { 
+	jQuery("span.product_award_container").each(function(i,e) { 
+		jQuery(e).parent('li').mouseover(function() { 
+			//alert($(this).position().top + " \n" + $(this).offset().top);
+			var t = jQuery(document).scrollTop() - 0;
+			var l = jQuery(document).scrollLeft() - 0;
+			var awrd = jQuery('<img class="product_award_graphic">').attr('src','<?php echo $this->getSkinUrl('images/award_winner_icon.gif')?>').css('position','relative').offset( { top: t, left: 0 });
+			jQuery(this).append(awrd);	
+			jQuery(this).css('background-color','#FFFFCC');
+		} ).mouseout(function() { 
+			jQuery(this).css('background-color','transparent');
+			jQuery('.product_award_graphic').remove();	
+			
+		} );
+	} );		
+} );
+</script>

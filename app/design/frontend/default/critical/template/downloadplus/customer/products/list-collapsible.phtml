@@ -1,0 +1,57 @@
+<?php
+/**
+ * Downloadable Products List for Customer
+ *
+ * @see Pisc_Downloadplus_Block_Customer_Products_List
+ */
+
+/*
+ * To change the Sort Order of the Product and Purchased Link Entries
+ * from the default (product_name ASC, item_id DESC), use the commented code below:
+ *
+ * The entries from the tables "downloadable_link_items" and "downloadable_link_purchased_items" are available for Sort from 'downloadplus.xml'.
+ * See 'downloadplus.xml' for examples.
+ */
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_items = $this->getItems(); ?>
+<div class="my-account">
+<div class="page-title">
+	<h1><?php echo Mage::helper('downloadable')->__('My Downloadable Products') ?></h1>
+	<?php if ($this->isRssAvailable()): ?>
+	<a href="<?php echo $this->getRssLink() ?>" class="link-feed right"><?php echo $this->__('Subscribe to RSS Feed on updates of all Products') ?></a>
+	<?php endif; ?>
+</div>
+
+<div id="my-downloadable-products">
+<?php if(count($_items)):
+	echo $this->getChildHtml('pager');
+	$_odd = '';
+	$_previtem = false;
+	foreach ($_items as $_item):
+		if ($_item->getLinkType()!=Pisc_Downloadplus_Helper_Download::LINK_TYPE_MAGAZINE):
+?>
+	<div class="downloadplus-product <?php echo $_odd?>">
+	<?php if (!$_previtem || ($_previtem && $_item->getProductId()!=$_previtem->getProductId())): ?>
+		<h2><?php echo $_item->getProductName(); ?></h2>
+	<?php endif; ?>
+
+	<?php
+		if ($widget = Mage::helper('downloadplus/widget')->getWidget('downloadplus/customer_products_list_default')) {
+			echo $widget->setTemplate('downloadplus/customer/products/list/collapsible.phtml')->setItem($_item)->toHtml();
+		}
+	    $_previtem = $_item;
+    	if ($_odd) { $_odd=''; } else { $_odd='downloadplus-odd-entry'; } ?>
+	</div>
+		<?php endif; ?>
+<?php endforeach; ?>
+<?php echo $this->getChildHtml('pager'); ?>
+
+<?php else: ?>
+    <p><?php echo Mage::helper('downloadable')->__('You have no Downloadable Products.'); ?></p>
+<?php endif; ?>
+</div>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><?php echo $this->__('Back') ?></a></p>
+</div>
+</div>

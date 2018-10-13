@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Krishinc
+ * @package    Krishinc_Hardcoder
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Krishinc_Hardcoder>
+            <version>0.1.1</version>
+        </Krishinc_Hardcoder>
+    </modules>
+    <frontend>
+        <routers>
+            <hardcoder>
+                <use>standard</use>
+                <args>
+                    <module>Krishinc_Hardcoder</module>
+                    <frontName>hardcoder</frontName>
+                </args>
+            </hardcoder>
+        </routers>
+        <layout>
+            <updates>
+                <hardcoder>
+                    <file>hardcoder.xml</file>
+                </hardcoder>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Krishinc_Hardcoder after="Mage_Adminhtml">Krishinc_Hardcoder_Adminhtml</Krishinc_Hardcoder>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <adminhtml>
+		<menu>
+			<catalog>
+
+				<children>
+					<items_recom>
+						<title>Manage Recommendation</title>
+						<sort_order>13</sort_order>
+						<action>adminhtml/hardcoder/</action>
+					</items_recom>
+				</children>
+			</catalog>
+		</menu>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<catalog>
+							<title>Hardcoder Module</title>
+							<sort_order>11</sort_order>
+						</catalog>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<hardcoder>
+					<file>hardcoder.xml</file>
+				</hardcoder>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+        <models>
+            <hardcoder>
+                <class>Krishinc_Hardcoder_Model</class>
+                <resourceModel>hardcoder_mysql4</resourceModel>
+            </hardcoder>
+            <hardcoder_mysql4>
+                <class>Krishinc_Hardcoder_Model_Mysql4</class>
+                <entities>
+                    <hardcoder>
+                        <table>hardcoder</table>
+                    </hardcoder>
+                </entities>
+            </hardcoder_mysql4>
+        </models>
+        <resources>
+            <hardcoder_setup>
+                <setup>
+                    <module>Krishinc_Hardcoder</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </hardcoder_setup>
+            <hardcoder_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </hardcoder_write>
+            <hardcoder_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </hardcoder_read>
+        </resources>
+        <blocks>
+            <hardcoder>
+                <class>Krishinc_Hardcoder_Block</class>
+            </hardcoder>
+        </blocks>
+        <helpers>
+            <hardcoder>
+                <class>Krishinc_Hardcoder_Helper</class>
+            </hardcoder>
+        </helpers>
+    </global>
+</config>

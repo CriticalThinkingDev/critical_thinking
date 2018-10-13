@@ -1,0 +1,21 @@
+<?php
+/**
+ * RSS Feed on Version History of Downloadable Products List
+ * Feed Entry Title Block
+ *
+ * @see Pisc_Downloadplus_Block_Rss_Updates
+ */
+
+$update = $this->getUpdate();
+$product = $this->getProduct();
+$detail = $this->getDetail();
+
+if ($product && $product->getName()) {
+	if ($detail && $detail->getVersion()) {
+		echo $product->getName().': '.$this->__('Update available to Version').' '.$detail->getVersion();
+	} else {
+		echo $product->getName().': '.$this->__('New Release available');
+	}
+}
+
+?>

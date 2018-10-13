@@ -1,0 +1,85 @@
+<?php
+/**
+ * Product View Version History Page for Downloadable Products
+ *
+ * @see Pisc_Downloadplus_Block_Product_View_History
+ */
+
+$_count = 0;
+$_totalcount = 0;
+?>
+<div class="downloadplus-product-history">
+
+<?php if ($this->hasLinks()): ?>
+	<div class="downloadplus-product-history-links">
+	<h2><?php echo $this->getLinksTitle() ?></h2>
+<?php
+	$_items = $this->getLinks();
+	$_count = 0;
+	foreach ($_items as $_item) {
+		$_details = $this->setLink($_item)->setSort('version DESC')->getHistoryCollection();
+		if ($_details) {
+			echo '<h3>'.$_item->getTitle().'</h3>';
+		}
+		foreach ($_details as $_detail) {
+			if ($_detail->getVersion()) {
+?>
+				<div class="downloadplus-product-history-entry">
+				<h4><?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion(); ?></h4>
+				<div class="downloadplus-product-history-detail">
+				<?php echo $_detail->getDetail(); ?>
+				</div>
+				</div>
+<?php
+				$_count++;
+			}
+		}
+	}
+	$_totalcount = $_totalcount+$_count;
+	if ($_count==0) {
+		echo $this->__('Currently there is no Version History available.');
+	}
+?>
+	</div>
+<?php endif; ?>
+
+<?php if ($this->hasSamples()): ?>
+	<div class="downloadplus-product-history-samples">
+	<h2><?php echo $this->getSamplesTitle() ?></h2>
+<?php
+	$_items = $this->getSamples();
+	$_count = 0;
+	foreach ($_items as $_item) {
+		$_details = $this->setSample($_item)->setSort('version DESC')->getHistoryCollection();
+		if ($_details) {
+			echo '<h3>'.$_item->getTitle().'</h3>';
+		}
+		foreach ($_details as $_detail) {
+			if ($_detail->getVersion()) {
+?>
+				<div class="downloadplus-product-history-entry">
+				<h4><?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion(); ?></h4>
+				<div class="downloadplus-product-history-detail">
+				<?php echo $_detail->getDetail(); ?>
+				</div>
+				</div>
+<?php
+				$_count++;
+			}
+		}
+	}
+	$_totalcount = $_totalcount+$_count;
+	if ($_count==0) {
+		echo $this->__('Currently there is no Version History available.');
+	}
+?>
+	</div>
+<?php endif; ?>
+
+<?php
+	if ($_totalcount==0) {
+		echo $this->__('Currently there is no Version History available.');
+	}
+?>
+
+</div>

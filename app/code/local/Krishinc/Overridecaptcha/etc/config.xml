@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Krishinc_Overridecaptcha>
+            <version>0.1.0</version>
+        </Krishinc_Overridecaptcha>
+    </modules>
+    <global>
+    	<models>
+    		<captcha>
+    			<rewrite>
+    				<zend>Krishinc_Overridecaptcha_Model_Zend</zend>
+    			</rewrite>
+    		</captcha>
+    	</models>
+    </global>
+     <default> 
+        <captcha translate="label">
+            <frontend> 
+                <areas> 
+                     <user_catalogrequest>
+                        <label>Create Catalog Request</label>
+                    </user_catalogrequest>   
+                    <user_fieldtester>
+                        <label>Field Tester</label>
+                    </user_fieldtester>
+                    <user_customcontact>
+                        <label>Contact Us</label>
+                    </user_customcontact>
+                     <user_offerlanding>
+                        <label>Offerlanding Form</label>
+                    </user_offerlanding>  
+                    <testimonial>
+                        <label>Testimonial Form</label>
+                    </testimonial>  
+                    <custom_newsletter>
+                        <label>Newsletter Form</label>
+                    </custom_newsletter>
+                    <user_dealerskit>
+                        <label>Dealers Kit Request Form</label>
+                    </user_dealerskit>
+                    <review_form>
+                        <label>Review Form</label>
+                    </review_form>
+                </areas>
+            </frontend> 
+        </captcha>
+    </default> 
+</config>

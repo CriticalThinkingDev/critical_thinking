@@ -1,0 +1,32 @@
+<?php
+/**
+ * License Page for Downloadable Serialnubers
+ *
+ * @see Pisc_Downloadplus_Block_License_Links
+ */
+
+$_product = $this->getProduct();
+
+?>
+<div class="downloadable-title">
+<h2><?php echo $this->__('Serialnumber for').' '.$_product->getName(); ?></h2>
+</div>
+
+<div class="downloadable-license">
+<h3><?php echo $this->__('Terms of Use') ?></h3>
+<?php echo $this->getLicense() ?>
+</div>
+
+<form action="<?php echo $this->getAction() ?>" method="post" id="form-validate">
+	<input type="hidden" name="formKey" value="<?php echo $this->getFormKey() ?>">
+
+    <div class="input-box">
+        <label for="downloadlicense_serialnumber_accepted"><?php echo $this->__('Acceptance') ?> <span class="required">*</span></label><br/>
+		<input type="checkbox" name="downloadlicense_serialnumber_accepted" value="1">&nbsp;<?php echo $this->__('I accept these terms of use') ?></input>
+	</div>
+
+    <div class="button-set">
+        <p class="required"><?php echo $this->__('* Required') ?></p>
+        <input type="submit" class="button" value="<?php echo $this->__('Download') ?>" />
+    </div>
+</form>

@@ -1,0 +1,32 @@
+<div class="entry-edit">
+    <div class="entry-edit-head">
+        <h4 class="fieldset-legend head-shipping-method icon-head"><?php echo $this->__('Order Type') ?></h4>
+    </div>
+    <div class="fieldset">
+        <div id="order-ordertype">
+         <!--   <input type="text" name="order[source_code]"   id="sourcecode" value="<?php echo $this->getsourcecode() ?>" /> -->
+         <select title="<?php echo $this->__('Order Type') ?>" name="order[order_type]">
+         <?php $options = $this->getAllOptions()?>
+         <option value="">Select Order Type</option>
+         <?php foreach ($options as $key => $val) {?>
+         	<option value="<?php echo $key?>" <?php echo (($key == $this->getOrderType())?'selected="selected"':'')?> ><?php echo $val?></option>
+         <?php }?> 
+         </select>
+        </div>
+        <script type="text/javascript">
+            AdminOrder.addMethods({
+              	 ordertypeFieldsBind:function (container) {
+                    if ($(container)) {
+                        var fields = $(container).select('input'); 
+                        for (var i = 0; i < fields.length; i++)
+                            fields[i].observe('change', this.ordertypeFieldChange.bind(this))
+                    }
+                },
+                ordertypeFieldChange:function () {
+                    this.saveData(this.serializeData('order-ordertype'));
+                }
+            });
+            order.ordertypeFieldsBind('order-ordertype');
+        </script>
+    </div>
+</div>

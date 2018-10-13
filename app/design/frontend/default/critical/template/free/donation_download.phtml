@@ -1,0 +1,9 @@
+<?php $isRedirectToDownladFromFreeBook = Mage::getSingleton('core/session')->getFreeBook();
+if(isset($isRedirectToDownladFromFreeBook)):  ?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('donation_download')->toHtml();?>
+<?php Mage::getSingleton('core/session')->unsFreeBook();?>
+<?php else: 
+	header( 'Location: '.Mage::getUrl('donations'));   
+ 	exit();
+  endif;
+?>

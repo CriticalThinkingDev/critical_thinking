@@ -1,0 +1,77 @@
+<script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'js/magecoders/jquery-ui-1.8.2.custom.min.js'?>" type="text/javascript"></script>
+<script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'js/magecoders/pirobox_extended.js'?>" type="text/javascript"></script>
+<!--<script src="<?php //echo $this->getSkinUrl('ajaxtocart/ajaxcart/js/jquery.loadmask.js'); ?>" type="text/javascript"></script>
+<link href="<?php //echo $this->getSkinUrl('ajaxtocart/ajaxcart/css/jquery.loadmask.css'); ?>" rel="stylesheet" type="text/css" />-->
+
+<?php
+	$cmsPageUrl = Mage::getUrl() . Mage::getSingleton('cms/page')->getIdentifier();
+	$params = $this->getRequest()->getParams();
+	if(isset($params['grade']) && $params['grade'] != "") {
+		$grade = $params['grade'];
+	}
+	
+	// dropdown variables
+	$attributes  = Mage::getModel('eav/config')->getAttribute('catalog_product', 'grade');
+	$grades = $attributes->getSource()->getAllOptions(true, true); 
+	$subject = array();
+	$product = array();
+	$product_notvisible = array();
+	$_helper = $this->helper('catalog/output');
+	$visiblity = Mage::getSingleton('catalog/product_visibility')->getVisibleInCatalogIds(); 
+ ?>
+<script type="text/javascript"> 
+function getGradeProducts(gradeval) {
+	if (gradeval != "") {
+		window.location.href = '<?php echo $cmsPageUrl; ?>?grade='+gradeval;
+	} else {
+		window.location.href = '<?php echo $cmsPageUrl; ?>';
+	}
+}
+
+jQuery('document').ready(function() {
+	jQuery().piroBox_ext({
+		piro_speed : 700,
+		bg_alpha : 0.5,
+		piro_scroll : true // pirobox always positioned at the center of the page
+	});
+	jQuery('.piro_html').addClass('popup_hw');
+});
+</script>
+<div class="free_online_playroom_new">
+	<?php if(!isset($params['grade']) || $params['grade'] == "") { ?>
+		<div class="free_online_playroom_banner_new">
+            <a href="<?php echo Mage::getBaseUrl(); ?>" class="back_to_home"><?php echo $this->__('Back to Homepage'); ?></a>
+			<select id="grade_age" name="grade_age" onchange="getGradeProducts(this.value);">
+				<option value=""><?php echo $this->__('Select Grade/Age'); ?></option>
+				<?php foreach($grades as $key => $_grade) {  ?>
+					<?php if( $_grade['value'] != "" ) { ?>
+					<option value="<?php echo $_grade['value']; ?>"><?php echo $_grade['label']; ?></option>
+					<?php } ?>
+				<?php } ?>
+			</select>
+		</div>
+	<?php } else { ?>
+<div class="free_online_playroom_banner">
+	<!--<img src="<?php //echo $this->getSkinUrl('images/playonlinedemo_banner.jpg')?>"alt="Free online Playroom" />-->
+    <a href="<?php echo Mage::getBaseUrl(); ?>" class="back_to_home"><?php echo $this->__('Back to Homepage'); ?></a>
+</div>
+
+<div class="free_online_playroom_prod_box">
+
+<div class="grades_dd">
+	<!--<div class="nooptiontext">Select Grade/Age to start playing</div>-->
+	<select id="grade_age" name="grade_age" onchange="getGradeProducts(this.value);">
+		<option value=""><?php echo $this->__('Select Grade/Age'); ?></option>
+		<?php foreach($grades as $key => $_grade) {  ?>
+			<?php if( $_grade['value'] != "" ) { ?>
+			<option value="<?php echo $_grade['value']; ?>" <?php echo ($grade == $_grade['value']) ? 'selected="selected"': ""; ?> ><?php echo $_grade['label']; ?></option>
+			<?php } ?>
+		<?php } ?>
+	</select>
+</div>
+<div id="freeplayonline">
+	<?php echo $this->getGrageProductsHtml(); ?>
+</div> 
+</div>
+<?php } ?>
+</div>

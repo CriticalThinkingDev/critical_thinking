@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <fieldtester_index_index>
+        <reference name="content">
+            <block type="fieldtester/fieldtester" name="fieldtester" template="fieldtester/form.phtml" >  
+            	<block type="core/text_list" name="form.additional.info">
+	                <block type="captcha/captcha" name="captcha">
+	                    <reference name="head">
+	                        <action method="addJs"><file>mage/captcha.js</file></action>
+	                    </reference>
+	                    <action method="setFormId"><formId>user_fieldtester</formId></action>
+	                    <action method="setImgWidth"><width>230</width></action>
+	                    <action method="setImgHeight"><width>50</width></action>
+	                </block>
+	            </block>
+              </block>
+        </reference>
+    </fieldtester_index_index> 
+</layout>  

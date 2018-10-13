@@ -1,0 +1,54 @@
+Xtento_CustomTrackers
+
+-------------
+  CHANGELOG
+-------------
+
+===== 1.0.0 =====
+ * Initial Release
+
+[...]
+
+===== 1.4.0 =====
+ * Added ability to export more variables in the tracking number: #d#, #m#, #Y#, #y# (Outputting the shipment date)
+
+===== 1.4.1 =====
+ + Added new variable #ORDERNUMBER#
+
+===== 1.4.2 =====
+ + Improved compatibility with not properly uninstalled shipping methods
+
+===== 1.4.3 =====
+ + Added new variables #FIRSTNAME# and #LASTNAME# that contain shipping first/lastname
+ * Variables in tracking link get prepared using urlencode()
+
+===== 1.4.4 =====
+ + Added new variable #COUNTRYCODE# which contains the two letter destination country code
+
+===== 1.4.5 =====
+ * Added ability to disable direct tracking links in Sales > Orders grid, for performance reasons
+ ! Added compatibility for Magento CE 1.9.0.0 / EE 1.14.0.0
+
+===== 1.4.6 =====
+ * Various bugfixes and code optimization in license code
+
+===== 1.5.0 =====
+ + Added 5 new custom trackers - 15 custom trackers can be used in total now
+
+===== 1.5.1 =====
+ ! Added compatibility for Magento CE 1.9.1.0 / EE 1.14.1.0
+
+===== 1.6.0 =====
+ + Added support for responsive shipment/tracking email (RWD)
+
+===== 1.6.1 =====
+ ! Added compatibility for Magento CE 1.9.3.0 / EE 1.14.3.0
+
+===== 1.6.2 =====
+ * Updated Xtento_XtCore to 1.1.8 ("Added warning in module configuration at System > Configuration if module output is disabled via "Disable Module Output" at System > Configuration > Advanced > Advanced")
+
+===== 1.6.3 =====
+ + Up to 30 custom trackers can be configured now
+
+===== 1.6.4 =====
+ * Fixed tracking link not visible in emails sent

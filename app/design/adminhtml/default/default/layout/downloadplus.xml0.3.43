@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+	<default>
+        <reference name="head">
+           <action method="addCss"><stylesheet>downloadplus.css</stylesheet></action>
+		</reference>
+	</default>
+
+    <adminhtml_downloaddashboard_index>
+        <reference name="content">
+            <block type="downloadplus/adminhtml_dashboard" name="downloadplus_dashboard" template="downloadplus/dashboard/container.phtml" />
+        </reference>
+    </adminhtml_downloaddashboard_index>
+
+    <adminhtml_log_index>
+        <reference name="content">
+            <block type="downloadplus/adminhtml_log" name="downloadplus_log" />
+        </reference>
+    </adminhtml_log_index>
+
+    <adminhtml_serialnumber_assigned>
+        <reference name="content">
+            <block type="downloadplus/adminhtml_serialnumber_assigned" name="downloadplus_serialnumber_assigned" />
+        </reference>
+    </adminhtml_serialnumber_assigned>
+
+    <adminhtml_serialnumber_import>
+        <reference name="content">
+            <block type="downloadplus/adminhtml_serialnumber_import" name="downloadplus_serialnumber_import" />
+        </reference>
+    </adminhtml_serialnumber_import>
+
+    <adminhtml_serialnumber_available>
+        <reference name="content">
+            <block type="downloadplus/adminhtml_serialnumber_available" name="downloadplus_serialnumber_available" />
+        </reference>
+    </adminhtml_serialnumber_available>
+
+	<!-- Customer - Edit - Current Downloads (Tab) -->
+	<adminhtml_customer_edit>
+		<reference name="head">
+            <action method="addJs"><script>lib/flex.js</script></action>
+            <action method="addJs"><script>lib/FABridge.js</script></action>
+            <action method="addJs"><script>mage/adminhtml/flexuploader.js</script></action>
+		</reference>
+       	<reference name="customer_edit_tabs">
+        	<action method="addTab"><name>downloadplus_downloads</name><block after="-">downloadplus/adminhtml_customer_edit_tab_downloads</block></action>
+       	</reference>
+    </adminhtml_customer_edit>
+
+	<!-- Catalog - Product - Edit - Download Details (Tab) -->
+    <adminhtml_catalog_product_downloadable>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_detail</name><block after="-">downloadplus/adminhtml_catalog_product_edit_tab_detail</block></action>
+        </reference>
+    </adminhtml_catalog_product_downloadable>
+
+	<!-- Catalog - Product - Edit - Serialnumbers (Tab) -->
+    <adminhtml_catalog_product_simple>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_serialnumbers</name><block>downloadplus/adminhtml_catalog_product_edit_tab_serialnumbers</block></action>
+        </reference>
+    </adminhtml_catalog_product_simple>
+    <adminhtml_catalog_product_configureable>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_serialnumbers</name><block>downloadplus/adminhtml_catalog_product_edit_tab_serialnumbers</block></action>
+        </reference>
+    </adminhtml_catalog_product_configureable>
+    <adminhtml_catalog_product_grouped>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_serialnumbers</name><block>downloadplus/adminhtml_catalog_product_edit_tab_serialnumbers</block></action>
+        </reference>
+    </adminhtml_catalog_product_grouped>
+    <adminhtml_catalog_product_virtual>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_serialnumbers</name><block>downloadplus/adminhtml_catalog_product_edit_tab_serialnumbers</block></action>
+        </reference>
+    </adminhtml_catalog_product_virtual>
+    <adminhtml_catalog_product_downloadable>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_serialnumbers</name><block>downloadplus/adminhtml_catalog_product_edit_tab_serialnumbers</block></action>
+        </reference>
+    </adminhtml_catalog_product_downloadable>
+
+	<!-- Catalog - Product - Edit - Additional Downloads (Tab) -->
+    <adminhtml_catalog_product_simple>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_downloads</name><block after="-">downloadplus/adminhtml_catalog_product_edit_tab_downloads</block></action>
+        </reference>
+    </adminhtml_catalog_product_simple>
+    <adminhtml_catalog_product_configureable>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_downloads</name><block after="-">downloadplus/adminhtml_catalog_product_edit_tab_downloads</block></action>
+        </reference>
+    </adminhtml_catalog_product_configureable>
+    <adminhtml_catalog_product_grouped>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_downloads</name><block after="-">downloadplus/adminhtml_catalog_product_edit_tab_downloads</block></action>
+        </reference>
+    </adminhtml_catalog_product_grouped>
+    <adminhtml_catalog_product_virtual>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_downloads</name><block after="-">downloadplus/adminhtml_catalog_product_edit_tab_downloads</block></action>
+        </reference>
+    </adminhtml_catalog_product_virtual>
+    <adminhtml_catalog_product_downloadable>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_downloads</name><block after="-">downloadplus/adminhtml_catalog_product_edit_tab_downloads</block></action>
+        </reference>
+    </adminhtml_catalog_product_downloadable>
+
+	<!-- Catalog - Product - Edit - Download Expires (Tab) -->
+    <adminhtml_catalog_product_downloadable>
+        <reference name="product_tabs">
+			<action method="addTab"><name>downloadplus_settings</name><block after="-">downloadplus/adminhtml_catalog_product_edit_tab_settings</block></action>
+        </reference>
+    </adminhtml_catalog_product_downloadable>
+
+</layout>

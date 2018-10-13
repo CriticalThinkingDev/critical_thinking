@@ -1,0 +1,16 @@
+<?php
+/**
+ * RSS Feed on Additional Downloads of Products
+ * Feed Entry Title Block
+ *
+ * @see Pisc_Downloadplus_Block_Rss_Updates
+ */
+
+$download = $this->getDownload();
+$product = $this->getProduct();
+
+if ($download && $product && $product->getName()) {
+	echo $product->getName().': '.$download->getLinkTitle();
+}
+
+?>

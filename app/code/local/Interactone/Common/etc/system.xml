@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <interactone translate="label" module="interactone_common">
+            <label>InteractOne</label>
+            <sort_order>300</sort_order>
+            <class>interactone_common-section-header</class>
+        </interactone>
+    </tabs>
+</config>

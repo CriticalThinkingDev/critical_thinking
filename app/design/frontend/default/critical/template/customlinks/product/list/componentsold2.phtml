@@ -1,0 +1,11 @@
+<?php if(count($this->getItemCollection()->getItems())): ?> 
+	<h2><?php echo $this->__('Component Sold Seperately') ?></h2>
+	<p>
+    <?php $_items =  $this->getItemCollection()->getItems(); ?>
+    <?php foreach ($_items as $_link): ?>
+   		 <?php $_linkName = ($_link->getAttributeText('type')?$_link->getAttributeText('type'):$_link->getName());?> 
+         <a href="<?php echo $_link->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_linkName) ?>"><?php echo $this->htmlEscape($_linkName) ?></a>
+         <br/>
+    <?php endforeach; ?>
+</p>
+<?php endif ?>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <MageExt_FixRound>
+            <version>0.1.0</version>
+        </MageExt_FixRound>
+    </modules>
+    <global>
+        <models>
+            <fixround>
+                <class>MageExt_FixRound_Model</class>
+            </fixround>
+				<core>					<rewrite>
+						<store>MageExt_FixRound_Model_Store</store>
+					</rewrite>
+				</core>
+        </models>
+    </global>
+</config>

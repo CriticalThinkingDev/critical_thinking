@@ -1,0 +1,32 @@
+<?xml version="1.0"?> 
+<layout version="0.1.0">
+   
+    <default>
+    	<reference name="left">
+  			<block type="sidebarsearch/advanced_sidebar" name="sidebarsearch_advanced_sidebar" template="sidebarsearch/advanced/sidebar.phtml" before="-"/>
+		</reference>
+    </default>
+   
+    
+<!--
+Home page
+-->   
+    <cms_index_index>
+       <!-- <reference name="content">
+  			<block type="sidebarsearch/advanced_sidebar" name="sidebarsearch_advanced_sidebar" template="sidebarsearch/advanced/sidebar.phtml" before="-"/>
+		</reference>-->
+    </cms_index_index>
+
+<!--
+Advanced search results
+-->
+    <catalogsearch_advanced_result>
+        <reference name="root">
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+        </reference>
+    <!--   <reference name="left">
+  			<block type="sidebarsearch/advanced_sidebar" name="sidebarsearch_advanced_sidebar" template="sidebarsearch/advanced/sidebar.phtml" before="-"/>
+		</reference>-->
+    </catalogsearch_advanced_result>
+        
+</layout>

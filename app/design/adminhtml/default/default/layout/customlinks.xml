@@ -1,0 +1,82 @@
+<?xml version="1.0"?> 
+<layout>
+<!-- For Componentsold link tab-->
+   <adminhtml_catalog_product_componentsold> 
+	    <block type="core/text_list" name="root">
+	        <block type="customlinks/adminhtml_catalog_product_edit_tab_componentsold" name="catalog.product.edit.tab.componentsold"/>
+	        <block type="adminhtml/widget_grid_serializer" name="upsell_grid_serializer">
+	            <reference name="upsell_grid_serializer">
+	                <action method="initSerializerBlock">
+	                    <grid_block_name>catalog.product.edit.tab.componentsold</grid_block_name>
+	                    <data_callback>getSelectedComponentsoldProducts</data_callback>
+	                    <hidden_input_name>links[componentsold]</hidden_input_name>
+	                    <reload_param_name>products_componentsold</reload_param_name>
+	                </action>
+	                <action method="addColumnInputName">
+	                    <input_name>position</input_name>
+	                </action>
+	            </reference>
+	        </block>
+	    </block>
+	</adminhtml_catalog_product_componentsold>
+	
+	<adminhtml_catalog_product_componentsoldgrid>
+	    <block type="core/text_list" name="root"> 
+	        <block type="customlinks/adminhtml_catalog_product_edit_tab_componentsold" name="catalog.product.edit.tab.componentsold"/>
+	    </block>
+	</adminhtml_catalog_product_componentsoldgrid>
+	
+	<!-- For Bundlecontent link tab-->
+	   <adminhtml_catalog_product_bundlecontent> 
+	    <block type="core/text_list" name="root">
+	        <block type="customlinks/adminhtml_catalog_product_edit_tab_bundlecontent" name="catalog.product.edit.tab.bundlecontent"/>
+	        <block type="adminhtml/widget_grid_serializer" name="upsell_grid_serializer">
+	            <reference name="upsell_grid_serializer">
+	                <action method="initSerializerBlock">
+	                    <grid_block_name>catalog.product.edit.tab.bundlecontent</grid_block_name>
+	                    <data_callback>getSelectedBundlecontentProducts</data_callback>
+	                    <hidden_input_name>links[bundlecontent]</hidden_input_name>
+	                    <reload_param_name>products_bundlecontent</reload_param_name>
+	                </action>
+	                <action method="addColumnInputName">
+	                    <input_name>position</input_name>
+	                </action>
+	            </reference>
+	        </block>
+	    </block>
+	</adminhtml_catalog_product_bundlecontent>
+	
+	<adminhtml_catalog_product_bundlecontentgrid>
+	    <block type="core/text_list" name="root"> 
+	        <block type="customlinks/adminhtml_catalog_product_edit_tab_bundlecontent" name="catalog.product.edit.tab.bundlecontent"/>
+	    </block>
+	</adminhtml_catalog_product_bundlecontentgrid>
+	
+	
+	<!-- For Otherformat link tab-->
+	   <adminhtml_catalog_product_otherformat> 
+	    <block type="core/text_list" name="root">
+	        <block type="customlinks/adminhtml_catalog_product_edit_tab_otherformat" name="catalog.product.edit.tab.otherformat"/>
+	        <block type="adminhtml/widget_grid_serializer" name="upsell_grid_serializer">
+	            <reference name="upsell_grid_serializer">
+	                <action method="initSerializerBlock">
+	                    <grid_block_name>catalog.product.edit.tab.otherformat</grid_block_name>
+	                    <data_callback>getSelectedOtherformatProducts</data_callback>
+	                    <hidden_input_name>links[otherformat]</hidden_input_name>
+	                    <reload_param_name>products_otherformat</reload_param_name>
+	                </action>
+	                <action method="addColumnInputName">
+	                    <input_name>position</input_name>
+	                </action>
+	            </reference>
+	        </block>
+	    </block>
+	</adminhtml_catalog_product_otherformat>
+	
+	<adminhtml_catalog_product_otherformatgrid>
+	    <block type="core/text_list" name="root"> 
+	        <block type="customlinks/adminhtml_catalog_product_edit_tab_otherformat" name="catalog.product.edit.tab.otherformat"/>
+	    </block>
+	</adminhtml_catalog_product_otherformatgrid>
+	
+ </layout>

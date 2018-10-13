@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!-- 
+/**
+ * @category   Krishinc
+ * @package    Krishinc_Ebooksubscribe
+ * @author     ModuleCreator
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+ -->
+<config>
+    <modules>
+        <Krishinc_Ebooksubscribe>
+            <version>0.1.0</version>
+        </Krishinc_Ebooksubscribe>
+    </modules>
+    <frontend>
+        <routers>
+            <ebooksubscribe>
+                <use>standard</use>
+                <args>
+                    <module>Krishinc_Ebooksubscribe</module>
+                    <frontName>ebooksubscribe</frontName>
+                </args>
+            </ebooksubscribe>
+        </routers>
+        <layout>
+            <updates>
+                <ebooksubscribe>
+                    <file>ebooksubscribe.xml</file>
+                </ebooksubscribe>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
+        <routers>
+			<ebooksubscribe>
+				<use>admin</use>
+				<args>
+					<module>Krishinc_Ebooksubscribe</module>
+					<frontName>ebooksubscribe</frontName>
+				</args>
+			</ebooksubscribe>
+        </routers>
+    </admin>
+    <adminhtml>
+
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<Krishinc_Ebooksubscribe>
+							<title>Ebooksubscribe Module</title>
+							<sort_order>10</sort_order>
+						</Krishinc_Ebooksubscribe>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<ebooksubscribe>
+					<file>ebooksubscribe.xml</file>
+				</ebooksubscribe>
+			</updates>
+		</layout>
+    </adminhtml>   
+    <global>
+
+        <blocks>
+            <ebooksubscribe>
+                <class>Krishinc_Ebooksubscribe_Block</class>
+            </ebooksubscribe>
+        </blocks>
+        <helpers>
+            <ebooksubscribe>
+                <class>Krishinc_Ebooksubscribe_Helper</class>
+            </ebooksubscribe>
+        </helpers>
+    </global>
+</config>

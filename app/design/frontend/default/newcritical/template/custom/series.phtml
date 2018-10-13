@@ -1,0 +1,24 @@
+<?php
+   $products = Mage::getResourceModel('catalog/product_collection');
+   $products->addAttributeToSelect('*');
+   $products->addAttributeToFilter('visibility', array('neq' => 1));
+   $products->addAttributeToFilter('status', 1);
+   $products->addAttributeToFilter('series', 1);
+   $products->setCurPage(1)->setPageSize(1);
+   $products->setOrder('name','asc');//Added by bijal to show sort order
+   $products->load();
+
+foreach($products as $prod)
+?>    
+	<select name="Pick a Product Family">
+	      <option value="Pick a Product Family">Pick a Product Family</option>
+	    </select>
+	<?php 
+    if ($products->getFirstItem()) {
+        $product = $products->getFirstItem();
+         
+        echo $product->getName();
+    }
+    else {
+        echo 'No product exists with the name ' . $name;
+    }

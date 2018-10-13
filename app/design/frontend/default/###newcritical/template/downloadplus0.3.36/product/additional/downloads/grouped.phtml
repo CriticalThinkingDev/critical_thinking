@@ -1,0 +1,54 @@
+<?php
+/**
+ * Product View Downloads Page for Products
+ *
+ * @see Pisc_Downloadplus_Block_Product_View_Downloads
+ */
+
+// Get all frontend visible Products
+$products = Mage::getModel('catalog/product')->getCollection();
+$products->addAttributeToFilter('status', 1);//enabled
+$products->addAttributeToFilter('visibility', 4); //catalog, search
+$products->addAttributeToSelect('*');
+$products->addStoreFilter(Mage::app()->getStore()->getId());
+
+foreach ($products->getAllIds() as $productId):
+	$product = Mage::getModel('catalog/product')->load($productId);
+	// Set this product as the current one for the following loop
+	$this->setProduct($product);
+?>
+<?php if ($this->hasLinks()): ?>
+<div class="downloadplus-product-download">
+	<div class="downloadplus-product-download-links">
+	<?php if ($product = $this->getProduct()): ?>
+		<div class="product">
+			<?php echo $product->getName() ?>
+			<span class="short-description">
+				<?php echo $product->getShortDescription() ?>
+			</span>
+		</div>
+	<?php endif; ?>
+<?php
+	$_count = 0;
+	$_items = $this->getLinks();
+	foreach ($_items as $_item):
+?>
+		<div class="downloadplus-product-download-entry">
+		<a href="<?php echo $this->getDownloadUrl($_item) ?>"><?php echo $_item->getLinkTitle() ?></a>
+<?php
+		$_detail = $_item->getDownloadDetail();
+		if ($_detail->getDetail()) {
+?>
+			<div class="downloadplus-product-download-detail">
+			<?php echo $_detail->getDetail() ?>
+			</div>
+<?php
+		}
+		$_count++;
+?>
+		</div>
+<?php endforeach; ?>
+	</div>
+</div>
+<?php endif; ?>
+<?php endforeach; ?>

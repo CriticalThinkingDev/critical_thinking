@@ -1,0 +1,229 @@
+<?php
+
+class Potato_Compressor_Helper_Config extends Mage_Core_Helper_Abstract
+{
+    const GENERAL_ENABLED          = 'po_compressor/general/enabled';
+
+    const JS_SETTINGS_MERGE        = 'po_compressor/js_settings/merge';
+    const JS_SETTINGS_COMPRESSION  = 'po_compressor/js_settings/compression';
+    const JS_SETTINGS_GZIP         = 'po_compressor/js_settings/gzip';
+    const JS_SETTINGS_DEFER        = 'po_compressor/js_settings/defer';
+
+    const CSS_SETTINGS_MERGE       = 'po_compressor/css_settings/merge';
+    const CSS_SETTINGS_COMPRESSION = 'po_compressor/css_settings/compression';
+    const CSS_SETTINGS_GZIP        = 'po_compressor/css_settings/gzip';
+    const CSS_INLINE               = 'po_compressor/css_settings/inline';
+
+    const ADVANCED_IMAGE_RESIZE       = 'po_compressor/advanced/image_resize';
+    const ADVANCED_IMAGE_DIMENSION    = 'po_compressor/advanced/image_dimension';
+    const ADVANCED_SCALING_IMAGES     = 'po_compressor/advanced/scaling_images';
+    const ADVANCED_IMAGE_CRON_ENABLED = 'po_compressor/advanced/image_cron_enabled';
+    const ADVANCED_IMAGE_BACKUP       = 'po_compressor/advanced/image_backup';
+    const ADVANCED_SKIP_IMAGES        = 'po_compressor/advanced/skip_images';
+
+    const PNG_USE_DEFAULT             = 'po_compressor/png/use_default_path';
+    const PNG_PATH                    = 'po_compressor/png/path';
+    const PNG_OPTIONS                 = 'po_compressor/png/options';
+
+    const JPG_USE_DEFAULT             = 'po_compressor/jpg/use_default_path';
+    const JPG_PATH                    = 'po_compressor/jpg/path';
+    const JPG_OPTIONS                 = 'po_compressor/jpg/options';
+
+    const GIF_USE_DEFAULT             = 'po_compressor/gif/use_default_path';
+    const GIF_PATH                    = 'po_compressor/gif/path';
+    const GIF_OPTIONS                 = 'po_compressor/gif/options';
+
+    /**
+     * @param null $storeId
+     * @return bool
+     */
+    static function canUseDefaultGif($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::GIF_USE_DEFAULT, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return string
+     */
+    static function gifPath($storeId = null)
+    {
+        return (string)Mage::getStoreConfig(self::GIF_PATH, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return string
+     */
+    static function gifOptions($storeId = null)
+    {
+        return (string)Mage::getStoreConfig(self::GIF_OPTIONS, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return bool
+     */
+    static function canUseDefaultJpg($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::JPG_USE_DEFAULT, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return string
+     */
+    static function jpgPath($storeId = null)
+    {
+        return (string)Mage::getStoreConfig(self::JPG_PATH, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return string
+     */
+    static function jpgOptions($storeId = null)
+    {
+        return (string)Mage::getStoreConfig(self::JPG_OPTIONS, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return bool
+     */
+    static function canUseDefaultPng($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::PNG_USE_DEFAULT, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return string
+     */
+    static function pngPath($storeId = null)
+    {
+        return (string)Mage::getStoreConfig(self::PNG_PATH, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     * @return string
+     */
+    static function pngOptions($storeId = null)
+    {
+        return (string)Mage::getStoreConfig(self::PNG_OPTIONS, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     *
+     * @return bool
+     */
+    static function isImageCronEnabled($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::ADVANCED_IMAGE_CRON_ENABLED, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     *
+     * @return bool
+     */
+    static function getCanResizeImage($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::ADVANCED_IMAGE_RESIZE, $storeId);
+    }
+
+    /**
+     * @param null $storeId
+     *
+     * @return bool
+     */
+    static function canSetImageDimension($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::ADVANCED_IMAGE_DIMENSION, $storeId);
+    }
+
+    static function getSkippedImages($storeId = null)
+    {
+        $data = trim(Mage::getStoreConfig(self::ADVANCED_SKIP_IMAGES, $storeId));
+        $images = array();
+        if ($data) {
+            $lines = preg_split( '/\r\n|\r|\n/', $data);
+            foreach ($lines as $line) {
+                $line = trim(trim($line, '\\'), '/');
+                if (DS == '/') {
+                    $line = str_replace('\\', DS, $line);
+                } else {
+                    $line = str_replace('/', DS, $line);
+                }
+                $images[] = $line;
+            }
+        }
+        return $images;
+    }
+
+
+    static function getScalingImages($storeId = null)
+    {
+        $data = trim(Mage::getStoreConfig(self::ADVANCED_SCALING_IMAGES, $storeId));
+        $images = array();
+        if ($data) {
+            $lines = preg_split( '/\r\n|\r|\n/', $data);
+            foreach ($lines as $line) {
+                $images[] = $line;
+            }
+        }
+        return $images;
+    }
+
+    static function isAllowImageBackup($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::ADVANCED_IMAGE_BACKUP, $storeId);
+    }
+
+    static function isEnabled($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::GENERAL_ENABLED, $storeId);
+    }
+
+    static function canJsMerge($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::JS_SETTINGS_MERGE, $storeId);
+    }
+
+    static function canJsCompression($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::JS_SETTINGS_COMPRESSION, $storeId);
+    }
+
+    static function canJsGzip($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::JS_SETTINGS_GZIP, $storeId);
+    }
+
+    static function getDeferMethod($storeId = null)
+    {
+        return (int)Mage::getStoreConfig(self::JS_SETTINGS_DEFER, $storeId);
+    }
+
+    static function canInlineCSS($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::CSS_INLINE, $storeId);
+    }
+
+    static function canCssMerge($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::CSS_SETTINGS_MERGE, $storeId);
+    }
+
+    static function canCssCompression($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::CSS_SETTINGS_COMPRESSION, $storeId);
+    }
+
+    static function canCssGzip($storeId = null)
+    {
+        return (bool)Mage::getStoreConfig(self::CSS_SETTINGS_GZIP, $storeId);
+    }
+}

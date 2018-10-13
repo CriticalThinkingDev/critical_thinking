@@ -1,0 +1,121 @@
+<?php
+/**
+ * Downloadplus Customer Product List Item Detail Block
+ *
+ * @author     PILLWAX Industrial Solutions Consulting
+ * @category   Pisc
+ * @package    Pisc_Downloadplus
+ * @copyright  Copyright (c) 2014 PILLWAX Industrial Solutions Consulting (http://technology.pillwax.com/software)
+ * @license    Commercial Unlimited License (http://technology.pillwax.com/software/license)
+ * @version    0.1.1
+ */
+
+$_item = $this->getItem();
+$_purchased = $_item->getPurchased();
+$_extension = $_item->getExtension();
+$_repository = false;
+if (Mage::helper('downloadplus')->existsDownloadplusRepository()) {
+    if ($_product = $_item->getProduct()) {
+        $_repository = Mage::helper('downloadplusrepository')->isProductRepositoryStyle($_product);
+    }
+}
+?>
+	<?php if ($url = $_item->getImageThumbnailUrl()): ?>
+	<img class="downloadplus-product-thumbnail" src="<?php echo $url; ?>" />
+	<?php endif; ?>
+	<em>
+	<?php
+		if ($_item->getStatus()=='available') {
+        	if ($this->doesExpire($_item)) {
+            	$days = $this->getDaysUntilExpiration($_item);
+            	if (!is_null($days)) {
+	            	if ($days==0) { echo $this->__('Download expires today'); }
+	            	if ($days<0) { echo $this->__('Download has expired since %s days', abs($days)); }
+	            	if ($days>0) { echo $this->__('Download expires in %s days', $days); }
+            	}
+            	echo '<br/>';
+            }
+       		echo $this->__('%s Downloads available', $this->getRemainingDownloads($_item));
+		} else {
+        	echo $this->__('Order is %s', $this->__($_item->getStatus()));
+        }
+    ?>
+    <?php if ($_purchased->getOrderId()>0): ?>
+    	&nbsp;<span class="ordernumber">(<a href="<?php echo $this->getOrderViewUrl($_purchased->getOrderId()) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $this->__('Order #%s', $_purchased->getOrderIncrementId()) ?></a>)</span>
+    <?php elseif ($_extension->getUnlockSerialNumber()): ?>
+    	&nbsp;<span class="serialnumber">(<?php echo $this->__('Unlocked by Serialnumber: <span>%s</span>', $_extension->getUnlockSerialNumber()) ?>)</span>
+   	<?php endif; ?>
+    </em>
+    <?php if ($_item->getLinkTitle()): ?>
+	   	<h3><?php echo $_item->getCurrentLinkTitle() ?></h3>
+		<?php echo $this->getLayout()->createBlock('downloadplus/widget_link_attributes')->setLink($_item)->toHtml(); ?>
+    <?php endif; ?>
+
+    <?php if ($_item->getStatus()=='available'): ?>
+    	<div class="downloadplus-product-history">
+	    <?php $_detail = $this->getDetail($_item); ?>
+	    	<div class="downloadplus-product-current-entry">
+		    	<em>
+		      	<?php
+		      		//echo $this->formatTimestamp($_detail->getTimestamp(), 'medium');
+		      		//if ($_detail->getSize()>0) { echo '&nbsp;('.$_detail->getSizeFormatted().')'; }
+		      	?>
+		      	</em>
+		      	<h4><a class="download-file" href="<?php echo $this->getDownloadUrl($_item) ?>" title="<?php echo $this->__('Start Download') ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>>
+		      	<?php if ($_detail->getVersion()) { echo $this->__('Release %s', $_detail->getVersion()); } else { echo 'Download Here'; } ?>
+			    </a></h4>
+		      	<?php if  ($_detail->getDetail()): ?>
+		      		<div class="downloadplus-product-current-detail"><?php echo $_detail->getDetail(); ?></div>
+		      	<?php endif; ?>
+		      	<?php if (Mage::helper('downloadplus')->existsDownloadplusBuilder()):
+    		      	   if ($widget = $this->getLayout()->createBlock('downloadplusbuilder/widget_customer_build_update')) { echo $widget->setItem($_item)->toHtml(); }
+    		      	endif; ?>
+		      	</div>
+		<?php
+	      	$_history = $this->setSort('version DESC')->getVersionHistory($_item);
+	      	$_count = 0;
+	      	foreach ($_history as $_detail):
+	      		if ($_detail->getVersion()):
+	      			$_count++;
+		      		?>
+		      		<div class="downloadplus-product-history-entry">
+		      		<em>
+		      		<?php
+		      			echo $this->formatTimestamp($_detail->getTimestamp(), 'medium');
+		      			if ($_detail->getSize()>0) { echo '&nbsp;('.$_detail->getSizeFormatted().')'; }
+		      		?>
+		      		</em>
+		      		<h4>
+			      		<a class="download-file" href="<?php echo $this->getArchiveDownloadUrl($_item, $_detail) ?>" title="<?php echo $this->__('Start Download') ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>>
+			      		<?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion(); ?>
+			      		</a>
+		      		</h4>
+		      		<?php if  ($_detail->getDetail()): ?>
+		      			<div class="downloadplus-product-history-detail"><?php echo $_detail->getDetail(); ?></div>
+			      	<?php endif; ?>
+		      		</div>
+		    <?php endif;
+	    	endforeach;
+
+	    	if (!$_repository && $_count==0 && $this->isProductRelated($_item)): ?>
+	    		<!--div class="downloadplus-product-history-entry"><?php echo $this->__('There are currently no older Versions available.'); ?></div-->
+	    	<?php endif; ?>
+	    </div>
+
+	<?php else: // status!=available ?>
+
+    <div class="downloadplus-product-history-entry">
+	    <div class="notice-msg">
+	    <?php if ($_item->getStatus()=='expired'): ?>
+	    	<?php echo $this->__('This download link has expired. Contact support if this is in error.') ?>
+	    <?php elseif ($_item->getStatus()=='processing'): ?>
+	    	<?php echo $this->__('We are currently preparing your download.') ?>
+	    <?php else: ?>
+	    	<?php echo $this->__('Please complete your order first.') ?>
+	    <?php endif; ?>
+	    &nbsp;
+	    <!--a href="<?php echo $this->getOrderViewUrl($_item->getPurchased()->getOrderId()) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $this->__('View Order').'&nbsp;#'.$_item->getPurchased()->getOrderIncrementId() ?></a-->
+	    </div>
+    </div>
+
+  	<?php endif; ?>

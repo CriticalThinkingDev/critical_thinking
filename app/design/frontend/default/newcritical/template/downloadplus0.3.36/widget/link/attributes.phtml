@@ -1,0 +1,18 @@
+<?php
+/**
+ * Link Attributes Widget Block for Downloadable Links
+ *
+ * @see Pisc_Downloadplus_Block_Widget_Link_Attributes
+ */
+
+$_attributes = $this->getAdditionalData();
+?>
+<?php if (!empty($_attributes)): ?>
+<span class="downloadplus-link-attributes">
+<ul id="link-attributes">
+<?php foreach ($_attributes as $_attribute): ?>
+	<li id="<?php echo $_attribute['code'] ?>"><span class="label"><?php echo $_attribute['label'] ?>:</span>&nbsp;<span class="value"><?php echo $_attribute['value'] ?></span><li>
+<?php endforeach; ?>
+</ul>
+</span>
+<?php endif; ?>

@@ -1,0 +1,69 @@
+<?php
+/**
+ * Downloadplus Adminhtml Catalog Product Edit Serialnumber Import Block
+ *
+ * @author     PILLWAX Industrial Solutions Consulting
+ * @category   Pisc
+ * @package    Pisc_Downloadplus
+ * @copyright  Copyright (c) 2014 PILLWAX Industrial Solutions Consulting (http://technology.pillwax.com/software)
+ * @license    Commercial Unlimited License (http://technology.pillwax.com/software/license)
+ * @version    0.1.1
+ */
+?>
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Serialnumber_Import
+ */
+?>
+
+<?php
+	$_product = $this->getProduct();
+?>
+<table cellspacing="0" class="form-list">
+	<tbody>
+<?php if (Mage::helper('downloadplus')->hasSerialnumbers($this->getProduct()) && Mage::helper('downloadplus')->getSerialnumberAvailableCount($this->getProduct())==0): ?>
+		<tr>
+			<td colspan="3">
+				<ul class="messages">
+					<li class="notice-msg"><ul><li><?php echo $this->__('This product used serialnumbers in the past and serialnumbers have been assigned to past orders, please add new serialnumbers.')?></li></ul></li>
+				</ul>
+			</td>
+		</tr>
+		<tr>
+        	<td class="label"><label for="product_downloadplus_serialnumber_deactivate"><?php echo $this->__('Deactivate Serialnumbers'); ?></label></td>
+    		<td class="value">
+    			<?php echo $this->getAttributeSelectBox('downloadplus_serialnr_inactive', 'downloadplus[serialnumbers_deactivate]', 'product_downloadplus_serialnumber_deactivate', null, $_product->getData('downloadplus_serialnr_inactive')) ?>
+			</td>
+		    <td><small><?php echo $this->__('Deactivates assigning of Serialnumbers for the whole product.') ?></small></td>
+		</tr>
+<?php endif; ?>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_serialnumber"><?php echo $this->__('New Serialnumbers'); ?></label></td>
+    		<td class="value">
+				<textarea id="product_downloadplus_serialnumber" name="downloadplus[serialnumbers]" class="textarea downloadplus-serialnumber-import"></textarea>
+			</td>
+		    <td><small><?php echo $this->__("Paste one-line serialnumbers here and use 'Save and Continue Edit' to import.") ?></small></td>
+    	</tr>
+<?php if ($_product && $_product->getTypeId()==Mage_Downloadable_Model_Product_Type::TYPE_DOWNLOADABLE): ?>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_serialnumber_new-pool"><?php echo $this->__('Add to new Pool'); ?></label></td>
+        	<td class="value">
+        		<input type="text" id="product_downloadplus_serialnumber_new-pool" name="downloadplus[serialnumberpool][new]" class="input-text" />
+        	</td>
+        	<td><small><?php echo $this->__('Leave empty when importing to whole product.') ?></small></td>
+    	</tr>
+<?php endif; ?>
+    	<tr>
+        	<td class="label"><label for="product_downloadplus_serialnumber_use-pool"><?php echo $this->__('Import into Pool'); ?></label></td>
+			<td class="value">
+				<?php echo $this->getOptionSerialnumberPoolHtml('product_downloadplus_serialnumber_use-pool', 'downloadplus[serialnumberpool][use]', Pisc_Downloadplus_Model_Config::SERIALNUMBER_POOL_PRODUCT) ?>
+			</td>
+			<td></td>		    	
+    	</tr>
+    	<tr>
+    		<td></td>
+    		<td></td>
+    		<td></td>
+    	</tr>
+	</tbody>
+</table>

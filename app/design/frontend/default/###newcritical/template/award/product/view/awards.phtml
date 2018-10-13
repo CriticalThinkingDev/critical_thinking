@@ -1,0 +1,24 @@
+<?php $awardColleciton = $this->getAwardsCollection(); ?>
+<?php if(sizeof($awardColleciton) > 0){ ?>
+<h2><?php echo $this->__('Awards')?></h2>
+    <div class="box-collateral box-award">
+        <p>
+        <?php if(sizeof($awardColleciton) == 1):?>
+        	<?php $award = $awardColleciton->getData();?> 
+        	<?php echo  $award[0]['name'];?> 
+        <?php else:?>
+		    <?php $i=0; foreach ($awardColleciton as $awards) { ?>
+		    <?php $award = $awards->getData();	
+		          if(!empty($award[$i]['name'])) { ?>
+		        	<?php echo  $award[$i]['name'];?> 
+		        	<?php if(sizeof($awardColleciton)>1):?>
+		        		<!--img  style="" border="0" src="<?php echo $this->getSkinUrl('images/award_winner_star5.gif')?>" /-->
+                          <span class="award_list_tem s_icon"></span>
+		        	<?php endif;?>
+		    	<?php }?>
+		   	<?php }?>
+       	<?php endif;?>
+        </p>
+        </div>
+    <?php  } ?>
+<?php /******END*******/?>

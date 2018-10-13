@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<layout version="0.1.0"> 
+ 	<pdfcatalog_product_pdfview translate="label">
+<remove name="before_body_end"/>
+        <label>Catalog Product Pdfview Popup</label>
+        <!-- Mage_Catalog -->
+        <reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>  
+        </reference> 
+        <reference name="head"> 
+		<!--	<action method="addItem"><type>js_css</type><name>pdfviewer/web/viewer.css</name><params/></action>
+			<action method="addJs"><script>pdfviewer/web/compatibility.js</script></action>
+			<action method="addJs"><script>pdfviewer/external/webL10n/l10n.js</script></action>
+			<action method="addJs"><script>pdfviewer/src/core.js</script></action>
+			<action method="addJs"><script>pdfviewer/src/util.js</script></action>
+			<action method="addJs"><script>pdfviewer/src/api.js</script></action>
+ 			<action method="addJs"><script>pdfviewer/src/metadata.js</script></action>
+  			<action method="addJs"><script>pdfviewer/src/canvas.js</script></action>
+		    <action method="addJs"><script>pdfviewer/src/obj.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/function.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/charsets.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/cidmaps.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/colorspace.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/crypto.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/evaluator.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/fonts.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/glyphlist.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/image.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/metrics.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/parser.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/pattern.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/stream.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/worker.js</script></action>
+	        <action method="addJs"><script>pdfviewer/external/jpgjs/jpg.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/jpx.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/jbig2.js</script></action>
+	        <action method="addJs"><script>pdfviewer/src/bidi.js</script></action>--> 
+	    </reference>
+        <reference name="content">
+           <block type="pdfcatalog/product_pdfview" name="product_info_pdfviewer" template="pdfcatalog/product/view/pdfviewer.phtml"> 
+		  		<!--<block type="pdfcatalog/product_pdfview" name="product_info_viewer" as="pdf_viewer" template="pdfcatalog/product/view/viewerjs.phtml" />-->
+		  	</block> 
+        </reference>
+    </pdfcatalog_product_pdfview>
+    <pdfcatalog_product_license> 
+     	<reference name="root">
+            <action method="setTemplate"><template>page/empty.phtml</template></action>  
+        </reference> 
+        <reference name="content">
+      		<block type="pdfcatalog/product_license" name="product_info_license" template="pdfcatalog/product/view/license.phtml" />
+      	</reference>
+    </pdfcatalog_product_license>
+</layout>

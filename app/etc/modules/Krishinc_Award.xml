@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Krishinc_Award>
+            <active>true</active>
+            <codePool>local</codePool> 
+       </Krishinc_Award>
+    </modules>
+</config>

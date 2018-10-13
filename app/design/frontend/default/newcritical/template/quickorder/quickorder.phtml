@@ -1,0 +1,177 @@
+<!--div id='basic-modal'>
+    <a href='javascript:void(0);' class='basic'>Catalog Quick Order</a>
+</div-->
+<!--div id="basic-modal-custom"-->
+<?php if(Mage::getStoreConfig('quickorder/settings/active')):?>
+<?php $inputCount = Mage::getStoreConfig('quickorder/settings/default_count');
+      $count = ($inputCount>0)?$inputCount:4;
+      $icon = Mage::getStoreConfig('quickorder/settings/default_icon'); 
+      
+      $form_style = Mage::helper('quickorder/protected')->getConfig('form_style');
+      
+      $id = ($form_style=='lightbox')?'inline_lightbox':'quickorder_link';
+      $title = Mage::helper('quickorder/protected')->getConfig('form_title'); 
+?>
+<?php if($form_style=='lightbox'):?>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('magecoders/jquery.colorbox-min.js'); ?>"></script>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->getSkinUrl('css/colorbox.css'); ?>" />
+<script type="text/javascript">
+//<![CDATA[
+    jQuery(document).ready(function(){
+        jQuery(".quickorder_box").colorbox({
+            inline:true, html:true, width:"50%",
+            onComplete:function(){
+                var height = jQuery("#quickorder_box_lightbox").height() + 60;
+                jQuery("#cboxContent").height(height);
+                
+                var top = parseInt(jQuery("#colorbox").css('top')) - 85;
+                jQuery("#colorbox").css('top',top);
+                
+            },
+            
+            });
+            
+        jQuery('.sku').blur(function(){
+            if(productLoaded){
+            var nb = jQuery("#quickorder_box_lightbox").height() + 60;
+            jQuery("#cboxContent").height(nb);
+            }
+        });
+        jQuery("#add_item").click(function(){
+            var height = jQuery("#quickorder_box_lightbox").height() + 60;
+            jQuery("#cboxContent").height(height);
+        });  
+       
+
+    });
+    //]]>
+</script>
+
+
+    <?php /*?><a href="#quickorder_box_lightbox" class="quickorder_box">
+    <?php if($icon!=''):?>
+        <img src="<?php echo $this->getSkinUrl($icon); ?>" border="0" width="250" height="55" alt="Quick Order" />
+    <?php else:?>
+        <span>Quick Order</span>
+    <?php endif; ?>
+    </a><?php */?>
+    
+    <div id="simplemodal-overlay" class="simplemodal-overlay"></div>
+    
+    <?php if(!empty($title)):?>
+        <h2><?php echo $title; ?></h2>
+    <?php endif; ?>
+    <form  id="quickorderFrm"  method="post" action="">
+        <table width="100%" cellpadding="0" cellspacing="0" class="itemsBox">
+            <tr>
+                <td style="width:20%"><strong>Name / Sku #</strong></td>
+                <td style="width:5%"><strong>Qty</strong></td>
+                <td style="width:41%">&nbsp;</td>
+                <td style="width:15%">&nbsp;</td>                                           
+            </tr>
+            <?php for($i=0; $i<$count; $i++):?>
+                <tr id="row_<?php echo $i;?>"> 
+                    <td class="itemsku_<?php echo $i;?>"><input type="text" id="sku_<?php echo $i;?>" name="product[<?php echo $i;?>][sku]" title="sku_<?php echo $i; ?>" class="input-text sku" tabindex="1<?php echo $i; ?>"></td>
+                    <td class="itemqty_<?php echo $i;?>">
+                    <input type="text" id="qty_<?php echo $i; ?>" name="product[<?php echo $i;?>][qty]" tabindex="2<?php echo $i; ?>" class="input-text qty"/></td>
+                    <td id="itemdata_<?php echo $i;?>">&nbsp;</td>
+                    <td class="a-right"><a href="javascript:;" class="remove" id="remove_<?php echo $i;?>">x Remove</a></td>                                                            
+                </tr>   
+            <?php endfor; ?>
+                <tr id="lastRow">
+                    <td></td>
+                </tr>
+            </table>
+            <table width="100%" class="add_items_table">
+                <tr>
+                    <td><a href="javascript:;" id="add_item">+ Add Item</a></td>
+                    <td></td>
+                </tr>
+            </table>
+            <table width="100%" class="qck_bottom">
+            <tr>
+                <td colspan="2" class="f-left"><span id="loader"></span></td>
+                <td colspan="2" class="a-right">
+                <input type="hidden" name="quickorderAction" id="quickorderAction" value="<?php echo $this->getUrl('quickorder/index'); ?>" />
+                <button id="add_to_cart" onclick="submitQuickorderForm();" class="button" title="Add to Cart" type="button"><span><span>ADD TO CART</span></span></button>
+                </td>
+            </tr>
+            
+            </table>
+    
+        <div class="Clear"></div>
+        
+    </form>
+    </div>
+    
+     
+    
+</div>
+
+<?php else:?>
+
+
+    <div id="quickorder_box" class="pouptrans" style="display:none;">
+    <div class="popup_contain">
+    <div>   
+<a class="modalCloseImg" id="close_quick_order" onclick="closebutton()"; title="Close"></a>
+    <div class="ui-widget-header">Quick Add to Shopping Cart </div> 
+    <form  id="quickorderFrm"  method="post" action="">
+        <table width="100%" cellpadding="0" cellspacing="0" class="itemsBox">
+            <tr>
+                <td style="width:20%"><strong>Name / Sku #</strong></td>
+                <td style="width:5%"><strong>Qty</strong></td>
+                <td style="width:41%">&nbsp;</td>
+                <td style="width:15%">&nbsp;</td>                                                   
+            </tr>
+            <?php for($i=0; $i<$count; $i++):?>
+                <tr id="row_<?php echo $i;?>">
+                    <td class="itemsku_<?php echo $i;?>"><input type="text" tabindex="<?php echo $i; ?>1"  id="sku_<?php echo $i;?>" name="product[<?php echo $i;?>][sku]" title="sku_<?php echo $i; ?>" class="input-text sku"/></td>
+                    <td class="itemqty_<?php echo $i;?>">
+                    <input type="text" id="qty_<?php echo $i; ?>" tabindex="<?php echo $i; ?>2"  name="product[<?php echo $i;?>][qty]" class="input-text qty"/></td>
+                    <td id="itemdata_<?php echo $i;?>">&nbsp;</td>
+                    <td class="a-right"><a href="javascript:;" class="remove" id="remove_<?php echo $i;?>">x Remove</a></td>                                                            
+                </tr>   
+            <?php endfor; ?>
+                <tr id="lastRow">
+                    <td></td>
+                </tr>
+            </table>
+            <table width="100%">
+                <tr>
+                    <td><a href="javascript:;" id="add_item">+ Add Item</a></td>
+                    <td></td>
+                </tr>
+            </table>
+            <table width="100%" class="qck_bottom">
+            <tr>
+                <td colspan="2" class="f-left"><span id="loader"></span></td>
+                <td colspan="2" class="a-right">
+                <input type="hidden" name="quickorderAction" id="quickorderAction" value="<?php echo $this->getUrl('quickorder/index'); ?>"/>
+                <button id="add_to_cart" onclick="submitQuickorderForm();" class="button" title="Add to Cart" type="button"><span><span>ADD TO CART</span></span></button>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>               
+            </tr>
+            </table>
+    
+    <div class="Clear"></div>
+    
+    </form> 
+    <div class="ui-dialog-buttonpane"> 
+        <div class="ui-dialog-buttonset">
+            <?php $burl = Mage::getBaseUrl(); ?>
+            <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="setLocation('<?php echo $burl; ?>checkout/cart')"><span class="ui-button-text">View Cart</span></button>
+            <button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="setLocation('<?php echo (isset($continueShoppingCategoryUrl)) ? $continueShoppingCategoryUrl : $this->getContinueShoppingUrl(); ?>')"><span class="ui-button-text">Continue</span></button>
+        </div>
+    </div>
+</div>
+    </div>
+	<div style="display: inline-block;vertical-align: middle;height: 100%;"></div>
+</div>
+<?php endif; ?>
+
+<?php endif; ?>
+

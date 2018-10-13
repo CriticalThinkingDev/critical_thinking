@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <catalogrequest_adminhtml_catalogrequest_index>
+        <reference name="content">
+            <block type="catalogrequest/adminhtml_catalogrequest" name="catalogrequest" />
+        </reference>
+    </catalogrequest_adminhtml_catalogrequest_index>
+    <catalogrequest_adminhtml_catalogrequest_view>
+        <reference name="content">
+            <block type="catalogrequest/adminhtml_catalogrequest_view" name="catalogrequest_view" template="catalogrequest/view.phtml" />
+        </reference>
+    </catalogrequest_adminhtml_catalogrequest_view>
+</layout>

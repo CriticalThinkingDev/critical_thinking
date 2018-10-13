@@ -1,0 +1,403 @@
+<?php
+/**
+ * Configuration pathes storage
+ *
+ * @category   Pisc
+ * @package    Pisc_Downloadplus
+ * @author
+ */
+
+class Pisc_Downloadplus_Model_Config extends Mage_Core_Model_Config_Data
+{
+    // Configuration Paths
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_PRODUCT_REQUIRED = 'catalog/downloadable_license/product_required';
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_PRODUCT = 'catalog/downloadable_license/product_license';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_PRODUCT_SAMPLE_REQUIRED = 'catalog/downloadable_license/product_sample_required';
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_PRODUCT_SAMPLE = 'catalog/downloadable_license/product_sample_license';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_SAMPLE_REQUIRED = 'catalog/downloadable_license/sample_required';
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_SAMPLE = 'catalog/downloadable_license/sample_license';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_ADDITIONAL_CUSTOMER_REQUIRED = 'catalog/downloadable_license/additional_customer_required';
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_ADDITIONAL_CUSTOMER = 'catalog/downloadable_license/additional_customer_license';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_ADDITIONAL_PRODUCT_REQUIRED = 'catalog/downloadable_license/additional_product_required';
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_ADDITIONAL_PRODUCT = 'catalog/downloadable_license/additional_product_license';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_SERIALNUMBER_REQUIRED = 'catalog/downloadable_license/serialnumber_required';
+    const CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_SERIALNUMBER = 'catalog/downloadable_license/serialnumber_license';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_TRACKING_PRODUCTS_REQUIRED = 'catalog/downloadable_tracking/product_required';
+    const CONFIG_XML_PATH_DOWNLOADABLE_TRACKING_SAMPLES_REQUIRED = 'catalog/downloadable_tracking/sample_required';
+    const CONFIG_XML_PATH_DOWNLOADABLE_TRACKING_RSS_FEED = 'catalog/downloadable_tracking/rss_feed';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_PRODUCT_BEHAVIOUR = 'catalog/downloadable_delivery/product_behaviour';
+    const CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_FILENAME_MIXEDCASE = 'catalog/downloadable_delivery/filename_mixedcase';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_FORCE_SECURE = 'catalog/downloadable_delivery/force_secure';
+    const CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_EMAIL_IDENTITY = 'catalog/downloadable_delivery/email_identity';
+    const CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_EMAIL_TEMPLATE = 'catalog/downloadable_delivery/email_template';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_RESUMEABLE = 'catalog/downloadable_delivery/resumeable';
+    const CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_RESUMEABLE_SPEED = 'catalog/downloadable_delivery/resumeable_speed';
+    const CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_CONCURRENT_DOWNLOADS = 'catalog/downloadable_delivery/concurrent_downloads';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_ORDERITEMSTATUS_PRODUCTS = 'catalog/downloadable_serialnumbers/order_item_status_products';
+    
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_SEND_EMAIL = 'catalog/downloadable_serialnumbers/send_email';
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_EMAIL_TEMPLATE = 'catalog/downloadable_serialnumbers/email_template';
+    
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_AS_FILE = 'catalog/downloadable_serialnumbers/as_file';
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_FILENAME_PATTERN = 'catalog/downloadable_serialnumbers/filename_pattern';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_NOTIFICATION_COUNT = 'catalog/downloadable_serialnumbers/notification_count';
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_NOTIFICATION_EMAIL_IDENTITY = 'catalog/downloadable_serialnumbers/notification_email_identity';
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_NOTIFICATION_EMAIL_TEMPLATE = 'catalog/downloadable_serialnumbers/notification_email_template';
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_NOTIFICATION_EMAIL_SEND_TO = 'catalog/downloadable_serialnumbers/notification_email_send_to';
+
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_PENDING_EMAIL_TEMPLATE = 'catalog/downloadable_serialnumbers/pending_email_template';
+    const CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_PENDING_EMAIL_SEND_TO = 'catalog/downloadable_serialnumbers/pending_email_send_to';
+
+    const CONFIG_XML_PATH_OPTION_PRODUCT_RSS_FEED = 'catalog/downloadable_tracking/option_product_rss_feed';
+
+    const CONFIG_XML_PATH_OPTION_ADMINISTRATOR_NOTIFICATIONS = 'catalog/downloadable_tracking/option_administrator_notifications';
+    const CONFIG_XML_PATH_OPTION_ADMINNOTIFICATIONS_TYPE = 'catalog/downloadable_tracking/option_adminnotifications_type';
+
+    const CONFIG_XML_PATH_CATALOG_PRODUCT_DUPLICATE_SAMPLES = 'catalog/downloadable_edit/catalog_product_duplicate_samples';
+    const CONFIG_XML_PATH_CATALOG_PRODUCT_DUPLICATE_LINKS = 'catalog/downloadable_edit/catalog_product_duplicate_links';
+    
+    const CONFIG_NO = 0;
+    const CONFIG_YES = 1;
+    const CONFIG_TRISTATE = 2;
+
+    const SEVERITY_CRITICAL = 1;
+    const SEVERITY_MAJOR    = 2;
+    const SEVERITY_MINOR    = 3;
+    const SEVERITY_NOTICE   = 4;
+
+    const CONFIG_BEHAVIOUR_LATEST = 'latest';
+    const CONFIG_BEHAVIOUR_MAGENTO = 'magento';
+
+    const SERIALNUMBER_NONE = '::none';
+    const SERIALNUMBER_POOL_PRODUCT = '::product';
+    const SERIALNUMBER_POOL_GLOBAL = 'global::';
+
+    const SERIALNUMBER_EMAIL_SEND_NONE = 'none';
+    const SERIALNUMBER_EMAIL_SEND_ALWAYS = 'always';
+    const SERIALNUMBER_EMAIL_SEND_FRONTEND = 'frontend';
+    
+    const CONFIG_DOWNLOAD_RESUME_OFF = 0;
+    const CONFIG_DOWNLOAD_RESUME_ON = 1;
+    const CONFIG_DOWNLOAD_RESUME_XSENDFILE = 2;
+    const CONFIG_DOWNLOAD_RESUME_XLIGHTTPSENDFILE = 3;
+    const CONFIG_DOWNLOAD_RESUME_XACCELREDIRECT = 4;
+
+    /*
+    * Returns true if in Admin Session
+    */
+    protected function isAdminSession()
+    {
+    	$session = Mage::getSingleton('admin/session');
+    	if ($session) {
+    		return $session->isLoggedIn();
+    	}
+    	return false;
+    }
+    
+    
+    /**
+     * Check if Downloadable Product License is required
+     */
+    public function isDownloadableProductLicenseRequired()
+    {
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_PRODUCT_REQUIRED) == self::CONFIG_YES;
+    }
+
+    /**
+     * Check if Downloadable Product Sample License is required
+     */
+    public function isDownloadableProductSampleLicenseRequired()
+    {
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_PRODUCT_SAMPLE_REQUIRED) == self::CONFIG_YES;
+    }
+
+    /**
+     * Check if Downloadable Sample License is required
+     */
+    public function isDownloadableSampleLicenseRequired()
+    {
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_SAMPLE_REQUIRED) == self::CONFIG_YES;
+    }
+
+    /**
+     * Check if Customer Additional Downloadable License is required
+     */
+    public function isDownloadableCustomerDownloadLicenseRequired()
+    {
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_ADDITIONAL_CUSTOMER_REQUIRED) == self::CONFIG_YES;
+    }
+
+    /**
+     * Check if Product Additional Downloadable License is required
+     */
+    public function isDownloadableProductDownloadLicenseRequired()
+    {
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_ADDITIONAL_PRODUCT_REQUIRED) == self::CONFIG_YES;
+    }
+
+    /**
+     * Check if Serialnumber Downloadable License is required
+     */
+    public function isDownloadableSerialnumberDownloadLicenseRequired()
+    {
+        return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_SERIALNUMBER_REQUIRED) == self::CONFIG_YES;
+    }
+
+    /**
+	 * Gets the Downloadable Products Default License
+	 */
+	 public function getDownloadableProductDefaultLicense() {
+		return Mage::getStoreConfig(Pisc_Downloadplus_Model_Config::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_PRODUCT);
+	 }
+
+	/**
+	 * Gets the Downloadable Products Sample Default License
+	 */
+	 public function getDownloadableProductSampleDefaultLicense() {
+		return Mage::getStoreConfig(Pisc_Downloadplus_Model_Config::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_PRODUCT_SAMPLE);
+	 }
+
+	/**
+	 * Gets the Downloadable Samples Default License
+	 */
+	 public function getDownloadableSampleDefaultLicense() {
+		return Mage::getStoreConfig(Pisc_Downloadplus_Model_Config::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_SAMPLE);
+	 }
+
+	/**
+	 * Gets the Customer Additional Download Default License
+	 */
+	 public function getDownloadableCustomerDownloadDefaultLicense() {
+		return Mage::getStoreConfig(Pisc_Downloadplus_Model_Config::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_ADDITIONAL_CUSTOMER);
+	 }
+
+	/**
+	 * Gets the Product Additional Download Default License
+	 */
+	 public function getDownloadableProductDownloadDefaultLicense() {
+		return Mage::getStoreConfig(Pisc_Downloadplus_Model_Config::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_ADDITIONAL_PRODUCT);
+	 }
+
+	/**
+	 * Gets the Serialnumber Download Default License
+	 */
+	 public function getDownloadableSerialnumberDownloadDefaultLicense() {
+		return Mage::getStoreConfig(Pisc_Downloadplus_Model_Config::CONFIG_XML_PATH_DOWNLOADABLE_LICENSE_SERIALNUMBER);
+	 }
+
+	/**
+	 * Gets if Logging for Sample Downloads is on
+	 */
+	 public function isDownloadableTrackSample() {
+		return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_TRACKING_SAMPLES_REQUIRED) == self::CONFIG_YES;
+	 }
+
+	/**
+	 * Gets if Logging for Sample Downloads is on
+	 */
+	 public function isDownloadableTrackProduct() {
+		return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_TRACKING_PRODUCTS_REQUIRED) == self::CONFIG_YES;
+	 }
+
+	/**
+	 * Gets if RSS Feed is on
+	 */
+	 public function isDownloadableRssFeed() {
+		return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_TRACKING_RSS_FEED) == self::CONFIG_YES;
+	 }
+
+	 /*
+	  * Returns the configured behaviour for downloading products
+	  */
+	 public function getDownloadableDeliveryProductBehaviour() {
+		return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_PRODUCT_BEHAVIOUR);
+	 }
+
+	 /*
+	  * Returns the configured behaviour for filename case
+	  */
+	 public function getDownloadableDeliveryFilenameMixedcase() {
+		return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_FILENAME_MIXEDCASE);
+	 }
+
+	 /*
+	  * Returns the configured behaviour for download resume
+	  */
+	 public function getDownloadableDeliveryResumeable() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_RESUMEABLE);
+	 	if (empty($result)) { $result = self::CONFIG_DOWNLOAD_RESUME_OFF; }
+		return $result;
+	 }
+
+	 /*
+	  * Returns the configured behaviour for download speed
+	  */
+	 public function getDownloadableDeliveryResumeableSpeed() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_RESUMEABLE_SPEED);
+	 	if (empty($result)) { $result = null; }
+		return $result;
+	 }
+
+	 /*
+	  * Returns the configured behaviour for download speed
+	  */
+	 public function getDownloadableDeliveryConcurrentDownloads() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_CONCURRENT_DOWNLOADS);
+	 	if (empty($result)) { $result = null; }
+
+	 	// When redirecting to X-Sendfile modules disable concurrent download tracking
+	 	if (Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_RESUMEABLE)>self::CONFIG_DOWNLOAD_RESUME_ON) { $result = null; }
+
+		return $result;
+	 }
+
+	 /*
+	  * Returns if the configured behaviour for downloading products is on "LATEST"
+	  */
+	 public function isDownloadableDeliveryProductLatest() {
+		return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_PRODUCT_BEHAVIOUR)==self::CONFIG_BEHAVIOUR_LATEST;
+	 }
+
+	/**
+	 * Gets if Logging for Sample Downloads is on
+	 */
+	 public function isDownloadForceSecure() {
+		return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_FORCE_SECURE) == self::CONFIG_YES;
+	 }
+
+	 /*
+	  * Returns the Email Identity for Transactional Emails
+	  */
+	 public function getDownloadableDeliveryEmailIdentity() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_EMAIL_IDENTITY);
+	 	if (empty($result)) {
+	 		$result = 'general';
+	 	}
+		return $result;
+	 }
+
+	 /*
+	  * Returns the Email Template for Transactional Emails
+	  */
+	 public function getDownloadableDeliveryEmailTemplate() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_DELIVERY_EMAIL_TEMPLATE);
+	 	if (empty($result)) {
+	 		$result = 'catalog_downloadable_delivery_email_template';
+	 	}
+		return $result;
+	 }
+
+	 /*
+	  * Returns Option ADMINNOTIFICATIONS TYPE
+	  */
+	 public function getOptionAdminnotificationsType() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_OPTION_ADMINNOTIFICATIONS_TYPE);
+	 	if (!$result) {
+	 		$result = self::SEVERITY_NOTICE;
+	 	}
+		return $result;
+	 }
+
+	 /*
+	  * Returns Option ADMINISTRATOR NOTIFICATIONS
+	  */
+	 public function getOptionAdministratorNotifications() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_OPTION_ADMINISTRATOR_NOTIFICATIONS)==self::CONFIG_YES;
+		return $result;
+	 }
+
+	/**
+	 * Gets the Option to update notifications from the Product RSS Feed
+	 */
+	 public function getOptionProductRssFeed() {
+	 	return Mage::getStoreConfig(self::CONFIG_XML_PATH_OPTION_PRODUCT_RSS_FEED);
+	 }
+
+	/**
+	 * Gets if Serialnumbers are downloadable
+	 */
+	 public function isDownloadSerialnumbers() {
+		return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_AS_FILE) == self::CONFIG_YES;
+	 }
+
+	/**
+	 * Gets the Filename Pattern for downloadable Serialnumbers
+	 */
+	 public function getDownloadableSerialnumbersFilenamePattern() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_FILENAME_PATTERN);
+	 	if (empty($result)) {
+	 		$result = 'SERIALNUMBER.txt';
+	 	}
+	 	return $result;
+	 }
+
+	 /*
+	  * Email notifications on Serialnumbers
+	  */
+	 public function getDownloadableSerialnumbersSendEmail() {
+	 	return Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_SEND_EMAIL);
+	 }
+	 public function isDownloadableSerialnumbersSendEmailAdmin() {
+	 	$result = ($this->getDownloadableSerialnumbersSendEmail()==self::SERIALNUMBER_EMAIL_SEND_ALWAYS && $this->isAdminSession());
+	 	return $result;
+	 }
+	 public function isDownloadableSerialnumbersSendEmailFrontend() {
+	 	$result = ($this->getDownloadableSerialnumbersSendEmail()==self::SERIALNUMBER_EMAIL_SEND_ALWAYS) ||
+	 	($this->getDownloadableSerialnumbersSendEmail()==self::SERIALNUMBER_EMAIL_SEND_FRONTEND && !$this->isAdminSession());
+	 	return $result;
+	 }
+	 public function getDownloadableSerialnumbersEmailTemplate() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_EMAIL_TEMPLATE);
+	 	if (empty($result)) {
+	 		$result = 'catalog_downloadable_serialnumbers_email_template';
+	 	}
+	 	return $result;
+	 }
+	 
+	 public function getDownloadableSerialnumbersNotificationCount() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_NOTIFICATION_COUNT);
+	 	return $result;
+	 }
+	 public function getDownloadableSerialnumbersNotificationEmailIdentity() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_NOTIFICATION_EMAIL_IDENTITY);
+	 	return $result;
+	 }
+	 public function getDownloadableSerialnumbersNotificationEmailTemplate() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_NOTIFICATION_EMAIL_TEMPLATE);
+	 	return $result;
+	 }
+	 public function getDownloadableSerialnumbersNotificationEmailSendTo() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_NOTIFICATION_EMAIL_SEND_TO);
+	 	return $result;
+	 }
+	 public function getDownloadableSerialnumbersPendingEmailTemplate() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_PENDING_EMAIL_TEMPLATE);
+	 	return $result;
+	 }
+	 public function getDownloadableSerialnumbersPendingEmailSendTo() {
+	 	$result = Mage::getStoreConfig(self::CONFIG_XML_PATH_DOWNLOADABLE_SERIALNUMBERS_PENDING_EMAIL_SEND_TO);
+	 	return $result;
+	 }
+
+	 /*
+	  * Backend Options
+	  */
+	 public function isCatalogProductDuplicateSamples() {
+	 	return Mage::getStoreConfig(self::CONFIG_XML_PATH_CATALOG_PRODUCT_DUPLICATE_SAMPLES) == self::CONFIG_YES;
+	 }
+	 public function isCatalogProductDuplicateLinks() {
+	 	return Mage::getStoreConfig(self::CONFIG_XML_PATH_CATALOG_PRODUCT_DUPLICATE_LINKS) == self::CONFIG_YES;
+	 }
+	 
+}

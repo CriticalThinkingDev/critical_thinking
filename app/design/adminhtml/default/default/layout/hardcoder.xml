@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <adminhtml_hardcoder_index>
+        <reference name="content">
+            <block type="hardcoder/adminhtml_hardcoder" name="hardcoder" />
+        </reference>
+    </adminhtml_hardcoder_index>
+
+    <adminhtml_hardcoder_associatedproducts>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="hardcoder/adminhtml_hardcoder_edit_tab_associatedproducts" name="customer.grid"/>
+            <block type="adminhtml/widget_grid_serializer" name="grid_serializer">
+                <reference name="grid_serializer">
+                    <action method="initSerializerBlock">
+                        <grid_block_name>customer.grid</grid_block_name>
+
+                        <data_callback>getSelectedCustomers</data_callback>
+                        <hidden_input_name>links[customers]</hidden_input_name>
+                        <reload_param_name>customers</reload_param_name>
+
+                    </action>
+                    <action method="addColumnInputName">
+                        <input_name>position</input_name>
+                    </action>
+                </reference>
+            </block>
+        </block>
+    </adminhtml_hardcoder_associatedproducts>
+    <adminhtml_hardcoder_associatedproductsgrid>
+        <block type="core/text_list" name="root" output="toHtml">
+            <block type="hardcoder/adminhtml_hardcoder_edit_tab_associatedproducts" name="customer.grid"/>
+        </block>
+    </adminhtml_hardcoder_associatedproductsgrid>
+</layout>

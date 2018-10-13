@@ -1,0 +1,150 @@
+<?php /********* Catalog Request form*******/ ?>
+<?php $formData = Mage::getSingleton('core/session')->getFtFormData();  ?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+<div class="page-title">
+    <h1><?php echo Mage::helper('fieldtester')->__('Sign up to become a field tester.')?> </h1>
+</div>
+<form action="<?php echo Mage::helper('fieldtester')->getFieldtesterPostUrl(); ?>" id="fieldtester-form" method="post"   name="fieldtester-form">
+
+	<div class="fieldset">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('fieldtester_toptext')->toHtml() ?>
+		<?php /*<span class="description_text" style="line-height:16px; display:block; padding:0px 0 19px 0;"><?php echo Mage::helper('fieldtester')->__('Thank you for helping us improve our products!')?></span>*/?>
+		<div class="catalogrequest-from3">
+			<ul>
+				<li>
+					<div class="field">
+						<label for="name" ><?php echo Mage::helper('fieldtester')->__('First Name') ?><span class="required">*</span></label>
+						<div class="input-box">
+							<input class="required-entry input-text" name="firstname" id="firstname"  type="text" value="<?php echo  ($formData['firstname']?$formData['firstname']:'')  ?>" />
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="lastname"><?php echo Mage::helper('fieldtester')->__('Last Name') ?><span class="required">*</span></label>
+						<div class="input-box">
+							<input class="required-entry input-text" name="lastname" id="lastname"  type="text" value="<?php echo  ($formData['lastname']?$formData['lastname']:'')  ?>" />
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="address1"><?php echo Mage::helper('fieldtester')->__('Address1') ?><span class="required">*</span></label>
+						<div class="input-box">  <input class="required-entry input-text" name="address1" id="address1"  type="text" value="<?php echo  ($formData['address1']?$formData['address1']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="address2"><?php echo Mage::helper('fieldtester')->__('Address2') ?> &nbsp;</label>
+						<div class="input-box">   <input class=" input-text" name="address2" id="address2"  type="text" value="<?php echo  ($formData['address2']?$formData['address2']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="city"><?php echo Mage::helper('fieldtester')->__('City') ?><span class="required">*</span></label>
+						<div class="input-box">   <input class="required-entry input-text" name="city" id="city"  type="text" value="<?php echo  ($formData['city']?$formData['city']:'')  ?>" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="country"><?php echo Mage::helper('fieldtester')->__('Country') ?><span class="required">*</span></label>
+						<div class="input-box">
+							<?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect();?>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="state"><?php echo Mage::helper('fieldtester')->__('State or Province') ?><span class="required">*</span></label>
+						<div class="input-box">   <select class="browser-default" id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+								<option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+							</select>
+							<script type="text/javascript">
+								//<![CDATA[
+								$('region_id').setAttribute('defaultValue',  "<?php echo (isset($formData['region_id'])?$formData['region_id']:'') ?>");
+								//]]>
+							</script>
+							<input type="text" id="region" name="region" value="<?php echo ($formData['region']?$this->escapeHtml($formData['region']):'') ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="zipcode"><?php echo Mage::helper('fieldtester')->__('Zip Or Postal Code') ?><span class="required">*</span></label>
+						<div class="input-box">  <input name="zipcode" class="required-entry input-text"  id="zipcode"  type="text" value="<?php echo  ($formData['zipcode']?$formData['zipcode']:'')  ?>" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="phone"><?php echo Mage::helper('fieldtester')->__('Phone (with area code)') ?> &nbsp;</label>
+						<div class="input-box">  <input name="phone" class="input-text" id="phone"  type="text" value="<?php echo  ($formData['phone']?$formData['phone']:'')  ?>" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="email"><?php echo Mage::helper('fieldtester')->__('Email Address') ?><span class="required">*</span></label>
+						<div class="input-box">   <input name="email" type="text" id="email"  class="required-entry validate-email input-text" value="<?php echo  ($formData['email']?$formData['email']:'')  ?>" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="best_describe"><?php echo Mage::helper('fieldtester')->__('Which best describes you?') ?><span class="required">*</span> &nbsp;</label>
+
+						<div class="input-box">     <select onchange="if (this.options[this.selectedIndex].value == 'Parent') { this.form.cat_code.value='p'; } else if (this.options[this.selectedIndex].value == 'Home Educator') { this.form.cat_code.value='h'; } " class="required-entry input-text" name="best_describe" size="1">
+								<option value="">-- Please Select --</option>
+								<?php $arrBestDescribe = $this->helper('fieldtester')->getAllBestDescribes();?>
+								<?php foreach($arrBestDescribe as $key => $value): ?>
+									<option value="<?php echo $key ?>" <?php echo (($formData['best_describe'] == $key)?'selected="selected"':'')?>><?php echo $value ?></option>
+								<?php endforeach; ?>
+							</select></div>
+					</div>
+
+				</li>
+				<input type="hidden" name="bsest_sales_news" value="2405405"/>
+				<li>
+				<label>&nbsp;</label>
+					<div class="note_pading"> <span style="color:#CC0000; display:block;   padding:3px 0 3px 0; " >* Required field</span>
+
+
+
+					<?php echo  $this->helper('fieldtester')->__('NOTE: By submitting this form you specifically agree to potentially receive e-mails/maillings regarding the The Critical Thinking  Co. buisness and/or products. If you do not wish to receive such emails/mailling do not submit the form.');?> <br />
+					<a href="<?php echo $this->getUrl('site_policies') ?>" target="_blank">Privacy Policy</a>
+					</div>
+				</li>
+
+
+					<li>
+			    <div class="field">
+			        <label for="Captch">&nbsp;</label>
+					
+<?php //echo $this->getChildHtml('form.additional.info'); ?> 
+<div class="input-box" style="width:auto;">  
+<?php echo $this->getLayout()->createBlock('studioforty9_recaptcha/explicit')->setTemplate('studioforty9/recaptcha/explicit.phtml')->tohtml(); ?>
+</div>
+                           
+                     
+		        </div>  		        
+		     </li>
+			</ul>
+			<div class="button-set-box">
+				<input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+				<button type="submit" title="<?php echo Mage::helper('fieldtester')->__('Submit') ?>" class="button-form"><?php echo Mage::helper('fieldtester')->__('Submit') ?></button>
+			</div>
+
+
+
+
+
+		</div>
+	</div>
+
+
+
+</form>
+<script type="text/javascript">
+	//<![CDATA[
+	var fieldtesterForm = new VarienForm('fieldtester-form', true);
+	new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip');
+	//]]>
+</script>

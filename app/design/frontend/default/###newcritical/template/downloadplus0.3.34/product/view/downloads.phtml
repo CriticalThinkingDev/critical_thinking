@@ -1,0 +1,41 @@
+<?php
+/**
+ * Product View Downloads Page for Products
+ *
+ * @see Pisc_Downloadplus_Block_Product_View_Downloads
+ */
+
+?>
+<div class="downloadplus-product-download">
+
+<?php if ($this->hasLinks()): ?>
+	<div class="downloadplus-product-download-links">
+<?php
+	$_items = $this->getLinks();
+	$_count = 0;
+	foreach ($_items as $_item) {
+?>
+		<div class="downloadplus-product-download-entry">
+		<a href="<?php echo $this->getDownloadUrl($_item) ?>"><?php echo $_item->getLinkTitle() ?></a>
+<?php
+		$_detail = $_item->getDownloadDetail();
+		if ($_detail->getDetail()) {
+?>
+			<div class="downloadplus-product-download-detail">
+			<?php echo $_detail->getDetail() ?>
+			</div>
+<?php
+		}
+		$_count++;
+?>
+		</div>
+<?php
+	}
+	if ($_count==0) {
+		echo $this->__('Currently there are no additional Downloads available.');
+	}
+?>
+	</div>
+<?php endif; ?>
+
+</div>

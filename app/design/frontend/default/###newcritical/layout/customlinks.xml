@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<layout>
+ <catalog_product_view translate="label">
+ 	<reference name="product.info">
+ 		 <block type="customlinks/product_list_componentsold" name="product.info.componentsold" as="componentsold_products" template="customlinks/product/list/componentsold.phtml">
+            <action method="setItemLimit"><type>componentsold</type><limit>4</limit></action>
+        </block>  
+       <!-- <block type="customlinks/product_list_otherformat" name="product.info.otherformat" as="otherformat_products" template="customlinks/product/list/otherformat.phtml">
+            <action method="setItemLimit"><type>otherformat</type><limit>4</limit></action>
+        </block> -->
+ 	</reference> 
+ 		<!--<reference name="product.info.tabs">
+    		<action method="addTab" translate="title" module="catalog"><alias>bundlecontent</alias><title>Bundle Content</title><block>customlinks/product_list_bundlecontent</block><template>customlinks/product/list/bundlecontent.phtml</template></action>
+    	</reference>-->
+ </catalog_product_view>
+</layout>

@@ -1,0 +1,98 @@
+<?php 
+//$collection = $this->getSoftwaredemos();
+$collection = $this->getCollection();
+//print_r($collection->getData());
+/*foreach($collection as $val)
+{
+	echo "Name : ". $val->getName();
+	echo "<br>Email : ". $val->getEmail();
+	
+}*/
+?>
+<div class="page-title">
+  <h1>Softwaredemos</h1>
+  <div style="float:right">
+  <?php //echo $this->getLayout()->createBlock('core/template')->setTemplate('samsearch/samsearch.phtml')->toHtml(); ?>
+  </div>
+</div>
+<div class="soft_products">
+<?php //echo $this->getPagerHtml(); ?>
+  <ol id="soft-list" class="soft_products_list">
+  <?php 
+  $type = '';
+  foreach($collection as $product)
+{
+	
+?>
+<?php if($product->getValue() != $type) { ?>
+	<li><?php echo $product->getValue()." Software"; ?></li>
+    <?php  }
+	$type=$product->getValue();
+	 ?>
+    <li >
+    <div class="soft_product_detail">
+    	<span><img  alt="<?php echo $product->getSoftname(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$product->getIconImg();  ?>"/></span>
+    	<h2><?php echo $product->getSoftname(); ?></h2>
+    	<p><?php echo $product->getDescription(); ?></p>
+    </div>
+    <div class="soft_product_image">
+    	  <img  alt="<?php echo $product->getSoftname(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$product->getLargeImg();  ?>"/>
+    </div>
+     <?php
+	  $softproduct = explode(',',$product->getSoftwaredemoProductId());
+	  foreach($softproduct as $softprod)
+	  {
+	   if($softprod !='')
+	   {
+	   $product = Mage::getModel('catalog/product')->load($softprod); 
+	  
+	  ?>
+    <div class="soft_associated_product">
+    	<div class="soft_product_name">
+        <a href="<?php echo $product->getProductUrl(); ?>" ><?php echo  $product->getName(); ?></a>
+        </div>
+        <div class="window">
+        	<?php
+			$attributeName = 'window_download';
+			$wd = Mage :: getModel('softwaredemos/softwaredemos')->getSoftAttributeVal($product,$attributeName);
+			$wpath = Mage::getBaseDir('media').DS.'blfa_files/'.$wd;
+			 ?>
+            <a href="<?php echo Mage::getBaseUrl('media').'blfa_files/'.$wd; ?>"  title="<?php echo $wd;?>">Download Exe</a>
+            <br />( 
+            <?php echo Mage::helper('softwaredemos')->get_file_size($wpath ,'MB');  ?> )
+           
+            <br />
+            <?php
+			$attributeName = 'window_platform';
+			echo $wp = Mage :: getModel('softwaredemos/softwaredemos')->getSoftAttributeVal($product,$attributeName);
+						$attributeName = 'window_ram';
+			echo "<br/>".$wm = Mage :: getModel('softwaredemos/softwaredemos')->getSoftAttributeVal($product,$attributeName);			 ?>
+          
+        </div>
+        <div class="mac">
+     	<?php
+			$attributeName = 'mac_download';
+			$md = Mage :: getModel('softwaredemos/softwaredemos')->getSoftAttributeVal($product,'mac_download');
+			$mpath = Mage::getBaseDir('media').DS.'blfa_files/'.$md;
+			 ?>
+            <a href="<?php echo $mpath; ?>"  title="<?php echo $md;?>">Download Exe
+            </a><br />( 
+            <?php echo Mage::helper('softwaredemos')->get_file_size($mpath,'MB');  ?> )
+          
+            <br />
+            <?php
+			$attributeName = 'mac_platform';
+			echo $wp = Mage :: getModel('softwaredemos/softwaredemos')->getSoftAttributeVal($product,$attributeName);
+						$attributeName = 'mac_ram';
+			echo "<br/>".$wm = Mage :: getModel('softwaredemos/softwaredemos')->getSoftAttributeVal($product,$attributeName);			 ?>
+        </div>
+    </div>
+	<?php } ?>
+    
+    </li>
+    <?php 
+	     }
+	}
+	?>
+  </ol>
+</div>

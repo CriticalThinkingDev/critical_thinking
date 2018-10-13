@@ -1,0 +1,45 @@
+<?php 
+$_olCollection = $this->getOffers();
+ 
+?> 
+<div class="content-header">
+<table cellspacing="0">
+    <tr>
+        <td style="width:80%;"><h3 class="<?php echo $this->getHeaderCssClass() ?>"><?php echo $this->helper('offerlanding')->__('Offer Landing - View')?></h3></td>
+        <td class="form-buttons"><?php echo $this->getChildHtml('back_button'); ?></td>
+    </tr>
+</table>
+</div>
+ <div class="entry-edit">
+<div class="entry-edit-head"><h4 >View Offerlanding Customer Details </h4></div>
+
+  <fieldset>
+  <table cellspacing="2" class="box-left"> 
+       
+			<?php if(sizeof($_olCollection) > 0):?> 
+				<!--<tr> <td><strong><?php //echo $this->helper('offerlanding')->__('ID')?>: </strong></td> <td></td> <td><?php //echo $_olCollection->getId();?></td>   </tr>-->
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('First Name')?>: </strong></td> <td><?php echo $_olCollection->getFirstname();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('Last Name')?>: </strong></td> <td><?php echo $_olCollection->getLastname();?></td>   </tr>  
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('Address1')?>: </strong></td> <td><?php echo $_olCollection->getAddress1();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('Address2')?>: </strong></td> <td><?php echo $_olCollection->getAddress2();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('City')?>: </strong></td> <td><?php echo $_olCollection->getCity();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('State')?>: </strong></td> <td>
+				<?php
+				$region = $_olCollection->getRegion(); 
+				if($regionId = $_olCollection->getRegionId()):
+					$regionModel = Mage::getModel('directory/region')->load($regionId);
+					$region = $regionModel->getName();
+				endif;
+				?>
+				<?php echo $region;?></td>   </tr>   
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('Country')?>: </strong></td> <td><?php echo $_olCollection->getCountryId();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('Email')?>: </strong></td> <td><?php echo $_olCollection->getEmail();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('Telephone')?>: </strong></td> <td><?php echo $_olCollection->getPhone();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('Which best describes to customer?')?>: </strong></td> <td><?php echo $_olCollection->getBestDescribe();?></td>   </tr> 		
+				<tr> <td><strong><?php echo $this->helper('offerlanding')->__('Supply')?>: </strong></td> <td><?php echo ($_olCollection->getSupply()?$_olCollection->getSupply():'--');?></td>  </tr> 
+		<?php else:?>
+			<tr> <td colspan="2"><strong><?php echo $this->helper('offerlanding')->__('No Record Found')?></strong></td>   </tr>
+		<?php endif;?>
+</table>
+ 
+</fieldset></div>

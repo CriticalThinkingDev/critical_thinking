@@ -1,0 +1,67 @@
+<?php
+/*$customer = Mage::getSingleton('customer/session')->getCustomer();
+if($customer->getEmail()=='kimgoates.eev@gmail.com'){
+    echo '<pre>'; print_r(Mage::helper('checkout/cart')->getQuote()->getData()); 
+}*/
+?>
+
+
+<div class="subheader-right-cardoverlay">
+    <a href="<?php echo $this->getUrl('checkout/cart') ?>" class="main-cartlink">My Cart</a>
+    <div class="header-cartlink-itemnum-display">(<span><?php echo (($itemqty = Mage::getBlockSingleton('checkout/cart_sidebar')->getSummaryCount())?$itemqty:'0');?></span>)</div>
+    <a href="#" class="showcart-arrow" title="Cart Quick View" onclick="Modalbox.show($('longTextContent'), {title: this.title, autoFocusing: false, closeValue: 'Close me' }); return false;"><img src="<?php echo $this->getSkinUrl('images/ctc_2011_grey_arrow_dwn_sm.gif')?>" width="9" height="9" alt="" /></a>
+    
+    
+    <div id="longTextContent" style="display: none">
+	    <?php
+	    $session = Mage::getSingleton('checkout/session');
+		$lastadded = $session->getQuote()->getAllVisibleItems();
+		$lastaddedItems = array_reverse($lastadded);
+ 
+		 if(sizeof($lastadded) > 0):
+		 foreach ($lastaddedItems as $item):
+		 	if($item->getCatalogueItem()) {continue;} //added to hide catalogue item from list of order items 
+			$product = Mage::getModel('catalog/product')->load($item->getProduct()->getId());
+			$product_image_url = Mage::helper('catalog/image')->init($product , 'thumbnail')->resize(50, 50)->setWatermarkSize('30x10');
+		?>
+			<div class="block-cart">
+				<div class="block-content">
+					<ol id="cart-sidebar" class="mini-products-list">
+						<li class="item last odd">
+							<?php if ($product->hasProductUrl()): ?>
+								<a class="product-image" title="<?php echo $this->htmlEscape($product->getName()) ?>" href="<?php echo $product->getProductUrl()?>"><img width="50" height="50" alt="<?php echo $this->htmlEscape($product->getName()) ?>" src="<?php echo $product_image_url; ?>"></a>
+							<?php else: ?>
+								<span class="product-image"><img src="<?php echo $product_image_url; ?>" width="50" height="50" alt="<?php echo $this->htmlEscape($product->getName()) ?>" /></span>
+							<?php endif; ?>
+							<div class="product-details">
+								<p class="product-name"><?php echo $this->__('Last Item Added:'); ?> <?php echo $product->getName(); ?></p>
+								<div class="cart_sku_box"><?php echo $this->__('Sku:'); ?> <?php echo $product->getSku()?></div>
+								<div class="cart_price_box"><?php echo $this->__('Price:'); ?> <strong><?php echo Mage::helper('checkout')->formatPrice($product->getPrice())?></strong></div>
+							</div>
+							<div class="summary">
+								<p class="subtotal">
+									<span class="label"><?php echo $this->__('Subtotal:') ?></span>
+									<span class="price"><?php echo Mage::helper('checkout')->formatPrice(Mage::getBlockSingleton('checkout/cart_sidebar')->getSubtotal()) ?></span>
+								</p>
+							</div>
+							<div class="cart_button_box">
+								<div class="ui-dialog-buttonset">
+								<?php $burl = Mage::getBaseUrl(); ?>
+							   <span><button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="setLocation('<?php echo $burl; ?>checkout/cart')"><span class="ui-button-text">View Cart</span></button></span>
+								<button type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onclick="setLocation('<?php echo (isset($continueShoppingCategoryUrl)) ? $continueShoppingCategoryUrl : $this->getContinueShoppingUrl(); ?>')"><span class="ui-button-text">Continue</span></button>  
+								</div> 
+							</div>
+						</li>
+					</ol>
+				</div>
+			</div>
+		<?php  
+		break;
+		endforeach; ?>
+		<?php else:?>
+		<p> <?php echo $this->__('There are no items in your shopping cart to preview')?></p>
+		<?php endif; ?>
+			
+		</div>
+    
+    </div>

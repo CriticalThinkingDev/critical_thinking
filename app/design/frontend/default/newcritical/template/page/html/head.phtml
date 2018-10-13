@@ -1,0 +1,269 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<meta http-equiv="Content-Type" content="<?php echo $this->getContentType() ?>" />
+<meta name="p:domain_verify" content="794558b1990f42469959c675e74e4044" />
+<title><?php echo $this->getTitle() ?></title>
+<meta name="description" content="<?php echo htmlspecialchars($this->getDescription()) ?>" />
+<meta name="keywords" content="<?php echo htmlspecialchars($this->getKeywords()) ?>" />
+<meta name="robots" content="<?php echo htmlspecialchars($this->getRobots()) ?>" />
+<link rel="icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<link rel="shortcut icon" href="<?php echo $this->getFaviconFile(); ?>" type="image/x-icon" />
+<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0' >
+<?php /* Open Graph Protocol for Facebook and SEO START */ ?>
+<?php if(Mage::registry('current_product')): ?>
+ <?php $product = Mage::registry('current_product'); ?>
+ <meta property="og:title" content="<?php echo ($product->getName()); ?>" />
+ <meta property="og:type" content="product" />
+ <meta property="og:image" content="<?php echo $this->helper('catalog/image')->init($product, 'small_image')->resize(200,200);?>" />
+ <meta property="og:url" content="<?php echo Mage::registry('product')->getProductUrl(); ?>" />
+ <meta property="og:description" content="<?php echo strip_tags(($product->getShortDescription())); ?>" />
+ <meta property="og:site_name" content="<?php echo Mage::app()->getStore()->getName(); ?>" />
+<?php elseif(Mage::registry('current_category')): ?>
+ <meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+ <meta property="og:type" content="product.group" />
+ <meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+ <meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+ <meta property="og:site_name" content="<?php echo Mage::app()->getStore()->getName(); ?>" />
+<?php elseif((Mage::getSingleton('cms/page')->getIdentifier() == 'home' &&
+ Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms')) : ?>
+ <meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+ <meta property="og:type" content="website" />
+ <?php
+ $ogImage = Mage::getSingleton('cms/page')->getOgImage();
+ if($ogImage):
+  $mediaOgImage = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$ogImage; ?>
+  <meta property="og:image" content="<?php echo $mediaOgImage; ?>" />
+ <?php endif; ?>
+ <meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+ <meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+ <meta property="og:site_name" content="<?php echo Mage::app()->getStore()->getName(); ?>" />
+<?php elseif(Mage::app()->getFrontController()->getRequest()->getRouteName() == 'cms'): ?>
+
+
+ <?php $ogUrl = Mage::getSingleton('cms/page')->getOgUrl(); ?>
+ <?php $ogTitle = Mage::getSingleton('cms/page')->getOgTitle(); ?>
+ <?php $ogType = Mage::getSingleton('cms/page')->getOgType(); ?>
+ <?php $ogDescription = Mage::getSingleton('cms/page')->getOgDescription(); ?>
+    <?php  if($ogTitle): ?>
+  <meta property="og:title" content="<?php echo $ogTitle; ?>" />
+     <?php else: ?>
+ <meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+     <?php endif; ?>
+
+<?php  if($ogType): ?>
+  <meta property="og:type" content="<?php echo $ogType; ?>" />
+<?php else: ?>
+  <meta property="og:type" content="article" />
+ <?php endif; ?>
+
+ <?php
+ $ogImage = Mage::getSingleton('cms/page')->getOgImage();
+ if($ogImage):
+  $mediaOgImage = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$ogImage; ?>
+  <meta property="og:image" content="<?php echo $mediaOgImage; ?>" />
+ <?php endif; ?>
+<?php  if($ogUrl): ?>
+  <meta property="og:url" content="<?php echo $ogUrl;?>" />
+ <?php else: ?>
+ <meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+ <?php endif; ?>
+<?php  if($ogDescription): ?>
+  <meta property="og:description" content="<?php echo strip_tags($ogDescription) ?>" />
+ <?php else: ?>
+ <meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+ <?php endif; ?>
+ <meta property="og:site_name" content="<?php echo Mage::app()->getStore()->getName(); ?>" />
+
+<?php else: ?>
+ <?php $actionName =  $this->getRequest()->getActionName(); 
+$modulename = $this->getRequest()->getModuleName();
+?>
+
+ <?php if($actionName=='customsubscribe' || $actionName=='customsubscribe2' || $actionName=='customsubscribe3'): ?>
+  <meta property="og:image" content="https://www.criticalthinking.com/media/share/pow1-1-600x315.png" />
+  <meta property="og:description" content="FREE Award-Winning Critical Thinking Puzzles! $75 Value! Delivered weekly to your inbox. Just pick your grade PreK-8! Sign up now! "/>
+<meta property="og:title" content="Free Award-Winning Critical Thinking Puzzles! " />
+<?php elseif($modulename=='free-gift-form'): ?>
+<meta property="og:image" content="https://www.criticalthinking.com/media/share/fb-freebie-ad-600x315.png" />
+<meta property="og:description" content="Get Seven (7) Free eBooks that teach critical thinking (Grades PreK-12+)! A $53 value! No purchase necessary. Make your children better problem-solvers with The Critical Thinking Co.™! "/>
+<meta property="og:title" content="Free eBooks! A $53 value! No purchase necessary." />
+     <?php else: ?>
+ <meta property="og:description" content="<?php echo strip_tags($this->getDescription()) ?>" />
+ <meta property="og:title" content="<?php echo $this->getTitle() ?>" />
+     <?php endif; ?>
+
+ <meta property="og:type" content="article" />
+ <meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+
+ <meta property="og:site_name" content="<?php echo Mage::app()->getStore()->getName(); ?>" />
+<?php endif; ?>
+<?php /* Open Graph Protocol for Facebook and SEO END */ ?>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<!--[if lt IE 7]>
+<script type="text/javascript">
+//<![CDATA[
+    var BLANK_URL = '<?php echo $this->helper('core/js')->getJsUrl('blank.html') ?>';
+    var BLANK_IMG = '<?php echo $this->helper('core/js')->getJsUrl('spacer.gif') ?>';
+//]]>
+</script>
+<![endif]-->
+<?php echo $this->getCssJsHtml() ?>
+<?php echo $this->getChildHtml() ?>
+<?php echo $this->helper('core/js')->getTranslatorScript() ?>
+<?php  echo $this->getIncludes() ?>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('magecoders/jquery.simplemodal.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getJsUrl('magecoders/basic.js'); ?>"></script>
+<?php  /*<link type="text/css" rel="stylesheet" href="<?php echo $this->getSkinUrl('css/demo.css'); ?>" />*/ ?>
+<link type="text/css" rel="stylesheet" href="<?php echo $this->getSkinUrl('css/basic.css'); ?>" />
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:400,400i,700,700i&amp;subset=latin-ext" rel="stylesheet">
+<script>
+jQuery(document).ready(function() {
+	jQuery.noConflict();
+    jQuery('select').material_select();
+ //jQuery("#billing\\:country_id").material_select('destroy');
+ //jQuery("#billing\\:region_id").material_select('destroy');
+
+ //jQuery("#shipping\\:country_id").material_select('destroy');
+ //jQuery("#shipping\\:region_id").material_select('destroy');
+
+ 
+  });
+</script>
+<div id="TLSMessage" style="display: none;"></div>
+<script type="text/javascript">
+    (function () {
+        var userAgent = window.navigator.userAgent.toLowerCase();
+
+       var warningMessage = '<marquee id="TLSMessageinner">Your browser is out of date. Please upgrade your browser to the latest version in order to checkout.</marquee>';
+        var supportForTLS = false;
+        // Internet Explorer 11 and lower (MSIE test)
+        if (userAgent.indexOf('msie ') > -1) {
+           
+            userAgentVersion = Number(userAgent.split('msie ')[1].split('.')[0]);
+           
+            if (userAgentVersion > 7) {
+                supportForTLS = true;
+            }
+            // Internet Explorer (some versions, but checking for 11+) (Trident test)
+        } /*else if (userAgent.indexOf('trident/') > -1) { //Internet Explorer (by Trident if MSIE is missing)
+            var tridentVersion = Number(userAgent.split('trident/')[1].split('.')[0]);
+            if (tridentVersion > 6) {
+                supportForTLS = true;
+            }
+            // Chrome
+        }*/ else if (userAgent.indexOf('chrome/') > -1) {
+           
+
+            userAgentVersion = Number(userAgent.split('chrome/')[1].split('.')[0]);
+            
+            if (userAgentVersion > 21) {
+                supportForTLS = true;
+            }
+            // safari
+        } else if (userAgent.indexOf('safari/') > -1) {
+          
+ var browser=get_browser_info();
+       
+            
+            userAgentVersion = browser.version;
+            
+            if (userAgentVersion > 5) {
+                supportForTLS = true;
+            }
+            // Firefox
+        } else if (userAgent.indexOf('firefox/') > -1) {
+            
+            userAgentVersion = Number(userAgent.split('firefox/')[1].split('.')[0]);
+            
+            if (userAgentVersion > 22) {
+                supportForTLS = true;
+            }
+            // Opera
+        } else {
+        	supportForTLS = true;
+         }
+        if (!supportForTLS) {
+jQuery('#TLSMessage').show();
+            document.getElementById("TLSMessage").innerHTML = warningMessage;
+            var bboxFormPrefix = /^bbox-root/;
+            var els = document.getElementsByTagName('*');
+            for (var i = 0; i < els.length; i++) {
+                if (bboxFormPrefix.test(els[i].id)) {
+                    els[i].style.display = "none";
+                    break;
+                }
+            }
+        }
+    } ());
+
+function get_browser_info(){
+        var ua=navigator.userAgent,tem,M=ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+        if(/trident/i.test(M[1])){
+            tem=/\brv[ :]+(\d+)/g.exec(ua) || [];
+            return {name:'IE ',version:(tem[1]||'')};
+        }
+        if(M[1]==='Chrome'){
+            tem=ua.match(/\bOPR\/(\d+)/)
+            if(tem!=null)   {return {name:'Opera', version:tem[1]};}
+        }
+        M=M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+        if((tem=ua.match(/version\/(\d+)/i))!=null) {M.splice(1,1,tem[1]);}
+        return {
+            name: M[0],
+            version: M[1]
+        };
+    }
+</script>
+
+<script>
+    !function(e){if(!window.pintrk){window.pintrk = function () {
+        window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+        n=window.pintrk;n.queue=[],n.version="3.0";var
+        t=document.createElement("script");t.async=!0,t.src=e;var
+        r=document.getElementsByTagName("script")[0];
+        r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+ pintrk('load', '2615823560203');
+  
+    pintrk('page');
+</script>
+
+<script type="text/javascript">
+    /* <![CDATA[ */
+    function allowSaveCookie() {
+        Mage.Cookies.set('<?php echo Mage_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE; ?>', '<?php echo Mage::helper('core/cookie')->getAcceptedSaveCookiesWebsiteIds()?>', new Date(new Date().getTime() + <?php echo Mage::helper('core/cookie')->getCookieRestrictionLifetime() ?> * 1000));
+        if (Mage.Cookies.get('<?php echo Mage_Core_Helper_Cookie::IS_USER_ALLOWED_SAVE_COOKIE; ?>')) {
+            window.location.reload();
+        } else {
+            window.location.href = '<?php echo Mage::getUrl('cms/index/noCookies')?>';
+        }
+    }
+  
+    /* ]]> */
+</script>

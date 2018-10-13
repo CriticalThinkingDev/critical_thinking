@@ -1,0 +1,169 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <carriers translate="label" module="shipping">
+            <groups>
+                <flatrate translate="label">
+                    <fields>
+                        <flatrate_shipping_subtotal translate="label">
+                            <label>Minimum Order Amount</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>4</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment> </comment>
+                        </flatrate_shipping_subtotal>
+                    </fields>
+                </flatrate>
+            </groups>
+        </carriers>
+        <interactone_fixedshipping translate="label" module="interactone_fixedshipping">
+            <label>Fixed Shipping</label>
+            <tab>interactone</tab>
+            <sort_order>200</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <about>
+                    <frontend_model>interactone_fixedshipping/adminhtml_system_config_about</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </about>
+                <settings translate="label">
+                    <label>Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>0</show_in_store>
+                    <comment>
+                        <![CDATA[
+                        <script>
+                        function resetDisabled() {
+                            var fields = [
+                                'interactone_fixedshipping_settings_flatrate',
+                                'interactone_fixedshipping_settings_fedex',
+                                'interactone_fixedshipping_settings_ups',
+                                'interactone_fixedshipping_settings_usps',
+                                'interactone_fixedshipping_settings_productmatrix'
+                                'interactone_fixedshipping_settings_premiumrate'
+                            ];
+                            for (var i = 0; i <= fields.length; i++) {
+                                var $field = $(fields[i]),
+                                    length = 0;
+                                if ($field) {
+                                    if (Prototype.Browser.IE) {
+                                        if ($field.next('p')) {
+                                            length = $field.next('p').outerHTML.length;
+                                        }
+                                    } else {
+                                        if ($field.next('p')) {
+                                            length = $field.next('p').innerHTML.length;
+                                        }
+                                    }
+                                    if (length > 50) {
+                                        $field.disabled = true;
+                                    }
+                                }
+                            }
+                        }
+
+                        Event.observe(window, 'load', function() {
+                            var enabledField = $('interactone_fixedshipping_settings_enabled');
+                            Event.observe(enabledField, 'change', function(){
+                                if (enabledField.value == 1) {
+                                    resetDisabled();
+                                }
+                            });
+                            resetDisabled();
+                        });
+                        </script>
+                        ]]>
+                    </comment>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enable Module</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>0</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </enabled>
+                        <flatrate translate="label">
+                            <label>Enable for Flat Rate</label>
+                            <depends><enabled>1</enabled></depends>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>interactone_fixedshipping/adminhtml_system_config_form_field_method_flatraterequired</frontend_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <comment> </comment>
+                        </flatrate>
+                        <fedex translate="label">
+                            <label>Enable for Fedex</label>
+                            <depends><enabled>1</enabled></depends>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>interactone_fixedshipping/adminhtml_system_config_form_field_method_fedexrequired</frontend_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </fedex>
+                        <ups translate="label">
+                            <label>Enable for UPS</label>
+                            <depends><enabled>1</enabled></depends>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>interactone_fixedshipping/adminhtml_system_config_form_field_method_upsrequired</frontend_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>8</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </ups>
+                        <usps translate="label">
+                            <label>Enable for USPS</label>
+                            <depends><enabled>1</enabled></depends>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>interactone_fixedshipping/adminhtml_system_config_form_field_method_uspsrequired</frontend_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>9</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </usps>
+                        <productmatrix translate="label">
+                            <label>Enable for Productmatrix</label>
+                            <depends><enabled>1</enabled></depends>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>interactone_fixedshipping/adminhtml_system_config_form_field_productmatrixrequired</frontend_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </productmatrix>
+                        <premiumrate translate="label">
+                            <label>Enable for Premiumrate</label>
+                            <depends><enabled>1</enabled></depends>
+                            <frontend_type>select</frontend_type>
+                            <frontend_model>interactone_fixedshipping/adminhtml_system_config_form_field_premiumraterequired</frontend_model>
+                            <source_model>adminhtml/system_config_source_yesno</source_model> 
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </premiumrate>
+                    </fields>
+                </settings>
+            </groups>
+        </interactone_fixedshipping>
+    </sections>
+</config>

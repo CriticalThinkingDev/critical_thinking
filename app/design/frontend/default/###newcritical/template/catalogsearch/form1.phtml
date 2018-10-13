@@ -1,0 +1,85 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this Mage_Core_Block_Template */
+/* @var $catalogSearchHelper Mage_Catalogsearch_Helper_Data */
+$catalogSearchHelper =  $this->helper('catalogsearch'); ?>
+
+<div class="left_search_box1">
+<div class="left_search_box2">
+<div class="left_search_box3">
+
+
+ 
+
+<form id="search_mini_form" action="<?php echo $catalogSearchHelper->getResultUrl() ?>" method="get">
+    <div class="form-search">
+ 		<!-- label>Search <span>by ID, Title, or ISBN</span></label -->
+    
+    	<input id="search" type="text" placeholder="ID, Title, or ISBN" name="<?php echo $catalogSearchHelper->getQueryParamName() ?>" value="<?php echo $catalogSearchHelper->getEscapedQueryText() ?>" class="input-text" maxlength="<?php echo $catalogSearchHelper->getMaxQueryLength();?>" />
+   
+    	<button type="submit" title="<?php echo Mage::helper('core')->quoteEscape($this->__('Search')) ?>" class="button icon-search"><span><?php echo $this->__('Go') ?></span></button>
+   
+   		<label class="advance_search" ><a href="<?php  echo $this->getUrl('').'advanced-search'?>"><?php echo $this->__('Advanced Search') ?></a></label>
+    
+    	<div id="search_autocomplete" class="search-autocomplete"></div>
+        <script type="text/javascript">
+        //<![CDATA[
+            var searchForm = new Varien.searchForm('search_mini_form', 'search', '<?php echo Mage::helper('core')->jsQuoteEscape($this->__('')) ?>');
+            searchForm.initAutocomplete('<?php echo $catalogSearchHelper->getSuggestUrl() ?>', 'search_autocomplete');
+        //]]>
+        </script>
+    </div>
+    
+    
+</form>
+<div class="shop-series-box">
+<?php echo $this->getLayout()->createBlock('core/template')->setTemplate('custom/seriesproduct.phtml')->toHtml(); ?>
+	    
+    </div>
+</div>
+</div>
+</div>
+<?php
+
+$params = array();
+$params = $this->getRequest()->getParams();
+$q = isset($params['q'])?$params['q']:'';
+
+if(isset($_SERVER['HTTP_REFERER'])) {
+    $ref_url = urldecode(parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries));
+    $curr_q=(isset($queries['q']))?$queries['q']:'';
+?>
+    <script type="text/javascript">
+	var curr_q = '<?php echo ($q != '')?$q :$curr_q;?>';
+	jQuery(document).ready(function() {
+		if(curr_q!='' && jQuery('#search').length > 0){
+			jQuery('#search').val(curr_q);
+		}
+	});
+    </script>
+<?php
+}
+?>

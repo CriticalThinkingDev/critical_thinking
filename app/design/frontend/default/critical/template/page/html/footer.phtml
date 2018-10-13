@@ -1,0 +1,52 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_modern
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+<div class="footer-container">
+<?php echo  $this->getLayout()->createBlock('cms/block')->setBlockId('footer_contact_box')->toHtml() ;?>
+<?php echo  $this->getLayout()->createBlock('cms/block')->setBlockId('footer_awards_section_box')->toHtml() ;?> 
+    <div class="footer"> 
+        <div class="f-right"> 
+           <div class="company_info_links"> <?php echo  $this->getLayout()->createBlock('cms/block')->setBlockId('company_info_links')->toHtml() ;?></div>
+            <div class="company_info_links"> <?php echo  $this->getLayout()->createBlock('cms/block')->setBlockId('order_info_links')->toHtml() ;?></div>
+            <div class="company_info_links"> <?php echo  $this->getLayout()->createBlock('cms/block')->setBlockId('product_footer_links')->toHtml() ;?></div>
+            <div class="company_info_links"> <?php echo  $this->getLayout()->createBlock('cms/block')->setBlockId('specials_footer_links')->toHtml() ;?></div>
+             <div class="company_info_links"> <?php echo  $this->getLayout()->createBlock('cms/block')->setBlockId('customer_service_links')->toHtml() ;?></div> 
+        </div>
+        <div class="f-left">&nbsp;<script type="text/javascript" src="https://sealserver.trustwave.com/seal.js?style=invert&code=bf96a4c970a543b4ae9691cf51d4711b"></script><br>
+<br>
+<!--a id="bbblink" class="rbhzbas" href="https://www.bbb.org/sanjose/business-reviews/computers-hardware-software-and-services/the-critical-thinking-company-in-seaside-ca-1000004468#bbblogo" title="The Critical Thinking Company, Computer Software Publishers & Developers, Seaside, CA" style="display: block;position: relative;overflow: hidden; width: 100px; height: 38px; margin: 0px; padding: 0px;"><img style="padding: 0px; border: none;" id="bbblinkimg" src="https://seal-sanjose.bbb.org/logo/rbhzbas/the-critical-thinking-company-1000004468.png" width="200" height="38" alt="The Critical Thinking Company, Computer Software Publishers & Developers, Seaside, CA" /></a><script type="text/javascript">var bbbprotocol = ( ("https:" == document.location.protocol) ? "https://" : "http://" ); document.write(unescape("%3Cscript src='" + bbbprotocol + 'seal-sanjose.bbb.org' + unescape('%2Flogo%2Fthe-critical-thinking-company-1000004468.js') + "' type='text/javascript'%3E%3C/script%3E"));</script><br>
+<br-->
+<!--script language="JavaScript" type="text/javascript" src="https://smarticon.geotrust.com/si.js"></script-->  <table width="135" border="0" cellpadding="2" cellspacing="0" title="Click to Verify - This site chose GeoTrust SSL for secure e-commerce and confidential communications.">
+<tr>
+<td width="135" align="center" valign="top"><script type="text/javascript" src="https://seal.geotrust.com/getgeotrustsslseal?host_name=www.criticalthinking.com&amp;size=S&amp;lang=en"></script><br />
+<a href="http://www.geotrust.com/ssl/" target="_blank" style="color:#000000; text-decoration:none; font:bold 7px verdana,sans-serif; letter-spacing:.5px; text-align:center; margin:0px; padding:0px;"></a></td>
+</tr>
+</table>
+ </div>
+    </div>
+    
+    <?php echo  $this->getLayout()->createBlock('cms/block')->setBlockId('copyright_text_box')->toHtml() ;?>
+</div>

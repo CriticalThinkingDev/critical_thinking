@@ -1,0 +1,7 @@
+<?php $_exam_prep = $this->getProduct()->getExamPrep(); ?>
+<?php if ($_exam_prep): ?>
+    <h2><?php echo $this->__('Test preparation available for the following:') ?></h2>
+    <div class="std">
+        <?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_exam_prep, 'exam_prep') ?>
+    </div>
+<?php endif; ?>

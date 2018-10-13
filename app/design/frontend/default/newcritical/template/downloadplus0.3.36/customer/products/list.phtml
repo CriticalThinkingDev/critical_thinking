@@ -1,0 +1,168 @@
+<?php
+/**
+ * Downloadable Products List for Customer
+ *
+ * @see Pisc_Downloadplus_Block_Customer_Products_List
+ */
+
+/*
+ * To change the Sort Order of the Product and Purchased Link Entries
+ * from the default (product_name ASC, item_id DESC), use the commented code below:
+ *
+ * The entries from the tables "downloadable_link_items" and "downloadable_link_purchased_items" are available for Sort:
+ */
+/*
+$this->setSortProducts('purchased_links.product_name ASC');
+$this->setSortPurchasedItems('purchased_links.item_id DESC');
+$this->updateCollection();
+$this->updateLayout();
+*/
+
+// This is setting the sort order for the Version History Entries
+$this->setSortVersionHistory('version DESC');
+
+?>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php $_items = $this->getItems(); ?>
+<div class="my-account">
+<div class="page-title">
+	<h1><?php echo Mage::helper('downloadable')->__('My Downloadable Products') ?></h1>
+	<?php if ($this->isRssAvailable()): ?>
+	<a href="<?php echo $this->getRssLink() ?>" class="link-feed right"><?php echo $this->__('Subscribe to RSS Feed on updates of all Products') ?></a>
+	<?php endif; ?>
+</div>
+
+<div id="my-downloadable-products">
+<?php if(count($_items)):
+	echo $this->getChildHtml('pager');
+	$_odd = '';
+	$_previtem = false;
+	foreach ($_items as $_item):
+?>
+	<div class="downloadplus-product <?php echo $_odd?>">
+	<?php if (!$_previtem || ($_previtem && $_item->getProductId()!=$_previtem->getProductId())): ?>
+		<h2><?php echo $_item->getProductName(); ?></h2>
+	<?php endif; ?>
+	<em>
+	<?php
+		if ($_item->getStatus()=='available') {
+        	if ($this->doesExpire($_item)) {
+            	$days = $this->getDaysUntilExpiration($_item);
+            	if (!is_null($days)) {
+	            	if ($days==0) { echo $this->__('Download expires today'); }
+	            	if ($days<0) { echo $this->__('Download has expired since %s days', abs($days)); }
+	            	if ($days>0) { echo $this->__('Download expires in %s days', $days); }
+            	}
+            	echo '<br/>';
+            }
+       		echo $this->__('%s Downloads available', $this->getRemainingDownloads($_item));
+		} else {
+        	echo $this->__('Order is %s', $this->__($_item->getStatus()));
+        }
+    ?>
+    	&nbsp;(<a href="<?php echo $this->getOrderViewUrl($_item->getPurchased()->getOrderId()) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $this->__('Order #%s', $_item->getPurchased()->getOrderIncrementId()) ?></a>)
+    </em>
+    <?php if ($_item->getLinkTitle()): ?>
+    	<h3><?php echo $_item->getLinkTitle() ?></h3>
+    <?php endif; ?>
+    </div>
+    
+    <?php if ($_item->getStatus()=='available'): ?>
+    	<div class="downloadplus-product-history">
+	    <?php
+	    	$_detail = $this->getDetail($_item);
+	    	if ($_detail->getVersion()): ?>
+	      		<div class="downloadplus-product-current-entry">
+		      		<em>
+		      	<?php
+		      		echo $this->formatTimestamp($_detail->getTimestamp(), 'medium');
+		      		if ($_detail->getSize()>0) { echo '&nbsp;('.$_detail->getSizeFormatted().')'; }
+		      	?>
+		      		</em>
+		      		<h4>
+			      		<a class="download-file" href="<?php echo $this->getDownloadUrl($_item) ?>" title="<?php echo $this->__('Start Download') ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>>
+			      		<?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion(); ?>
+			      		</a>
+		      		</h4>
+		      	<?php if  ($_detail->getDetail()): ?>
+		      		<div class="downloadplus-product-current-detail"><?php echo $_detail->getDetail(); ?></div>
+		      	<?php endif; ?>
+	      		</div>
+	    <?php else: ?>
+	    		<div class="downloadplus-product-current-entry">
+	    		<em>
+		      	<?php
+		      		echo $this->formatTimestamp($_detail->getTimestamp(), 'medium');
+		      		if ($_detail->getSize()>0) { echo '&nbsp;('.$_detail->getSizeFormatted().')'; }
+		      	?>
+		      	</em>
+		      	<h4>
+		      		<a class="download-file" href="<?php echo $this->getDownloadUrl($_item) ?>" title="<?php echo $this->__('Start Download') ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>>
+		      		<?php echo $this->getTextCurrent() ?>
+		      		</a>
+	      		</h4>
+      		<?php if  ($_detail->getDetail()): ?>
+      				<div class="downloadplus-product-current-detail"><?php echo $_detail->getDetail(); ?></div>
+      		<?php endif; ?>
+      			</div>
+      <?php endif;
+      		
+	      	$_history = $this->setSort('version DESC')->getVersionHistory($_item);
+	      	$_count = 0;
+	      	foreach ($_history as $_detail):
+	      		if ($_detail->getVersion()):
+	      			$_count++;
+		      		?>
+		      		<div class="downloadplus-product-history-entry">
+		      		<em>
+		      		<?php
+		      			echo $this->formatTimestamp($_detail->getTimestamp(), 'medium');
+		      			if ($_detail->getSize()>0) { echo '&nbsp;('.$_detail->getSizeFormatted().')'; }
+		      		?>
+		      		</em>
+		      		<h4>
+			      		<a class="download-file" href="<?php echo $this->getArchiveDownloadUrl($_item, $_detail) ?>" title="<?php echo $this->__('Start Download') ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>>
+			      		<?php echo $this->__('Release').'&nbsp;'.$_detail->getVersion(); ?>
+			      		</a>
+		      		</h4>
+		      		<?php if  ($_detail->getDetail()): ?>
+		      			<div class="downloadplus-product-history-detail"><?php echo $_detail->getDetail(); ?></div>
+			      	<?php endif; ?>
+		      		</div>
+		    <?php endif;
+	    	endforeach;
+    	
+	    	if ($_count==0 && $this->isProductRelated($_item)): ?>
+	    		<div class="downloadplus-product-history-entry"><?php echo $this->__('There are currently no older Versions available.'); ?></div>
+	    	<?php endif; ?>
+	    </div>
+       
+  <?php else: // status!=available ?>
+  
+    <div class="downloadplus-product-history-entry">
+	    <div class="notice-msg">
+	    <?php if ($_item->getStatus()=='expired'): ?>
+	    	<?php echo $this->__('This download has expired.') ?>&nbsp;
+	    <?php else: ?>
+	    	<?php echo $this->__('Please complete your order first.') ?>&nbsp;
+	    <?php endif; ?>
+	    <a href="<?php echo $this->getOrderViewUrl($_item->getPurchased()->getOrderId()) ?>" title="<?php echo $this->__('View Order') ?>"><?php echo $this->__('View Order').'&nbsp;#'.$_item->getPurchased()->getOrderIncrementId() ?></a>
+	    </div>
+    </div>
+  <?php endif;
+  
+    $_previtem = $_item;
+    if ($_odd) { $_odd=''; } else { $_odd='downloadplus-odd-entry'; }
+    endforeach;
+  ?>
+ 
+<?php echo $this->getChildHtml('pager'); ?>
+
+<?php else: ?>
+    <p><?php echo Mage::helper('downloadable')->__('You have no Downloadable Products.'); ?></p>
+<?php endif; ?>
+</div>
+<div class="buttons-set">
+    <p class="back-link"><a href="<?php echo $this->getBackUrl() ?>"><?php echo $this->__('Back') ?></a></p>
+</div>
+</div>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<layout>
+  <adminhtml_customer_edit>
+		<reference name="head">
+			<action method="addItem"><type>js_css</type><name>prototype/windows/themes/default.css</name></action>
+			<action method="addItem"><type>skin_css</type><name>css/commerceextensions/mergecustomers/dialog.css</name></action>
+		</reference>
+		<reference name="js">
+			<block type="adminhtml/template" name="mergecustomers.customer.js" template="mergecustomers/customer/js.phtml" />
+		</reference>
+  </adminhtml_customer_edit>
+
+	<adminhtml_mergecustomers_grid>
+		<reference name="root">
+			<action method="setTemplate"><template>mergecustomers/template/empty.phtml</template></action>
+		</reference>
+		<reference name="head">
+			<action method="addItem"><type>skin_css</type><name>css/commerceextensions/mergecustomers.css</name><params/></action>
+		</reference>
+		<reference name="content">
+			<block type="mergecustomers/adminhtml_customer_select_grid" name="customer.select.grid" />
+		</reference>
+	</adminhtml_mergecustomers_grid>
+
+	<adminhtml_mergecustomers_form>
+		<reference name="root">
+			<action method="setTemplate"><template>mergecustomers/template/empty.phtml</template></action>
+		</reference>
+		<reference name="head">
+			<action method="addItem"><type>skin_css</type><name>css/commerceextensions/mergecustomers.css</name><params/></action>
+		</reference>
+		<reference name="content">
+			<block type="mergecustomers/adminhtml_customer_merge_edit" name="customer.merge.form" />
+		</reference>
+	</adminhtml_mergecustomers_form>
+</layout>

@@ -1,0 +1,116 @@
+<div class="newslatter_form_box">
+
+	<div class="newslatter_form_box_left">
+		<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+		<?php $formData = Mage::getSingleton('core/session')->getFormData();?>
+
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('customsubscribe_header')->toHtml(); ?>
+
+
+		<form action="<?php echo $this->getFormActionUrl() ?>" method="post" id="newsletter-validate-detail">
+			<div class="fieldset">
+<?php if($this->getRequest()->getParam('supply'))
+				{
+					$supply = $this->getRequest()->getParam('supply');
+				}else {
+					$supply = (isset($formData['supply'])?$formData['supply']:'');
+				}?>
+				<input type="hidden" name="supply" id="supply" value="<?php echo $supply ?>"/>
+				<div class="newsletter-from">
+
+					<ul>
+						<!--li>
+							<div class="field">
+								<label for="name" ><?php echo Mage::helper('newsletter')->__('First Name:') ?><span class="required">*</span></label>
+								<div class="input-box">
+
+									<input class="input-text required-entry" style="width:256px;" name="firstname" id="firstname"  type="text" value="<?php echo  (isset($formData['firstname'])?$formData['firstname']:'')  ?>" />
+								</div>
+							</div>
+						</li>
+						<li>
+							<div class="field">
+								<label for="lastname"><?php echo Mage::helper('newsletter')->__('Last Name:') ?><span class="required">*</span></label>
+								<div class="input-box">
+									<input class="input-text required-entry " style="width:256px;" name="lastname" id="lastname"  type="text" value="<?php echo  (isset($formData['lastname'])?$formData['lastname']:'')  ?>" />
+								</div>
+							</div>
+						</li-->
+						<li>
+							<div class="field">
+								<label for="lastname"><?php echo Mage::helper('newsletter')->__('Email:') ?><!--span class="required">*</span--></label>
+								<div class="input-box">
+									<input type="text" name="email" id="overridenewsletter" style="width:256px;" value="<?php echo  (isset($formData['email'])?$formData['email']:'')  ?>" title="<?php echo $this->__('Email') ?>" class="input-text required-entry validate-email" />
+								</div>
+							</div>
+						</li>
+
+
+						<!--li>
+							<div class="field">
+								<label for="best_describe"><?php echo Mage::helper('catalogrequest')->__('Which best describes you?') ?><span class="required">*</span></label>
+
+								<div class="input-box">
+									<select  class="input-text required-entry" name="position" size="1">
+										<option value="">-- Please Select --</option>
+										<?php $arrMarket = array('Parent','Home Educator', 'Classroom Educator'); ?>
+										<?php foreach($arrMarket as $key => $value): ?>
+											<option value="<?php echo $value ?>" <?php echo (($formData['position'] == $value)?'selected="selected"':'')?>>
+												<?php echo $value ?>
+											</option>
+										<?php endforeach; ?>
+									</select></div>
+							</div>
+
+						</li-->
+						<li>
+							<div class="field">
+								<label for="lastname">&nbsp<!--span class="required">*</span--></label>
+								<div class="input-box radio">
+
+									
+									<input name="email_list[]" value="2405007" type="checkbox" <?php echo ((in_array('2405007',$formData['email_list']))?'checked="checked"':'')?> >&nbsp;<?php echo $this->__('Grade PreK')?><?php echo $this->__(' Puzzle of the Week')?><br>
+									<input name="email_list[]" value="2405008" type="checkbox" <?php echo ((in_array('2405008',$formData['email_list']))?'checked="checked"':'')?> >&nbsp;<?php echo $this->__('Grades K-2')?><?php echo $this->__(' Puzzle of the Week')?><br>
+									<input name="email_list[]" value="2405009" type="checkbox" <?php echo ((in_array('2405009',$formData['email_list']))?'checked="checked"':'')?> >&nbsp;<?php echo $this->__('Grades 3-5')?><?php echo $this->__(' Puzzle of the Week')?><br>
+									<input name="email_list[]" value="2405010" type="checkbox" class="validate-one-required" <?php echo ((in_array('2405010',$formData['email_list']))?'selected="selected"':'')?>>&nbsp;<?php echo $this->__('Grades 6-8')?><?php echo $this->__(' Puzzle of the Week')?><br>
+<span style="font-size: 11px;color:#3366CC;line-height: 16px;border-bottom: 1px solid #ccc;padding-bottom: 3px;margin: 3px 0 5px;display: inline-block;">Each puzzle contains a link to our best sale offer.</span></br>
+<input name="email_list[]" value="2405405" type="checkbox" <?php echo ((in_array('2405405',$formData['email_list']))?'checked="checked"':'')?> >&nbsp;<?php echo $this->__('No Puzzles, Just Bi-Monthly Best Sale Alerts')?><br>
+
+
+								</div>
+							</div>
+						</li>
+						<li>
+							<div align="left">
+								<!--span class="detail_text_red">*(required)</span-->
+								<p style="padding-top:10px;"><?php echo $this->__('We respect your privacy. E-mail addresses are not released to third parties. Instructions for removal come with every e-mail.')?></p>
+							</div>
+						</li>
+						 <li>
+			    <div class="field">
+			        <label for="Captch">&nbsp;</label>
+					
+<?php echo $this->getLayout()->createBlock('studioforty9_recaptcha/explicit')->setTemplate('studioforty9/recaptcha/explicit.phtml')->tohtml(); ?>
+                           
+                     
+		        </div>  		        
+		     </li>
+					</ul>
+				</div>
+				<div class="button-set-box" style=" padding:10px 0 0 133px;">
+					<button type="submit" title="<?php echo $this->__('Subscribe') ?>" class="button-form"><?php echo $this->__('Subscribe') ?></button>
+				</div>
+			</div>
+		</form>
+
+		<script type="text/javascript">
+			//<![CDATA[
+			var newsletterSubscriberFormDetail = new VarienForm('newsletter-validate-detail');
+			//]]>
+		</script>
+
+	</div>
+
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('customsubscribe_right_image')->toHtml(); ?>
+<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('customsubscribe_footer')->toHtml(); ?>
+</div>

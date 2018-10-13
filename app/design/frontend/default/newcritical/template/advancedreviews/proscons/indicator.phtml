@@ -1,0 +1,54 @@
+<?php
+/**
+* aheadWorks Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://ecommerce.aheadworks.com/AW-LICENSE-COMMUNITY.txt
+ *
+ * =================================================================
+ *                 MAGENTO EDITION USAGE NOTICE
+ * =================================================================
+ * This package designed for Magento COMMUNITY edition
+ * aheadWorks does not guarantee correct work of this extension
+ * on any other Magento edition except Magento COMMUNITY edition.
+ * aheadWorks does not provide extension support in case of
+ * incorrect edition usage.
+ * =================================================================
+ *
+ * @category   AW
+ * @package    AW_AdvancedReviews
+ * @version    2.2.4
+ * @copyright  Copyright (c) 2010-2012 aheadWorks Co. (http://www.aheadworks.com)
+ * @license    http://ecommerce.aheadworks.com/AW-LICENSE-COMMUNITY.txt
+ */
+?>
+<?php
+?>
+<?php if ( $this->canShow() ):  ?>
+	<?php //if (Mage::helper('advancedreviews')->checkVersion('1.4.0.0') && ( $this->showCons() || $this->showPros()  )): echo "<br />"; endif; ?>
+    <?php if ( $this->showPros() ): ?>
+        <strong><?php echo $this->__('Pros:') ?></strong>
+        <?php $isFirst = true ?>
+        <?php foreach( $this->getProsCollection() as $pros )
+              {
+                  $name = $this->__( $pros->getName() );
+                  echo ( $isFirst ? $name : ( ', '.$name ) );
+                  $isFirst = false;
+              } ?>
+    <?php endif ?>
+    <?php if ( $this->showCons() ): ?><br />
+        <strong><?php echo $this->__('Cons:') ?></strong>
+        <?php $isFirst = true ?>
+        <?php foreach( $this->getConsCollection() as $cons )
+              {
+                  $name = $this->__( $cons->getName() );
+                  echo ( $isFirst ? $name : ( ', '.$name ) );
+                  $isFirst = false;
+              } ?>
+    <?php endif ?>
+ 
+<?php endif ?>

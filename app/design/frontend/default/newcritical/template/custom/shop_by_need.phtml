@@ -1,0 +1,77 @@
+
+<script type="text/javascript">
+
+function loadNextImage() {
+    //get image object
+    var myImg = document.getElementById('CImage');
+    var mydiv = document.getElementById('imgdiv');
+    //declare image directory path and image array
+    var thePath = "images/";
+    var theImages = new Array();
+    theImages[0]="homepage_shopbyneed1";
+    theImages[1]="homepage_shopbyneed2";
+    
+
+                //get current cookie value
+                var currentIndex = parseInt(getCookie());
+                var imgPath = thePath + theImages[currentIndex];
+                myImg.src = imgPath;
+                myImg.alt = theImages[currentIndex];
+                myImg.title = theImages[currentIndex];
+                mydiv.setAttribute("class", theImages[currentIndex]);
+                
+                //set next cookie index
+                currentIndex += 1;
+                if(currentIndex > (theImages.length - 1)) {
+                    currentIndex = 0;
+                }
+                setCookie(currentIndex);
+            }
+            
+            function setCookie(someint) {
+                var now = new Date();
+                var addDays = now.getDate() + 7
+                now.setDate(addDays); // cookie expires in 7 days
+                var theString = 'imgID=' + escape(someint) + ';expires=' + now.toUTCString();
+                document.cookie = theString;
+            }
+            
+            function getCookie() {
+                var output = "0";
+                if(document.cookie.length > 0) {
+                    var temp = unescape(document.cookie);
+                    temp = temp.split(';');
+                    for(var i = 0; i < temp.length; i++) {
+                        if(temp[i].indexOf('imgID') != -1) {
+                            temp = temp[i].split('=');
+                            output = temp.pop();
+                            break;
+                        }
+                    }
+                }
+                return output;
+            }
+
+</script>
+<p class="banner_cat_txt" id="d_banner_cat_txt">Books and Software That Teach <b> Reading • Writing • Math • Science • Social Studies </b></p> 
+<div id="imgdiv" class="homepage_shopbyneed1 ">
+
+<div id="CImage" style="display:none;"></div>
+<div id="LImage" style="display:none;"></div>               
+
+<?php echo $this->getLayout()->createBlock('sidebarsearch/advanced_sidebar')->setTemplate('sidebarsearch/advanced/shopneed.phtml')->toHtml(); ?>
+
+</div>
+
+
+ 
+ 
+ 
+
+
+ 
+ 
+
+ 
+ 
+ 

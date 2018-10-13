@@ -1,0 +1,37 @@
+<?php
+/**
+ * Downloadplus Dashboard Layout Container
+ *
+ * @category   design_default
+ * @package    Pisc_Downloadplus
+ * @copyright  Copyright (c) 2009 PILLWAX Industrial Solutions Consulting
+ * @license
+ */
+?>
+<div class="content-header">
+    <table cellspacing="0">
+        <tr>
+            <td style="<?php echo $this->getHeaderWidth() ?>"><?php echo $this->getHeaderHtml() ?></td>
+            <td class="form-buttons"><?php echo $this->getButtonsHtml() ?></td>
+        </tr>
+    </table>
+</div>
+<div class="dashboard-container">
+    <table cellspacing="25" width="100%">
+        <tr>
+            <td>
+            	<?php echo $this->getChildHtml('downloads_total') ?>
+			</td>
+			<td>
+                <div class="entry-edit">
+                    <div class="entry-edit-head"><h4><?php echo $this->__('Top Product Downloads') ?></h4></div>
+                    <fieldset class="np"><?php echo $this->getChildHtml('downloads_top_products'); ?></fieldset>
+                </div>
+                <div class="entry-edit">
+                    <div class="entry-edit-head"><h4><?php echo $this->__('Top Sample Downloads') ?></h4></div>
+                    <fieldset class="np"><?php echo $this->getChildHtml('downloads_top_samples'); ?></fieldset>
+                </div>
+			</td>
+		</tr>
+	</table>
+</div>

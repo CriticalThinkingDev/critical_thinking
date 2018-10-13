@@ -1,0 +1,48 @@
+<?php 
+$_drCollection = $this->getDealerskitRequest();
+ 
+?> 
+<div class="content-header">
+<table cellspacing="0">
+    <tr>
+        <td style="width:80%;"><h3 class="<?php echo $this->getHeaderCssClass() ?>"><?php echo $this->helper('dealerskit')->__('Dealers Kit Request - View')?></h3></td>
+        <td class="form-buttons"><?php echo $this->getChildHtml('back_button'); ?></td>
+    </tr>
+</table>
+</div>
+<div class="entry-edit">
+<div class="entry-edit-head"><h4 >View Customer Details </h4></div>
+
+  <fieldset>
+  <table cellspacing="2" class="box-left"> 
+       
+			<?php if(sizeof($_drCollection) > 0):?> 
+				 
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Company Name')?>: </strong></td> <td><?php echo $_drCollection->getCompany();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Attention')?>: </strong></td> <td><?php echo $_drCollection->getAttention();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Address1')?>: </strong></td> <td><?php echo $_drCollection->getAddress1();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Address2')?>: </strong></td> <td><?php echo $_drCollection->getAddress2();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('City')?>: </strong></td> <td><?php echo $_drCollection->getCity();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('State')?>: </strong></td> <td>
+				<?php
+				$region = $_drCollection->getRegion(); 
+				if($regionId = $_drCollection->getRegionId()):
+					$regionModel = Mage::getModel('directory/region')->load($regionId);
+					$region = $regionModel->getName();
+				endif;
+				?>
+				<?php echo $region;?></td>   </tr>  
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Country')?>: </strong></td> <td><?php echo $_drCollection->getCountryId();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Zipcode')?>: </strong></td> <td><?php echo $_drCollection->getZipcode();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Email')?>: </strong></td> <td><?php echo $_drCollection->getEmail();?></td>   </tr>
+				<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Telephone')?>: </strong></td> <td><?php echo $_drCollection->getPhone();?></td>   </tr>
+			 
+			<tr> <td><strong><?php echo $this->helper('dealerskit')->__('Resopnse of Listrak email.')?>: </strong></td> <td><?php echo $_drCollection->getListrakResponse();?></td>   </tr>  
+			 
+		
+			<?php else:?>
+				<tr> <td colspan="2"><strong><?php echo $this->helper('dealerskit')->__('No Record Found')?></td></tr>
+			<?php endif;?>
+			</table>
+ 
+</fieldset></div>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <Krishinc_Softwaredemos>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Krishinc_Softwaredemos>
+    </modules>
+</config>

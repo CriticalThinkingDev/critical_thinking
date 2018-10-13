@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <customcontact_api translate="title" module="customcontact">
+                <title>Request a customcontact Api</title>
+                <acl>customcontact/api</acl>
+                <model>customcontact/api</model>
+                <methods>                     
+						<items translate="title" module="customcontact">
+							<title>customcontact</title>
+							<acl>customcontact/items</acl>
+						</items>
+						 <create translate="title" module="customcontact">
+	                        <title>Create customer</title>
+	                        <acl>customcontact/create</acl>
+	                    </create>
+	                    <info translate="title" module="customcontact">
+	                        <title>Retrieve customer data</title>
+	                        <acl>customcontact/info</acl>
+	                    </info>
+	                    <update translate="title" module="customcontact">
+	                        <title>Update customer data</title>
+	                        <acl>customcontact/update</acl>
+	                    </update>
+	                    <delete translate="title" module="customcontact">
+	                        <title>Delete customer</title>
+	                        <acl>customcontact/delete</acl>
+	                    </delete>
+                </methods> 
+               <faults module="customcontact">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid customer data. Details in error message.</message>
+                    </data_invalid>
+                    <filters_invalid>
+                        <code>101</code>
+                        <message>Invalid filters specified. Details in error message.</message>
+                    </filters_invalid>
+                    <not_exists>
+                        <code>102</code>
+                        <message>Customer not exists.</message>
+                    </not_exists>
+                     <not_deleted>
+                        <code>103</code>
+                        <message>Customer not deleted. Details in error message.</message>
+                    </not_deleted>
+                     <already_exists>
+                        <code>104</code>
+                        <message>Customer Email already exists.</message>
+                    </already_exists> 
+                </faults>
+                
+            </customcontact_api>
+        </resources> 
+        <resources_alias>
+        	<customcontact>customcontact_api</customcontact>
+        </resources_alias>
+         <v2>
+            <resources_function_prefix>
+                <customcontact>customcontact</customcontact>
+            </resources_function_prefix>
+        </v2>
+        <acl>
+            <resources>
+                  <customer translate="title" module="customer">  
+	                  <customcontact module="customcontact" translate="title">
+		                  	<sort_order>1000</sort_order>
+		                  	<title>customcontact</title>
+							<items translate="title" module="customcontact">
+		                        <title>customcontact List</title>
+		                    </items>
+							<create translate="title" module="customcontact">
+		                        <title>customcontact create</title>
+		                    </create>
+							<info translate="title" module="customcontact">
+		                        <title>customcontact info</title>
+		                    </info>
+							<update translate="title" module="customcontact">
+		                        <title>customcontact update</title>
+		                    </update>
+		                    <delete translate="title" module="customcontact">
+		                        <title>customcontact delete</title>
+		                    </delete> 
+		              </customcontact>
+                  </customer>
+            </resources> 
+        </acl>
+    </api>
+</config>

@@ -1,0 +1,105 @@
+<?php
+
+if (Mage::app()->getStore()->isCurrentlySecure() && Mage::app()->getRequest()->getModuleName()=='free-gift-form') {
+    $formUrl =  $this->getUrl('catalogsearch/advanced/result', array('_secure'=>true));
+}
+else{
+    $formUrl =  $this->getUrl('catalogsearch/advanced/result');
+
+}?>
+
+<div class="top_shopby">
+    <form action="<?php echo $formUrl; ?>" method="get" id="form-validate-home">
+
+<?php $shop_need = array('subject','grade','product_type') ?>
+<div class="search_subject_box">
+<h2 class="title">Shop by Need</h2>
+  <?php foreach ($this->getSearchableAttributes() as $_attribute): ?>
+        <?php $_code = $_attribute->getAttributeCode() ?>
+        <?php  if(in_array($_code,$shop_need)) { ?>
+<!-- label -->
+        <?php switch($this->getAttributeInputType($_attribute)):
+           case 'select': ?>
+                    <?php echo $this->getAttributeSelectElement($_attribute) ?>
+                    <?php break;
+        default: ?>
+                <input name="<?php echo $_code ?>" id="<?php echo $_code ?>" value="<?php echo $this->htmlEscape($this->getAttributeValue($_attribute)) ?>" title="<?php echo $this->htmlEscape($this->getAttributeLabel($_attribute)) ?>"  class="input-text <?php echo $this->getAttributeValidationClass($_attribute) ?>" type="text" />
+            <?php endswitch; ?>
+            
+<!--<select name="Select Grade">
+  <option value="Select Grade">Select Grade</option>
+</select>
+</label>-->
+  <?php } ?>
+  <?php endforeach; ?>
+  
+  <div class="search_btn_box">
+    <button class="form-button waves-effect" type="submit"><span><?php echo $this->__('FIND IT') ?></span></button>
+<!--<a href="#"><img src="<?php //echo $this->getSkinUrl('images/shopneed-go-btn.png')?>" alt="" /></a>--></div>
+
+</div>
+
+    <script type="text/javascript">decorateList('advanced-search-list')</script>
+<div style="display:none;" class="validation-advice">You have to specify at least one search term.</div>
+
+
+</form>
+</div>
+<script type="text/javascript">
+ 
+
+    $('form-validate-home').observe('submit',function(e){
+        this.getElements().each(function(el){
+            if(!el.getValue() || el.getValue()==''){
+                //add class?
+                 el.disable(); 
+            }
+        });
+        //Event.stop(e);
+    });
+</script>
+
+<?php
+$params = array();
+$params = $this->getRequest()->getParams();
+$grade = isset($params['grade'])?$params['grade']:'';
+$subject = isset($params['subject'])?$params['subject']:'';
+$productType = isset($params['product_type'])?$params['product_type']:'';
+$q = isset($params['q'])?$params['q']:'';
+//if(isset($_SERVER['HTTP_REFERER']) && Mage::app()->getRequest()->getControllerName()!='advanced') {
+if(Mage::app()->getRequest()->getControllerName()!='advanced') {
+    $ref_url = urldecode(parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries));
+    $curr_grade = (isset($queries['grade']))?$queries['grade'][0]:'';
+    $curr_prod_type= (isset($queries['product_type']))?$queries['product_type'][0]:'';
+    if($curr_prod_type==''){
+        $curr_prod_type = 'all';
+    }
+    $curr_subject=(isset($queries['subject']))?$queries['subject'][0]:'';
+    $curr_q=(isset($queries['q']))?$queries['q']:'';
+    ?>
+    <script type="text/javascript">
+        <?php if(!empty($curr_grade) ||!empty($curr_prod_type) || !empty($curr_subject) || !empty($q)){?>
+        jQuery(document).ready(function(){
+            var curr_grade = '<?php echo ($grade != '')?$grade:$curr_grade;?>';
+            var curr_prod_type = '<?php echo ($productType != '')?$productType :$curr_prod_type;?>';
+            var curr_subject = '<?php echo ($subject != '')?$subject :$curr_subject;?>';
+            var curr_q = '<?php echo ($q != '')?$q :$curr_q;?>';
+            if(jQuery('#grade').length!=0 && curr_grade!=''){
+                jQuery('#grade option[value="'+curr_grade+'"]').prop('selected',true);
+                jQuery("#grade").material_select();
+            }
+            if(jQuery('#subject').length!=0 && curr_subject!=''){
+                jQuery('#subject option[value="'+curr_subject+'"]').prop('selected',true);
+                jQuery("#subject").material_select();
+            }
+            if(jQuery('#product_type').length!=0 && curr_prod_type!=''){
+                jQuery('#product_type option[value="'+curr_prod_type+'"]').prop('selected',true);
+                jQuery("#product_type").material_select();
+            }
+            if(curr_q!=''){
+                jQuery('#search').val(curr_q);
+            }
+        });
+        <?php }?>
+    </script>
+<?php } ?>

@@ -1,0 +1,538 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Downloadplus configuration options file
+ *
+ * @author     PILLWAX Industrial Solutions Consulting
+ * @category   Pisc
+ * @package    Pisc_Downloadplus
+ * @copyright  Copyright (c) 2014 PILLWAX Industrial Solutions Consulting (http://technology.pillwax.com/software)
+ * @license    Commercial Unlimited License (http://technology.pillwax.com/software/license)
+ * @version    0.1.0
+ */
+-->
+<config>
+    <sections>
+        <catalog>
+            <groups>
+            	<downloadplus translate="label">
+            		<label>DownloadPlus for Magento (Extension Check)</label>
+            		<sort_order>599</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+	                   	<prerequisites>
+							<label>Extension Check</label>
+							<frontend_model>downloadplus/adminhtml_system_config_form_prerequisites</frontend_model>
+							<backend_model>downloadplus/system_config_prerequisites</backend_model>
+                          	<sort_order>10</sort_order>
+                           	<show_in_default>1</show_in_default>
+                           	<show_in_website>1</show_in_website>
+                           	<show_in_store>1</show_in_store>
+	                   	</prerequisites>
+					</fields>
+            	</downloadplus>
+            	<downloadable_edit translate="label">
+            		<label>Downloadable Product Options (Manage Products)</label>
+            		<sort_order>601</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                    	<catalog_product_duplicate_samples>
+                            <label>Duplicate Samples when duplicating Product</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</catalog_product_duplicate_samples>
+                    	<catalog_product_duplicate_links>
+                            <label>Duplicate Links when duplicating Product</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</catalog_product_duplicate_links>
+
+						<image_thumbnail_size>
+							<label>Image Thumbnail default size</label>
+							<frontend_type>text</frontend_type>
+                            <comment><![CDATA[Use Width x Height in pixels: Default is 75x75]]></comment>
+                            <sort_order>15</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</image_thumbnail_size>
+                    	
+                    	<default_expiry_type_url>
+                    		<label>Default Start of Expiration (URL)</label>
+                    		<frontend_type>select</frontend_type>
+                    		<source_model>downloadplus/system_config_source_download_settings_expire</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</default_expiry_type_url>
+                    	<default_expiry_duration_url>
+                    		<label>Default Expiry in Days (URL)</label>
+                    		<frontend_type>text</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</default_expiry_duration_url>
+                    	
+                    	<default_expiry_type_file>
+                    		<label>Default Start of Expiration (File)</label>
+                    		<frontend_type>select</frontend_type>
+                    		<source_model>downloadplus/system_config_source_download_settings_expire</source_model>
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</default_expiry_type_file>
+                    	<default_expiry_duration_file>
+                    		<label>Default Expiry in Days (File)</label>
+                    		<frontend_type>text</frontend_type>
+                            <sort_order>23</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</default_expiry_duration_file>
+                    	
+                    	<default_expiry_type_awss3>
+                    		<label>Default Start of Expiration (Amazon S3)</label>
+                    		<frontend_type>select</frontend_type>
+                    		<source_model>downloadplus/system_config_source_download_settings_expire</source_model>
+                            <sort_order>24</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</default_expiry_type_awss3>
+                    	<default_expiry_duration_awss3>
+                    		<label>Default Expiry in Days (Amazon S3)</label>
+                    		<frontend_type>text</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</default_expiry_duration_awss3>
+                    	
+                    	<default_expiry_type_awscf>
+                    		<label>Default Start of Expiration (Amazon CloudFront)</label>
+                    		<frontend_type>select</frontend_type>
+                    		<source_model>downloadplus/system_config_source_download_settings_expire</source_model>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</default_expiry_type_awscf>
+                    	<default_expiry_duration_awscf>
+                    		<label>Default Expiry in Days (Amazon CloudFront)</label>
+                    		<frontend_type>text</frontend_type>
+                            <sort_order>27</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                    	</default_expiry_duration_awscf>
+                    	
+					</fields>            		
+            	</downloadable_edit>
+                <downloadable_license translate="label">
+                    <label>Downloadable Terms of Use</label>
+                    <sort_order>602</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+						<product_required>
+                            <label>Show Terms of Use for Downloadable Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[<a href="https://support.pillwax.com/open-source/doku.php?id=magento:downloadplus" target="_blank">See also the Online Documentation of DownloadPlus.</a>]]></comment>
+						</product_required>
+                        <product_license translate="label">
+                            <label>Default Terms of Use for Downloadable Products</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </product_license>
+						<product_sample_required>
+                            <label>Show Terms of Use for Sample of Downloadable Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</product_sample_required>
+                        <product_sample_license translate="label">
+                            <label>Default Terms of Use for Sample of Downloadable Products</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </product_sample_license>
+						<sample_required>
+                            <label>Show Terms of Use for Downloadable Samples</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</sample_required>
+                        <sample_license translate="label">
+                            <label>Default Terms of Use for Downloadable Samples</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </sample_license>
+						<additional_customer_required>
+                            <label>Show Terms of Use for additional Customer Downloads</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</additional_customer_required>
+                        <additional_customer_license translate="label">
+                            <label>Default Terms of Use for additional Customer Downloads</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </additional_customer_license>
+						<additional_product_required>
+                            <label>Show Terms of Use for additional Product Downloads</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</additional_product_required>
+                        <additional_product_license translate="label">
+                            <label>Default Terms of Use for additional Product Downloads</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>51</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </additional_product_license>
+						<serialnumber_required>
+                            <label>Show Terms of Use for Serialnumber Downloads</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</serialnumber_required>
+                        <serialnumber_license translate="label">
+                            <label>Default Terms of Use for Serialnumber Downloads</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>61</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </serialnumber_license>
+					</fields>
+				</downloadable_license>
+                <downloadable_tracking translate="label">
+                    <label>Downloadable Tracking</label>
+                    <sort_order>603</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+						<product_required>
+                            <label>Track Downloads for Downloadable Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[<a href="https://support.pillwax.com/open-source/doku.php?id=magento:downloadplus" target="_blank">See also the Online Documentation of DownloadPlus.</a>]]></comment>
+						</product_required>
+						<sample_required>
+                            <label>Track Downloads for Downloadable Samples</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</sample_required>
+						<rss_feed>
+                            <label>Enable RSS Feed on Updates of Downloadable Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</rss_feed>
+                        <option_administrator_notifications translate="label">
+                            <label>Log Messages into Administrator Notifications</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>99</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </option_administrator_notifications>
+                        <option_adminnotifications_type translate="label">
+                            <label>Mark Administrator Notifications as</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>downloadplus/system_config_source_adminnotification_type</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </option_adminnotifications_type>
+                        <option_product_rss_feed translate="label">
+                            <label>Receive into Administrator Notifications</label>
+                            <frontend_type>multiselect</frontend_type>
+							<can_be_empty>1</can_be_empty>
+                            <source_model>downloadplus/system_config_source_feed_channels</source_model>
+                            <sort_order>199</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </option_product_rss_feed>
+					</fields>
+				</downloadable_tracking>
+                <downloadable_delivery translate="label">
+                    <label>Downloadable Delivery</label>
+                    <sort_order>604</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+						<product_behaviour>
+                            <label>Behaviour for Downloadable Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>downloadplus/system_config_source_behaviour</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[<a href="https://support.pillwax.com/open-source/doku.php?id=magento:downloadplus" target="_blank">See also the Online Documentation of DownloadPlus.</a>]]></comment>
+						</product_behaviour>
+						<!-- 
+						<force_download>
+                            <label>Force Download of all Files</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>11</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[Prevents the Browser to display the Download inline.]]></comment>
+						</force_download>
+						-->
+						<filename_mixedcase>
+                            <label>Case-Sensitity of filenames</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>downloadplus/system_config_source_filenamemixedcase</source_model>
+                            <sort_order>12</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</filename_mixedcase>
+						<force_secure>
+                            <label>Force Downloads to be on secure URL</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</force_secure>
+						<resumeable>
+                            <label>Allow Download Resume</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>downloadplus/system_config_source_download_resumeable</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</resumeable>
+						<resumeable_speed>
+                            <label>Max. Speed on resumeable downloads</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Maximum download speed in kB/s. Only in combination with 'Allow Download Resume'.</comment>
+						</resumeable_speed>
+						<!--
+						<concurrent_downloads>
+                            <label>Max. concurrent downloads</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>33</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Maximum number of concurrent downloads. Unlimited when empty.</comment>
+						</concurrent_downloads>
+						-->
+                        <email_identity translate="label">
+                            <label>Notification Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email_identity>
+                        <email_template translate="label">
+                            <label>Notification Email Template for Customer Downloads</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email_template>
+					</fields>
+				</downloadable_delivery>
+				<downloadable_serialnumbers translate="label">
+                    <label>Downloadable Serialnumbers</label>
+                    <sort_order>605</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <order_item_status_products translate="label">
+                            <label>Order Item Status to assign Serialnumbers for non-downloadable Products</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>downloadplus/system_config_source_serialnumber_product_orderitemstatus</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </order_item_status_products>
+						<send_email>
+                            <label>Send Serialnumber Email</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>downloadplus/system_config_source_serialnumber_email</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</send_email>
+                        <email_template translate="label">
+                            <label>Email Template for Serialnumbers</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </email_template>
+						<as_file>
+                            <label>Make Serialnumbers downloadable</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</as_file>
+						<expire_with_link>
+                            <label>Expire Serialnumbers with Downloadable Link</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>31</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</expire_with_link>
+						<filename_pattern>
+                            <label>Filename Pattern</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>32</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[<a href="https://support.pillwax.com/open-source/doku.php?id=magento:downloadplus:settings#filename_pattern" target="_blank">See also the Online Documentation of DownloadPlus.</a>]]></comment>
+						</filename_pattern>
+						<notification_count>
+                            <label>Notify on remaining Serialnumbers for Product</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+						</notification_count>
+                        <notification_email_identity translate="label">
+                            <label>Notification Email Sender</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_identity</source_model>
+                            <sort_order>41</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </notification_email_identity>
+                        <notification_email_template translate="label">
+                            <label>Notification Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>42</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </notification_email_template>
+                        <notification_email_send_to translate="label comment">
+                            <label>Send Notification Email To</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>43</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>separate multiple entries by ','</comment>
+                        </notification_email_send_to>
+                        <pending_email_template translate="label">
+                            <label>Pending Email Template</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_email_template</source_model>
+                            <sort_order>44</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </pending_email_template>
+                        <pending_email_send_to translate="label comment">
+                            <label>Send Pending Email To</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>45</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>separate multiple entries by ','</comment>
+                        </pending_email_send_to>
+                    </fields>
+				</downloadable_serialnumbers>
+            </groups>
+        </catalog>
+    </sections>
+</config>

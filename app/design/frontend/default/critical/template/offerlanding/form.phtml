@@ -1,0 +1,163 @@
+<?php /********* Catalog Request form*******/ ?>
+<?php $formData = Mage::getSingleton('core/session')->getOlFormData();  ?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
+<form action="<?php echo Mage::helper('offerlanding')->getOfferlandingPostUrl(); ?>" id="offerlanding-form" method="post"   name="offerlanding-form">
+	<div class="fieldset" style="float:left; width:420px;">
+		<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('free-gift-form-top-text')->toHtml();?>
+		<?php if($this->getRequest()->getParam('supply'))
+		{
+			$supply = $this->getRequest()->getParam('supply');
+		}else {
+			$supply = (isset($formData['supply'])?$formData['supply']:'');
+		}?>
+		<input type="hidden" name="supply" id="supply" value="<?php echo $supply ?>"/>
+		<div class="catalogrequest-from1">
+			<ul>
+				<li>
+					<div class="field">
+						<label for="name" ><?php echo Mage::helper('offerlanding')->__('First Name') ?><span class="required">*</span></label>
+						<div class="input-box">
+							<input class="required-entry input-text" name="firstname" id="firstname" style="width 250px;" type="text" value="<?php echo  (isset($formData['firstname'])?$formData['firstname']:'')  ?>" />
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="lastname"><?php echo Mage::helper('offerlanding')->__('Last Name') ?><span class="required">*</span></label>
+						<div class="input-box">
+							<input class="required-entry input-text" name="lastname" id="lastname" style="width 250px;" type="text" value="<?php echo  (isset($formData['lastname'])?$formData['lastname']:'')  ?>" />
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="address1"><?php echo Mage::helper('offerlanding')->__('Address1') ?><span class="required">*</span></label>
+						<div class="input-box"> <input class="required-entry input-text" name="address1" id="address1" style="width 250px;" type="text" value="<?php echo  (isset($formData['address1'])?$formData['address1']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="address2"><?php echo Mage::helper('offerlanding')->__('Address2') ?> </label>
+						<div class="input-box"> <input class=" input-text" name="address2" id="address2" style="width 250px;" type="text" value="<?php echo  (isset($formData['address2'])?$formData['address2']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="city"><?php echo Mage::helper('offerlanding')->__('City') ?><span class="required">*</span></label>
+						<div class="input-box"> <input class="required-entry input-text" name="city" id="city" style="width 250px;" type="text" value="<?php echo  (isset($formData['city'])?$formData['city']:'')  ?>" /></div>
+					</div>
+
+				</li>
+
+
+				<li>
+					<div class="field">
+						<label for="country"><?php echo Mage::helper('offerlanding')->__('Country') ?><span class="required">*</span></label>
+						<div class="input-box">  <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect();?>
+						</div>
+
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="state"><?php echo Mage::helper('offerlanding')->__('State or Province') ?><span class="required">*</span></label>
+						<div class="input-box"> <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+								<option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+							</select>
+							<script type="text/javascript">
+								//<![CDATA[
+								$('region_id').setAttribute('defaultValue',  "<?php echo (isset($formData['region_id'])?$formData['region_id']:'') ?>");
+								//]]>
+							</script>
+							<input type="text" id="region" name="region" value="<?php echo (isset($formData['region'])?$this->escapeHtml($formData['region']):'') ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="zipcode"><?php echo Mage::helper('offerlanding')->__('Zip Or Postal Code') ?><span class="required">*</span></label>
+						<div class="input-box">   <input name="zipcode" class="required-entry input-text"  id="zipcode" style="width 250px;" type="text" value="<?php echo  (isset($formData['zipcode'])?$formData['zipcode']:'')  ?>" /></div>
+					</div>
+				</li>
+				<li>
+					<div class="field">
+						<label for="phone" style="padding:3px 0 3px 0;"><?php echo Mage::helper('offerlanding')->__('Phone (with Area code)') ?></label>
+						<div class="input-box" style="padding:6px 0 6px 10px;"> <input name="phone" class="input-text" id="phone" type="text" value="<?php echo  (isset($formData['phone'])?$formData['phone']:'')  ?>" /></div>
+					</div>
+
+				</li>
+				<li>
+					<div class="field">
+						<label for="email"><?php echo Mage::helper('offerlanding')->__('Email Address') ?><span class="required">*</span></label>
+						<div class="input-box"><input name="email" type="text" id="email" style="width 250px;" class="required-entry validate-email input-text" value="<?php echo  (isset($formData['email'])?$formData['email']:'')  ?>" /></div>
+					</div>
+
+				</li>
+
+				<li>
+					<div class="field">
+						<label for="best_describe" style="padding:3px 0 3px 0;"><?php echo Mage::helper('offerlanding')->__('Which best describes you?') ?><span class="required">*</span></label>
+						<div class="input-box" style="padding:6px 0 6px 10px;">
+							<select onchange="if (this.options[this.selectedIndex].value == 'Parent') { this.form.cat_code.value='p'; } else if (this.options[this.selectedIndex].value == 'Home Educator') { this.form.cat_code.value='h'; } " class="input-text required-entry " name="best_describe" size="1">
+								<option value="">-- Please Select --</option>
+								<?php $arrBestDescribe = $this->helper('offerlanding')->getAllBestDescribes();?>
+								<?php foreach($arrBestDescribe as $key => $value): ?>
+									<option value="<?php echo $key ?>" <?php echo (($formData['best_describe'] == $key)?'selected="selected"':'')?>>
+										<?php echo $value ?>
+									</option>
+								<?php endforeach; ?>
+							</select>
+						</div></div>
+
+				</li>
+
+				<li>
+					<div class="field">
+						<label for="lastname"><?php echo Mage::helper('newsletter')->__('Choose one or more email lists:') ?><span class="required">*</span></label>
+						<div class="input-box customlistrak radio">
+
+							<input name="email_list[]" value="2405405" type="checkbox" <?php echo ((in_array('2405405',$formData['email_list']))?'checked="checked"':'')?> >&nbsp;<?php echo $this->__('Best Sales and New Products')?><br>
+							<input name="email_list[]" value="2405007" type="checkbox" <?php echo ((in_array('2405007',$formData['email_list']))?'checked="checked"':'')?> >&nbsp;<?php echo $this->__('Grade PreK')?><?php echo $this->__(' Puzzle of the Week')?><br>
+							<input name="email_list[]" value="2405008" type="checkbox" <?php echo ((in_array('2405008',$formData['email_list']))?'checked="checked"':'')?> >&nbsp;<?php echo $this->__('Grades K-2')?><?php echo $this->__(' Puzzle of the Week')?><br>
+							<input name="email_list[]" value="2405009" type="checkbox" <?php echo ((in_array('2405009',$formData['email_list']))?'checked="checked"':'')?> >&nbsp;<?php echo $this->__('Grades 3-5')?><?php echo $this->__(' Puzzle of the Week')?><br>
+							<input name="email_list[]" value="2405010" type="checkbox" class="validate-one-required" <?php echo ((in_array('2405010',$formData['email_list']))?'selected="selected"':'')?>>&nbsp;<?php echo $this->__('Grades 6-8')?><?php echo $this->__(' Puzzle of the Week')?><br>
+
+
+						</div>
+					</div>
+				</li>
+				<li style="padding:10px 16px 10px 10px; width:400px; font-size:10px; font-family:Verdana, Arial, Helvetica, sans-serif; line-height:13px;">
+					<span style="color:#CC0000; width:380px; float:left; padding:3px 0 3px 0; " >* Required field</span>
+					<?php echo  $this->helper('offerlanding')->__('<strong>Note:</strong> By submitting this form you specifically agree to potentially receive e-mails/maillings regarding the The Critical Thinking  Co. buisness and/or products. If you do not wish to receive such emails/mailling do not submit the form.');?> <a class="details_link" target="_blank" href="<?php echo $this->getUrl('site-policies') ?>">Privacy Policy</a>
+				</li>
+				 <li>
+			    <div class="field" style="padding: 8px 0 8px 110px;">
+			        
+					
+<?php echo $this->getLayout()->createBlock('studioforty9_recaptcha/explicit')->setTemplate('studioforty9/recaptcha/explicit.phtml')->tohtml(); ?>
+                           
+                     
+		        </div>  		        
+		     </li>
+			</ul>
+			<div class="button-set-box" style=" padding:10px 0 0 152px;">
+				<input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+				<button type="submit" title="<?php echo Mage::helper('offerlanding')->__('Submit') ?>" class="button-form"><?php echo Mage::helper('offerlanding')->__('Submit') ?></button>
+			</div>
+		</div>
+	</div>
+
+	<?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('free-gift-form-right')->toHtml();?>
+
+
+</form>
+<script type="text/javascript">
+	//<![CDATA[
+	var offerlandingForm = new VarienForm('offerlanding-form', true);
+	new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zip');
+	//]]>
+</script>

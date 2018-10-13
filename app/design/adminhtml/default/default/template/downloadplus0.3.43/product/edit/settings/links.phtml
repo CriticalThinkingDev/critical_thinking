@@ -1,0 +1,74 @@
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Settings_Form
+ */
+?>
+
+<?php
+	$_product = $this->getProduct();
+	$linkItems = $this->getDownloadableLinkItems();
+
+if (empty($linkItems)):
+?>
+<div class="fieldset">
+	<?php echo Mage::helper('downloadplus')->__('There are currently no related downloadable links for this product.') ?>
+</div>
+<?php
+else:
+?>
+<div class="fieldset">
+<div class="grid">
+<div class="hor-scroll">
+<table cellspacing="0" class="data border">
+	<col width="75%" />
+	<col width="10%" />
+	<col width="15%" />
+	<thead>
+		<tr class="headings">
+			<th><?php echo $this->__('Title')?></th>
+	<?php if (Mage::helper('downloadplus')->existsDownloadplusCode()): ?>
+			<th><?php echo $this->__('Unlock by Serialnumbers from Pool')?></th>
+	<?php endif; ?>				
+			<th><?php echo $this->__('Assign Serialnumbers from Pool')?></th>
+			<th><?php echo $this->__('Expiry in Days')?></th>
+			<th><?php echo $this->__('When to start expiration')?></th>
+		</tr>
+	</thead>
+	<tfoot>
+	</tfoot>
+	<tbody id="downloadplus_settings_link_items_body">
+<?php
+	foreach ($linkItems as $key=>$item):
+		$extension = Mage::getModel('downloadplus/link_extension')->loadByLink($item);
+?>
+	<tr>
+		<td>
+			<input type="hidden" name="downloadplus[settings][link][<?php echo $key ?>][id]" value="<?php echo $extension->getId() ?>" />
+			<input type="hidden" name="downloadplus[settings][link][<?php echo $key ?>][link_id]" value="<?php echo $item->getId() ?>" />
+			<?php echo $item->getTitle() ?>
+		</td>
+	<?php if (Mage::helper('downloadplus')->existsDownloadplusCode()): ?>
+		<td class="a-center">
+			<?php echo $this->getOptionSerialnumberPoolUnlockHtml('downloadplus_settings_link_'.$key.'_serialnumber_pool_unlock', 'downloadplus[settings][link]['.$key.'][serial_number_pool_unlock]', $extension->getSerialNumberPoolUnlock()) ?>
+		</td>
+	<?php endif; ?>				
+		<td class="a-center">
+			<?php echo $this->getOptionSerialnumberPoolHtml('downloadplus_settings_link_'.$key.'_serialnumber_pool', 'downloadplus[settings][link]['.$key.'][serial_number_pool]', $extension->getSerialNumberPool()) ?>
+		</td>
+		<td><input type="text" id="downloadplus_settings_link_<?php echo $key ?>_expiry" name="downloadplus[settings][link][<?php echo $key ?>][expiry]" class="input-text" value="<?php echo $extension->getExpiry() ?>" /></td>
+		<td class="a-center">
+			<?php echo $this->getOptionExpireHtml('downloadplus_settings_link_'.$key.'_expire_on', 'downloadplus[settings][link]['.$key.'][expire_on]', $extension->getExpireOn()) ?>
+		</td>
+	</tr>
+<?php 
+	endforeach;
+?>		
+	</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<?php
+endif;
+?>

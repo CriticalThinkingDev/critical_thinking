@@ -1,0 +1,9 @@
+<?xml version="1.0"?> 
+<config>
+    <modules>
+        <Krishinc_Overridepo>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Krishinc_Overridepo> 
+    </modules>
+</config>

@@ -1,0 +1,27 @@
+<?php 
+$collection = $this->getPrintableSoftwaredemos();
+//$collection = $this->getCollection();
+//print_r($collection->getData());
+$i=0;
+ $type = '';
+foreach($collection as $product)
+{
+	 if($product->getValue() != $type) {
+		 if($i!=0 && $i == 2){
+		 echo "</ul>";
+		 }
+	  ?>
+	  <?php if($i!= 1){?>
+     <ul>
+     <?php }?>
+     <li class="title">
+	 <?php echo $product->getValue()?> </li><?php }	?>
+     
+     <li>
+     	<a href="#"><?php  echo $product->getSoftname(); ?></a>
+     	<!--<span> grade 2-6 ability</span>--> 
+     </li>
+     <?php 
+	 	 $i++;
+	 	 $type=$product->getValue();?>
+<?php }?>

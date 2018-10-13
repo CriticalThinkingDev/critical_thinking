@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<config>
+    <api>
+        <resources>
+            <giftcard translate="title" module="giftcard">
+                <model>TinyBrick_GiftCard_Model_Api</model>
+                <title>Giftcard API</title>
+                <acl>giftcard</acl>
+                <methods>
+                    <balance translate="title" module="giftcard">
+                        <title>Get Gift Card Balance</title>
+                        <method>balance</method>
+                        <acl>giftcard/balance</acl>
+                    </balance>
+                    <charge translate="title" module="giftcard">
+                        <title>Charge Gift Card</title>
+                        <method>charge</method>
+                        <acl>giftcard/charge</acl>
+                    </charge>
+                    <validate translate="title" module="giftcard">
+                        <title>Validate Gift Card</title>
+                        <method>validate</method>
+                        <acl>giftcard/validate</acl>
+                    </validate>
+                    <add translate="title" module="giftcard">
+                        <title>Create Gift Card</title>
+                        <method>add</method>
+                        <acl>giftcard/add</acl>
+                    </add>
+                    <reload translate="title" module="giftcard">
+                        <title>Reload Gift Card</title>
+                        <method>reload</method>
+                        <acl>giftcard/reload</acl>
+                    </reload>
+                </methods>
+                <faults module="giftcard">
+                    <data_invalid>
+                        <code>100</code>
+                        <message>Invalid Data</message>
+                    </data_invalid>
+                    <not_exists>
+                        <code>101</code>
+                        <message>Invalid Gift Card</message>
+                    </not_exists>
+                    <create_error>
+                        <code>102</code>
+                        <message>Error creating new card</message>
+                    </create_error>
+                </faults>
+            </giftcard>
+        </resources>
+        <acl>
+            <resources>
+                <giftcard translate="title" module="giftcard">
+                    <title>Giftcard</title>
+                    <sort_order>4</sort_order>
+                    <balance translate="title" module="giftcard">
+                        <title>Balance</title>
+                    </balance>
+                    <charge translate="title" module="giftcard">
+                        <title>Charge Gift Card</title>
+                    </charge>
+                    <validate translate="title" module="giftcard">
+                        <title>Validate Gift Card</title>
+                    </validate>
+                    <add translate="title" module="giftcard">
+                        <title>Create Gift Card</title>
+                    </add>
+                    <reload translate="title" module="giftcard">
+                        <title>Reload Gift Card</title>
+                    </reload>
+                </giftcard>
+            </resources>
+        </acl>
+    </api>
+</config>

@@ -1,0 +1,182 @@
+<script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'js/magecoders/jquery-ui-1.8.2.custom.min.js'?>" type="text/javascript"></script>
+<script src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB).'js/magecoders/pirobox_extended.js'?>" type="text/javascript"></script>
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	jQuery().piroBox_ext({
+	piro_speed : 700,
+		bg_alpha : 0.5,
+		piro_scroll : true // pirobox always positioned at the center of the page
+	});
+});
+ 
+<?php if(isset($_GET['path'])){
+	$array = array('C'=>0,'L'=>1,'M'=>2,'S'=>3);
+    if(isset($array[$_GET['path']])) {
+        $path = $array[$_GET['path']].'c';
+    }else {
+        $path ='0c'; 
+    }
+?>
+ddaccordion.setCookie('expandable', '<?php echo $path?>');
+<?php } ?>
+
+</script>
+<?php $classArray = array('first','second','third','forth','fifth'); ?>
+<?php $collection = $this->getCollection();?>
+<div class="arrowlistmenu">
+	<?php $type = '';?>
+	<?php $i=0; $ct=count($collection);
+	foreach($collection as $product){?>
+	
+	<?php /* add the below condition for checking s/w demo is desabled or not. - pankil (6 Aug 2014) */?>
+	<?php if($product->getStatus() != Krishinc_Softwaredemos_Model_Status::STATUS_DISABLED) { ?>
+	<?php $softproduct = $this->getProductCollectionBySoftwaredemo($product->getId()); ?> 
+    <?php  if(trim($product->getValueId()) != trim($type)) { ?>
+	    	<?php if($i!=0){ ?>
+	    		</div>
+	    	<?php }  ?>
+			<h3 class="menuheader expandable <?php echo (($i==0)?' openheader':'')?>">
+				<span class="<?php echo $classArray[$i]?>"><?php echo $product->getValue()." Software"; ?></span> 
+				<strong class="<?php echo $classArray[$i]?>"><?php echo $this->__('%d Title',$this->getSoftwareDemosCount($product->getSubjectId()))?></strong>
+			</h3>  
+			<div class="categoryitems <?php echo $classArray[$i]?>"  <?php echo (($i==0)?' style="display:block;"':'')?>>
+    	<?php  $i++;$k = $i-1;} ?> 
+		<div style="float:left; width:768px; padding-bottom:15px;">
+        	<div class="soft_text_box1">
+        		<?php if($product->getThumblineImg()):?>
+        			<img width="75"  alt="<?php echo $product->getSoftname(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$product->getThumblineImg();  ?>"/>
+        		<?php endif;?>
+        	</div>
+			<div class="soft_text_box2">
+        		<h2><?php echo $product->getSoftname(); ?></h2>
+    			<p><?php //echo $product->getDescription(); ?>
+    			<?php if($product->getGrades()):?>
+                 	   <?php $grade = Mage::getModel('catalog/product')->getProductGrade($product->getGrades());?>
+                    	<p><?php echo $this->__('Grades ')?> <?php echo $grade;?> </p>
+                   	 <?php endif;?></p>
+        	</div>
+        	<div class="soft_text_box3"> 
+        	<?php if($product->getType() == 'download'):?>
+        	 <a href="#soft_detail_<?php echo $product->getSoftwaredemosId(); ?>" rel="inline-502-406"  class="pirobox_gall1 cd" title="<?php echo $this->__('Download Software');?>"><?php echo $this->__('Download Demo!')?></a>
+        	<?php elseif($product->getType() == 'play'):?>
+        		<a href="#soft_detail_<?php echo $product->getSoftwaredemosId(); ?>" rel="inline-502-406"  class="pirobox_gall1" title="<?php echo $this->__('Play Online Demo');?>"><?php echo $this->__('Play Online Demo!')?></a>  
+        	<?php endif;?>
+        	</div>
+        </div>
+        <div class="soft_detail <?php echo $classArray[$i]?>" id="soft_detail_<?php echo $product->getSoftwaredemosId(); ?>" style="display:none; background:white;">
+        	 <div class="soft_product_detail2">
+        		<div class="soft_product_detail"> 
+    				<span>
+    					<?php if($product->getIconImg()):?>
+    						<img width="36"  alt="<?php echo $product->getSoftname(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$product->getIconImg();  ?>"/>
+    					<?php endif;?>
+    				</span>
+    				<h2><?php echo $product->getSoftname(); ?></h2>
+    				<p><?php echo $product->getDescription(); ?></p> 
+    			</div> 
+    			
+    			<?php if($product->getLargeImg()){?>
+    			<?php $img = Mage::getBaseDir('media').'/'.$product->getLargeImg();?>
+    		    <div class="soft_product_image">
+		   		    <?php list($width, $height, $type, $attr) = getimagesize($img);?>
+    	  			<img <?php echo (($width >95)?'width="95"':'')?> alt="<?php echo $product->getSoftname(); ?>" src="<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).$product->getLargeImg();  ?>"/> 
+    			</div> 
+    			<?php }?>
+    		</div>
+    	
+    	<div class="soft_product_detail1 <?php echo $classArray[$k]?>">
+    	
+    	<?php if(($product->getType() == 'download'))://echo count($softproduct);?>
+	    	<div class="soft_associated_product">
+				<div class="soft_product_name">&nbsp;</div>
+				 <div class="window"><div class="os-description">WINDOWS</div></div>
+				 <div class="mac"><div class="os-description">MACINTOSH</div></div>
+		    </div>	        		 
+	    <?php endif;?> 
+    	    <?php foreach($softproduct as $softprod) {?>
+               	<?php  if($softprod !='') {?>
+               	<?php $prod = Mage::getModel('catalog/product')->load($softprod['product_id']); ?>
+               	<?php if($prod->getId()) {
+                    
+                    $playdemoUrl = $prod->getPlaydemoUrl();
+                    ?>
+		               	<?php //if($prod->getIsSalable()){?>
+		        		<div class="soft_associated_product"> 
+		    				<div class="soft_product_name">
+		        				<a href="<?php echo $prod->getProductUrl(); ?>" ><?php echo  $prod->getName(); ?></a>&nbsp;
+		        				<?php if($prod->getGrade()):?>
+		        					<span><?php echo $this->__('Grade(s)')?> <?php echo Mage::getModel('catalog/product')->getProductGrade($prod->getGrade());?></span>
+		        				<?php endif;?>
+		        			 </div>
+		        			 <?php if($product->getType() == 'play'):?>
+		        			 
+		        			 <div class="window">
+		        			 <?php if($playdemoUrl):?>
+		        				 <a target="_blank" href="<?php echo $playdemoUrl ?>"  title="<?php echo $this->__('Play Demo Online!');?>">Play Demo Online!</a>
+	        				   <?php else:?>
+					            <?php echo $this->__('Coming Soon')?>
+		        			 <?php endif;?>
+		        			 </div>
+		        			 <?php endif;?>
+		        			 <?php if($product->getType() == 'download'):?>
+		        			 
+		        			 <div class="window">
+		        			 
+		        			<?php $wd=''; if($wd = $prod->getWindowDownload()):?>
+		        			<?php  $wpath = Mage::getBaseDir('media').'/'.'blfa_files/'.$wd; ?>
+			            		<a href="<?php echo Mage::getBaseUrl('media').'blfa_files/'.$wd; ?>"  title="<?php echo $wd;?>"><?php echo $this->__('Download Demo')?></a>
+				           		<span>(<?php echo Mage::helper('softwaredemos')->get_file_size($wpath ,'MB');  ?>)<br />
+							            <?php echo $prod->getWindowPlatform()?>
+							            <br/>
+							            <?php echo $prod->getWindowRam()?>
+					            </span>
+					            <?php elseif($playdemoUrl):?>
+                                 <a target="_blank" href="<?php echo $playdemoUrl ?>"  title="<?php echo $this->__('Play Demo Online!');?>">Play Demo Online!</a>
+                                 <?php else:?>
+					            <?php echo $this->__('Coming Soon')?>
+				            <?php endif;?>
+		    		  	 </div>
+		        		<div class="mac">
+		        		 
+		     			<?php if($md =$prod->getMacDownload()):?>
+		     				<?php  $mpath = Mage::getBaseDir('media').'/'.'blfa_files/'.$md; ?>
+			        			<a href="<?php echo   Mage::getBaseUrl('media').'blfa_files/'.$md; ?>"  title="<?php echo $md;?>"><?php echo $this->__('Download Demo')?></a>
+			            		<span>(<?php echo Mage::helper('softwaredemos')->get_file_size($mpath,'MB');  ?>)<br />
+				            		<?php echo $prod->getMacPlatform();?><br/>
+									<?php echo $prod->getMacRam();?>		 
+			            		</span>
+		            		   <?php elseif($playdemoUrl):?> 
+				               <?php else:?>
+					             <?php echo $this->__('Coming Soon')?>
+		            		    <?php endif;?>
+		        		</div> 
+		        		<?php endif;?>
+		    		</div>
+		  		 	 <?php //}?>
+		  		  <?php }?>
+	  		  <?php }?>
+   	 	<?php } ?>
+     </div>
+</div> 
+ 
+<?php if($ct == $i ) {?>
+  </div>
+  <?php }?>
+  <?php	$type = $product->getValueId();?>
+  <?php } ?>
+  <?php } ?>
+    
+	</div>
+
+	<div class="arrowlistmenu">
+		<h3 class="menuheader expandable"><span class="fifth"><?php echo $this->__('Full Version Software Demos')?></span></h3>
+		<div class="categoryitems">
+        <div class="categoryitems_text">
+		<p><?php echo $this->__('Full version software demos are also available to schools, institutions, and companies. Preview orders must be on a purchase order or letterhead with an authorized signature. Preview orders are invoiced, but a full credit will be issued if the product is returned in resalable condition within thirty days of receipt. All of our products come with a sixty-day')?><br />
+
+<a href="<?php echo $this->getUrl('') ?>guarantee">money-back guarantee!</a>
+</p>
+        </div>
+        </div>
+</div>
+</div>

@@ -1,0 +1,14 @@
+ <div class="hide-desktop-nav">
+
+<?php
+if(!Mage::getSingleton('customer/session')->isLoggedIn()){ ?>
+
+ <?php    echo $this->getLayout()->createBlock('cms/block')->setBlockId('left_navigaion')->toHtml(); ?>
+<?php }else{ ?>
+<?php     echo $this->getLayout()->createBlock('cms/block')->setBlockId('left_navigaion_customer')->toHtml(); ?>
+
+</div>
+ <?php }
+
+?>
+</div>

@@ -1,0 +1,12 @@
+<?php
+/**
+ * Link for RSS Feed on Version History of Downloadable Products List
+ *
+ * @see Pisc_Downloadplus_Block_Rss_Updates
+ */
+?>
+<?php if ($this->isRssAvailable()): ?>
+<div class="clear"></div>
+<a href="<?php echo $this->getRssLink() ?>" class="link-feed right downloadplus-link-feed"><?php echo $this->__('Subscribe to RSS Feed on updates of all Products') ?></a>
+<div class="clear"></div>
+<?php endif; ?>

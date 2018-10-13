@@ -1,0 +1,97 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     default_modern
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/**
+ * @var Mage_Page_Block_Html_Header $this
+ */
+ ?>
+<div class="header-container col-v12">
+
+   
+ <div class="header">
+        <?php if ($this->getIsHomePage()):?>
+        <h1 class="logo"><a href="<?php echo $this->getUrl('') ?>"  title="<?php echo $this->getLogoAlt() ?>"><img width="329" height="99" src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" /></a></h1>
+        <?php else:?>
+         <h1 class="logo"><a href="<?php echo $this->getUrl('') ?>" title="<?php echo $this->getLogoAlt() ?>" ><img  width="329" height="99" src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>"  /></a></h1>
+        <?php endif?>
+       <?php /*?> <p class="top-promo" title="<?php echo $this->__('Free Shipping on orders over 50$'); ?>"><?php echo $this->__('Free Shipping on orders over 50$'); ?></p><?php */?>
+       
+        <div class="header-right">
+        <div class="customers-served">
+        <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header_customers_served_box')->toHtml() ?>
+		</div>
+        <div class="quick-access">
+             <?php //echo  $this->getLayout()->createBlock('cms/block')->setBlockId('header_small_links')->toHtml() ;?>
+             <?php echo $this->getChildHtml('topLinks') ?>
+             
+    </div>
+
+       <div class="header_making_text_box"> <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header_making_text_box')->toHtml() ?></div>
+        
+	  <?php /* <div class="header_grades_text_box"><?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header_award_winning_box')->toHtml() ?></div> */?>
+       
+</div>
+        <?php //echo $this->getChildHtml('topMenu') ?>
+    </div>
+    <div class="subheader"> 
+	<a href="#" data-activates="nav-mobile" style="	float: left;" class="menu-collapse mb-enable"></a>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header_contact_number')->toHtml() ?>
+    <?php echo $this->getLayout()->createBlock('cms/block')->setBlockId('header_bullet_text_box')->toHtml() ?>
+    
+    
+    <?php echo $this->getChildHtml('custom_top_cart') ?>
+    
+    
+    </div>
+    
+    
+    
+    <?php echo $this->getChildHtml('topBar') ?>
+    <?php echo $this->getChildHtml('topContainer'); ?>
+
+
+<p class="banner_cat_txt mb-enable"><a href="<?php echo $this-> getBaseUrl()?>awards">200+ Award-Winning Books & Software! <span> Reading, Writing, Math, Science, Social Studies </span></a></p> 
+<div class="mb-enable filter_dropbox">
+<div class="mb-shop-by s6">
+	<b><?php echo $this->__('Search By:') ?></b>
+	<span><?php echo $this->__('Grade & Subject') ?></span>
+</div>
+<div class="mb-search-by s6">
+	<b><?php echo $this->__('Search By:') ?></b>
+	<span><?php echo $this->__('Title, No., or Series') ?></span>
+</div>
+  <?php $layoutTemplate = $this->getLayout()->getBlock('root')->getTemplate(); ?>
+    <?php $moduleName = Mage::app()->getRequest()->getModuleName(); ?>
+    <?php if($layoutTemplate=='page/1column.phtml'): ?>
+
+    <?php echo  $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form1.phtml')->tohtml(); ?>
+    <?php elseif($moduleName=='customer' || $moduleName=='sales' || $moduleName=='downloadable' || $moduleName=='review'  || $moduleName=='wishlist' || $moduleName=='sourcecode'): ?>
+        <?php echo  $this->getLayout()->createBlock('core/template')->setTemplate('catalogsearch/form1.phtml')->tohtml(); ?>
+    <?php endif; ?>
+</div>
+
+</div>
+<?php echo $this->getChildHtml('top_shopby') ?>
+

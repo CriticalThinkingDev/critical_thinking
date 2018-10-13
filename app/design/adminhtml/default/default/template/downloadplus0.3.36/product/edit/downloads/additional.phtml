@@ -1,0 +1,291 @@
+<?php
+/**
+ * @see Pisc_Downloadplus_Block_Adminhtml_Catalog_Product_Edit_Tab_Downloads_Additional
+ */
+?>
+<?php $_product = $this->getProduct() ?>
+<div class="fieldset">
+<div class="grid">
+<div class="hor-scroll">
+<table cellspacing="0" class="data border">
+    <col width="80%" />
+    <col width="15%" />
+    <col width="1" />
+    <col width="1" />
+    <thead>
+        <tr class="headings">
+            <th><?php echo Mage::helper('downloadplus')->__('Title')?> <span class="required">*</span></th>
+            <th><?php echo Mage::helper('downloadplus')->__('Link')?></th>
+            <th><?php echo Mage::helper('downloadplus')->__('Sort Order')?></th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="a-right"><?php echo $this->getAddButtonHtml()?>&nbsp;<?php if (is_null($this->isDisabled())) { echo $this->getUploadButtonHtml(); } ?></td>
+        </tr>
+    </tfoot>
+    <tbody id="productlink_items_body">
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var productDownloadTemplate = '<tr>'+
+    '<td>'+
+        '<input type="hidden" class="__delete__" name="downloadable[productlink][{{id}}][is_delete]" value="" />'+
+        '<input type="hidden" name="downloadable[productlink][{{id}}][link_id]" value="{{link_id}}" />'+
+        '<input type="text" class="required-entry input-text" id="downloadable_productlink_{{id}}_title" name="downloadable[productlink][{{id}}][title]" value="{{title}}" />'+
+        '<?php echo $_product->getStoreId()?'<br/><input type="checkbox" id="downloadable_productlink_{{id}}_use_default_title" name="downloadable[productlink][{{id}}][use_default_title]" value="1" checked="checked" /><label class="normal" for="downloadable_link_{{id}}_use_default_title"> '.$this->__('Use Default Value').'</label>':'' ?>'+
+        '<div class="clear"></div>'+
+		'<label for="downloadable_productlink_{{id}}_description" style="color:#67767e;"><?php echo Mage::helper('downloadplus')->__('Description')?></label><br />'+
+        '<textarea class="textarea" style="width:86%;height:150px;"; id="downloadable_productlink_{{id}}_description" name="downloadable[productlink][{{id}}][description]">'+
+        '{{description}}'+
+        '</textarea>'+
+        '<?php echo $_product->getStoreId()?'<br/><input type="checkbox" id="downloadable_productlink_{{id}}_use_default_description" name="downloadable[productlink][{{id}}][use_default_description]" value="1" checked="checked" /><label class="normal" for="downloadable_link_{{id}}_use_default_description"> '.$this->__('Use Default Value').'</label>':'' ?>'+
+        '<?php if ($this->hasLinkAttributes()) { echo '<div class="downloadplus_admin_link_attributes">'.$this->__('Title Attributes').'</div>'.$this->getLinkAttributes('downloadable_productlink_{{id}}_attribute_', 'downloadable[productlink][{{id}}][attributes]'); } ?>'+
+    '</td>'+
+    '<td>'+
+        '<div class="files">'+
+            '<div class="row">'+
+                '<label for="downloadable_productlink_{{id}}_file_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_productlink_{{id}}_file_type" name="downloadable[productlink][{{id}}][type]" value="file"{{file_checked}} <?php echo $this->isDisabled() ?>/> <?php echo Mage::helper('downloadplus')->__('File:') ?></label>'+
+	            '<input type="hidden" class="validate-downloadable-file" id="downloadable_productlink_{{id}}_file_save" name="downloadable[productlink][{{id}}][file]" value="{{file_save}}" />'+
+                '<div id="downloadable_productlink_{{id}}_file" class="uploader">'+
+                    '<div id="downloadable_productlink_{{id}}_file-old" class="file-row-info"></div>'+
+                    '<div id="downloadable_productlink_{{id}}_file-new" class="file-row-info new-file"></div>'+
+                    '<div class="buttons">'+
+                        '<div id="downloadable_productlink_{{id}}_file-install-flash" style="display:none">'+
+                            '<?php echo Mage::helper('media')->__('This content requires last version of Adobe Flash Player. <a href="%s">Get Flash</a>', 'http://www.adobe.com/go/getflash/') ?>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="clear"></div>'+
+                '</div>'+
+            '</div>'+
+            '<div class="row">'+
+                '<label for="downloadable_productlink_{{id}}_url_type"><input type="radio" class="radio validate-one-required-by-name" id="downloadable_productlink_{{id}}_url_type" name="downloadable[productlink][{{id}}][type]" value="url"{{url_checked}} <?php echo $this->isDisabled() ?>/> URL:</label>'+
+                '<input type="text" class="validate-downloadable-url input-text" name="downloadable[productlink][{{id}}][link_url]" value="{{link_url}}" <?php echo $this->isDisabled() ?>/>'+
+            '</div>'+
+            '<div>'+
+                '<span id="downloadable_productlink_{{id}}_link_container"></span>'+
+            '</div>'+
+        <?php if ($html = $this->toJSHtml($this->getAmazonS3BucketsSelect('downloadable_productlink_{{id}}_amazon_s3_bucket', 'downloadable[productlink][{{id}}][amazon_s3_bucket]'))): ?>
+      		'<div class="row">'+
+  			'<label for="downloadable_productlink_{{id}}_amazons3_type" class="aws"><input type="radio" class="radio" id="downloadable_productlink_{{id}}_amazons3_type" name="downloadable[productlink][{{id}}][type]" value="aws-s3"{{awss3_checked}} <?php echo $this->isDisabled() ?>/> Amazon S3:</label>'+
+      		'<?php echo $html; ?>'+
+      		'<textarea class="textarea s3_file" name="downloadable[productlink][{{id}}][amazon_s3_file]" id="downloadable_productlink_{{id}}_amazon_s3_file" <?php echo $this->isDisabled() ?>>{{amazon_s3_file}}</textarea>'+
+      		'</div>'+
+      	<?php endif; ?>
+        <?php if ($html = $this->toJSHtml($this->getAmazonS3ObjectsSelect('downloadable_productlink_{{id}}_amazon_s3_object', 'downloadable[productlink][{{id}}][amazon_s3_object]'))): ?>
+      		'<div class="row">'+
+  			'<label for="downloadable_link_{{id}}_amazons3_type" class="aws"><input type="radio" class="radio" id="downloadable_productlink_{{id}}_amazons3_type" name="downloadable[productlink][{{id}}][type]" value="aws-s3"{{awss3_checked}} <?php echo $this->isDisabled() ?>/> Amazon S3:</label>'+
+      		'<?php echo $html; ?>'+
+      		'</div>'+
+       	<?php endif; ?>
+        <?php if ($html = $this->toJSHtml($this->getAmazonCloudfrontObjectsSelect('downloadable_productlink_{{id}}_amazon_cf_object', 'downloadable[productlink][{{id}}][amazon_cf_object]'))): ?>
+  			'<div class="row">'+
+			'<label for="downloadable_link_{{id}}_amazoncf_type" class="aws"><input type="radio" class="radio" id="downloadable_productlink_{{id}}_amazoncf_type" name="downloadable[productlink][{{id}}][type]" value="aws-cf"{{awscf_checked}} <?php echo $this->isDisabled() ?>/> Amazon Cloudfront:</label>'+
+			'<?php echo $html; ?>'+
+			'</div>'+
+        <?php endif; ?>
+		   	'<div class="row">'+
+	   		'<button id="test_link_url_{{id}}" type="button" class="scalable" onclick="productDownloadItems.testLinkUrl({{id}});"><span><?php echo Mage::helper('downloadplus')->__('Test URL') ?></span></button>'+
+		   	'</div>'+
+        '</div>'+
+    '</td>'+
+    '<td class="a-center"><input type="text" name="downloadable[productlink][{{id}}][sort_order]" value="{{sort_order}}" class="input-text sort" <?php echo $this->isDisabled() ?>/></td>'+
+    '<td>'+
+        '<button type="button" class="scalable delete icon-btn delete-link-item"><span>Delete</span></button>'+
+    '</td>'+
+'</tr>';
+
+var productDownloadItems = {
+	    tbody : $('productlink_items_body'),
+	    templateSyntax : /(^|.|\r|\n)({{(\w+)}})/,
+	    templateText : productDownloadTemplate,
+	    itemCount : 0,
+	    add : function(data) {
+	        alertAlreadyDisplayed = false;
+	        this.template = new Template(this.templateText, this.templateSyntax);
+
+	        if(!data.link_id){
+	            data = {};
+	            data.link_id  = 0;
+	            data.title = '';
+	            data.description = '';
+	            data.link_type = 'file';
+	            data.sort_order = '';
+	        }
+
+	        data.id = this.itemCount;
+
+	        if (data.link_type == 'url') {
+	            data.url_checked = ' checked="checked"';
+	        } else if (data.link_type == 'aws-s3') {
+	            data.awss3_checked = 'checked="checked"';
+	        } else if (data.link_type == 'aws-cf') {
+	            data.awscf_checked = 'checked="checked"';
+	        } else if (data.link_type == 'file') {
+	            data.file_checked = ' checked="checked"';
+	        }
+
+	        Element.insert(this.tbody, {'bottom':this.template.evaluate(data)});
+
+	        linkUrl = $('downloadable_productlink_'+data.id+'_url_type');
+
+			if (data.attributes) {
+				$H(data.attributes).each(function(attribute) {
+					scopeAttribute = $('downloadable_productlink_'+data.id+'_attribute_'+attribute.key);
+					if (scopeAttribute) {
+						scopeAttribute.value = attribute.value;
+					}
+				});
+			}
+	        
+	        if (!data.file_save) {
+	            data.file_save = [];
+	        }
+
+			if (data.amazon_s3_object) {
+				scopeAttribute = $('downloadable_productlink_'+data.id+'_amazon_s3_object');
+				if (scopeAttribute) { scopeAttribute.value = data.amazon_s3_object; }
+			}
+			if (data.amazon_s3_bucket) {
+				scopeAttribute = $('downloadable_productlink_'+data.id+'_amazon_s3_bucket');
+				if (scopeAttribute) { scopeAttribute.value = data.amazon_s3_bucket; }
+			}
+			if (data.amazon_cf_object) {
+				scopeAttribute = $('downloadable_productlink_'+data.id+'_amazon_cf_object');
+				if (scopeAttribute) { scopeAttribute.value = data.amazon_cf_object; }
+			}
+
+	        scopeTitle = $('downloadable_productlink_'+data.id+'_use_default_title');
+	        if (scopeTitle) {
+		        scopeTitle.checked = (data.store_title==null);
+		        if (data.store_title) {
+			        $('downloadable_productlink_'+data.id+'_title').value = data.store_title;
+		        }
+		        $('downloadable_productlink_'+data.id+'_title').disabled = (scopeTitle.checked==true);
+		        Event.observe(scopeTitle, 'click', function(event){
+	                scopeElm = $(Event.findElement(event, 'input'));
+	                if (el = scopeElm.previous('input')) { el.disabled = (scopeElm.checked==true); }
+	            });
+	        }
+	        scopeTitle = $('downloadable_productlink_'+data.id+'_use_default_description');
+	        if (scopeTitle) {
+		        scopeTitle.checked = (data.store_description==null);
+		        if (data.store_description) {
+			        $('downloadable_productlink_'+data.id+'_description').value = data.store_description;
+		        }
+		        $('downloadable_productlink_'+data.id+'_description').disabled = (scopeTitle.checked==true);
+	            Event.observe(scopeTitle, 'click', function(event){
+	                scopeElm = $(Event.findElement(event, 'input'));
+	                if (el = scopeElm.previous('textarea')) { el.disabled = (scopeElm.checked==true); }
+	            });
+	        }
+			
+	        // link file
+	        new Downloadable.FileUploader(
+	            'productlinks',
+	            'productlinks_'+data.id,
+	            linkUrl.up('td'),
+	            'downloadable[productlink]['+data.id+']',
+	            data.file_save,
+	            'downloadable_productlink_'+data.id+'_file',
+	            <?php echo $this->getConfigJson() ?>
+	        );
+
+	        $('downloadable_productlink_'+data.id+'_file_save').advaiceContainer = 'downloadable_productlink_'+data.id+'_link_container';
+
+	        this.itemCount++;
+	        this.bindRemoveButtons();
+	    },
+	    remove : function(event){
+	        var element = $(Event.findElement(event, 'tr'));
+	        alertAlreadyDisplayed = false;
+	        if(element){
+	            element.down('input[type="hidden"].__delete__').value = '1';
+	            Element.select(element, 'div.flex').each(function(elm){
+	                elm.remove();
+	            });
+	            element.addClassName('no-display');
+	            element.addClassName('ignore-validate');
+	            element.hide();
+	        }
+	    },
+	    bindRemoveButtons : function(){
+	        var buttons = $$('tbody#productlink_items_body .delete-link-item');
+	        for(var i=0;i<buttons.length;i++){
+	            if(!$(buttons[i]).binded){
+	                $(buttons[i]).binded = true;
+	                Event.observe(buttons[i], 'click', this.remove.bind(this));
+	            }
+	        }
+	    },
+	    testLinkUrl: function(id){
+	        var request = {url:null,type:null};
+	        if (el = $$('input[name="downloadable[productlink]['+id+'][type]"]:checked')) {
+	            request.type = (el.length>0)?el.first().value:null;
+	        }
+	        switch (request.type) {
+	           	case 'aws-s3':
+	               	if (el = $('downloadable_productlink_'+id+'_amazon_s3_bucket')) {
+	                   	request.url = el.value+'|'+$('downloadable_productlink_'+id+'_amazon_s3_file').value;
+	               	} else {
+	                   	request.url = $('downloadable_productlink_'+id+'_amazon_s3_object').value;
+	               	}
+	               	break;
+	           	case 'aws-cf':
+	                request.url = $('downloadable_productlink_'+id+'_amazon_cf_object').value;
+	               	break;
+	            default:
+	                request.url = $('downloadable_productlink_'+id+'_link_url').value;
+	                break;
+	        }
+	        this.testUrl(request);
+	    },
+	    testUrl: function(request){
+	        if (request.type && request.url) {
+	            request.form_key = '<?php echo $this->getFormKey() ?>';
+	            request.store = '<?php echo Mage::helper('downloadplus')->getStoreId() ?>';
+	            new Ajax.Request('<?php echo $this->getTestUrlAction() ?>', {
+	                	method: 'post',
+	                	parameters: request, 
+	                	onSuccess: function(transport){
+	                			var response = transport.responseText.evalJSON();
+	                			if (response.redirect) {
+	                    			if (response.object) {
+	                        			new Ajax.Request(response.redirect, {
+	                            				method: 'post',
+	                            				parameters: response.object,
+	                            				onSuccess: function(transport){
+	                                				var response = transport.responseText;
+	                                    			var wnd = window.open();
+	                                				wnd.document.write(response);
+	                            				}
+	                            			});
+	                    			} else {
+	                        			var wnd = window.open();
+	                        			wnd.location = response.redirect; 
+	                    			}
+	                			}                    	
+	                    	}
+	                });
+	        }
+	    }
+	}
+
+	productDownloadItems.bindRemoveButtons();
+
+	if($('add_product_link_item')) {
+	    Event.observe('add_product_link_item', 'click', productDownloadItems.add.bind(productDownloadItems));
+	}
+
+	<?php foreach ($this->getLinkData() as $item): ?>
+	    productDownloadItems.add(<?php echo $item->toJson()?>);
+	<?php endforeach; ?>
+
+	//]]>
+</script>

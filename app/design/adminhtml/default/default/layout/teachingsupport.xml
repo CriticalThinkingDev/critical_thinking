@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <teachingsupport_adminhtml_teachingsupport_index>
+        <reference name="content">
+            <block type="teachingsupport/adminhtml_teachingsupport" name="teachingsupport" />
+        </reference>
+    </teachingsupport_adminhtml_teachingsupport_index>
+</layout>

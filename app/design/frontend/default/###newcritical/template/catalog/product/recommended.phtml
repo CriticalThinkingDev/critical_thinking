@@ -1,0 +1,166 @@
+<?php  
+$productTypeId = Mage::app()->getRequest()->getParam('product_type'); 
+$collection = $this->getCollectionByProductTypeFilter($productTypeId);
+if(sizeof($collection)>0):
+?>
+<div class="cat_recommended">
+<h3><?php echo $this->__('Recommendations')?></h3>
+<ul>
+<?php
+$i=0;
+foreach($collection as $_product) 
+{
+	$i++;?>
+
+	<li <?php echo (($i==3)?'class="last"':'')?>>	
+		<h2 class="product-name">
+			<a href="<?php echo $_product->getProductUrl()?>" title="<?php echo $this->htmlescape($_product->getName())?>"><?php echo $this->htmlescape($_product->getName())?></a>
+		</h2>
+		<a class="product_img" href="<?php echo $_product->getProductUrl()?>" title="<?php echo $this->htmlescape($_product->getName())?>">
+			<img src="<?php echo Mage::helper('catalog/image')->init($_product, 'small_image')->resize(129,138); ?>" width="129" height="138" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" />
+		</a>
+		
+		<span class="sku_text"><?php echo $this->__('SKU: ')?><?php echo $_product->getSku()?></span>
+		
+		  		 <?php if(is_null($_product->getAvailableText())){?>
+                    	<?php echo $this->getPriceHtml($_product, true); ?>
+                    <?php } else {?>
+                  <div class="available_text"><font color="#0033CC"><?php echo  $_product->getAvailableText()?></font></div>
+                    <?php }?>
+	  	
+	  	<?php if($_product->getAttributeText('product_type')):?>
+		  	<span class="sku_text1"><?php echo $_product->getAttributeText('product_type')?></span>
+	  	<?php endif;?>
+	  	<?php if($_product->getGrade()):
+ $count = count(explode(',',$_product->getGrade()));
+            if($count>1){
+                $labelGrade = 'Grades';
+            }else{
+                $labelGrade = 'Grade';
+            }
+
+?>
+	  	<?php $grade = Mage::getModel('catalog/product')->getProductGrade($_product->getGrade());?>
+	  		<span class="sku_text1"> 
+	  			<span><?php echo $this->__($labelGrade.': ')?></span>
+	  			<?php echo $grade;?>
+	  		</span>
+	  	<?php endif;?>
+
+	  	 <?php if($_product->isSaleable()): ?>
+		  	 <form action="<?php //echo $this->getAddToCartUrl($_product) ?>" method="post" id="recommanded_product_addtocart_form_<?php echo $_product->getId()?>"<?php if($_product->getOptions()): ?> enctype="multipart/form-data"<?php endif; ?>>
+		  	 <?php if($_product->getTypeId() == 'downloadable'){ ?>
+			 	
+			                    	<?php /*****Start:: For downloadable purchase link as separately****/?>
+									<?php /* @var $this Krishinc_Ajaxtocart_Block_List */ ?>
+									<?php $_linksPurchasedSeparately = $this->getLinksPurchasedSeparately($_product); ?>
+									<?php if ($_product->isSaleable() && $this->hasLinks($_product) && $_linksPurchasedSeparately){?>
+									 <script type="text/javascript">
+									    //<![CDATA[
+									        Product.Downloadable = Class.create();
+									        Product.Downloadable.prototype = {
+									            config : {},
+									            initialize : function(config){
+									                this.config = config;
+									                this.reloadPrice();
+									                document.observe("dom:loaded", this.reloadPrice.bind(this));
+									            },
+									            reloadPrice : function(){
+									                var price = 0;
+									                config = this.config;
+									                $$('.product-downloadable-link').each(function(elm){
+									                    //if (config[elm.value] && elm.checked) {
+									                    if (config[elm.value] ) {
+									                        price += parseFloat(config[elm.value]);
+									                    }
+									                }); 
+									                try {
+									                    var _displayZeroPrice = optionsPrice.displayZeroPrice;
+									                    optionsPrice.displayZeroPrice = false;
+									                    optionsPrice.changePrice('downloadable', price);
+									                    optionsPrice.reload();
+									                    optionsPrice.displayZeroPrice = _displayZeroPrice;
+									                } catch (e) {
+									
+									                }
+									            }
+									        }; 
+									   
+									  		var dConfig = new Product.Downloadable(<?php echo $this->getJsonConfig($_product) ?>);
+									    //]]>
+									    </script> 
+ 
+									        <?php $_links = $this->getLinks($_product); ?>
+									        <?php $_isRequired = $this->getLinkSelectionRequired($_product); ?>
+									            <ul id="downloadable-links-list" class="options-list">
+									            <?php foreach ($_links as $_link): ?>
+									                <li>
+									                    <?php if ($_linksPurchasedSeparately): ?>
+									                    <script type="text/javascript">dConfig.reloadPrice();</script>
+									                        <input type="hidden" class="checkbox<?php if($_isRequired):?> validate-one-required-by-name<?php endif; ?> product-downloadable-link" onclick="dConfig.reloadPrice()" name="links[]" id="links_<?php echo $_link->getId() ?>" value="<?php echo $_link->getId(); ?>" <?php echo $this->getLinkCheckedValue($_link,$_product); ?> />
+									                    <?php endif; ?>
+									                     
+									                </li>
+									            <?php endforeach; ?>
+									            </ul>
+									  
+  									<?php } ?>
+							<?php /*****END:: For downloadable purchase link as separately****/?>
+			           <?php }?>
+					<div class="add_cart_box">
+				  		<span><b><?php echo $this->__('Qty')?></b></span> 
+						
+						<?php /*****Start:: For buldle extraction feature****/?>
+			                    	
+								  <?php $upscount=0;
+								  		$upsellProducts = $_product->getUpSellProductCollection()
+												            ->setPositionOrder()
+												            ->addStoreFilter();
+										$upscount = count($upsellProducts->getItems());
+								  ?>
+		                	      <?php if(($_product->getProductType() == 125) && ($upscount > 0)){?>
+		                	      <?php 
+							            $j=0;$values = '';$first='';
+										foreach ($upsellProducts as $_link) {
+												 if($j == 0 && $_link->getId()==$_product->getId()): 
+								                 	  $first  = $_link->getId();
+							                      else: 
+								                    $values .= ','.$_link->getId(); 
+								                 endif;  
+								                 $j++; 
+											}	
+												            
+								?>
+									<input type="text" size="3" name="qty" onkeyup="changeQty(this.value,'<?php echo $_product->getId()?>');" id="qty_<?php echo $_product->getId()?>" maxlength="12" value="<?php echo ($this->getMinimalQty($_product)?$this->getMinimalQty($_product):1); ?>" /> 
+								    <input type="hidden" size="3" name="first<?php echo $_product->getId()?>"  id="first<?php echo $_product->getId()?>" maxlength="12" value="<?php echo $_product->getId() ?>"  />  
+		                	        <input type="hidden" name="related_product<?php echo $_product->getId()?>" id="related_product<?php echo $_product->getId()?>" value="<?php echo ltrim($values,',')?>" /> 
+		                	        <?php } else { ?>
+		                	        
+		                	   			<input type="text" size="3" name="qty" onkeyup="changeQty(this.value,'<?php echo $_product->getId()?>');" id="qty_<?php echo $_product->getId()?>" maxlength="12" value="<?php echo ($this->getMinimalQty($_product)?$this->getMinimalQty($_product):1); ?>" /> 
+		                	       <input type="hidden" name="related_product<?php echo $_product->getId()?>" id="related_product<?php echo $_product->getId()?>" value=""  />
+		                	        <?php }?>
+		                <?php /*****End:: For buldle extraction feature****/?>
+						
+						
+				        <button  type="button" class="btn-cart1"onclick="addtocart('<?php echo $_product->getId()?>','recommanded_product_addtocart_form_');" >
+				        	<span><?php echo $this->__('Add to Cart') ?></span>
+				        </button>
+<?php if ($this->helper('wishlist')->isAllow()) : ?>
+							<a href="<?php echo $this->getAddToWishlistUrl($_product) ?>" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a>
+						<?php endif; ?>
+				    </div>  
+		      </form>     
+			<?php else:?>     
+               <?php if(is_null($_product->getAvailableText())){?>
+                <p class="availability out-of-stock"><span><?php echo $this->__('Out of Stock') ?></span></p>
+            <?php } else {?>
+                <p class="availability coming-soon"><span><?php echo $this->__('Coming Soon') ?></span></p>
+            <?php }?>
+	      <?php endif;?>
+      </li> 
+	
+<?php }?>
+	</ul>
+
+</div>
+<?php endif;?>

@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<layout>
+	<default>
+	</default>
+	<overridenewsletter_subscriber_customsubscribe>
+		<reference name="root">
+			<action method="setTemplate"><template>page/2columns-left.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="overridenewsletter/customsubscribe" name="custom_newsletter" >
+				<block type="core/text_list" name="form.additional.info">
+	                <block type="captcha/captcha" name="captcha">
+	                    <reference name="head">
+	                        <action method="addJs"><file>mage/captcha.js</file></action>
+	                    </reference>
+	                    <action method="setFormId"><formId>custom_newsletter</formId></action>
+	                    <action method="setImgWidth"><width>230</width></action>
+	                    <action method="setImgHeight"><width>50</width></action>
+	                </block>
+	            </block> 
+			</block>
+		</reference> 
+	</overridenewsletter_subscriber_customsubscribe>
+<overridenewsletter_subscriber_customsubscribe2>
+		<reference name="root">
+			<action method="setTemplate"><template>page/empty.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="overridenewsletter/customsubscribe2" name="custom_newsletter2" >
+				<block type="core/text_list" name="form.additional.info">
+	                <block type="captcha/captcha" name="captcha">
+	                    <reference name="head">
+	                        <action method="addJs"><file>mage/captcha.js</file></action>
+	                    </reference>
+	                    <action method="setFormId"><formId>custom_newsletter</formId></action>
+	                    <action method="setImgWidth"><width>230</width></action>
+	                    <action method="setImgHeight"><width>50</width></action>
+	                </block>
+	            </block> 
+			</block>
+		</reference> 
+	</overridenewsletter_subscriber_customsubscribe2>
+<overridenewsletter_subscriber_customsubscribe3>
+		<reference name="root">
+			<action method="setTemplate"><template>page/empty.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="overridenewsletter/customsubscribe3" name="custom_newsletter3" >
+				<block type="core/text_list" name="form.additional.info">
+	                <block type="captcha/captcha" name="captcha">
+	                    <reference name="head">
+	                        <action method="addJs"><file>mage/captcha.js</file></action>
+	                    </reference>
+	                    <action method="setFormId"><formId>custom_newsletter</formId></action>
+	                    <action method="setImgWidth"><width>230</width></action>
+	                    <action method="setImgHeight"><width>50</width></action>
+	                </block>
+	            </block> 
+			</block>
+		</reference> 
+	</overridenewsletter_subscriber_customsubscribe3>
+<overridenewsletter_subscriber_customsubscribe_prek>
+		<reference name="root">
+			<action method="setTemplate"><template>page/empty.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="overridenewsletter/customsubscribeprek" name="custom_newsletterprek" >
+				<block type="core/text_list" name="form.additional.info">
+					<block type="captcha/captcha" name="captcha">
+						<reference name="head">
+							<action method="addJs"><file>mage/captcha.js</file></action>
+						</reference>
+						<action method="setFormId"><formId>custom_newsletter</formId></action>
+						<action method="setImgWidth"><width>230</width></action>
+						<action method="setImgHeight"><width>50</width></action>
+					</block>
+				</block>
+			</block>
+		</reference>
+	</overridenewsletter_subscriber_customsubscribe_prek>
+	<overridenewsletter_subscriber_customsubscribe_k_2>
+		<reference name="root">
+			<action method="setTemplate"><template>page/empty.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="overridenewsletter/customsubscribek2" name="custom_newsletterk2" >
+				<block type="core/text_list" name="form.additional.info">
+					<block type="captcha/captcha" name="captcha">
+						<reference name="head">
+							<action method="addJs"><file>mage/captcha.js</file></action>
+						</reference>
+						<action method="setFormId"><formId>custom_newsletter</formId></action>
+						<action method="setImgWidth"><width>230</width></action>
+						<action method="setImgHeight"><width>50</width></action>
+					</block>
+				</block>
+			</block>
+		</reference>
+	</overridenewsletter_subscriber_customsubscribe_k_2>
+	<overridenewsletter_subscriber_customsubscribe_3_5>
+		<reference name="root">
+			<action method="setTemplate"><template>page/empty.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="overridenewsletter/customsubscribe35" name="custom_newsletter35" >
+				<block type="core/text_list" name="form.additional.info">
+					<block type="captcha/captcha" name="captcha">
+						<reference name="head">
+							<action method="addJs"><file>mage/captcha.js</file></action>
+						</reference>
+						<action method="setFormId"><formId>custom_newsletter</formId></action>
+						<action method="setImgWidth"><width>230</width></action>
+						<action method="setImgHeight"><width>50</width></action>
+					</block>
+				</block>
+			</block>
+		</reference>
+	</overridenewsletter_subscriber_customsubscribe_3_5>
+
+	<overridenewsletter_subscriber_customsubscribe_6_8>
+		<reference name="root">
+			<action method="setTemplate"><template>page/empty.phtml</template></action>
+		</reference>
+		<reference name="content">
+			<block type="overridenewsletter/customsubscribe68" name="custom_newsletter68" >
+				<block type="core/text_list" name="form.additional.info">
+					<block type="captcha/captcha" name="captcha">
+						<reference name="head">
+							<action method="addJs"><file>mage/captcha.js</file></action>
+						</reference>
+						<action method="setFormId"><formId>custom_newsletter</formId></action>
+						<action method="setImgWidth"><width>230</width></action>
+						<action method="setImgHeight"><width>50</width></action>
+					</block>
+				</block>
+			</block>
+		</reference>
+	</overridenewsletter_subscriber_customsubscribe_6_8>
+</layout>

@@ -1,0 +1,43 @@
+<?php 
+$_ftCollection = $this->getFieldtesters();
+ 
+?> 
+<div class="content-header">
+<table cellspacing="0">
+    <tr>
+        <td style="width:80%;"><h3 class="<?php echo $this->getHeaderCssClass() ?>"><?php echo $this->helper('fieldtester')->__('Field Tester - View')?></h3></td>
+        <td class="form-buttons"><?php echo $this->getChildHtml('back_button'); ?></td>
+    </tr>
+</table>
+</div>
+<div class="entry-edit">
+<div class="entry-edit-head"><h4 >Field Tester Customer Details </h4></div>
+
+  <fieldset>
+  <table cellspacing="2" class="box-left"> 
+			<?php if(sizeof($_ftCollection) > 0):?> 
+				<!--<tr> <td><strong><?php //echo $this->helper('fieldtester')->__('ID')?>:   </strong></td> <td></td> <td><?php //echo $_ftCollection->getId();?></td>   </tr>-->
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('First Name')?>:  </strong></td> <td><?php echo $_ftCollection->getFirstname();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('Last Name')?>:  </strong></td> <td><?php echo $_ftCollection->getLastname();?></td>   </tr>  
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('Address1')?>:  </strong></td> <td><?php echo $_ftCollection->getAddress1();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('Address1')?>:  </strong></td> <td><?php echo $_ftCollection->getAddress2();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('City')?>:  </strong></td> <td><?php echo $_ftCollection->getCity();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('State')?>:  </strong></td> <td>
+				<?php
+				$region = $_ftCollection->getRegion(); 
+				if($regionId = $_ftCollection->getRegionId()):
+					$regionModel = Mage::getModel('directory/region')->load($regionId);
+					$region = $regionModel->getName();
+				endif;
+				?>
+				<?php echo $region;?></td>   </tr>   
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('Country')?>:  </strong></td> <td><?php echo $_ftCollection->getCountryId();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('Email')?>:  </strong></td> <td><?php echo $_ftCollection->getEmail();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('Telephone')?>:  </strong></td> <td><?php echo $_ftCollection->getPhone();?></td>   </tr> 
+				<tr> <td><strong><?php echo $this->helper('fieldtester')->__('Which best describes to customer?')?>:  </strong></td> <td><?php echo $_ftCollection->getBestDescribe();?></td>   </tr> 
+		<?php else:?>
+			<tr> <td colspan="2"><strong><?php echo $this->helper('fieldtester')->__('No Record Found')?></strong></td>   </tr>
+		<?php endif;?>
+</table>
+ 
+</fieldset></div>

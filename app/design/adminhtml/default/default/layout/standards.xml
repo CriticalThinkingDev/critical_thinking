@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<layout version="1.0.0">
+        <standards_adminhtml_standards_index>
+            <reference name="content">
+                <block type="standards/adminhtml_standards" name="standards" />
+            </reference>
+        </standards_adminhtml_standards_index>
+		<standards_adminhtml_standards_edit>
+			<update handle="editor" />
+		</standards_adminhtml_standards_edit>
+</layout>

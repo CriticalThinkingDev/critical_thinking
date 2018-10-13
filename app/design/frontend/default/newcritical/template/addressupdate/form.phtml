@@ -1,0 +1,210 @@
+<?php /********* Catalog Request form*******/ ?>
+<?php $formData = Mage::getSingleton('core/session')->getFormData();  ?>
+<div id="messages_product_view"><?php echo $this->getMessagesBlock()->getGroupedHtml() ?></div>
+
+<p class="bold_blue" style="padding:10px 0; float:left; margin:0;">Please complete the form below to update your address.</p>
+ 
+<form action="<?php echo Mage::helper('addressupdate')->getPostUrl(); ?>" id="addressupdate-form" method="post"   name="addressupdate-form">
+
+      <div class="fieldset">
+       
+<span class="description_text" style="line-height:16px; display:block; padding:8px 4px 9px 10px; width:486px; float:left; font-weight:bold; background:#d6dfef;">
+<?php echo Mage::helper('addressupdate')->__('Enter your address as it appears on your mailing label: ')?></span>
+
+      <div class="catalogrequest-from3" style="border-top:#fff solid 1px;">
+   		  <ul>
+	   		  <li>
+	                <div class="field">
+	                    <label for="name" ><?php echo Mage::helper('addressupdate')->__('First Name') ?><span class="required">*</span></label>
+	                    <div class="input-box"> 
+	                      <input class="required-entry input-text" name="firstname" id="firstname" style="width 250px;" type="text" value="<?php echo  ($formData['firstname']?$formData['firstname']:'')  ?>" />
+	                    </div>
+	                </div>
+	        </li>
+	        <li> 
+	         <div class="field">
+	        		<label for="lastname"><?php echo Mage::helper('addressupdate')->__('Last Name') ?><span class="required">*</span></label>
+		         	<div class="input-box">
+			        	<input class="required-entry input-text" name="lastname" id="lastname" style="width 250px;" type="text" value="<?php echo  ($formData['lastname']?$formData['lastname']:'')  ?>" />
+			        </div>   
+		        </div>   
+		     </li> 
+		     <li>
+		        <div class="field">
+		        <label for="address1"><?php echo Mage::helper('addressupdate')->__('Address1') ?><span class="required">*</span></label>
+		       <div class="input-box">  <input class="required-entry input-text" name="address1" id="address1" style="width 250px;" type="text" value="<?php echo  ($formData['address1']?$formData['address1']:'')  ?>" /></div>
+		        </div>
+		        
+		     </li>
+		     <li>
+				<div class="field">
+			        <label for="address2"><?php echo Mage::helper('addressupdate')->__('Address2') ?> &nbsp;</label>
+			      <div class="input-box">   <input class=" input-text" name="address2" id="address2" style="width 250px;" type="text" value="<?php echo  ($formData['address2']?$formData['address2']:'')  ?>" /></div>
+			     </div>
+			     
+		     </li>
+		     <li>
+			    <div class="field">
+			        <label for="city"><?php echo Mage::helper('addressupdate')->__('City') ?><span class="required">*</span></label>
+			      <div class="input-box">   <input class="required-entry input-text" name="city" id="city" style="width 250px;" type="text" value="<?php echo  ($formData['city']?$formData['city']:'')  ?>" /></div>
+		        </div>  
+		        
+		     </li>
+		   
+		  
+		     <li>
+ 				<div class="field">
+			        <label for="country"><?php echo Mage::helper('addressupdate')->__('Country') ?><span class="required">*</span></label>
+			     <div class="input-box">  
+			      <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect();?>
+			     </div>
+                
+		        </div>
+		        
+		     </li>
+		       <li>
+		        <div class="field">
+			        <label for="state"><?php echo Mage::helper('addressupdate')->__('State or Province') ?><span class="required">*</span></label>
+			       <div class="input-box">   <select id="region_id" name="region_id" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                           <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                        </select>
+                        <script type="text/javascript">
+                        //<![CDATA[
+                            $('region_id').setAttribute('defaultValue',  "<?php echo $formData['region_id'] ?>");
+                        //]]>
+                        </script>
+                        <input type="text" id="region" name="region" value="<?php echo ($formData['region']?$this->escapeHtml($formData['region']):'') ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" /></div>
+		        </div>
+		        
+		     </li>
+		        <li>
+				<div class="field">
+			        <label for="zipcode"><?php echo Mage::helper('addressupdate')->__('Zip Or Postal Code') ?><span class="required">*</span> </label>
+			       <div class="input-box">  <input name="zipcode" class=" input-text"  id="zipcode" style="width 250px;" type="text" value="<?php echo  ($formData['zipcode']?$formData['zipcode']:'')  ?>" /></div>
+		        </div>
+		     </li>
+		        <li>
+		       <div class="field">
+		      	  <label for="phone"><?php echo Mage::helper('addressupdate')->__('Phone (with area code)') ?> &nbsp;</label>
+		     	  <div class="input-box">  <input name="phone" class="input-text" id="phone" style="width 250px;" type="text" value="<?php echo  ($formData['phone']?$formData['phone']:'')  ?>" /></div>
+		        </div>
+		        
+		     </li> 
+		     <li>
+		        <div class="field">
+		        <label for="email"><?php echo Mage::helper('addressupdate')->__('Email Address') ?><span class="required">*</span></label>
+		      <div class="input-box">   <input name="email" type="text" id="email" style="width 250px;" class="required-entry validate-email input-text" value="<?php echo  ($formData['email']?$formData['email']:'')  ?>" /></div>
+		        </div>
+     	
+		     </li>
+		  
+		  <li>
+		  <div >
+		  <span class="description_text" style="line-height:16px; display:block; padding:9px 4px 9px 10px; width:486px; float:left; font-weight:bold; background:#d6dfef;">
+<?php echo Mage::helper('addressupdate')->__('Enter your new address:') ?></span>
+
+		  
+		  </div>
+		  </li>
+		    <li>
+	                <div class="field">
+	                    <label for="name2" ><?php echo Mage::helper('addressupdate')->__('First Name') ?><span class="required">*</span></label>
+	                    <div class="input-box"> 
+	                      <input class="required-entry input-text" name="firstname2" id="firstname2" style="width 250px;" type="text" value="<?php echo  ($formData['firstname2']?$formData['firstname2']:'')  ?>" />
+	                    </div>
+	                </div>
+	        </li>
+	        <li> 
+	         <div class="field">
+	        		<label for="lastname2"><?php echo Mage::helper('addressupdate')->__('Last Name') ?><span class="required">*</span></label>
+		         	<div class="input-box">
+			        	<input class="required-entry input-text" name="lastname2" id="lastname2" style="width 250px;" type="text" value="<?php echo  ($formData['lastname2']?$formData['lastname2']:'')  ?>" />
+			        </div>   
+		        </div>   
+		     </li> 
+		     <li>
+		        <div class="field">
+		        <label for="address12"><?php echo Mage::helper('addressupdate')->__('Address1') ?><span class="required">*</span></label>
+		       <div class="input-box">  <input class="required-entry input-text" name="address12" id="address12" style="width 250px;" type="text" value="<?php echo  ($formData['address12']?$formData['address12']:'')  ?>" /></div>
+		        </div>
+		        
+		     </li>
+		     <li>
+				<div class="field">
+			        <label for="address22"><?php echo Mage::helper('addressupdate')->__('Address2') ?> &nbsp;</label>
+			      <div class="input-box">   <input class=" input-text" name="address22" id="address22" style="width 250px;" type="text" value="<?php echo  ($formData['address22']?$formData['address22']:'')  ?>" /></div>
+			     </div>
+			     
+		     </li>
+		     <li>
+			    <div class="field">
+			        <label for="city2"><?php echo Mage::helper('addressupdate')->__('City') ?><span class="required">*</span></label>
+			      <div class="input-box">   <input class="required-entry input-text" name="city2" id="city2" style="width 250px;" type="text" value="<?php echo  ($formData['city2']?$formData['city2']:'')  ?>" /></div>
+		        </div>  
+		        
+		     </li>
+		   
+		  
+		     <li>
+ 				<div class="field">
+			        <label for="country2"><?php echo Mage::helper('addressupdate')->__('Country') ?><span class="required">*</span></label>
+			     <div class="input-box">  
+			      <?php echo Mage::getBlockSingleton('directory/data')->getCountryHtmlSelect('US','country_id2','country2');?>
+			     </div>
+                
+		        </div>
+		        
+		     </li>
+		       <li>
+		        <div class="field">
+			        <label for="state2"><?php echo Mage::helper('addressupdate')->__('State or Province') ?><span class="required">*</span></label>
+			       <div class="input-box">   <select class="browser-default" id="region_id2" name="region_id2" title="<?php echo $this->__('State/Province') ?>" class="validate-select" style="display:none;">
+                           <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
+                        </select>
+                        <script type="text/javascript">
+                        //<![CDATA[
+                            $('region_id').setAttribute('defaultValue',  "<?php echo $formData['region_id2'] ?>");
+                        //]]>
+                        </script>
+                        <input type="text" id="region2" name="region2" value="<?php echo ($formData['region2']?$this->escapeHtml($formData['region2']):'') ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text" /></div>
+		        </div>
+		        
+		     </li>
+		        <li>
+				<div class="field">
+			        <label for="zipcode2"><?php echo Mage::helper('addressupdate')->__('Zip Or Postal Code') ?><span class="required">*</span> </label>
+			       <div class="input-box">  <input name="zipcode2" class="   input-text"  id="zipcode2" style="width 250px;" type="text" value="<?php echo  ($formData['zipcode2']?$formData['zipcode2']:'')  ?>" /></div>
+		        </div>
+		     </li>
+		        <li>
+		       <div class="field">
+		      	  <label for="phone2"><?php echo Mage::helper('addressupdate')->__('Phone (with area code)') ?> &nbsp;</label>
+		     	  <div class="input-box">  <input name="phone2" class="input-text" id="phone2" style="width 250px;" type="text" value="<?php echo  ($formData['phone2']?$formData['phone2']:'')  ?>" /></div>
+		        </div>
+		        
+		     </li> 
+		     <li>
+		        <div class="field">
+		        <label for="email2"><?php echo Mage::helper('addressupdate')->__('Email Address') ?><span class="required">*</span></label>
+		      <div class="input-box">   <input name="email2" type="text" id="email2" style="width 250px;" class="required-entry validate-email input-text" value="<?php echo  ($formData['email2']?$formData['email2']:'')  ?>" /></div>
+		        </div>
+     	
+		     </li>
+		      <li style="padding:10px 20px 10px 10px; width:470px; font-size:10px; font-family:Verdana, Arial, Helvetica, sans-serif; line-height:13px;">
+             <span style="color:#CC0000; display:block;   padding:3px 0 3px 0; " >* Required field</span> 
+		     </li> 
+		</ul> 
+	      <div class="button-set-box" style=" padding:10px 0 0 223px;">        
+	         <input type="text" name="hideit" id="hideit" value="" style="display:none !important;" />
+	        <button type="submit" title="<?php echo Mage::helper('addressupdate')->__('Submit') ?>" class="button-form"><?php echo Mage::helper('addressupdate')->__('Submit') ?></button>
+	    </div>  
+    </div>
+ </div>  
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var addressupdateForm = new VarienForm('addressupdate-form', true); 
+    new RegionUpdater('country', 'region', 'region_id', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zipcode'); 
+    new RegionUpdater('country2', 'region2', 'region_id2', <?php echo $this->helper('directory')->getRegionJson() ?>, undefined, 'zipcode2'); 
+//]]>
+</script>

@@ -1,0 +1,29 @@
+<?php
+$moduleName = Mage::app()->getRequest()->getModuleName();
+//echo $moduleName;
+
+
+if($moduleName=='customer' || $moduleName=='sales' || $moduleName=='downloadable' || $moduleName=='review'  || $moduleName=='wishlist' || $moduleName=='sourcecode'): ?>
+ <div class="hide-desktop-nav">
+<?php
+
+if(!Mage::getSingleton('customer/session')->isLoggedIn()){
+     echo $this->getLayout()->createBlock('cms/block')->setBlockId('left_navigaion')->toHtml();
+}else{
+    echo $this->getLayout()->createBlock('cms/block')->setBlockId('left_navigaion_customer')->toHtml();
+}
+?>
+</div>
+<?php else: ?>
+
+
+
+<?php
+
+if(!Mage::getSingleton('customer/session')->isLoggedIn()){
+     echo $this->getLayout()->createBlock('cms/block')->setBlockId('left_navigaion')->toHtml();
+}else{
+    echo $this->getLayout()->createBlock('cms/block')->setBlockId('left_navigaion_customer')->toHtml();
+}
+?>
+<?php endif; ?>

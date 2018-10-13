@@ -1,0 +1,7 @@
+<?php $_systemRequirement = $this->getProduct()->getSystemRequirements(); ?>
+<?php if ($_systemRequirement): ?>
+    <h2><?php echo $this->__('System Requirements') ?></h2>
+    <div class="std">
+        <?php echo $this->helper('catalog/output')->productAttribute($this->getProduct(), $_systemRequirement, 'system_requirements') ?>
+    </div>
+<?php endif; ?>

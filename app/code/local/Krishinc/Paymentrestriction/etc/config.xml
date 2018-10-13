@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+	    <Krishinc_Paymentrestriction>
+	        <version>0.0.1</version>
+	    </Krishinc_Paymentrestriction>
+	</modules>	
+	<global>
+	    <models>
+	        <paymentrestriction>
+	            <class>Krishinc_Paymentrestriction_Model</class>
+	        </paymentrestriction>
+	    </models>  
+	    <helpers>
+	        <paymentrestriction>
+	            <class>Krishinc_Paymentrestriction_Helper</class>
+	        </paymentrestriction>
+	    </helpers>
+	    <events>
+	        <payment_method_is_active>
+	            <observers>
+	                <company_module>
+	                    <type>singleton</type>
+	                    <class>paymentrestriction/Observer</class>
+	                    <method>paymentMethodIsActive</method>
+	                </company_module>
+	            </observers>
+	        </payment_method_is_active>
+	    </events>
+	</global>
+</config>
