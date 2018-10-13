@@ -1,0 +1,213 @@
+div#test-accordion{
+    margin: 8px 0 1px 0px;
+}
+
+div.accordion {
+    position: relative; /* required for bounding */
+}
+
+div.accordion-toggle{
+    border: 1px solid #DDDDDD;
+    cursor: pointer; color:#660099; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; text-decoration:none; background:url(../images/ui-bg_highlight-soft_100_f6f6f6_1x100.png) repeat-x left -28px; 
+    margin: 0 0 3px;
+    padding:2px 10px; font-weight:bold;    
+    position: relative;
+    z-index: 10; float:left; width:768px; 
+}
+div.accordion-toggle:hover { background:url(../images/ui-bg_highlight-soft_100_f6f6f6_1x100.png) repeat-x left -48px;  }
+.accordion .first{ color:#006600; background:url(../images/bullet-soft-a.gif) no-repeat 0 4px ;  padding:0 0 0 12px; }
+.accordion strong {  background:none!important;}
+.accordion .second{ color:#660099; background:url(../images/bullet-soft-a.gif) no-repeat 0 4px;  padding:0 0 0 12px;}
+.accordion .third{ color:#CC0000; background:url(../images/bullet-soft-a.gif) no-repeat 0 4px; padding:0 0 0 12px;}
+.accordion .forth{ color:#FF9900; background:url(../images/bullet-soft-a.gif) no-repeat 0 4px;  padding:0 0 0 12px;}
+.accordion .fifth{ color:#0073ea; background:url(../images/bullet-soft-a.gif) no-repeat 0 4px; padding:0 0 0 12px;}
+
+div.accordion-toggle-active .first{ color:#006600; background:none;}
+div.accordion-toggle-active .second{ color:#660099; background:none;}
+div.accordion-toggle-active .third{ color:#CC0000; background:none;}
+div.accordion-toggle-active .forth{ color:#FF9900; background:none;}
+div.accordion-toggle-active .fifth{ color:#0073ea; background:none;}
+
+div.accordion-toggle-active:hover { background:url(../images/bullet-soft-h.gif) no-repeat 10px 15px; }
+
+div.accordion-toggle-active{ float:left; width:768px;
+    background:url(../images/bullet-soft-h.gif) no-repeat 10px 15px ; padding:5px 10px 2px 10px;
+    color:#006600; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; font-weight:bold;    
+}
+
+div.accordion-content{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DDDDDD;
+    margin: -4px 0 3px 0;
+    overflow: hidden;
+    padding: 10px; border-top:#fff solid 1px; position:relative; z-index:9999; float:left; width:768px;
+}
+.soft_acco { float:left; width:790px; padding:15px 0 0 0; }
+.soft_text_box1 { float:left; width:130px; padding:1px 0 0 16px;}
+.soft_text_box2 { float:left; width:350px; padding:0 40px 0 20px;}
+.soft_text_box2 h2{ color:#006600 ; font-size:12px; text-decoration:none; line-height:16px; margin:0; padding:0 0 0 0; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;  }
+.soft_text_box2 p{ color:#666666 ; font-size:10px; text-decoration:none; line-height:12px; margin:0; padding:0; font-weight:normal; font-family:Verdana, Arial, Helvetica, sans-serif;  }
+.soft_text_box3 { float:left; width:160px; padding:0 0 0 35px; font-size:11px; color:#006600 ; text-decoration:none; line-height:25px; }
+.soft_text_box3 a{  line-height:25px; color:#006600 ; }
+
+.soft_product_detail { float:left; width:266px; padding:7px 0 0 13px; text-align:left;}
+
+.soft_product_detail span{ float:left; width:45px;}
+.soft_product_detail h2{ float:left; width:175px; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:14px; color:#339900; text-decoration:none; line-height:16px; padding:9px 0 0 0;}
+.soft_product_detail p{ float:left; width:258px; font-family:Verdana, Arial, Helvetica, sans-serif; color:#444444; font-size:10px; line-height:12px; text-decoration:none;}
+
+.soft_product_detail1 { float:left; width:580px; text-align:left;  padding:7px 0 0 13px;}
+.soft_product_image { float:left; padding:8px 0 0 20px; text-align:left; width:278px; font-size:10px; color:#333333; text-decoration:none; line-height:12px;}
+.soft_product_image p{ margin:0; padding:4px 0 0 0;}
+.soft_associated_product { float:left; width:580px; text-align: left;}
+.soft_associated_product .soft_product_name { float:left; width:287px;}
+.soft_associated_product .soft_product_name a{ color: #CC0000;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    font-weight: 700; line-height:14px;
+    text-decoration: underline;}
+.soft_associated_product .soft_product_name span{ color: #444444; display:block;
+    font-family: Verdana,Arial,Helvetica,sans-serif; line-height:12px; 
+    font-size: 10px;
+    font-weight: normal;
+    text-decoration: none;}
+    
+.soft_associated_product .window { float:left; width:145px; }
+.soft_associated_product .window a{
+    color: #3366CC;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: underline;}
+.soft_associated_product .window span{ color: #444444; display:block;
+    font-family: Verdana,Arial,Helvetica,sans-serif; line-height:12px; 
+    font-size: 10px;
+    font-weight: normal;
+    text-decoration: none;}
+    
+.soft_associated_product .mac { float:left; width:145px;}
+.soft_associated_product .mac a{
+    color: #3366CC;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-decoration: underline;}
+.soft_associated_product .mac span{ color: #444444; display:block;
+    font-family: Verdana,Arial,Helvetica,sans-serif; line-height:12px; 
+    font-size: 10px;
+    font-weight: normal;
+    text-decoration: none;}
+    
+
+.soft_product_detail2 { float:left; width:580px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.arrowlistmenu{ margin:0px 0 0 0; float:left;
+width: 790px; /*width of accordion menu*/
+}
+
+.arrowlistmenu .menuheader{ /*CSS class for menu headers in general (expanding or not!)*/
+     border: 1px solid #DDDDDD;
+    cursor: pointer; color:#660099; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; text-decoration:none; background:url(../images/ui-bg_highlight-soft_100_f6f6f6_1x100.png) repeat-x left -28px; 
+    margin: 0 0 3px;
+    padding:2px 10px; font-weight:bold;    
+    position: relative;
+    z-index: 10; float:left; width:768px; 
+}
+.arrowlistmenu .menuheader:hover{  background:url(../images/ui-bg_highlight-soft_100_f6f6f6_1x100.png) repeat-x left -48px; }
+
+.arrowlistmenu .openheader{ /*CSS class to apply to expandable header when it's expanded*/
+ border: 1px solid #DDDDDD; border-bottom:none;
+    cursor: pointer; color:#660099; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; text-decoration:none; background:url(../images/ui-bg_highlight-soft_100_f6f6f6_1x100.png) repeat-x left 28px; 
+    margin: 0 0 0px;
+    padding:2px 10px; font-weight:bold;    
+    position: relative;
+    z-index: 10; float:left; width:768px; 
+}
+
+.categoryitems {float:left; width:768px; border:#ddd solid 1px; border-top:none;
+    padding:10px 10px 10px 10px; margin:0 0 3px 0;
+    color:#006600; font-family:Verdana, Arial, Helvetica, sans-serif; font-size:12px; font-weight:bold;    
+    }
+.arrowlistmenu .openheader:hover{   background:url(../images/ui-bg_highlight-soft_100_f6f6f6_1x100.png) repeat-x left 28px; }
+
+
+.arrowlistmenu .menuheader .first{ color:#006600; background:url(../images/bullet-soft-a.gif) no-repeat 0 10px ;  padding:0 0 0 12px; float:left; }
+.arrowlistmenu .menuheader strong { float:right!important; background:none!important; }
+.arrowlistmenu .menuheader .second{ color:#660099; background:url(../images/bullet-soft-a.gif) no-repeat 0 10px;  padding:0 0 0 12px;float:left;}
+.arrowlistmenu .menuheader .third{ color:#CC0000; background:url(../images/bullet-soft-a.gif) no-repeat 0 10px; padding:0 0 0 12px;float:left;}
+.arrowlistmenu .menuheader .forth{ color:#FF9900; background:url(../images/bullet-soft-a.gif) no-repeat 0 10px;  padding:0 0 0 12px;float:left;}
+.arrowlistmenu .menuheader .fifth{ color:#0073ea; background:url(../images/bullet-soft-a.gif) no-repeat 0 10px; padding:0 0 0 12px;float:left;}
+
+
+
+.arrowlistmenu .openheader .first{ color:#006600; background:url(../images/bullet-soft-h.gif) no-repeat 0 10px ;  padding:0 0 0 12px;float:left; }
+
+
+
+.arrowlistmenu .openheader .second{ color:#660099; background:url(../images/bullet-soft-h.gif) no-repeat 0 10px;  padding:0 0 0 12px;float:left;}
+.arrowlistmenu .openheader .third{ color:#CC0000; background:url(../images/bullet-soft-h.gif) no-repeat 0 10px; padding:0 0 0 12px;float:left;}
+.arrowlistmenu .openheader .forth{ color:#FF9900; background:url(../images/bullet-soft-h.gif) no-repeat 0 10px;  padding:0 0 0 12px;float:left;}
+.arrowlistmenu .openheader .fifth{ color:#0073ea; background:url(../images/bullet-soft-h.gif) no-repeat 0 10px; padding:0 0 0 12px;float:left;}
+
+.categoryitems .categoryitems_text p{ margin:0; padding:0 10px; line-height:16px; font-size:12px; color:#333333; text-decoration:none; font-weight:normal;}
+.categoryitems .categoryitems_text p{ margin:0; padding:0 10px; line-height:16px; font-size:12px; color:#333333; text-decoration:none; font-weight:normal;}
+
+.arrowlistmenu .first .soft_text_box2 h2{ color:#006600;}
+.arrowlistmenu .first .soft_text_box3 a { color:#006600;}
+
+.arrowlistmenu .first .soft_text_box3 a.cd { background:url(../images/cd_rom.gif) no-repeat left top; padding:6px 0 7px 30px;}
+.arrowlistmenu .second .soft_text_box3 a.cd { background:url(../images/cd_rom.gif) no-repeat left top; padding:6px 0 7px 30px;}
+.arrowlistmenu .third .soft_text_box3 a.cd { background:url(../images/cd_rom.gif) no-repeat left top; padding:6px 0 7px 30px;}
+.arrowlistmenu .forth .soft_text_box3 a.cd { background:url(../images/cd_rom.gif) no-repeat left top; padding:6px 0 7px 30px;}
+
+.arrowlistmenu .second .soft_text_box2 h2{ color:#660099;}
+.arrowlistmenu .second .soft_text_box3 a { color:#660099;}
+
+.arrowlistmenu .third .soft_text_box2 h2{ color:#CC0000;}
+.arrowlistmenu .third .soft_text_box3 a { color:#CC0000;}
+
+.arrowlistmenu .forth .soft_text_box2 h2{ color:#FF9900;}
+.arrowlistmenu .forth .soft_text_box3 a { color:#FF9900;}
+
+.soft_product_detail2 .soft_associated_product .first .soft_product_name a { color:#006600;}
+.soft_product_detail2 .soft_associated_product .second .soft_product_name a {color:#660099;}
+.soft_product_detail2 .soft_associated_product .third .soft_product_name a {color:#CC0000;}
+.soft_product_detail2 .soft_associated_product .forth .soft_product_name a {color:#FF9900;}
+
+.div_reg .second .soft_associated_product .soft_product_name a {color:#006600}
+.div_reg .second .soft_associated_product .window a  {color:#006600}
+.div_reg .second .soft_product_detail2 .soft_product_detail h2  {color:#006600}
+.div_reg .second .soft_associated_product .mac a  {color:#006600}
+
+.div_reg .third .soft_associated_product .soft_product_name a {color:#660099}
+.div_reg .third .soft_associated_product .window a  {color:#660099}
+.div_reg .third .soft_product_detail2 .soft_product_detail h2  {color:#660099}
+.div_reg .third .soft_associated_product .mac a  {color:#660099}
+
+.div_reg .forth .soft_associated_product .soft_product_name a {color:#CC0000}
+.div_reg .forth .soft_associated_product .window a  {color:#CC0000}
+.div_reg .forth .soft_product_detail2 .soft_product_detail h2  {color:#CC0000}
+.div_reg .forth .soft_associated_product .mac a  {color:#CC0000}
+
+.div_reg .fifth .soft_associated_product .soft_product_name a {color:#FF9900}
+.div_reg .fifth .soft_associated_product .window a  {color:#FF9900}
+.div_reg .fifth .soft_product_detail2 .soft_product_detail h2  {color:#FF9900}
+.div_reg .fifth .soft_associated_product .mac a  {color:#FF9900}

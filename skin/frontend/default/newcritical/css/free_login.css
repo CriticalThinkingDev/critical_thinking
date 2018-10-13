@@ -1,0 +1,38 @@
+.messages,
+.messages ul { list-style:none !important; margin:0 !important; padding:0 !important; }
+.messages { max-width:400px; overflow:hidden; line-height:20px; margin:0px;  padding:0px;  }
+.messages li { margin:0 0 10px !important; }
+.messages li li { margin:0 0 0px !important; text-align:left; }
+.error-msg,
+.success-msg,
+.note-msg,
+.notice-msg { border-style:solid !important; border-width:1px !important; background-position:10px 9px !important; background-repeat:no-repeat !important; min-height:24px !important; padding:8px 8px 8px 32px !important; font-size:11px !important; font-weight:bold !important; }
+.error-msg { border-color:#f16048; background-color:#faebe7; background-image:url(../images/i_msg-error.gif); color:#df280a; }
+.success-msg { border-color:#446423; background-color:#eff5ea; background-image:url(../images/i_msg-success.gif); color:#3d6611; }
+.note-msg,
+.notice-msg { border-color:#fcd344; background-color:#fafaec; background-image:url(../images/i_msg-note.gif); color:#3d6611; }
+
+.download_free_box { margin:0 auto; max-width:560px; padding:5px 40px 20px 40px;  font-size:12px; color:#333333; text-decoration:none;  border:1px solid #d9d9d9;background:#FFFFFF; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius:10px; behavior: url(/PIE.htc);  position:relative; text-align:left;}
+.download_free_box a{  font-size:16px; color:#333333; text-decoration:underline;  }
+.download_free_box a:hover{color:#3366cc; text-decoration:none;  }
+.download_free_box strong {  font-size:12px;}
+
+.download_logo_box { margin:0 auto; max-width:640px; padding:10px 0; text-align:center;}
+.download_logo_box h3{ color: #3366CC;
+font-size: 14px;
+font-weight: bold; margin:0; padding:0px 0 4px 0; text-align:center;  line-height:16px;}
+
+.download_free_box1 { font-family:Arial, Helvetica, sans-serif; margin:0 auto; max-width:600px; padding:10px 5px;  font-size:11px; color:#333333; text-decoration:none; line-height:22px; text-align:center; }
+.download_free_box1 a{  font-size:11px; color:#333333; text-decoration:none; line-height:22px; }
+.download_free_box1 a:hover{; color:#3366cc; text-decoration:underline; line-height:22px; }
+.download_free_box1 span { color:#666666;}
+.thank-text-h { font-family:Arial, Helvetica, sans-serif; font-size:12px; padding:10px 0 15px 0;}
+.light-text-box { font-size:11px; font-family:Arial, Helvetica, sans-serif; color:#333333; line-height:16px;}
+.light-text-box p{ margin:0; padding:0;}
+.detail_text111 strong{ margin:0; padding:0; font-weight:normal;  font-size:10px;}
+.free_login_box1 {margin:0 auto; max-width:350px; padding:22px; border:#d9d9d9 solid 1px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius:10px; behavior: url(/PIE.htc);  position:relative;}
+.customer_login_text-h {float:left; width:194px; height:24px; text-align:center; line-height:24px; background:url(../images/tab4-top.gif) repeat-x left top;  font-size:10px;}
+.search-now { background:url(../images/sumit-btn-login.png) no-repeat left top; width:54px; height:20px; line-height:20px; margin:0; padding:0; border:none; text-indent:-9999px; cursor:pointer;}
+@media(max-width:980px){.search-now{margin-top:-15px;}.download_free_box{padding:20px;}
+.consultant_finder_text input{min-height: 28px;	background: #fff;border-bottom: 0} .download_free_box a{font-size:12px;}}
+

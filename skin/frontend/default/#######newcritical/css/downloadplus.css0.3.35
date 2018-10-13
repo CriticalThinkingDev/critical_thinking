@@ -1,0 +1,97 @@
+/*
+ * Style definitions for PISC_DOWNLOADPLUS
+ */
+div.downloadplus-updated ol { }
+div.downloadplus-updated li dt { font-weight:normal; }
+div.downloadplus-updated li dd { margin-left:1.5em; }
+div.downloadplus-updated .rss { background-color:#f6f6f6; padding:0px 12px 6px 12px; }
+div.downloadplus-updated .rss .link-feed { background-color:#f6f6f6; }
+
+div.downloadplus-product-download {}
+div.downloadplus-product-download-links {}
+div.downloadplus-product-download-entry { font-size:1em; border: 1px solid #efefef; margin-bottom:1.5em; padding: 10px; }
+div.downloadplus-product-download-entry a { margin-bottom:1em; }
+div.downloadplus-product-download-detail {}
+
+div.downloadable-title { margin-bottom:1.5em; }
+
+div.downloadable-archive { margin-top:3.5em; }
+div.downloadable-archive h3 {}
+
+div.downloadable-archive-item {
+	margin-top:1em;
+	margin-bottom:1em;
+	padding:5px 5px;
+	border-top:1px solid #efefef;
+	border-bottom:1px solid #efefef;
+}
+
+div.downloadable-detail-version {}
+div.downloadable-detail-description { margin-top:1.5em; margin-bottom:1.5em; }
+
+span.downloadable-link-archive { display:block; float:right; font-weight:bold; margin-bottom:1em; }
+span.downloadable-archive-empty {
+	display:block;
+	margin-bottom:1em !important;
+    padding:4px 12px !important;
+	border:1px solid #fcd344;
+	color:#3d6611;
+	background:#fafaec;
+	text-align: left;
+}
+
+div.downloadplus-product-releasenotes h2 { font-size:1em; border-bottom:1px solid #efefef; margin-bottom:1.5em; }
+div.downloadplus-product-releasenotes h3 { font-size:1em; border-bottom:1px solid #efefef; padding-bottom:0.5em; }
+div.downloadplus-product-releasenotes h4 { font-size:1em; }
+
+div.downloadplus-product-releasenotes-links { margin-bottom:2.5em; }
+div.downloadplus-product-releasenotes-samples { margin-bottom:2.5em; }
+
+div.downloadplus-product-releasenotes-entry { border:1px solid #efefef; padding:1.5em; margin:1.5em; }
+div.downloadplus-product-releasenotes-details {}
+
+div.downloadplus-odd-entry {}
+
+div.downloadplus-product {}
+div.downloadplus-product em { float:right; margin-right:2em; }
+div.downloadplus-product h2 { font-size:1.5em; border-bottom:1px solid #efefef; margin-top:1.5em; }
+div.downloadplus-product h3 { font-size:1.25em; padding-bottom:0.5em; }
+div.downloadplus-product h4 { font-size:1em; }
+
+div.downloadplus-product-history {}
+div.downloadplus-product-history h2 { font-size:1em; border-bottom:1px solid #efefef; margin-bottom:1.5em; }
+div.downloadplus-product-history h3 { font-size:1em; border-bottom:1px solid #efefef; padding-bottom:0.5em; }
+div.downloadplus-product-history h4 { font-size:1em; }
+
+div.downloadplus-product-history-links { margin-bottom:2.5em; }
+div.downloadplus-product-history-samples { margin-bottom:2.5em; }
+
+div.downloadplus-product-history-entry { border:1px solid #efefef; padding:1.5em; margin:1.5em; }
+div.downloadplus-product-history-entry em { float:right; margin-right:1em; }
+
+div.downloadplus-product-history-details {}
+
+div#my-downloadable-serialnumbers { margin-bottom:10px; }
+#my-downloadable-serialnumbers .pager{ padding:7px 4px 7px 10px; }
+div.downloadplus-serialnumber {}
+div.downloadplus-serialnumber em { float:right; margin:20px 10px 0 0; }
+div.downloadplus-serialnumber h2 { background: none repeat scroll 0 0 #F3F3F3;
+    font-size: 13px;
+    line-height: 24px;
+    margin: 0 0 0px 0px;
+    padding: 2px 10px; }
+div.downloadplus-serialnumber h3 {  font-size: 12px;
+    font-weight: bold;
+    margin: 8px 0 0 10px;
+    padding-bottom: 0;}
+div.downloadplus-serialnumber h4 { font-size:1em; }
+div.downloadplus-serialnumber-entry { border:0; padding:0; margin:0 0 20px 10px; }
+div.downloadplus-serialnumber-entry .title {}
+div.downloadplus-serialnumber-entry .serialnumber { margin-left:0; font-size:18px; }
+
+.downloadplus-link-feed { display:block; margin:10px 0px 20px 0px;}
+.downloadplus-sidebar-link-feed {}
+
+.downloadplus-link-attributes { display:block; }
+ul#link-attributes span.label, .downloadplus-link-attributes span.value { display:inline; }
+.add-to-cart-alt button.button{ margin:8px 0 0 0;}

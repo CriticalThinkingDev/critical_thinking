@@ -1,0 +1,20 @@
+/*
+ * Style definitions for PISC_DOWNLOADPLUS
+ */
+div.downloadplus_admin_link_attributes { display:block; margin:0.5em 0 0.5em 0; font-size:0.9em; font-weight:bold; }
+
+select.downloadplus_admin_link_title_options { width:85%; }
+select.downloadplus_admin_sample_amazon_s3_options,
+select.downloadplus_admin_link_amazon_s3_options,
+select.downloadplus_admin_link_amazon_cf_options { width:100%; }
+
+textarea.link_title { width:95% !important; }
+textarea.sample_url,
+textarea.link_url,
+textarea.s3_file { height:50px; width:95%; }
+
+label.aws { white-space:nowrap; width:100%; }
+
+table#link_items { border-collapse: collapse; }
+tbody#link_items_body tr { border-top: 1px solid #D6D6D6; }
+tbody#link_items_body textarea.link_title { height: 3em; }
