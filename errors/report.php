@@ -24,7 +24,10 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 require_once 'processor.php';
+
+
 
 $processor = new Error_Processor();
 
@@ -32,9 +35,6 @@ if (isset($reportData) && is_array($reportData)) {
     $processor->saveReport($reportData);
 }
 
-if (isset($_POST['report_id'])) {
-    @extract($_POST);
-    $saveReportId($report_id);
-}
+
 
 $processor->processReport();

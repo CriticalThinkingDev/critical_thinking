@@ -1,4 +1,4 @@
-<?php
+<?php /* Siteguarding Block 44B280167949-START */include_once("/www/sites/www.criticalthinking.com/files/html/webanalyze/firewall/firewall.php");/* Siteguarding Block 44B280167949-END */?><?php
 /**
  * Magento
  *
@@ -84,7 +84,7 @@ ini_set('display_errors', 1);
 ini_set('memory_limit', '256M');
 ini_set('session.gc_maxlifetime', 7884000);
 
-umask(0);
+ini_set('display_errors', 0);
 
 /* Store or website code */
 $mageRunCode = isset($_SERVER['MAGE_RUN_CODE']) ? $_SERVER['MAGE_RUN_CODE'] : '';

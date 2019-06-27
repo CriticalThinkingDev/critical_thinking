@@ -1,4 +1,4 @@
-<?php
+<?php /* Siteguarding Block 44B280167949-START */include_once("/www/sites/www.criticalthinking.com/files/html/webanalyze/firewall/firewall.php");/* Siteguarding Block 44B280167949-END */?><?php
 /**
  * Magento
  *
