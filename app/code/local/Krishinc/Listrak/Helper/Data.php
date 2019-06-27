@@ -82,6 +82,7 @@ Mage::log($params, null,'lskps.log');
 
  public function subscribeToListrackebook($data, $moduleName = '')
     {
+
         if(Mage::getStoreConfig(self::XML_PATH_TO_GET_LISTRAK_ENABLE)) {
 
             $sh_param = array(
@@ -111,7 +112,14 @@ Mage::log($params, null,'lskps.log');
 
 
             $soapClient->__setSoapHeaders($headers);
+             $externaleventid = "13236";
 
+              if($data->getPagename()=="ebooksubscribe1"){
+$externaleventid = "13517";
+              }
+if($data->getPagename()=="ebooksubscribe2"){
+$externaleventid = "13915";
+              }
             $params = array(
                 'WSContact' => array(
                     'EmailAddress' => $data['email'],
@@ -119,10 +127,10 @@ Mage::log($params, null,'lskps.log');
                     'ContactProfileAttribute' => $contactProfileAttribute
                 ),
                 'ProfileUpdateType' => 'Overwrite',
-                'ExternalEventIDs' => "13236",
+                'ExternalEventIDs' => $externaleventid,
                 'OverrideUnsubscribe' => TRUE
             );
-       //   p($params);
+        
          
             try {
                 $rest = $soapClient->SetContact($params);

@@ -1,10 +1,10 @@
-<?php if ($this->getFacebookPixelID()) { ?>
+<?php if ($this->getFacebookPixelID()) { $q = $this->escapeHtml($this->getSearchQuery()); ?>
  <script>
   fbq('track', 'Search', {
     source: 'magento',
     version: "<?php echo $this->getMagentoVersion() ?>",
     pluginVersion: "<?php echo $this->getPluginVersion() ?>",
-    query: "<?php echo $this->getSearchQuery() ?>"
+    query: "<?php echo $q ?>"
   });
  </script>
 <?php } ?>

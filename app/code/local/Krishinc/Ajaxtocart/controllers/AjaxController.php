@@ -258,7 +258,12 @@ class Krishinc_Ajaxtocart_AjaxController extends Mage_Checkout_CartController
 					}	
 				}
 			}
+			if($flag==0){
+             if($qty>=1){
+Mage::throwException($this->__('Please select License!')); 
+             }
 			
+}
 			if($flag==0)
 			Mage::throwException($this->__('Please specify the quantity of product(s).')); 
 			

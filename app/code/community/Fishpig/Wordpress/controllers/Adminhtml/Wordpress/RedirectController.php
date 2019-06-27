@@ -23,7 +23,7 @@ class Fishpig_Wordpress_Adminhtml_Wordpress_RedirectController extends Fishpig_W
 			}
 			else {
 				if ($this->getAutoLogin()) {
-					$this->addError('There was an error logging you into WordPress. Please check your WordPress Admin credentials below and try again')
+					$this->addError($e->getMessage())
 						->addNotice('If you are sure that the details entered below are your correct WP-Admin login details you should check consult the WordPress log file for more information');
 				}
 				else {
@@ -57,8 +57,9 @@ class Fishpig_Wordpress_Adminhtml_Wordpress_RedirectController extends Fishpig_W
 				
 			$result = $curl->getResult();
 
+
 			if (strpos($result, 'Location: ') === false) {
-				throw new Exception('Invalid response returned. Are the WP-Admin login details correct?');
+				//throw new Exception('Invalid response returned. Are the WP-Admin login details correct?');
 			}
 
 			foreach(explode("\n", $result) as $line) {

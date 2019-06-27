@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <antivirus_adminhtml_antivirusbackend_index>
+	<reference name="content">
+	  <block type="antivirus/adminhtml_antivirusbackend" name="antivirusbackend" template="antivirus/antivirusbackend.phtml"/>
+	</reference>
+  </antivirus_adminhtml_antivirusbackend_index>
+</layout>

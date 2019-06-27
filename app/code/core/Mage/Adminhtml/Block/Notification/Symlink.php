@@ -31,6 +31,7 @@ class Mage_Adminhtml_Block_Notification_Symlink extends Mage_Adminhtml_Block_Tem
      */
     public function isSymlinkEnabled()
     {
-        return Mage::getStoreConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
+        //return Mage::getStoreConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
+return 0;
     }
 }

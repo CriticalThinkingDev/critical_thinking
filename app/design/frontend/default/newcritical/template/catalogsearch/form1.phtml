@@ -67,10 +67,11 @@ $catalogSearchHelper =  $this->helper('catalogsearch'); ?>
 $params = array();
 $params = $this->getRequest()->getParams();
 $q = isset($params['q'])?$params['q']:'';
-
+$q = $this->escapeHtml($q);
 if(isset($_SERVER['HTTP_REFERER'])) {
     $ref_url = urldecode(parse_str(parse_url($_SERVER['HTTP_REFERER'], PHP_URL_QUERY), $queries));
     $curr_q=(isset($queries['q']))?$queries['q']:'';
+ $curr_q = $this->escapeHtml($curr_q);
 ?>
     <script type="text/javascript">
 	var curr_q = '<?php echo ($q != '')?$q :$curr_q;?>';

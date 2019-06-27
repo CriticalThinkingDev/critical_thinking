@@ -2,7 +2,7 @@
 
 class Potato_Compressor_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    const MAIN_FOLDER = 'po_compressor';
+    const MAIN_FOLDER = 'po_compressor8';
     const GALLERY_CACHE_ID = 'po_compressor_GALLERY_CACHE_ID';
     const GALLERY_CACHE_LIFETIME = 1800;
 

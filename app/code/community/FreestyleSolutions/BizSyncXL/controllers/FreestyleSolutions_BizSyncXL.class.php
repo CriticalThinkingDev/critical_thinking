@@ -633,7 +633,7 @@ class FreestyleSolutions_BizSyncXL
                                                                     $price_message = "Special price";
                                                             }
                                                     //}
-                                                                                                                                                                                                
+
                                                     // 2013dec17 PJQ - add 4th parameter identifierType to call
                                                     $prod_api->update($productId, $product, intval($store_id), "id");
                                             //}

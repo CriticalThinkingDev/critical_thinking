@@ -16,6 +16,8 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
+
+
 define('DB_NAME', 'live_upgrade');
 
 /** MySQL database username */
@@ -23,7 +25,7 @@ define('DB_USER', 'live_upgrade');
 
 /** MySQL database password */
 //define('DB_PASSWORD', 'QZDD6bCzw6uqYWtY');
-define('DB_PASSWORD', '!=Uh_0FR4yL+p');
+define('DB_PASSWORD', 'nD%:{5725%W#x{d<67_Qw?pm');
 
 /** MySQL hostname */
 //define('DB_HOST', '10.16.16.1');

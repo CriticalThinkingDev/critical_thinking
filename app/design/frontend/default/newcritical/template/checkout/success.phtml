@@ -69,28 +69,6 @@ adroll_conversion_value_in_dollars = <?php echo $total ?>;
 adroll_custom_data = {"ORDER_ID": "<?php echo $this->__($this->escapeHtml($this->getOrderId())) ?>"};
 </script>
 
-<?php
-$_GUARANTEE_orderNum = Mage::getSingleton('checkout/session')->getLastRealOrderId();
-$_GUARANTEE_order = Mage::getModel('sales/order')->loadByIncrementId($_GUARANTEE_orderNum);
-$_GUARANTEE_amount = number_format($_GUARANTEE_order->getGrandTotal(),2);
-$_GUARANTEE_email = $_GUARANTEE_order->getCustomerEmail();
-$_GUARANTEE_currency = $_GUARANTEE_order->getOrderCurrencyCode();
-?>
-<!-- BEGIN: Norton Shopping Guarantee -->
-<span id="_GUARANTEE_GuaranteeSpan"></span>
-<script type="text/javascript" src="//nsg.symantec.com/Web/Seal/gjs.aspx?SN=962547430"></script>
-<script type="text/javascript">
-if (window._GUARANTEE && _GUARANTEE.Loaded) {
-_GUARANTEE.Hash = "mdxPgi732a3RHKQVs9%2B7G70fnOR6b4SRDDo5w0%2BLTLQMliM8GhxRM2loAf1kcuZWKprdcslQg%2BMCjaRfOWMitg%3D%3D";
-_GUARANTEE.Guarantee.order = "<?php echo $_GUARANTEE_orderNum; ?>"; //Order number
-_GUARANTEE.Guarantee.total = "<?php echo $_GUARANTEE_amount; ?>"; // Order amount
-_GUARANTEE.Guarantee.currency = "<?php echo $_GUARANTEE_currency; ?>"; // Order currency
-_GUARANTEE.Guarantee.email = "<?php echo $_GUARANTEE_email; ?>"; // Email
-_GUARANTEE.WriteGuarantee("JavaScript", "_GUARANTEE_GuaranteeSpan");
-}
-</script>
-<!-- END: Norton Shopping Guarantee Guarantee -->
-
 <script>
     pintrk('track', 'checkout', {
         value: <?php echo $this->__($this->escapeHtml($total)) ?>,

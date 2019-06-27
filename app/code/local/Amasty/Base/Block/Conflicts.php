@@ -1,7 +1,11 @@
 <?php
 /**
- * @copyright   Copyright (c) 2010 Amasty
- */ 
+ * @author Amasty Team
+ * @copyright Copyright (c) 2019 Amasty (https://www.amasty.com)
+ * @package Amasty_Base
+ */
+
+
 class Amasty_Base_Block_Conflicts extends Mage_Adminhtml_Block_System_Config_Form_Fieldset
 {
     public function render(Varien_Data_Form_Element_Abstract $element)
@@ -11,7 +15,7 @@ class Amasty_Base_Block_Conflicts extends Mage_Adminhtml_Block_System_Config_For
         $helper = Mage::helper("ambase");
         $html = $this->_getHeaderHtml($element);
         
-        $ajaxUrl = Mage::helper("adminhtml")->getUrl("ambase/adminhtml_base/ajax");
+        $ajaxUrl = Mage::helper("adminhtml")->getUrl("adminhtml/ambase_base/ajax");
         $html.= '<div id="ambase_conflicts_container"></div>';
         $html.= '<button id="ambase_conflicts_show" type="button" class="scalable" onclick="ambaseShow(\''.$ajaxUrl.'\')" style=""><span><span><span>'.$helper->__("Show").'</span></span></span></button>&nbsp;&nbsp;&nbsp;';
         
@@ -24,8 +28,6 @@ class Amasty_Base_Block_Conflicts extends Mage_Adminhtml_Block_System_Config_For
                 </script>";
         }
         
-//        $html .= Mage::getUrl('adminhtml/ambase/download');
-//	$html.= Amasty_Base_Model_Conflicts::run();
         $html .= $this->_getFooterHtml($element);
         return $html;
     }

@@ -23,9 +23,11 @@ class Krishinc_Customcontact_IndexController extends Mage_Core_Controller_Front_
             $translate->setTranslateInline(false);
     		try {
     			
-    			$validate = $this->_isValideCaptcha();
-			$validate = 1;
-    			if($validate)
+    			//$validate = $this->_isValideCaptcha();
+			//$validate = 1;
+$response = Mage::helper('studioforty9_recaptcha/request')->verify();
+$validate =  $response->isSuccess(); 
+    			if($validate==1)
     			{ 
 	    			$model = Mage::getModel('customcontact/customcontact');
 	    			$model->setData($data)

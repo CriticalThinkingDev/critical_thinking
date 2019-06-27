@@ -198,14 +198,15 @@ class Krishinc_Grouped_Helper_Data extends Mage_Core_Helper_Abstract
     
     public function getProductTypeText($_product) {
         $constant_helper = Mage::helper('grouped/constants');
-        
-        if($constant_helper::PRODUCT_TYPE_BOOKS == $_product->getProductType() || $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE == $_product->getProductType() || $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE == $_product->getProductType() || $constant_helper::PRODUCT_TYPE_EBOOK == $_product->getProductType() || ($_product->getProductType() == $constant_helper::PRODUCT_TYPE_ANDROID_APP) || ($_product->getProductType() == $constant_helper::PRODUCT_TYPE_IOS_APP) || ($_product->getProductType() == $constant_helper::PRODUCT_TYPE_WIN_APP)) {
+     
+        if($_product->getProductType()==124 || $constant_helper::PRODUCT_TYPE_BOOKS == $_product->getProductType() || $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE == $_product->getProductType() || $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE == $_product->getProductType() || $constant_helper::PRODUCT_TYPE_EBOOK == $_product->getProductType() || ($_product->getProductType() == $constant_helper::PRODUCT_TYPE_ANDROID_APP) || ($_product->getProductType() == $constant_helper::PRODUCT_TYPE_IOS_APP) || ($_product->getProductType() == $constant_helper::PRODUCT_TYPE_WIN_APP)) {
+
             if($pdffile = $_product->getPdf()) {
                 $pdf_filepath = Mage::getModel('fileattributes/attribute_backend_file')->getFileUrl($pdffile); 
                 $pdf_filepath1 = Mage::getModel('fileattributes/attribute_backend_file')->getFileDir($pdffile);
                 if(file_exists($pdf_filepath1)) {
                     echo '<div class="click_look_box"><a href="'.Mage::getUrl('').'pdfcatalog/product/pdfview/id/'.$_product->getId().'"  rel="iframe-680-505"  class="pirobox_gall1"  title="'. $_product->getName().'">';
-                    if($_product->getProductType() ==  $constant_helper::PRODUCT_TYPE_BOOKS || $_product->getProductType() ==  $constant_helper::PRODUCT_TYPE_EBOOK) {
+                    if($_product->getProductType()==124 || $_product->getProductType() ==  $constant_helper::PRODUCT_TYPE_BOOKS || $_product->getProductType() ==  $constant_helper::PRODUCT_TYPE_EBOOK) {
                         echo $this->__('View Sample Pages');
                     }
                     if($_product->getProductType() ==  $constant_helper::PRODUCT_TYPE_WINMAC_SOFTWARE || $_product->getProductType() ==  $constant_helper::PRODUCT_TYPE_WIN_SOFTWARE) {

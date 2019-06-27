@@ -18,6 +18,8 @@ class Krishinc_Sourcecode_OnepageController extends IWD_AddressVerification_Onep
 			$result['goto_section'] = 'shipping';
 		}		
     }    
+ 
+ 
 
     public function savePaymentAction()
     {
@@ -27,10 +29,8 @@ if ($this->isFormkeyValidationOnCheckoutEnabled() && !$this->_validateFormKey())
         }
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost('payment', array());
-            /*
-            * first to check payment information entered is correct or not
-            */
-
+           
+            
             try {
                 $result = $this->getOnepage()->savePayment($data);
             }

@@ -28,6 +28,7 @@ $isEuropean = Mage::helper('geoip')->isEuropean($countryCode);
 
 
                 <form action="<?php echo $this->getFormActionUrl2() ?>" method="post" id="newsletter-validate-detail">
+<input type="hidden" name="pagename" value="ebooksubscribe2" />
                     <div class="fieldset">
                         <?php if($this->getRequest()->getParam('supply'))
                         {

@@ -487,7 +487,7 @@ $sendtoListrak = false;
             $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
         }
     }
-
+  
     /**
      * Save payment ajax action
      *
@@ -508,6 +508,7 @@ if ($this->isFormkeyValidationOnCheckoutEnabled() && !$this->_validateFormKey())
             }
 
             $data = $this->getRequest()->getPost('payment', array());
+            //$this->_prePayment($data);
             $result = $this->getOnepage()->savePayment($data);
 
             // get section and redirect data

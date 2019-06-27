@@ -1,0 +1,13 @@
+<Files wp-login.php>
+        order deny,allow
+        Deny from all
+ 
+	#Oregon office/VPN
+	allow from 68.116.40.226
+	#Nile
+	allow from 45.70.242.2
+	#Abbey
+	allow from 70.162.159.110
+	#Paras/Krish Inc IP
+	allow from 202.131.115.180
+</Files>

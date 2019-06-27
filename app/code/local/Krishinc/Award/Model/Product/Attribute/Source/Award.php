@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * Catalog product country attribute source
  *
