@@ -411,4 +411,3 @@ if (!function_exists('hash_equals')) {
         return 0 === $result;
     }
 }
-
