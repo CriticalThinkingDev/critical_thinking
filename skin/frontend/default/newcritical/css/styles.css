@@ -3484,17 +3484,21 @@ border-bottom:0;
 }
 
 
-.piro_html .resize { /*width:823px!important;*/  overflow-x: hidden!important;  width: 100%!important;float:left!important; height:100% !important;}
-.piro_html {position:fixed; top:7% !important; left:3% !important; padding:0;  margin:0!important; display:block;  z-index:150001;  width: 94%!important; /*width:826px!important;*/ border:#ddd solid 1px!important; background:#fff; height:86% !important;  }
-.piro_html table,.piro_html tbody,.piro_html tr,.piro_html th,.piro_html td{margin:0;padding:0;border:none;}
-.piro_html img{ margin:0; padding:0; border:none;}
-body.pdfcatalog-product-pdfview .media {position:fixed; height:100%;}
-body.pdfcatalog-product-pdfview .at4-share-outer-right{display:none;}
-.piro_html .div_reg{ margin:0; padding:0; padding:3px 3px 0px 3px !important; /* width:820px!important;*/  width: 100%!important; height:100% !important;}
-.piro_html .h_c_c .div_reg img{ cursor:move;}
-.div_reg .my_frame { overflow-x: hidden; height:100% !important;
-    overflow-y: auto;  /*width:822px!important;*/  width: 100%!important; }
-.div_reg .my_frame body { padding:0!important; margin:0!important;}
+@media only screen and (min-width: 768px) {
+	.piro_html .resize { /*width:823px!important;*/  overflow-x: hidden!important;  width: 100%!important;float:left!important; height:100% !important;}
+	.piro_html {position:fixed; top:7% !important; left:3% !important; padding:0;  margin:0!important; display:block;  z-index:150001;  width: 94%!important; /*width:826px!important;*/ border:#ddd solid 1px!important; background:#fff; height:86% !important;  }
+	.piro_html table,.piro_html tbody,.piro_html tr,.piro_html th,.piro_html td{margin:0;padding:0;border:none;}
+	.piro_html img{ margin:0; padding:0; border:none;}
+	body.pdfcatalog-product-pdfview .media {position:fixed; height:100%;}
+	body.pdfcatalog-product-pdfview .at4-share-outer-right{display:none;}
+	.piro_html .div_reg{ margin:0; padding:0; padding:3px 3px 0px 3px !important; /* width:820px!important;*/  width: 100%!important; height:100% !important;}
+	.piro_html .h_c_c .div_reg img{ cursor:move;}
+	.div_reg .my_frame { overflow-x: hidden; height:100% !important;
+	    overflow-y: auto;  /*width:822px!important;*/  width: 100%!important;    
+	}
+	.div_reg .my_frame body { padding:0!important; margin:0!important;}
+}
+
 .page-empty.pdfcatalog-product-pdfview, .page-empty.pdfcatalog-product-pdfview div, .page-empty.pdfcatalog-product-pdfview iframe{width:100%; height:100%;}
 html {height: 100%;} 
 .piro_overlay{position:fixed; top:0; left:0; width:100%; height:100%;  z-index:150000;background:#000;display:none; cursor:pointer;}
@@ -5031,7 +5035,7 @@ ul.lc-ul li{display: flex;}
 .product-view .detail-text-sample .series-page-responsive ul li .price-box .special-price { display: inline-block;  width: 100%;  text-align: left;}
 .product-view .detail-text-sample .series-page-responsive ul li .price-box .old-price {display: none;}
 .product-view .detail-text-sample .series-grouped-products .head h4{ font-weight: bold; font-size: 16px; }
-
+.product-view .detail-text-sample .series-page-responsive ul li .input-box img { margin: 0px 0px 0 -19px;}
 /*------------------------------------custome****************************************/
 
 @media screen and (min-width: 768px) and (max-width:991px){
@@ -5799,7 +5803,61 @@ ul.lc-ul li{display: flex;}
     /*text-align: center;*/
   }
 }
+@media only screen and (max-width:767px) {
+	.piro_html {
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    padding: 0;
+	    width: 620px;
+	    height: 620px;
+	    margin: 0;
+	    display: none;
+	    padding: 0;
+	    z-index: 150001;
 
+	    width: 90% !important;
+	    top: 10px !important;
+    	left: 5% !important;
+    	height: 95% !important;
+    	background: #fff;
+	}
+	.piro_html .resize {
+	    overflow: hidden;
+	    margin: 0;
+	    padding: 0;
+	    position: relative;
+	    z-index: 1500190;
+	    width: 100% !important;
+	    height: 100% !important;
+	}
+	.piro_html .div_reg {
+	    width: 560px;
+	    overflow: hidden;
+	    height: 560px;
+	    margin: 0;
+	    padding: 0;
+	    position: relative;
+	    z-index: 1500190;
+	    overflow-y: auto !important;
+		-webkit-overflow-scrolling:touch !important;
+		width: 100% !important;
+		height: 100% !important;
+	}
+	.piro_html .div_reg .my_frame {
+		width: 100% !important;
+		height: 100% !important;
+	}
+	.review-product-list .form-add {
+		width: 100%;
+	}
+	.review-form-popup #product-review-table.data-table th,
+	.review-form-popup #product-review-table.data-table tbody td {
+		padding-left: 5px;
+		padding-right: 5px;
+		font-size: 10px;
+	}
+}
 /*kj 2018-08-05*/
 .product-view .detail-text-sample .series-page-responsive ul li .product-name {
     width: 200px;

